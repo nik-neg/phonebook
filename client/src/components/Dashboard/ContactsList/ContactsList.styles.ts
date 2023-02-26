@@ -11,5 +11,5 @@ export const SContactListWrapper = styled.div`
     border: 2px solid white;
     border-radius: 10px;
     overflow: hidden;
-    overflow-y: auto;
+    overflow-y: scroll;
 `;

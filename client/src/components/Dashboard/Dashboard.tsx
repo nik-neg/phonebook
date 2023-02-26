@@ -11,9 +11,10 @@ import {
 import ContactsList from './ContactsList/ContactsList';
 import { IContact } from './ContactsList/ContactCard/types';
 import { IoPersonAdd } from 'react-icons/all';
+import { DummyContact } from './data';
 
 export const Dashboard = () => {
-    // add pagination fetch for infinite scroll
+    // add pagination fetch for infinite scroll, add loader animation, sort in the backend!
     const contacts: IContact[] = [
         {
             firstName: 'John',
@@ -48,17 +49,12 @@ export const Dashboard = () => {
         {
             firstName: 'John',
             lastName: 'LastName',
+            nickName: 'NickName',
             address: '123, adksljfsjad',
             phoneNumbers: [],
             photo: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
         },
-        {
-            firstName: 'John',
-            lastName: '',
-            address: '',
-            phoneNumbers: [],
-            photo: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
-        },
+        DummyContact,
     ];
 
     const handleAddContact = () => {

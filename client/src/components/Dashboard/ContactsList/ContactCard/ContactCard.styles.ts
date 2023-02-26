@@ -3,6 +3,10 @@ import { IContactCardPhotoProps } from './types';
 
 export const SContactCardContainer = styled.div`
     padding: 1rem;
+
+    :last-of-type {
+        opacity: 0;
+    }
 `;
 
 export const SContactCardWrapper = styled.div`
