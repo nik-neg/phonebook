@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const SDashboardContainer = styled.div`
-    height: 100vh; // remove ?
+    width: 100%;
+    height: 100%;
     display: grid;
     grid-template-columns: repeat(4, 25%);
     grid-template-rows: auto;
