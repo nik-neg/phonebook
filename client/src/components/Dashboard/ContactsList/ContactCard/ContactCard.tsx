@@ -2,10 +2,10 @@ import {
     SContactCardContainer,
     SContactCardPhoto,
     SContactCardWrapper,
-    SContactFirstName,
     SContactInfoWrapper,
-    SContactLastName,
+    SContactName,
     SContactNickName,
+    SNameWrapper,
 } from './ContactCard.styles';
 import React from 'react';
 import { IContactCardProps } from './types';
@@ -18,14 +18,17 @@ export const ContactCard = (contact: IContactCardProps) => {
             <SContactCardWrapper>
                 <SContactInfoWrapper>
                     <SContactCardPhoto src={photo} />
-                    {nickName ? (
-                        <SContactNickName>{nickName}</SContactNickName>
-                    ) : (
-                        <>
-                            <SContactFirstName>{firstName}</SContactFirstName>
-                            <SContactLastName>{lastName}</SContactLastName>
-                        </>
-                    )}
+                    <SNameWrapper>
+                        {nickName ? (
+                            <SContactNickName>{nickName}</SContactNickName>
+                        ) : (
+                            <>
+                                <SContactName>
+                                    {firstName} {lastName}
+                                </SContactName>
+                            </>
+                        )}
+                    </SNameWrapper>
                 </SContactInfoWrapper>
             </SContactCardWrapper>
         </SContactCardContainer>

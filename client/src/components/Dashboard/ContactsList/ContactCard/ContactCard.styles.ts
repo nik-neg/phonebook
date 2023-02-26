@@ -24,27 +24,36 @@ export const SContactInfoWrapper = styled.div`
     display: flex;
     align-items: center;
     padding-left: 0.5rem;
-    height: 75px;
-    width: 75px;
+    height: 100px;
+    width: 100px;
 `;
+
 export const SContactCardPhoto = styled.img<IContactCardPhotoProps>`
-    width: 100%;
-    height: 100%;
+    width: 75%;
+    height: 75%;
     border-radius: 50%;
+    border: 1px solid black;
     src: url(${(props) => props.src});
+`;
+
+export const SNameWrapper = styled.div`
+    display: flex;
 `;
 
 export const SContactNickName = styled.div`
     padding-left: 0.5rem;
     font-size: 1.5rem;
+    width: 200px;
+    padding-top: 3rem;
+    display: flex;
+    justify-content: flex-end;
 `;
 
-export const SContactFirstName = styled.div`
+export const SContactName = styled.div`
     padding-left: 0.5rem;
     font-size: 1.5rem;
-`;
-
-export const SContactLastName = styled.div`
-    padding-left: 0.5rem;
-    font-size: 1.5rem;
+    width: 200px;
+    padding-top: 3rem;
+    display: flex;
+    justify-content: flex-end;
 `;

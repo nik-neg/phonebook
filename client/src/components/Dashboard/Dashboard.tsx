@@ -19,10 +19,10 @@ export const Dashboard = () => {
         {
             firstName: 'John',
             lastName: 'LastName',
-            nickName: 'NickName',
+            nickName: 'Coolio',
             address: '123, adksljfsjad',
             phoneNumbers: [],
-            photo: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
+            photo: 'https://t4.ftcdn.net/jpg/02/45/56/35/360_F_245563558_XH9Pe5LJI2kr7VQuzQKAjAbz9PAyejG1.jpg',
         },
         {
             firstName: 'John',
