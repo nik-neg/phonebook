@@ -1,14 +1,19 @@
 import {
+    SAddButton,
+    SAddButtonWrapper,
     SDashboardContainer,
     SDashboardFooter,
     SDashboardHeader,
     SDashboardList,
     SDashboardTitle,
+    SIconWrapper,
 } from './Dashboard.styles';
 import ContactsList from './ContactsList/ContactsList';
 import { IContact } from './ContactsList/ContactCard/types';
+import { IoPersonAdd } from 'react-icons/all';
 
 export const Dashboard = () => {
+    // add pagination fetch for infinite scroll
     const contacts: IContact[] = [
         {
             firstName: 'John',
@@ -88,8 +93,18 @@ export const Dashboard = () => {
             <SDashboardTitle>Welcome</SDashboardTitle>
             <SDashboardList>
                 <ContactsList contacts={contacts} />
+                <SAddButtonWrapper>
+                    {' '}
+                    <SAddButton>
+                        {'Add Contact'}
+                        <SIconWrapper>
+                            <IoPersonAdd />
+                        </SIconWrapper>
+                    </SAddButton>
+                </SAddButtonWrapper>
             </SDashboardList>
-            <SDashboardFooter />
+
+            <SDashboardFooter></SDashboardFooter>
         </SDashboardContainer>
     );
 };
