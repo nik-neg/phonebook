@@ -10,6 +10,7 @@ import {
 import React, { useState } from 'react';
 import { IContact, IContactCardProps } from './types';
 import { EditDialog } from '../../dialogs/EditDialog/EditDialog';
+import { UpdateDialog } from '../../dialogs/UpdateDialog/UpdateDialog';
 
 export const ContactCard = (contact: IContactCardProps): JSX.Element => {
     // use index to omit onClick for last child ?
@@ -17,6 +18,8 @@ export const ContactCard = (contact: IContactCardProps): JSX.Element => {
         contact.contact;
 
     const [open, setOpen] = useState(false);
+
+    const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -26,7 +29,13 @@ export const ContactCard = (contact: IContactCardProps): JSX.Element => {
         setOpen(false);
     };
 
+    const handleCloseUpdateDialog = () => {
+        setOpenUpdateDialog(false);
+    };
+
     const handleEdit = () => {
+        setOpen(false);
+        setOpenUpdateDialog(true);
         console.log({ contact });
     };
     return (
@@ -51,6 +60,12 @@ export const ContactCard = (contact: IContactCardProps): JSX.Element => {
                 selectedValue={contact.contact}
                 open={open}
                 onClose={handleClose}
+                onEdit={handleEdit}
+            />
+            <UpdateDialog
+                selectedValue={contact.contact}
+                open={openUpdateDialog}
+                onClose={handleCloseUpdateDialog}
                 onEdit={handleEdit}
             />
         </SContactCardContainer>
