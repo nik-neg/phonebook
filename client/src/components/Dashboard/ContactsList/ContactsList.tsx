@@ -5,7 +5,7 @@ import {
 import { IContactListProps } from './types';
 import { ContactCard } from './ContactCard';
 
-export const ContactsList = ({ contacts }: IContactListProps) => {
+export const ContactsList = ({ contacts }: IContactListProps): JSX.Element => {
     const handleScroll = () => {
         console.log('scroll');
     };

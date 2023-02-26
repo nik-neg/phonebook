@@ -13,7 +13,7 @@ import { IContact } from './ContactsList/ContactCard/types';
 import { IoPersonAdd } from 'react-icons/all';
 import { DummyContact } from './data';
 
-export const Dashboard = () => {
+export const Dashboard = (): JSX.Element => {
     // add pagination fetch for infinite scroll, add loader animation, sort in the backend!
     const contacts: IContact[] = [
         {

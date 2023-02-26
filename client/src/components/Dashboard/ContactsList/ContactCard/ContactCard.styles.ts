@@ -12,6 +12,7 @@ export const SContactCardContainer = styled.div`
 export const SContactCardWrapper = styled.div`
     height: 100px;
     width: 300px;
+    cursor: pointer;
     background: #faf5ef;
     display: flex;
     flex-direction: row;
