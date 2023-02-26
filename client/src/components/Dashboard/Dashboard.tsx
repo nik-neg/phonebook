@@ -12,6 +12,8 @@ import ContactsList from './ContactsList/ContactsList';
 import { IContact } from './ContactsList/ContactCard/types';
 import { IoPersonAdd } from 'react-icons/all';
 import { DummyContact } from './data';
+import React, { useState } from 'react';
+import { AddDialog } from './dialogs/AddDialog/AddDialog';
 
 export const Dashboard = (): JSX.Element => {
     // add pagination fetch for infinite scroll, add loader animation, sort in the backend!
@@ -57,8 +59,15 @@ export const Dashboard = (): JSX.Element => {
         DummyContact,
     ];
 
+    const [open, setOpen] = useState(false);
+
     const handleAddContact = () => {
+        setOpen(true);
         console.log('add contact');
+    };
+
+    const handleClose = () => {
+        setOpen(false);
     };
 
     // <Hidden mdDown>
@@ -78,7 +87,12 @@ export const Dashboard = (): JSX.Element => {
                     </SAddButton>
                 </SAddButtonWrapper>
             </SDashboardList>
-
+            <AddDialog
+                selectedValue={null}
+                open={open}
+                onClose={handleClose}
+                onEdit={handleAddContact}
+            />
             <SDashboardFooter />
         </SDashboardContainer>
     );

@@ -7,11 +7,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import { SimpleDialogProps } from './types';
 import { AiFillEdit, MdDeleteForever } from 'react-icons/all';
 import { red } from '@mui/material/colors';
+import { EditDialogProps } from './types';
 
-export const EditDialog = (props: SimpleDialogProps): JSX.Element => {
+export const EditDialog = (props: EditDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
 
     const handleClose = () => {

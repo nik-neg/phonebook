@@ -9,9 +9,10 @@ import {
 } from './ContactCard.styles';
 import React, { useState } from 'react';
 import { IContact, IContactCardProps } from './types';
-import { EditDialog } from '../../EditDialog/EditDialog';
+import { EditDialog } from '../../dialogs/EditDialog/EditDialog';
 
 export const ContactCard = (contact: IContactCardProps): JSX.Element => {
+    // use index to omit onClick for last child ?
     const { nickName, firstName, lastName, address, photo, phoneNumbers } =
         contact.contact;
 
