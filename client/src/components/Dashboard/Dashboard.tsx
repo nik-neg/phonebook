@@ -6,14 +6,52 @@ import {
     SDashboardTitle,
 } from './Dashboard.styles';
 import ContactsList from './ContactsList/ContactsList';
+import { IContact } from './ContactsList/ContactCard/types';
 
 export const Dashboard = () => {
+    const contacts: IContact[] = [
+        {
+            firstName: 'John',
+            lastName: '',
+            address: '',
+            phoneNumbers: [],
+            photo: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
+        },
+        {
+            firstName: 'John',
+            lastName: '',
+            address: '',
+            phoneNumbers: [],
+            photo: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
+        },
+        {
+            firstName: 'John',
+            lastName: '',
+            address: '',
+            phoneNumbers: [],
+            photo: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
+        },
+        {
+            firstName: 'John',
+            lastName: '',
+            address: '',
+            phoneNumbers: [],
+            photo: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
+        },
+        {
+            firstName: 'John',
+            lastName: '',
+            address: '',
+            phoneNumbers: [],
+            photo: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
+        },
+    ];
     return (
         <SDashboardContainer>
             <SDashboardHeader />
             <SDashboardTitle>Welcome</SDashboardTitle>
             <SDashboardList>
-                <ContactsList />
+                <ContactsList contacts={contacts} />
             </SDashboardList>
             <SDashboardFooter />
         </SDashboardContainer>

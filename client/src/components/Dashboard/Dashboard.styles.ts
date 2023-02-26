@@ -20,6 +20,7 @@ export const SDashboardTitle = styled.div`
 `;
 export const SDashboardList = styled.div`
     grid-area: list;
+    justify-self: end;
 `;
 export const SDashboardFooter = styled.div`
     grid-area: footer;
