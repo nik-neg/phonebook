@@ -1,19 +1,15 @@
 import {
-    SAddButton,
-    SAddButtonWrapper,
     SDashboardContainer,
     SDashboardFooter,
     SDashboardHeader,
     SDashboardList,
     SDashboardTitle,
-    SIconWrapper,
 } from './Dashboard.styles';
 import ContactsList from './ContactsList/ContactsList';
-import { IContact } from './ContactsList/ContactCard/types';
-import { IoPersonAdd } from 'react-icons/all';
-import { DummyContact } from './data';
-import React, { useState } from 'react';
-import { AddDialog } from './dialogs/AddDialog/AddDialog';
+import {IContact} from './ContactsList/ContactCard/types';
+import React, {useState} from 'react';
+import {AddDialog} from './dialogs/AddDialog/AddDialog';
+import {DummyContact} from "./data";
 
 export const Dashboard = (): JSX.Element => {
     // add pagination fetch for infinite scroll, add loader animation, sort in the backend!
@@ -73,19 +69,10 @@ export const Dashboard = (): JSX.Element => {
     // <Hidden mdDown>
     return (
         <SDashboardContainer>
-            <SDashboardHeader />
+            <SDashboardHeader/>
             <SDashboardTitle>Welcome</SDashboardTitle>
             <SDashboardList>
-                <ContactsList contacts={contacts} />
-                <SAddButtonWrapper>
-                    {' '}
-                    <SAddButton onClick={handleAddContact}>
-                        {'Add Contact'}
-                        <SIconWrapper>
-                            <IoPersonAdd />
-                        </SIconWrapper>
-                    </SAddButton>
-                </SAddButtonWrapper>
+                <ContactsList contacts={contacts}/>
             </SDashboardList>
             <AddDialog
                 selectedValue={null}
@@ -93,7 +80,7 @@ export const Dashboard = (): JSX.Element => {
                 onClose={handleClose}
                 onEdit={handleAddContact}
             />
-            <SDashboardFooter />
+            <SDashboardFooter/>
         </SDashboardContainer>
     );
 };
