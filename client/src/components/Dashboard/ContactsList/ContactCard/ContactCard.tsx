@@ -8,25 +8,26 @@ import {
     SNameWrapper,
 } from './ContactCard.styles';
 import React, { useState } from 'react';
-import { IContactCardProps } from './types';
+import { IContact, IContactCardProps } from './types';
 import { EditDialog } from '../../EditDialog/EditDialog';
 
 export const ContactCard = (contact: IContactCardProps): JSX.Element => {
+    const { nickName, firstName, lastName, address, photo, phoneNumbers } =
+        contact.contact;
+
     const [open, setOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState('test');
 
     const handleClickOpen = () => {
         setOpen(true);
     };
 
-    const handleClose = (value: string) => {
+    const handleClose = (value: IContact) => {
         setOpen(false);
-        setSelectedValue(value);
     };
-    const { nickName, firstName, lastName, address, photo, phoneNumbers } =
-        contact.contact;
 
-    const handleEdit = () => {};
+    const handleEdit = () => {
+        console.log({ contact });
+    };
     return (
         <SContactCardContainer>
             <SContactCardWrapper onClick={handleClickOpen}>
@@ -46,9 +47,10 @@ export const ContactCard = (contact: IContactCardProps): JSX.Element => {
                 </SContactInfoWrapper>
             </SContactCardWrapper>
             <EditDialog
-                selectedValue={selectedValue}
+                selectedValue={contact.contact}
                 open={open}
                 onClose={handleClose}
+                onEdit={handleEdit}
             />
         </SContactCardContainer>
     );

@@ -12,14 +12,15 @@ import { AiFillEdit, MdDeleteForever } from 'react-icons/all';
 import { red } from '@mui/material/colors';
 
 export const EditDialog = (props: SimpleDialogProps): JSX.Element => {
-    const { onClose, selectedValue, open } = props;
+    const { onClose, selectedValue, open, onEdit } = props;
 
     const handleClose = () => {
         onClose(selectedValue);
     };
 
-    const handleListItemClick = (value: string) => {
-        onClose(value);
+    const handleEditContact = (remove: boolean) => {
+        onEdit?.(selectedValue, remove);
+        onClose(selectedValue);
     };
 
     return (
@@ -27,7 +28,7 @@ export const EditDialog = (props: SimpleDialogProps): JSX.Element => {
             <DialogTitle>Contact Details</DialogTitle>
             <List sx={{ pt: 0 }}>
                 <ListItem disableGutters>
-                    <ListItemButton onClick={() => handleListItemClick('')}>
+                    <ListItemButton onClick={() => handleEditContact(true)}>
                         <ListItemAvatar>
                             <Avatar
                                 sx={{
@@ -44,7 +45,7 @@ export const EditDialog = (props: SimpleDialogProps): JSX.Element => {
                 <ListItem disableGutters>
                     <ListItemButton
                         autoFocus
-                        onClick={() => handleListItemClick('addAccount')}
+                        onClick={() => handleEditContact(false)}
                     >
                         <ListItemAvatar>
                             <Avatar>
