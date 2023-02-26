@@ -36,7 +36,6 @@ export const SDashboardFooter = styled.div`
 `;
 
 export const SAddButtonWrapper = styled.div`
-    padding-top: 1rem;
     display: flex;
     justify-content: center;
 `;

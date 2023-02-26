@@ -60,6 +60,12 @@ export const Dashboard = () => {
             photo: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
         },
     ];
+
+    const handleAddContact = () => {
+        console.log('add contact');
+    };
+
+    // <Hidden mdDown>
     return (
         <SDashboardContainer>
             <SDashboardHeader />
@@ -68,7 +74,7 @@ export const Dashboard = () => {
                 <ContactsList contacts={contacts} />
                 <SAddButtonWrapper>
                     {' '}
-                    <SAddButton>
+                    <SAddButton onClick={handleAddContact}>
                         {'Add Contact'}
                         <SIconWrapper>
                             <IoPersonAdd />
