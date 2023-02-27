@@ -34,7 +34,7 @@ export const UpdateDialog = (props: UpdateDialogProps): JSX.Element => {
     return (
         <div>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Add Contact</DialogTitle>
+                <DialogTitle>Update Contact</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         Please type into the form:

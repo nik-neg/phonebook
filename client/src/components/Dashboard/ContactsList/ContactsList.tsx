@@ -25,6 +25,8 @@ export const ContactsList = ({
         onAddContact?.();
     };
 
+    // on remove refetch new contacts and sort
+
     return (
         <SContactListContainer>
             <SContactListWrapper onScroll={handleScroll}>

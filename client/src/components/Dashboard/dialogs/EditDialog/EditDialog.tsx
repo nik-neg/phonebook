@@ -52,7 +52,7 @@ export const EditDialog = (props: EditDialogProps): JSX.Element => {
                                 <AiFillEdit />
                             </Avatar>
                         </ListItemAvatar>
-                        <ListItemText primary="edit account" />
+                        <ListItemText primary="update contact" />
                     </ListItemButton>
                 </ListItem>
             </List>
