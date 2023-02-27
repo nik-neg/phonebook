@@ -13,7 +13,6 @@ import { EditDialog } from '../../dialogs/EditDialog/EditDialog';
 import { UpdateDialog } from '../../dialogs/UpdateDialog/UpdateDialog';
 
 export const ContactCard = (contact: IContactCardProps): JSX.Element => {
-    // use index to omit onClick for last child ?
     const { nickName, firstName, lastName, address, photo, phoneNumbers } =
         contact.contact;
 
@@ -33,10 +32,13 @@ export const ContactCard = (contact: IContactCardProps): JSX.Element => {
         setOpenUpdateDialog(false);
     };
 
-    const handleEdit = () => {
-        setOpen(false);
-        setOpenUpdateDialog(true);
+    const handleEdit = (remove: boolean) => {
         console.log({ contact });
+        setOpen(false);
+
+        if (!remove) {
+            setOpenUpdateDialog(true);
+        }
     };
     return (
         <SContactCardContainer>

@@ -19,7 +19,7 @@ export const EditDialog = (props: EditDialogProps): JSX.Element => {
     };
 
     const handleEditContact = (remove: boolean) => {
-        onEdit?.(selectedValue, remove);
+        onEdit?.(remove);
         onClose(selectedValue);
     };
 

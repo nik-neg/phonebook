@@ -4,7 +4,7 @@ export interface EditDialogProps {
     open: boolean;
     selectedValue: IContact;
 
-    onEdit?: (value: IContact, remove: boolean) => void;
+    onEdit?: (remove: boolean) => void;
 
     onClose: (value: IContact) => void;
 }
