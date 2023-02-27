@@ -13,7 +13,7 @@ import { EditDialog } from '../../dialogs/EditDialog/EditDialog';
 import { UpdateDialog } from '../../dialogs/UpdateDialog/UpdateDialog';
 
 export const ContactCard = (contact: IContactCardProps): JSX.Element => {
-    const { nickName, firstName, lastName, address, photo, phoneNumbers } =
+    const { nickName, firstName, lastName, address, imageUrl, phoneNumbers } =
         contact.contact;
 
     const [open, setOpen] = useState(false);
@@ -44,7 +44,7 @@ export const ContactCard = (contact: IContactCardProps): JSX.Element => {
         <SContactCardContainer>
             <SContactCardWrapper onClick={handleClickOpen}>
                 <SContactInfoWrapper>
-                    <SContactCardPhoto src={photo} />
+                    <SContactCardPhoto src={imageUrl} />
                     <SNameWrapper>
                         {nickName ? (
                             <SContactNickName>{nickName}</SContactNickName>

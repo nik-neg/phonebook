@@ -19,21 +19,24 @@ export const Dashboard = (): JSX.Element => {
             nickName: 'Coolio',
             address: '123, adksljfsjad',
             phoneNumbers: [],
-            photo: 'https://t4.ftcdn.net/jpg/02/45/56/35/360_F_245563558_XH9Pe5LJI2kr7VQuzQKAjAbz9PAyejG1.jpg',
+            imageUrl:
+                'https://t4.ftcdn.net/jpg/02/45/56/35/360_F_245563558_XH9Pe5LJI2kr7VQuzQKAjAbz9PAyejG1.jpg',
         },
         {
             firstName: 'John',
             lastName: 'LastName',
             address: '123, adksljfsjad',
             phoneNumbers: [],
-            photo: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
+            imageUrl:
+                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
         },
         {
             firstName: 'John',
             lastName: '',
             address: '',
             phoneNumbers: [],
-            photo: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
+            imageUrl:
+                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
         },
         {
             firstName: 'John',
@@ -41,7 +44,8 @@ export const Dashboard = (): JSX.Element => {
             nickName: 'NickName',
             address: '123, adksljfsjad',
             phoneNumbers: [],
-            photo: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
+            imageUrl:
+                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
         },
         {
             firstName: 'John',
@@ -49,7 +53,8 @@ export const Dashboard = (): JSX.Element => {
             nickName: 'NickName',
             address: '123, adksljfsjad',
             phoneNumbers: [],
-            photo: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
+            imageUrl:
+                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
         },
         DummyContact,
     ];

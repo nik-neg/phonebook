@@ -17,5 +17,5 @@ export interface IContact {
 
     address: string;
 
-    photo: string;
+    imageUrl: string;
 }

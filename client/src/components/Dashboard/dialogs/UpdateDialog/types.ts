@@ -1,10 +1,10 @@
 import { IContact } from '../../ContactsList/ContactCard/types';
 
-export interface UpdateDialogProps {
+export interface IUpdateDialogProps {
     open: boolean;
     selectedValue: IContact;
 
-    onEdit?: (value: IContact, remove: boolean) => void;
+    onEdit?: (remove: boolean) => void;
 
     onClose: () => void;
 }

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -6,12 +7,16 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { UpdateDialogProps } from './types';
+import { IUpdateDialogProps } from './types';
 import { UploadButton } from '../UploadButton/UploadButton';
+import { SUploadImage } from './UpdateDialog.styles';
 
-export const UpdateDialog = (props: UpdateDialogProps): JSX.Element => {
-    const { onClose, selectedValue, open, onEdit } = props;
-
+export const UpdateDialog = ({
+    selectedValue,
+    open,
+    onEdit,
+    onClose,
+}: IUpdateDialogProps): JSX.Element => {
     const {
         nickName,
 
@@ -23,8 +28,14 @@ export const UpdateDialog = (props: UpdateDialogProps): JSX.Element => {
 
         address,
 
-        photo,
+        imageUrl,
     } = selectedValue;
+
+    const [imagePath, setImagePath] = useState<string | ArrayBuffer>(imageUrl);
+
+    const handleUploadImage = (imagePath: string | ArrayBuffer) => {
+        setImagePath(imagePath);
+    };
 
     const handleClickOpen = () => {};
 
@@ -82,7 +93,8 @@ export const UpdateDialog = (props: UpdateDialogProps): JSX.Element => {
                         fullWidth
                         variant="standard"
                     />
-                    <UploadButton />
+                    <UploadButton onUpload={handleUploadImage} />
+                    <SUploadImage src={imagePath.toString()} />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>

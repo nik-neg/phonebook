@@ -6,9 +6,9 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { AddDialogProps } from './types';
+import { IAddDialogProps } from './types';
 
-export const AddDialog = (props: AddDialogProps): JSX.Element => {
+export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
 
     const handleClose = () => {
