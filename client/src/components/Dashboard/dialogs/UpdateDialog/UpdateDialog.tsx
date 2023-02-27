@@ -60,6 +60,7 @@ export const UpdateDialog = ({
                         type="email"
                         fullWidth
                         variant="standard"
+                        value={firstName}
                     />
                     <TextField
                         autoFocus
@@ -69,6 +70,7 @@ export const UpdateDialog = ({
                         type="email"
                         fullWidth
                         variant="standard"
+                        value={lastName}
                     />
                     <TextField
                         autoFocus
@@ -77,6 +79,7 @@ export const UpdateDialog = ({
                         label="Nickname"
                         fullWidth
                         variant="standard"
+                        value={nickName}
                     />
                     <TextField
                         autoFocus
@@ -85,6 +88,7 @@ export const UpdateDialog = ({
                         label="Address"
                         fullWidth
                         variant="standard"
+                        value={address}
                     />
                     <TextField
                         autoFocus
@@ -93,6 +97,7 @@ export const UpdateDialog = ({
                         label="Phone Numbers"
                         fullWidth
                         variant="standard"
+                        value={phoneNumbers}
                     />
                     <SUploadButtonWrapper>
                         <UploadButton onUpload={handleUploadImage} />
