@@ -16,13 +16,11 @@ export const SDashboardContainer = styled.div`
 export const SDashboardHeader = styled.div`
   grid-area: header;
 `;
-export const SDashboardTitle = styled.div`
-  grid-area: title;
-  justify-self: center;
-`;
+
 export const SDashboardList = styled.div`
+  padding-top: 3rem;
   grid-area: list;
-  justify-self: end; // center
+  justify-self: center; // end
   display: flex;
   flex-direction: column;
 `;
