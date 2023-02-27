@@ -18,6 +18,7 @@ import {
 } from '../UpdateDialog/UpdateDialog.styles';
 import { ImageOptionsSlider } from '../ImageOptionsSlider/ImageOptionsSlider';
 import { IoIosColorPalette, MdLensBlur, RxShadowInner } from 'react-icons/all';
+import { SAddDialogContainer } from './AddDialog.styles';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
@@ -33,8 +34,12 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     };
 
     return (
-        <div>
-            <Dialog open={open} onClose={handleClose}>
+        <SAddDialogContainer>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                // style={{ height: '92.5%', paddingTop: '10%' }} // for mobile
+            >
                 <DialogTitle>Add Contact</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -124,6 +129,6 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                     <Button onClick={handleClose}>Save</Button>
                 </DialogActions>
             </Dialog>
-        </div>
+        </SAddDialogContainer>
     );
 };
