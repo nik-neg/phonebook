@@ -22,7 +22,7 @@ export const SDashboardTitle = styled.div`
 `;
 export const SDashboardList = styled.div`
   grid-area: list;
-  justify-self: end;
+  justify-self: end; // center
   display: flex;
   flex-direction: column;
 `;

@@ -8,6 +8,8 @@ export const SContactListContainer = styled.div`
 `;
 
 export const SContactListWrapper = styled.div`
+  box-shadow: 5px 2.5px 2.5px #262626;
+
   background: orangered;
   border: 6px solid #262626;
   border-radius: 12px;
@@ -21,15 +23,14 @@ export const SAddButtonWrapper = styled.div`
 `;
 
 export const SButtonPanel = styled.div`
-  padding-top: 1rem;
   display: flex;
   justify-content: center;
   width: 100%;
-  background: black;
+  background: #262626;
 `;
 
 export const SButtonWrapper = styled.div`
-  padding: 0rem 0.5rem 0.5rem 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 `;
 
 
