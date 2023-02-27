@@ -18,8 +18,13 @@ export const SContactCardWrapper = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    border: 2px solid black;
+    border: 2px solid buttonface;
     border-radius: 10px;
+
+    &:hover {
+        opacity: 0.9;
+        border: 2px solid white;
+    }
 `;
 
 export const SContactInfoWrapper = styled.div`

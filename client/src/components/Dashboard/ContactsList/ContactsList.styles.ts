@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import background from '../../../assets/mobile.jpg';
 
 export const SContactListContainer = styled.div`
     display: flex;
@@ -9,7 +10,7 @@ export const SContactListContainer = styled.div`
 
 export const SContactListWrapper = styled.div`
     box-shadow: 5px 2.5px 2.5px #262626;
-    background: orangered;
+    background: url(${background}) no-repeat center center fixed;
     border: 6px solid #262626;
     border-radius: 12px;
     overflow: hidden;
