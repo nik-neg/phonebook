@@ -7,6 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { UpdateDialogProps } from './types';
+import { UploadButton } from '../UploadButton/UploadButton';
 
 export const UpdateDialog = (props: UpdateDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
@@ -81,14 +82,7 @@ export const UpdateDialog = (props: UpdateDialogProps): JSX.Element => {
                         fullWidth
                         variant="standard"
                     />
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Image Upload"
-                        fullWidth
-                        variant="standard"
-                    />
+                    <UploadButton />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>

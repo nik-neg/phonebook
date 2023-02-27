@@ -73,5 +73,3 @@ export const ContactCard = (contact: IContactCardProps): JSX.Element => {
         </SContactCardContainer>
     );
 };
-
-export default ContactCard;
