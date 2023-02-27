@@ -9,7 +9,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { IUpdateDialogProps } from './types';
 import { UploadButton } from '../UploadButton/UploadButton';
-import { SUploadImage } from './UpdateDialog.styles';
+import { SUploadImage, SUploadImageWrapper } from './UpdateDialog.styles';
+import { SUploadButtonWrapper } from '../UploadButton/UploadButton.styles';
 
 export const UpdateDialog = ({
     selectedValue,
@@ -93,8 +94,12 @@ export const UpdateDialog = ({
                         fullWidth
                         variant="standard"
                     />
-                    <UploadButton onUpload={handleUploadImage} />
-                    <SUploadImage src={imagePath.toString()} />
+                    <SUploadButtonWrapper>
+                        <UploadButton onUpload={handleUploadImage} />
+                    </SUploadButtonWrapper>
+                    <SUploadImageWrapper>
+                        <SUploadImage src={imagePath.toString()} />
+                    </SUploadImageWrapper>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
