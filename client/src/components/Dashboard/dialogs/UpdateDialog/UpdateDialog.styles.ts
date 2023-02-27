@@ -1,12 +1,22 @@
 import styled from 'styled-components';
 
-export const SUploadImageWrapper = styled.div`
+export const SImageOptionContainer = styled.div``;
+export const SUploadedImageWrapper = styled.div`
     padding: 0.5rem;
     background: grey;
     border-radius: 10px;
 `;
-export const SUploadImage = styled.img`
+export const SUploadedImage = styled.img`
     width: 100%;
     height: 100%;
     border-radius: 10px;
+`;
+
+export const SFilterPanel = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+export const SFilterPanelItem = styled.div`
+    display: flex;
 `;

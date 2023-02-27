@@ -9,7 +9,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { IUpdateDialogProps } from './types';
 import { UploadButton } from '../UploadButton/UploadButton';
-import { SUploadImage, SUploadImageWrapper } from './UpdateDialog.styles';
+import { SUploadedImage, SUploadedImageWrapper } from './UpdateDialog.styles';
 import { SUploadButtonWrapper } from '../UploadButton/UploadButton.styles';
 
 export const UpdateDialog = ({
@@ -98,9 +98,9 @@ export const UpdateDialog = ({
                         <UploadButton onUpload={handleUploadImage} />
                     </SUploadButtonWrapper>
                     {imagePath && (
-                        <SUploadImageWrapper>
-                            <SUploadImage src={imagePath.toString()} />
-                        </SUploadImageWrapper>
+                        <SUploadedImageWrapper>
+                            <SUploadedImage src={imagePath.toString()} />
+                        </SUploadedImageWrapper>
                     )}
                 </DialogContent>
                 <DialogActions>

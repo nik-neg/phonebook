@@ -11,11 +11,13 @@ import { IAddDialogProps } from './types';
 import { SUploadButtonWrapper } from '../UploadButton/UploadButton.styles';
 import { UploadButton } from '../UploadButton/UploadButton';
 import {
-    SUploadImage,
-    SUploadImageWrapper,
+    SFilterPanelItem,
+    SImageOptionContainer,
+    SUploadedImage,
+    SUploadedImageWrapper,
 } from '../UpdateDialog/UpdateDialog.styles';
 import { ImageOptionsSlider } from '../ImageOptionsSlider/ImageOptionsSlider';
-import { MdLensBlur } from 'react-icons/all';
+import { IoIosColorPalette, MdLensBlur, RxShadowInner } from 'react-icons/all';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
@@ -85,13 +87,35 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                     </SUploadButtonWrapper>
                     {imagePath && (
                         <>
-                            <SUploadImageWrapper>
-                                <SUploadImage src={imagePath.toString()} />
-                            </SUploadImageWrapper>
-                            <ImageOptionsSlider
-                                name={'Blur'}
-                                Icon={MdLensBlur}
-                            />
+                            <SImageOptionContainer>
+                                <SUploadedImageWrapper>
+                                    <SUploadedImage
+                                        src={imagePath.toString()}
+                                    />
+                                </SUploadedImageWrapper>
+                                {/*<SFilterPanel>*/}
+                                <SFilterPanelItem>
+                                    <ImageOptionsSlider
+                                        name={'Gray scale'}
+                                        Icon={RxShadowInner}
+                                    />
+                                </SFilterPanelItem>
+
+                                <SFilterPanelItem>
+                                    <ImageOptionsSlider
+                                        name={'Blur'}
+                                        Icon={MdLensBlur}
+                                    />
+                                </SFilterPanelItem>
+
+                                <SFilterPanelItem>
+                                    <ImageOptionsSlider
+                                        name={'Saturation'}
+                                        Icon={IoIosColorPalette}
+                                    />
+                                </SFilterPanelItem>
+                                {/*</SFilterPanel>*/}
+                            </SImageOptionContainer>
                         </>
                     )}
                 </DialogContent>
