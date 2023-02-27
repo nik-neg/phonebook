@@ -97,9 +97,11 @@ export const UpdateDialog = ({
                     <SUploadButtonWrapper>
                         <UploadButton onUpload={handleUploadImage} />
                     </SUploadButtonWrapper>
-                    <SUploadImageWrapper>
-                        <SUploadImage src={imagePath.toString()} />
-                    </SUploadImageWrapper>
+                    {imagePath && (
+                        <SUploadImageWrapper>
+                            <SUploadImage src={imagePath.toString()} />
+                        </SUploadImageWrapper>
+                    )}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
