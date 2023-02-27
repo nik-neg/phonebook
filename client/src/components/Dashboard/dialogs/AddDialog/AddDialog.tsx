@@ -14,6 +14,8 @@ import {
     SUploadImage,
     SUploadImageWrapper,
 } from '../UpdateDialog/UpdateDialog.styles';
+import { ImageOptionsSlider } from '../ImageOptionsSlider/ImageOptionsSlider';
+import { MdLensBlur } from 'react-icons/all';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
@@ -82,9 +84,15 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         <UploadButton onUpload={handleUploadImage} />
                     </SUploadButtonWrapper>
                     {imagePath && (
-                        <SUploadImageWrapper>
-                            <SUploadImage src={imagePath.toString()} />
-                        </SUploadImageWrapper>
+                        <>
+                            <SUploadImageWrapper>
+                                <SUploadImage src={imagePath.toString()} />
+                            </SUploadImageWrapper>
+                            <ImageOptionsSlider
+                                name={'Blur'}
+                                Icon={MdLensBlur}
+                            />
+                        </>
                     )}
                 </DialogContent>
                 <DialogActions>
