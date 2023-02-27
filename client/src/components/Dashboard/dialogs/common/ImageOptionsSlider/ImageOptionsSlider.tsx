@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Slider from '@mui/material/Slider';
 import MuiInput from '@mui/material/Input';
@@ -18,17 +19,25 @@ const Input = styled(MuiInput)`
 export const ImageOptionsSlider = ({
     name,
     Icon,
+    onChangeParent,
 }: IImageOptionsSliderProps): JSX.Element => {
-    const [value, setValue] = React.useState<
+    const [value, setValue] = useState<
         number | string | Array<number | string>
     >(30);
 
     const handleSliderChange = (event: Event, newValue: number | number[]) => {
+        if (Array.isArray(newValue)) {
+            return;
+        }
+        onChangeParent?.(name.toLowerCase(), newValue);
         setValue(newValue);
     };
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value === '' ? '' : Number(event.target.value));
+        const newValue =
+            event.target.value === '' ? 0 : Number(event.target.value);
+        onChangeParent?.(name.toLowerCase(), newValue);
+        setValue(newValue);
     };
 
     const handleBlur = () => {

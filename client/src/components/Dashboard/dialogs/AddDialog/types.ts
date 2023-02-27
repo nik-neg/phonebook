@@ -8,3 +8,11 @@ export interface IAddDialogProps {
 
     onClose: () => void;
 }
+
+export interface IFilter {
+    grayscale: number;
+
+    blur: number;
+
+    saturation: number;
+}

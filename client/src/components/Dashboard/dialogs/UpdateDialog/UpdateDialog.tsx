@@ -8,9 +8,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { IUpdateDialogProps } from './types';
-import { UploadButton } from '../UploadButton/UploadButton';
+import { UploadButton } from '../common/UploadButton/UploadButton';
 import { SUploadedImage, SUploadedImageWrapper } from './UpdateDialog.styles';
-import { SUploadButtonWrapper } from '../UploadButton/UploadButton.styles';
+import { SUploadButtonWrapper } from '../common/UploadButton/UploadButton.styles';
 
 export const UpdateDialog = ({
     selectedValue,

@@ -7,29 +7,45 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { IAddDialogProps } from './types';
-import { SUploadButtonWrapper } from '../UploadButton/UploadButton.styles';
-import { UploadButton } from '../UploadButton/UploadButton';
+import { IAddDialogProps, IFilter } from './types';
+import { SUploadButtonWrapper } from '../common/UploadButton/UploadButton.styles';
+import { UploadButton } from '../common/UploadButton/UploadButton';
 import {
     SFilterPanelItem,
     SImageOptionContainer,
     SUploadedImage,
     SUploadedImageWrapper,
 } from '../UpdateDialog/UpdateDialog.styles';
-import { ImageOptionsSlider } from '../ImageOptionsSlider/ImageOptionsSlider';
+import { ImageOptionsSlider } from '../common/ImageOptionsSlider/ImageOptionsSlider';
 import { IoIosColorPalette, MdLensBlur, RxShadowInner } from 'react-icons/all';
 import { SAddDialogContainer } from './AddDialog.styles';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
 
+    const [imagePath, setImagePath] = useState<string | ArrayBuffer>('');
+
+    const [filter, setFilter] = useState<IFilter>({
+        blur: 0,
+        grayscale: 0,
+        saturation: 0,
+    });
+
+    const handleFilterChange = (name: string, value: number) => {
+        setFilter({ ...filter, [name]: value });
+
+        console.log({ filter });
+    };
+
     const handleClose = () => {
         onClose?.();
     };
 
-    const [imagePath, setImagePath] = useState<string | ArrayBuffer>('');
-
-    const handleUploadImage = (imagePath: string | ArrayBuffer) => {
+    const handleUploadImage = async (
+        imagePath: string | ArrayBuffer
+    ): Promise<void> => {
+        // Apply the filter
+        // LenaJS.filterImage(filteredImageCanvas, filter, originalImage);
         setImagePath(imagePath);
     };
 
@@ -98,11 +114,11 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                                         src={imagePath.toString()}
                                     />
                                 </SUploadedImageWrapper>
-                                {/*<SFilterPanel>*/}
                                 <SFilterPanelItem>
                                     <ImageOptionsSlider
-                                        name={'Gray scale'}
+                                        name={'Grayscale'}
                                         Icon={RxShadowInner}
+                                        onChangeParent={handleFilterChange}
                                     />
                                 </SFilterPanelItem>
 
@@ -110,6 +126,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                                     <ImageOptionsSlider
                                         name={'Blur'}
                                         Icon={MdLensBlur}
+                                        onChangeParent={handleFilterChange}
                                     />
                                 </SFilterPanelItem>
 
@@ -117,9 +134,9 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                                     <ImageOptionsSlider
                                         name={'Saturation'}
                                         Icon={IoIosColorPalette}
+                                        onChangeParent={handleFilterChange}
                                     />
                                 </SFilterPanelItem>
-                                {/*</SFilterPanel>*/}
                             </SImageOptionContainer>
                         </>
                     )}

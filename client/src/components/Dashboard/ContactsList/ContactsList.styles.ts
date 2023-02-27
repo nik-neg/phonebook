@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const SContactListContainer = styled.div`
     display: flex;
     justify-content: center;
+    padding-top: 3rem; // 3 rem for desktop, 1 rem for mobile?
     height: 750px;
 `;
 
