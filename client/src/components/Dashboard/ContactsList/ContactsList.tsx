@@ -7,37 +7,40 @@ import {
     SContactListWrapper,
     SIconWrapper,
 } from './ContactsList.styles';
-import {IContactListProps} from './types';
-import {ContactCard} from './ContactCard';
-import {CiPower, IoPersonAdd} from "react-icons/all";
-import React, {useState} from "react";
+import { IContactListProps } from './types';
+import { ContactCard } from './ContactCard';
+import { CiPower, IoPersonAdd } from 'react-icons/all';
+import React from 'react';
 
-export const ContactsList = ({contacts}: IContactListProps): JSX.Element => {
+export const ContactsList = ({
+    contacts,
+    onAddContact,
+}: IContactListProps): JSX.Element => {
     const handleScroll = () => {
         console.log('scroll');
     };
 
-    const [open, setOpen] = useState(false);
-
-
     const handleAddContact = () => {
-        setOpen(true);
         console.log('add contact');
+        onAddContact?.();
     };
 
     return (
         <SContactListContainer>
             <SContactListWrapper onScroll={handleScroll}>
-                {contacts.map((contact, index) => (
-                    index !== 5 && (<ContactCard key={index} contact={contact}/>)
-                ))}
+                {contacts.map(
+                    (contact, index) =>
+                        index !== 5 && (
+                            <ContactCard key={index} contact={contact} />
+                        )
+                )}
                 <SAddButtonWrapper>
                     <SButtonPanel>
                         <SButtonWrapper>
                             <SAddButton onClick={handleAddContact}>
                                 {'Add Contact'}
                                 <SIconWrapper>
-                                    <IoPersonAdd/>
+                                    <IoPersonAdd />
                                 </SIconWrapper>
                             </SAddButton>
                         </SButtonWrapper>
@@ -45,7 +48,7 @@ export const ContactsList = ({contacts}: IContactListProps): JSX.Element => {
                             <SAddButton onClick={handleAddContact}>
                                 {'Power'}
                                 <SIconWrapper>
-                                    <CiPower/>
+                                    <CiPower />
                                 </SIconWrapper>
                             </SAddButton>
                         </SButtonWrapper>

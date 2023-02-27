@@ -1,8 +1,14 @@
-import {SDashboardContainer, SDashboardFooter, SDashboardHeader, SDashboardList,} from './Dashboard.styles';
-import {IContact} from './ContactsList/ContactCard/types';
-import React, {useState} from 'react';
-import {DummyContact} from "./data";
-import {ContactsList} from "./ContactsList";
+import {
+    SDashboardContainer,
+    SDashboardFooter,
+    SDashboardHeader,
+    SDashboardList,
+} from './Dashboard.styles';
+import { IContact } from './ContactsList/ContactCard/types';
+import React, { useState } from 'react';
+import { DummyContact } from './data';
+import { ContactsList } from './ContactsList';
+import { AddDialog } from './dialogs/AddDialog/AddDialog';
 
 export const Dashboard = (): JSX.Element => {
     // add pagination fetch for infinite scroll, add loader animation, sort in the backend!
@@ -62,17 +68,20 @@ export const Dashboard = (): JSX.Element => {
     // <Hidden mdDown>
     return (
         <SDashboardContainer>
-            <SDashboardHeader/>
+            <SDashboardHeader />
             <SDashboardList>
-                <ContactsList contacts={contacts}/>
+                <ContactsList
+                    contacts={contacts}
+                    onAddContact={handleAddContact}
+                />
             </SDashboardList>
-            {/*<AddDialog*/}
-            {/*    selectedValue={null}*/}
-            {/*    open={open}*/}
-            {/*    onClose={handleClose}*/}
-            {/*    onEdit={handleAddContact}*/}
-            {/*/>*/}
-            <SDashboardFooter/>
+            <AddDialog
+                selectedValue={null}
+                open={open}
+                onClose={handleClose}
+                onEdit={handleAddContact}
+            />
+            <SDashboardFooter />
         </SDashboardContainer>
     );
 };

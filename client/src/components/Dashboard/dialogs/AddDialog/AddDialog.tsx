@@ -11,8 +11,6 @@ import { AddDialogProps } from './types';
 export const AddDialog = (props: AddDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
 
-    const handleClickOpen = () => {};
-
     const handleClose = () => {
         onClose?.();
     };

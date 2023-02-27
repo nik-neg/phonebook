@@ -1,4 +1,4 @@
-import {createGlobalStyle} from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import background from '../../assets/lobby.jpeg';
 
 export const GlobalStyle = createGlobalStyle`
