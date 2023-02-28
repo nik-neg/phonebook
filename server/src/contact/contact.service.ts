@@ -21,7 +21,10 @@ export class ContactService {
   }
 
   async findOne(id: number): Promise<Contact> {
-    const contact = await this.contactRepository.findOne({ where: { id } });
+    const contact = await this.contactRepository.findOne({
+      where: { id },
+      relations: ['phoneNumbers'],
+    });
     if (!contact) {
       throw new UserInputError(`Contact #${id} does not exist`);
     }
@@ -38,9 +41,8 @@ export class ContactService {
       ...createContactInput,
       phoneNumbers,
     });
-    const temp = await this.contactRepository.save(contact);
 
-    return temp;
+    return this.contactRepository.save(contact);
   }
 
   async update(

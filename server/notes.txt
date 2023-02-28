@@ -54,3 +54,5 @@ mutation {
     imageUrl
   }
 }
+
+// update contact
