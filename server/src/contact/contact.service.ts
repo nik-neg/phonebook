@@ -29,8 +29,14 @@ export class ContactService {
   }
 
   async create(createContactInput: CreateContactInput): Promise<Contact> {
+    const phoneNumbers = await Promise.all(
+      createContactInput.phoneNumbers.map((phoneNumber) =>
+        this.preloadPhoneNumber(phoneNumber),
+      ),
+    );
     const contact = this.contactRepository.create({
       ...createContactInput,
+      phoneNumbers,
     });
     return this.contactRepository.save(contact);
   }
@@ -40,7 +46,7 @@ export class ContactService {
     updateContactInput: UpdateContactInput,
   ): Promise<Contact> {
     const contact = await this.contactRepository.preload({
-      id: +id,
+      id,
       ...updateContactInput,
     });
     if (!contact) {
@@ -52,5 +58,15 @@ export class ContactService {
   async remove(id: number): Promise<Contact> {
     const contact = await this.findOne(id);
     return this.contactRepository.remove(contact);
+  }
+
+  private async preloadPhoneNumber(phoneNumber: string): Promise<PhoneNumber> {
+    const existingPhoneNumber = await this.phoneNumberRepository.findOne({
+      where: { phoneNumber },
+    });
+    if (existingPhoneNumber) {
+      return existingPhoneNumber;
+    }
+    return this.phoneNumberRepository.create({ phoneNumber });
   }
 }

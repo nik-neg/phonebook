@@ -1,3 +1,3 @@
 import * as GraphQLTypes from '../../../graphql-types';
 
-export class CreateContactInput extends GraphQLTypes.Contact {}
+export class CreateContactInput extends GraphQLTypes.CreateContactInput {}

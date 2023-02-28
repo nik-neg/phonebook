@@ -1,8 +1,3 @@
-type Query {
-    contacts: [Contact!]!
-    contact(id: ID!): Contact
-}
-
 type Contact {
     id: ID!
     firstName: String!
@@ -10,7 +5,7 @@ type Contact {
     nickName: String
     phoneNumbers: [PhoneNumber!]!
     address: String!
-    photo: String!
+    imageUrl: String!
 }
 
 input CreateContactInput {
@@ -19,19 +14,30 @@ input CreateContactInput {
     nickName: String
     phoneNumbers: [String!]!
     address: String!
-    photo: String!
+    imageUrl: String!
 }
 
 input UpdateContactInput {
     firstName: String
     lastName: String
     nickName: String
-    phoneNumbers: [String!]!
+    phoneNumbers: [String]!
     address: String
-    photo: String
+    imageUrl: String
 }
 
 type PhoneNumber {
     id: ID!
     phoneNumber: String!
+}
+
+type Query {
+    contacts: [Contact!]!
+    contact(id: ID!): Contact
+}
+
+type Mutation {
+    createContact(createContactInput: CreateContactInput!): Contact!
+    updateContact(id: ID!, updateContactInput: UpdateContactInput!): Contact!
+    removeContact(id: ID!): Contact!
 }

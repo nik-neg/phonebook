@@ -20,6 +20,10 @@ import { FilterModule } from './filter/filter.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],
+      formatError: (error) => {
+        const { message, locations, extensions } = error;
+        return { message, locations, extensions };
+      },
     }),
     ContactModule,
     FilterModule,
