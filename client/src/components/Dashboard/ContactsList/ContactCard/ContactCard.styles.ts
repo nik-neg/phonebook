@@ -18,7 +18,7 @@ export const SContactCardWrapper = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    border: 2px solid buttonface;
+    border: 2px solid #b7b7b7;
     border-radius: 10px;
 
     &:hover {

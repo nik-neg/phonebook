@@ -1,0 +1,15 @@
+
+type Contact {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    nickName: String
+    phoneNumbers: [PhoneNumber!]!
+    address: String
+    photo: String
+}
+
+type PhoneNumber {
+    id: ID!
+    phoneNumber: String!
+}
