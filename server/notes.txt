@@ -46,7 +46,10 @@ mutation {
     firstName,
     lastName,
     nickName,
-    phoneNumbers,
+    phoneNumbers {
+        id
+        phoneNumber
+    },
     address,
     imageUrl
   }
