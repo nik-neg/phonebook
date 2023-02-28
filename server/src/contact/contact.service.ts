@@ -38,7 +38,9 @@ export class ContactService {
       ...createContactInput,
       phoneNumbers,
     });
-    return this.contactRepository.save(contact);
+    const temp = await this.contactRepository.save(contact);
+
+    return temp;
   }
 
   async update(

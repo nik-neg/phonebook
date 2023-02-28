@@ -13,7 +13,7 @@ export class Contact extends GraphQLTypes.Contact {
   @Column()
   lastName: string;
 
-  @Column()
+  @Column({ nullable: true })
   nickName?: string;
 
   @OneToMany((type) => PhoneNumber, (phoneNumber) => phoneNumber.contact, {

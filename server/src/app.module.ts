@@ -15,7 +15,7 @@ import { FilterModule } from './filter/filter.module';
       password: 'pass123',
       database: 'postgres',
       autoLoadEntities: true,
-      synchronize: false,
+      synchronize: true,
       entities: [__dirname + '/../**/*.entity.js'],
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
