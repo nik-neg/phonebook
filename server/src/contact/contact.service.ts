@@ -83,8 +83,7 @@ export class ContactService {
 
   async remove(id: number): Promise<Contact> {
     const contact = await this.findOne(id);
-    const temp = await this.contactRepository.remove(contact);
-    return temp;
+    return this.contactRepository.remove(contact);
   }
   private async preloadPhoneNumber(
     phoneNumber: string,
