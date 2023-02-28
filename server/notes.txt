@@ -1,5 +1,27 @@
 npx ts-node src/generate-types
 
+// create contact
+mutation {
+  createContact(createContactInput: {
+    firstName: "firstName",
+    lastName: "lastName",
+    phoneNumbers: ["123456789", "123456789"]
+    address: "address"
+    imageUrl: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg",
+  }) {
+    id,
+    firstName,
+    lastName,
+    nickName,
+    phoneNumbers {
+        id
+        phoneNumber
+    },
+    address,
+    imageUrl
+  }
+}
+
 // get contacts
 {
     contacts {
@@ -33,14 +55,11 @@ npx ts-node src/generate-types
     }
 }
 
-// create contact
+// update contact
 mutation {
-  createContact(createContactInput: {
-    firstName: "firstName",
-    lastName: "lastName",
-    phoneNumbers: ["123456789", "123456789"]
-    address: "address"
-    imageUrl: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg",
+  updateContact(updateContactInput: {
+    firstName: "Update",
+    lastName: "Update",
   }) {
     id,
     firstName,
@@ -55,4 +74,18 @@ mutation {
   }
 }
 
-// update contact
+// remove contact
+mutation {
+  removeContact(id: 1) {
+    id,
+    firstName,
+    lastName,
+    nickName,
+    phoneNumbers {
+        id
+        phoneNumber
+    },
+    address,
+    imageUrl
+  }
+}

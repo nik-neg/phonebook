@@ -2,7 +2,6 @@ import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ContactService } from './contact.service';
 import * as GraphQLTypes from '../graphql-types';
 import { ParseIntPipe } from '@nestjs/common';
-import { Contact } from './entities/contact.entity/contact.entity';
 import { CreateContactInput } from './dto/create-contact.input/create-contact.input';
 import { UpdateContactInput } from './dto/update-contact.input/update-contact.input';
 
@@ -37,7 +36,9 @@ export class ContactResolver {
   }
 
   @Mutation('removeContact')
-  async remove(@Args('id', ParseIntPipe) id: number): Promise<Contact> {
+  async remove(
+    @Args('id', ParseIntPipe) id: number,
+  ): Promise<GraphQLTypes.Contact> {
     return this.contactService.remove(id);
   }
 }

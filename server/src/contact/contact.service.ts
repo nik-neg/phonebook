@@ -6,6 +6,8 @@ import { Repository } from 'typeorm';
 import { UserInputError } from 'apollo-server-express';
 import { CreateContactInput } from './dto/create-contact.input/create-contact.input';
 import { UpdateContactInput } from './dto/update-contact.input/update-contact.input';
+import { omit, uniq } from 'lodash';
+import * as GraphQLTypes from '../graphql-types';
 
 @Injectable()
 export class ContactService {
@@ -33,10 +35,11 @@ export class ContactService {
 
   async create(createContactInput: CreateContactInput): Promise<Contact> {
     const phoneNumbers = await Promise.all(
-      createContactInput.phoneNumbers.map((phoneNumber) =>
+      uniq(createContactInput.phoneNumbers).map((phoneNumber) =>
         this.preloadPhoneNumber(phoneNumber),
       ),
     );
+    // unique phone numbers
     const contact = this.contactRepository.create({
       ...createContactInput,
       phoneNumbers,
@@ -49,10 +52,29 @@ export class ContactService {
     id: number,
     updateContactInput: UpdateContactInput,
   ): Promise<Contact> {
-    const contact = await this.contactRepository.preload({
-      id,
-      ...updateContactInput,
-    });
+    let phoneNumbers = [];
+    let contact;
+    if (updateContactInput?.phoneNumbers?.length > 0) {
+      phoneNumbers = await Promise.all(
+        updateContactInput?.phoneNumbers?.map((phoneNumber) =>
+          this.preloadPhoneNumber(phoneNumber),
+        ),
+      );
+      contact = await this.contactRepository.update(
+        {
+          id,
+        },
+        { ...updateContactInput, phoneNumbers },
+      );
+    } else {
+      contact = await this.contactRepository.update(
+        {
+          id,
+        },
+        { ...omit(updateContactInput, ['phoneNumbers']) },
+      );
+    }
+
     if (!contact) {
       throw new UserInputError(`Contact #${id} does not exist`);
     }
@@ -61,10 +83,12 @@ export class ContactService {
 
   async remove(id: number): Promise<Contact> {
     const contact = await this.findOne(id);
-    return this.contactRepository.remove(contact);
+    const temp = await this.contactRepository.remove(contact);
+    return temp;
   }
-
-  private async preloadPhoneNumber(phoneNumber: string): Promise<PhoneNumber> {
+  private async preloadPhoneNumber(
+    phoneNumber: string,
+  ): Promise<GraphQLTypes.PhoneNumber> {
     const existingPhoneNumber = await this.phoneNumberRepository.findOne({
       where: { phoneNumber },
     });

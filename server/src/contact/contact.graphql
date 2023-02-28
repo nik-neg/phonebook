@@ -21,7 +21,7 @@ input UpdateContactInput {
     firstName: String
     lastName: String
     nickName: String
-    phoneNumbers: [String]!
+    phoneNumbers: [String]
     address: String
     imageUrl: String
 }
