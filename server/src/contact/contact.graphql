@@ -1,3 +1,7 @@
+type Query {
+    contacts: [Contact!]!
+    contact(id: ID!): Contact
+}
 
 type Contact {
     id: ID!
@@ -5,6 +9,24 @@ type Contact {
     lastName: String!
     nickName: String
     phoneNumbers: [PhoneNumber!]!
+    address: String!
+    photo: String!
+}
+
+input CreateContactInput {
+    firstName: String!
+    lastName: String!
+    nickName: String
+    phoneNumbers: [String!]!
+    address: String!
+    photo: String!
+}
+
+input UpdateContactInput {
+    firstName: String
+    lastName: String
+    nickName: String
+    phoneNumbers: [String!]!
     address: String
     photo: String
 }
