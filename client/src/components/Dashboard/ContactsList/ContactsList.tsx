@@ -11,10 +11,12 @@ import { IContactListProps } from './types';
 import { ContactCard } from './ContactCard';
 import { CiPower, IoPersonAdd } from 'react-icons/all';
 import React from 'react';
+import { getContacts } from '../../../api/ApiClient';
 
 export const ContactsList = ({
     contacts,
     onAddContact,
+    onFetchContacts,
 }: IContactListProps): JSX.Element => {
     const handleScroll = () => {
         console.log('scroll');
@@ -23,6 +25,12 @@ export const ContactsList = ({
     const handleAddContact = () => {
         console.log('add contact');
         onAddContact?.();
+    };
+
+    const handlePowerOn = async () => {
+        const contacts = await getContacts({ skip: 0, take: 5, keyword: '' });
+
+        onFetchContacts?.(contacts?.data?.data?.contacts ?? []);
     };
 
     // on remove refetch new contacts and sort
@@ -47,7 +55,7 @@ export const ContactsList = ({
                             </SAddButton>
                         </SButtonWrapper>
                         <SButtonWrapper>
-                            <SAddButton onClick={handleAddContact}>
+                            <SAddButton onClick={handlePowerOn}>
                                 {'Power'}
                                 <SIconWrapper>
                                     <CiPower />

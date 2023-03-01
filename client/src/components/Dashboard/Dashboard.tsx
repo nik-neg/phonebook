@@ -5,11 +5,10 @@ import {
     SDashboardList,
 } from './Dashboard.styles';
 import { IContact } from './ContactsList/ContactCard/types';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { DummyContact } from './data';
 import { ContactsList } from './ContactsList';
 import { AddDialog } from './dialogs/AddDialog/AddDialog';
-import { getContacts } from '../../api/ApiClient';
 
 export const Dashboard = (): JSX.Element => {
     // add pagination fetch for infinite scroll, add loader animation, sort in the backend!
@@ -61,15 +60,10 @@ export const Dashboard = (): JSX.Element => {
     ];
 
     const [fetchedContacts, setFetchedContacts] = useState<IContact[]>([]);
-    const getContactsCallBack = useCallback(async () => {
-        const res = await getContacts({ skip: 0, take: 5, keyword: '' });
 
-        console.log({ res });
-    }, []);
-
-    useEffect(() => {
-        getContactsCallBack();
-    }, [getContactsCallBack]);
+    const onFetchContacts = (contacts: IContact[]) => {
+        setFetchedContacts(contacts);
+    };
 
     const [open, setOpen] = useState(false);
 
@@ -91,6 +85,7 @@ export const Dashboard = (): JSX.Element => {
             <SDashboardList>
                 <ContactsList
                     contacts={fetchedContacts}
+                    onFetchContacts={onFetchContacts}
                     onAddContact={handleAddContact}
                 />
             </SDashboardList>
