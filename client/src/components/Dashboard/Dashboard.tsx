@@ -61,6 +61,8 @@ export const Dashboard = (): JSX.Element => {
 
     const [open, setOpen] = useState(false);
 
+    const [contact, setContact] = useState<IContact>();
+
     const handleAddContact = () => {
         setOpen(true);
         console.log('add contact');
@@ -81,7 +83,7 @@ export const Dashboard = (): JSX.Element => {
                 />
             </SDashboardList>
             <AddDialog
-                selectedValue={null}
+                selectedValue={contact}
                 open={open}
                 onClose={handleClose}
                 onEdit={handleAddContact}

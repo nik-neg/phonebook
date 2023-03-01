@@ -19,12 +19,23 @@ import {
 import { ImageOptionsSlider } from '../common/ImageOptionsSlider/ImageOptionsSlider';
 import { IoIosColorPalette, MdLensBlur, RxShadowInner } from 'react-icons/all';
 import { SAddDialogContainer } from './AddDialog.styles';
-import { createContact } from '../../../../api/ApiClient';
+import { IContact } from '../../ContactsList/ContactCard/types';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
 
-    const [imagePath, setImagePath] = useState<string | ArrayBuffer>('');
+    const [contact, setContact] = useState<IContact>({
+        firstName: '',
+        lastName: '',
+        nickName: '',
+        address: '',
+        phoneNumbers: [],
+        imageUrl: '',
+    });
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setContact({ ...contact, [event.target.id]: event.target.value });
+    };
 
     const [filter, setFilter] = useState<IFilter>({
         blur: 0,
@@ -43,15 +54,16 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     };
 
     const handleSave = async () => {
-        const response = await createContact(selectedValue);
+        setContact(contact);
+        console.log({ selectedValue });
+        // const response = await createContact(selectedValue);
     };
 
     const handleUploadImage = async (
         imagePath: string | ArrayBuffer
     ): Promise<void> => {
         // Apply the filter
-        // LenaJS.filterImage(filteredImageCanvas, filter, originalImage);
-        setImagePath(imagePath);
+        setContact({ ...contact, imageUrl: imagePath.toString() });
     };
 
     return (
@@ -71,18 +83,20 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         margin="dense"
                         id="name"
                         label="First Name"
-                        type="email"
                         fullWidth
                         variant="standard"
+                        value={contact.firstName}
+                        onChange={handleChange}
                     />
                     <TextField
                         autoFocus
                         margin="dense"
                         id="name"
                         label="Last Name"
-                        type="email"
                         fullWidth
                         variant="standard"
+                        value={contact.lastName}
+                        onChange={handleChange}
                     />
                     <TextField
                         autoFocus
@@ -91,6 +105,8 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         label="Nickname"
                         fullWidth
                         variant="standard"
+                        value={contact.nickName}
+                        onChange={handleChange}
                     />
                     <TextField
                         autoFocus
@@ -99,6 +115,8 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         label="Address"
                         fullWidth
                         variant="standard"
+                        value={contact.address}
+                        onChange={handleChange}
                     />
                     <TextField
                         autoFocus
@@ -107,16 +125,18 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         label="Phone Numbers"
                         fullWidth
                         variant="standard"
+                        value={contact.phoneNumbers}
+                        onChange={handleChange}
                     />
                     <SUploadButtonWrapper>
                         <UploadButton onUpload={handleUploadImage} />
                     </SUploadButtonWrapper>
-                    {imagePath && (
+                    {contact.imageUrl && (
                         <>
                             <SImageOptionContainer>
                                 <SUploadedImageWrapper>
                                     <SUploadedImage
-                                        src={imagePath.toString()}
+                                        src={contact.imageUrl.toString()}
                                     />
                                 </SUploadedImageWrapper>
                                 <SFilterPanelItem>

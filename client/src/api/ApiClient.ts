@@ -1,5 +1,5 @@
 import { IContact } from '../components/Dashboard/ContactsList/ContactCard/types';
-import axios from 'axios/index';
+import axios from 'axios';
 
 const baseUrl = 'http://localhost:3001';
 
