@@ -42,7 +42,6 @@ export class ContactService {
       relations: ['phoneNumbers'],
     });
     return result;
-    // return this.contactRepository.find({ relations: ['phoneNumbers'] });
   }
 
   async findOne(id: number): Promise<Contact> {

@@ -89,6 +89,8 @@ export const getContacts = async (
     }
 };
 
+export const updateContact = async (contact: IContact) => {};
+
 export const removeContact = async (id: number) => {
     try {
         const response = await axios.post(`${baseUrl}`, {
