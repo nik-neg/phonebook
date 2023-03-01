@@ -28,9 +28,11 @@ export const SContactListWrapper = styled.div`
     background: url(${background}) no-repeat center center fixed;
     border: 3px solid #262626;
     border-radius: 12px;
+    border-color: rgba(196, 196, 196, 0.67);
+    box-shadow: 10px 5px 5px black;
+    border-left: ;
     overflow: hidden;
     overflow-y: scroll;
-    border-color: rgba(196, 196, 196, 0.67);
 
     &::-webkit-scrollbar {
         display: none;
