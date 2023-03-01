@@ -4,7 +4,6 @@ import { IContactCardPhotoProps } from './types';
 export const SContactCardContainer = styled.div`
     padding: 1rem;
     z-index: 1;
-
     //:last-of-type {
     //    opacity: 0;
     //}

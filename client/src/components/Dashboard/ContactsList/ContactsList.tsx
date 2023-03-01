@@ -3,6 +3,7 @@ import {
     SAddButtonWrapper,
     SButtonPanel,
     SButtonWrapper,
+    SContactCardsContainer,
     SContactListContainer,
     SContactListWrapper,
     SIconWrapper,
@@ -38,12 +39,14 @@ export const ContactsList = ({
     return (
         <SContactListContainer>
             <SContactListWrapper onScroll={handleScroll}>
-                {contacts.map(
-                    (contact, index) =>
-                        index !== 5 && (
-                            <ContactCard key={index} contact={contact} />
-                        )
-                )}
+                <SContactCardsContainer>
+                    {contacts.map(
+                        (contact, index) =>
+                            index !== 5 && (
+                                <ContactCard key={index} contact={contact} />
+                            )
+                    )}
+                </SContactCardsContainer>
                 <SAddButtonWrapper>
                     <SButtonPanel>
                         <SButtonWrapper>

@@ -9,6 +9,10 @@ export const SContactListContainer = styled.div`
     height: 750px;
 `;
 
+export const SContactCardsContainer = styled.div`
+    height: 675px;
+`;
+
 export const SContactListWrapper = styled.div`
     box-shadow: 5px 2.5px 2.5px #262626;
     background: url(${background}) no-repeat center center fixed;
@@ -22,6 +26,7 @@ export const SContactListWrapper = styled.div`
 export const SAddButtonWrapper = styled.div`
     display: flex;
     justify-content: center;
+    position: sticky;
 `;
 
 export const SButtonPanel = styled.div`
