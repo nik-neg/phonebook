@@ -5,6 +5,7 @@ export const SContactListContainer = styled.div`
     display: flex;
     justify-content: center;
     padding-top: 3rem; // 3 rem for desktop, 1 rem for mobile?
+    width: 350px;
     height: 750px;
 `;
 
@@ -15,6 +16,7 @@ export const SContactListWrapper = styled.div`
     border-radius: 12px;
     overflow: hidden;
     overflow-y: scroll;
+    width: 100%;
 `;
 
 export const SAddButtonWrapper = styled.div`

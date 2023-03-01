@@ -1,4 +1,5 @@
 import {
+    SAddress,
     SContactCardContainer,
     SContactCardPhoto,
     SContactCardWrapper,
@@ -46,6 +47,8 @@ export const ContactCard = (contact: IContactCardProps): JSX.Element => {
                 <SContactInfoWrapper>
                     <SContactCardPhoto src={imageFile} />
                     <SNameWrapper>
+                        <SAddress>{address}</SAddress>
+
                         {nickName ? (
                             <SContactNickName>{nickName}</SContactNickName>
                         ) : (

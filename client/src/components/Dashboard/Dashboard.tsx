@@ -24,7 +24,7 @@ export const Dashboard = (): JSX.Element => {
         },
         {
             firstName: 'John',
-            lastName: 'LastName',
+            lastName: 'LastNameVeryVeryLong',
             address: '123, adksljfsjad',
             phoneNumbers: [],
             imageFile:
@@ -32,7 +32,7 @@ export const Dashboard = (): JSX.Element => {
         },
         {
             firstName: 'John',
-            lastName: '',
+            lastName: 'NickName',
             address: '',
             phoneNumbers: [],
             imageFile:
@@ -84,7 +84,7 @@ export const Dashboard = (): JSX.Element => {
             <SDashboardHeader />
             <SDashboardList>
                 <ContactsList
-                    contacts={fetchedContacts}
+                    contacts={contacts}
                     onFetchContacts={onFetchContacts}
                     onAddContact={handleAddContact}
                 />

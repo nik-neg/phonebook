@@ -5,14 +5,12 @@ export const SContactCardContainer = styled.div`
     padding: 1rem;
     z-index: 1;
 
-    :last-of-type {
-        opacity: 0;
-    }
+    //:last-of-type {
+    //    opacity: 0;
+    //}
 `;
 
 export const SContactCardWrapper = styled.div`
-    height: 100px;
-    width: 300px;
     cursor: pointer;
     background: buttonface;
     display: flex;
@@ -36,8 +34,9 @@ export const SContactInfoWrapper = styled.div`
 `;
 
 export const SContactCardPhoto = styled.img<IContactCardPhotoProps>`
-    width: 75%;
-    height: 75%;
+    display: flex;
+    width: 75px;
+    height: 75px;
     border-radius: 50%;
     border: 1px solid black;
     src: url(${(props) => props.src});
@@ -45,6 +44,14 @@ export const SContactCardPhoto = styled.img<IContactCardPhotoProps>`
 
 export const SNameWrapper = styled.div`
     display: flex;
+    flex-direction: column;
+    width: 200px;
+`;
+
+export const SAddress = styled.div`
+    padding-top: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
 `;
 
 export const SContactNickName = styled.div`
@@ -52,15 +59,16 @@ export const SContactNickName = styled.div`
     font-size: 1.5rem;
     width: 200px;
     padding-top: 3rem;
-    display: flex;
-    justify-content: flex-end;
 `;
 
 export const SContactName = styled.div`
     padding-left: 0.5rem;
     font-size: 1.5rem;
-    width: 200px;
+    width: 190px;
     padding-top: 3rem;
-    display: flex;
     justify-content: flex-end;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
