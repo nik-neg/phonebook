@@ -1,9 +1,3 @@
-type File {
-    filename: String!
-    mimetype: String!
-    encoding: String!
-}
-
 type Contact {
     id: ID!
     firstName: String!
@@ -11,13 +5,7 @@ type Contact {
     nickName: String
     phoneNumbers: [PhoneNumber!]!
     address: String!
-    imageFile: File!
-}
-
-input FileInput {
-    filename: String!
-    mimetype: String!
-    encoding: String!
+    imageFile: String!
 }
 
 input CreateContactInput {
@@ -26,7 +14,7 @@ input CreateContactInput {
     nickName: String
     phoneNumbers: [String!]!
     address: String!
-    imageFile: FileInput!
+    imageFile: String!
 }
 
 input UpdateContactInput {
@@ -35,7 +23,7 @@ input UpdateContactInput {
     nickName: String
     phoneNumbers: [String]
     address: String
-    imageFile: FileInput
+    imageFile: String
 }
 
 type PhoneNumber {

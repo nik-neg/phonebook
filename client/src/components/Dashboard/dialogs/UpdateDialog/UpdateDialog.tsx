@@ -29,10 +29,10 @@ export const UpdateDialog = ({
 
         address,
 
-        imageUrl,
+        imageFile,
     } = selectedValue;
 
-    const [imagePath, setImagePath] = useState<string | ArrayBuffer>(imageUrl);
+    const [imagePath, setImagePath] = useState<string | ArrayBuffer>(imageFile);
 
     const handleUploadImage = (imagePath: string | ArrayBuffer) => {
         setImagePath(imagePath);

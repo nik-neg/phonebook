@@ -8,19 +8,13 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export class FileInput {
-    filename: string;
-    mimetype: string;
-    encoding: string;
-}
-
 export class CreateContactInput {
     firstName: string;
     lastName: string;
     nickName?: Nullable<string>;
     phoneNumbers: string[];
     address: string;
-    imageFile: FileInput;
+    imageFile: string;
 }
 
 export class UpdateContactInput {
@@ -29,19 +23,13 @@ export class UpdateContactInput {
     nickName?: Nullable<string>;
     phoneNumbers?: Nullable<Nullable<string>[]>;
     address?: Nullable<string>;
-    imageFile?: Nullable<FileInput>;
+    imageFile?: Nullable<string>;
 }
 
 export class QueryPaginationInput {
     take?: Nullable<number>;
     skip?: Nullable<number>;
     keyword?: Nullable<string>;
-}
-
-export class File {
-    filename: string;
-    mimetype: string;
-    encoding: string;
 }
 
 export class Contact {
@@ -51,7 +39,7 @@ export class Contact {
     nickName?: Nullable<string>;
     phoneNumbers: PhoneNumber[];
     address: string;
-    imageFile: File;
+    imageFile: string;
 }
 
 export class PhoneNumber {

@@ -24,6 +24,6 @@ export class Contact extends GraphQLTypes.Contact {
   @Column()
   address: string;
 
-  @Column({ type: 'bytea', nullable: false })
-  image: Buffer;
+  // @Column({ type: 'bytea', nullable: false })
+  imageFile: string;
 }

@@ -32,7 +32,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         nickName: 'asdasdasd',
         address: 'sadasdasd',
         phoneNumbers: ['123544488'],
-        imageUrl: '',
+        imageFile: '',
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +67,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         imagePath: string | ArrayBuffer
     ): Promise<void> => {
         // Apply the filter
-        setContact({ ...contact, imageUrl: imagePath.toString() });
+        setContact({ ...contact, imageFile: imagePath.toString() });
     };
 
     return (
@@ -135,12 +135,12 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                     <SUploadButtonWrapper>
                         <UploadButton onUpload={handleUploadImage} />
                     </SUploadButtonWrapper>
-                    {contact.imageUrl && (
+                    {contact.imageFile && (
                         <>
                             <SImageOptionContainer>
                                 <SUploadedImageWrapper>
                                     <SUploadedImage
-                                        src={contact.imageUrl.toString()}
+                                        src={contact.imageFile.toString()}
                                     />
                                 </SUploadedImageWrapper>
                                 <SFilterPanelItem>

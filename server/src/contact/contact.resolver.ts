@@ -1,11 +1,10 @@
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ContactService } from './contact.service';
 import * as GraphQLTypes from '../graphql-types';
-import { ParseIntPipe, UseInterceptors } from '@nestjs/common';
+import { ParseIntPipe } from '@nestjs/common';
 import { CreateContactInput } from './dto/create-contact.input/create-contact.input';
 import { UpdateContactInput } from './dto/update-contact.input/update-contact.input';
 import { FetchContactsArgs } from './dto/fetch-contacts.input/fetch-contacts.input';
-import { FileInterceptor } from '@nestjs/platform-express';
 
 @Resolver()
 export class ContactResolver {
@@ -28,7 +27,7 @@ export class ContactResolver {
   }
 
   @Mutation('createContact')
-  @UseInterceptors(FileInterceptor('image'))
+  // @UseInterceptors(FileInterceptor('image'))
   async create(
     @Args('createContactInput')
     createContactInput: CreateContactInput,
