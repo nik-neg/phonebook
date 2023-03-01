@@ -11,6 +11,7 @@ export const SContactCardContainer = styled.div`
 
 export const SContactCardWrapper = styled.div`
     cursor: pointer;
+    opacity: 0.8;
     background: aliceblue;
     display: flex;
     flex-direction: row;
@@ -20,7 +21,7 @@ export const SContactCardWrapper = styled.div`
     box-shadow: 5px 2.5px 2.5px #262626;
 
     &:hover {
-        opacity: 0.9;
+        opacity: 1;
         background: aliceblue;
     }
 `;
