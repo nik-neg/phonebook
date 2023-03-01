@@ -31,8 +31,14 @@ type PhoneNumber {
     phoneNumber: String!
 }
 
+input QueryPaginationInput {
+    take: Int
+    skip: Int
+    keyword: String
+}
+
 type Query {
-    contacts: [Contact!]!
+    contacts (queryPaginationInput: QueryPaginationInput): [Contact!]!
     contact(id: ID!): Contact
 }
 

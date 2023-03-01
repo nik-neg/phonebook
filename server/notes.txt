@@ -38,6 +38,24 @@ mutation {
     }
 }
 
+// with pagination
+{
+      contacts(queryPaginationInput: {
+        skip: 5,
+      }) {
+        id
+        firstName
+        lastName
+        nickName
+        phoneNumbers {
+            id
+            phoneNumber
+        }
+        address
+        imageUrl
+    }
+}
+
 // get contact
 
 {

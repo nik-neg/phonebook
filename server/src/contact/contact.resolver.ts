@@ -13,9 +13,10 @@ export class ContactResolver {
   // https://www.npmjs.com/package/nestjs-paginate
   @Query('contacts')
   async findAll(
-    args: FetchContactsArgs = { skip: 0, take: 5, keyword: '' },
+    @Args('queryPaginationInput')
+    queryPaginationInput: FetchContactsArgs,
   ): Promise<GraphQLTypes.Contact[]> {
-    return this.contactService.findAll(args);
+    return this.contactService.findAll(queryPaginationInput);
   }
 
   @Query(() => GraphQLTypes.Contact, { name: 'contact' })
