@@ -4,18 +4,24 @@ import * as GraphQLTypes from '../graphql-types';
 import { ParseIntPipe } from '@nestjs/common';
 import { CreateContactInput } from './dto/create-contact.input/create-contact.input';
 import { UpdateContactInput } from './dto/update-contact.input/update-contact.input';
+import { FetchContactsArgs } from './dto/fetch-contacts.input/fetch-contacts.input';
 
 @Resolver()
 export class ContactResolver {
   constructor(private readonly contactService: ContactService) {}
 
+  // https://www.npmjs.com/package/nestjs-paginate
   @Query('contacts')
-  async findAll(): Promise<GraphQLTypes.Contact[]> {
-    return this.contactService.findAll();
+  async findAll(
+    args: FetchContactsArgs = { skip: 0, take: 5, keyword: '' },
+  ): Promise<GraphQLTypes.Contact[]> {
+    return this.contactService.findAll(args);
   }
 
   @Query(() => GraphQLTypes.Contact, { name: 'contact' })
-  async findOne(@Args('id', { type: () => ID }, ParseIntPipe) id: number) {
+  async findOne(
+    @Args('id', { type: () => ID }, ParseIntPipe) id: number,
+  ): Promise<GraphQLTypes.Contact> {
     return this.contactService.findOne(id);
   }
 
