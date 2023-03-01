@@ -44,6 +44,15 @@ export const SAddButton = styled.button`
     width: 6rem;
     height: 3rem;
     border-radius: 10px;
+    border: 1px solid #e7e7e7;
+    background: rgb(240, 240, 240);
+    background: linear-gradient(
+        90deg,
+        rgba(240, 240, 240, 1) 0%,
+        rgba(111, 111, 111, 1) 35%,
+        rgba(111, 111, 111, 0.9402135854341737) 52%,
+        rgba(111, 111, 111, 0.9402135854341737) 94%
+    );
 `;
 
 export const SIconWrapper = styled.div`

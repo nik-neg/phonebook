@@ -95,7 +95,7 @@ export const Dashboard = (): JSX.Element => {
             <SDashboardHeader />
             <SDashboardList>
                 <ContactsList
-                    contacts={contacts}
+                    contacts={fetchedContacts}
                     onFetchContacts={onFetchContacts}
                     onAddContact={handleAddContact}
                     onRemoveContact={onRemoveContact}
