@@ -10,7 +10,7 @@ import {
 } from './ContactsList.styles';
 import { IContactListProps } from './types';
 import { ContactCard } from './ContactCard';
-import { CiPower, IoPersonAdd } from 'react-icons/all';
+import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
 import React from 'react';
 import { getContacts } from '../../../api/ApiClient';
 
@@ -39,6 +39,8 @@ export const ContactsList = ({
         onRemoveContact?.(id);
     };
 
+    const handleSearch = () => {};
+
     // on remove refetch new contacts and sort
 
     return (
@@ -63,6 +65,14 @@ export const ContactsList = ({
                                 {'Add Contact'}
                                 <SIconWrapper>
                                     <IoPersonAdd />
+                                </SIconWrapper>
+                            </SAddButton>
+                        </SButtonWrapper>
+                        <SButtonWrapper>
+                            <SAddButton onClick={handleSearch}>
+                                {'Search'}
+                                <SIconWrapper>
+                                    <MdOutlinePersonSearch />
                                 </SIconWrapper>
                             </SAddButton>
                         </SButtonWrapper>
