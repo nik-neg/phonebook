@@ -8,6 +8,11 @@ type Contact {
     imageFile: String!
 }
 
+type PhoneNumber {
+    id: ID!
+    phoneNumber: String!
+}
+
 input CreateContactInput {
     firstName: String!
     lastName: String!
@@ -24,11 +29,6 @@ input UpdateContactInput {
     phoneNumbers: [String]
     address: String
     imageFile: String
-}
-
-type PhoneNumber {
-    id: ID!
-    phoneNumber: String!
 }
 
 input QueryPaginationInput {

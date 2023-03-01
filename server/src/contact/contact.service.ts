@@ -52,6 +52,7 @@ export class ContactService {
     if (!contact) {
       throw new UserInputError(`Contact #${id} does not exist`);
     }
+
     return contact;
   }
 

@@ -47,7 +47,7 @@ export const ContactsList = ({
                             </SAddButton>
                         </SButtonWrapper>
                         <SButtonWrapper>
-                            <SAddButton>
+                            <SAddButton onClick={handleAddContact}>
                                 {'Power'}
                                 <SIconWrapper>
                                     <CiPower />

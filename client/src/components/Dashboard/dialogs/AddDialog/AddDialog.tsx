@@ -31,9 +31,15 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         lastName: 'asdasdasd',
         nickName: 'asdasdasd',
         address: 'sadasdasd',
-        phoneNumbers: ['123544488'],
+        phoneNumbers: ['6497694875'],
         imageFile: '',
     });
+
+    const [uploadedImage, setUploadedImage] = useState<string | ArrayBuffer>(
+        ''
+    );
+
+    console.log({ uploadedImage });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log({ v: event.target.value, n: event.target.name });
@@ -60,12 +66,14 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         setContact(contact);
         console.log({ contact });
         const response = await createContact(contact);
+        setUploadedImage(response?.data?.createContact?.imageFile);
         onClose?.();
     };
 
     const handleUploadImage = async (
         imagePath: string | ArrayBuffer
     ): Promise<void> => {
+        console.log({ imagePath });
         // Apply the filter
         setContact({ ...contact, imageFile: imagePath.toString() });
     };
@@ -78,6 +86,9 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                 // style={{ height: '92.5%', paddingTop: '10%' }} // for mobile
             >
                 <DialogTitle>Add Contact</DialogTitle>
+                <SUploadedImageWrapper>
+                    <SUploadedImage src={uploadedImage?.toString()} />
+                </SUploadedImageWrapper>
                 <DialogContent>
                     <DialogContentText>
                         Please type into the form:
