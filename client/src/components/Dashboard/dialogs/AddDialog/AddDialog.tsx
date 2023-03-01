@@ -19,6 +19,7 @@ import {
 import { ImageOptionsSlider } from '../common/ImageOptionsSlider/ImageOptionsSlider';
 import { IoIosColorPalette, MdLensBlur, RxShadowInner } from 'react-icons/all';
 import { SAddDialogContainer } from './AddDialog.styles';
+import { createContact } from '../../../../api/ApiClient';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
@@ -39,6 +40,10 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
 
     const handleClose = () => {
         onClose?.();
+    };
+
+    const handleSave = async () => {
+        const response = await createContact(selectedValue);
     };
 
     const handleUploadImage = async (
@@ -143,7 +148,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Save</Button>
+                    <Button onClick={handleSave}>Save</Button>
                 </DialogActions>
             </Dialog>
         </SAddDialogContainer>
