@@ -12,10 +12,21 @@ import { IContact, IContactCardProps } from './types';
 import { EditDialog } from '../../dialogs/EditDialog/EditDialog';
 import { UpdateDialog } from '../../dialogs/UpdateDialog/UpdateDialog';
 import Avatar from '@mui/material/Avatar';
+import { removeContact } from '../../../../api/ApiClient';
 
-export const ContactCard = (contact: IContactCardProps): JSX.Element => {
-    const { nickName, firstName, lastName, address, imageFile, phoneNumbers } =
-        contact.contact;
+export const ContactCard = ({
+    contact,
+    onRemove,
+}: IContactCardProps): JSX.Element => {
+    const {
+        id,
+        nickName,
+        firstName,
+        lastName,
+        address,
+        imageFile,
+        phoneNumbers,
+    } = contact;
 
     const [open, setOpen] = useState(false);
 
@@ -33,13 +44,25 @@ export const ContactCard = (contact: IContactCardProps): JSX.Element => {
         setOpenUpdateDialog(false);
     };
 
-    const handleEdit = (remove: boolean) => {
+    const handleEdit = async (remove: boolean) => {
         console.log({ contact });
         setOpen(false);
 
         if (!remove) {
             setOpenUpdateDialog(true);
+            return;
         }
+        const res = await removeContact(id);
+
+        if (
+            res?.data?.data?.removeContact?.firstName &&
+            res?.data?.data?.removeContact?.lastName
+        ) {
+            // else error handling ?
+            onRemove?.(id);
+        }
+
+        console.log({ res });
     };
     return (
         <SContactCardContainer>
@@ -66,13 +89,13 @@ export const ContactCard = (contact: IContactCardProps): JSX.Element => {
                 </SContactInfoWrapper>
             </SContactCardWrapper>
             <EditDialog
-                selectedValue={contact.contact}
+                selectedValue={contact}
                 open={open}
                 onClose={handleClose}
                 onEdit={handleEdit}
             />
             <UpdateDialog
-                selectedValue={contact.contact}
+                selectedValue={contact}
                 open={openUpdateDialog}
                 onClose={handleCloseUpdateDialog}
                 onEdit={handleEdit}

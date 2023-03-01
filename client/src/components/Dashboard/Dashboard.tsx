@@ -14,6 +14,7 @@ export const Dashboard = (): JSX.Element => {
     // add pagination fetch for infinite scroll, add loader animation, sort in the backend!
     const contacts: IContact[] = [
         {
+            id: 1,
             firstName: 'John',
             lastName: 'LastName',
             nickName: 'Coolio',
@@ -23,6 +24,7 @@ export const Dashboard = (): JSX.Element => {
                 'https://t4.ftcdn.net/jpg/02/45/56/35/360_F_245563558_XH9Pe5LJI2kr7VQuzQKAjAbz9PAyejG1.jpg',
         },
         {
+            id: 2,
             firstName: 'John',
             lastName: 'LastNameVeryVeryLong',
             address: '123, adksljfsjad',
@@ -31,6 +33,7 @@ export const Dashboard = (): JSX.Element => {
                 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
         },
         {
+            id: 3,
             firstName: 'John',
             lastName: 'NickName',
             address: '',
@@ -39,6 +42,7 @@ export const Dashboard = (): JSX.Element => {
                 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
         },
         {
+            id: 4,
             firstName: 'John',
             lastName: 'LastName',
             nickName: 'NickName',
@@ -48,6 +52,7 @@ export const Dashboard = (): JSX.Element => {
                 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
         },
         {
+            id: 5,
             firstName: 'John',
             lastName: 'LastName',
             nickName: 'NickName',
@@ -60,6 +65,8 @@ export const Dashboard = (): JSX.Element => {
     ];
 
     const [fetchedContacts, setFetchedContacts] = useState<IContact[]>([]);
+
+    console.log({ fetchedContacts });
 
     const onFetchContacts = (contacts: IContact[]) => {
         setFetchedContacts(contacts);

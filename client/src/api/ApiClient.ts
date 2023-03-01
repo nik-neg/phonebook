@@ -88,3 +88,19 @@ export const getContacts = async (
         console.error(error);
     }
 };
+
+export const removeContact = async (id: number) => {
+    try {
+        const response = await axios.post(`${baseUrl}`, {
+            query: `mutation {
+                  removeContact(id: ${id}) {
+                    firstName,
+                    lastName,
+                  }
+                }`,
+        });
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+};

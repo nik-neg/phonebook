@@ -4,9 +4,11 @@ export interface IContactCardPhotoProps {
 
 export interface IContactCardProps {
     contact: IContact;
+    onRemove: (id: number) => void;
 }
 
 export interface IContact {
+    id: number;
     nickName?: string;
 
     firstName: string;

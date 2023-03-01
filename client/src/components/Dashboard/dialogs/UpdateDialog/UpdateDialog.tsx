@@ -12,6 +12,7 @@ import { UploadButton } from '../common/UploadButton/UploadButton';
 import { SUploadedImage, SUploadedImageWrapper } from './UpdateDialog.styles';
 import { SUploadButtonWrapper } from '../common/UploadButton/UploadButton.styles';
 
+// second dialog after choosing a contact to update
 export const UpdateDialog = ({
     selectedValue,
     open,
