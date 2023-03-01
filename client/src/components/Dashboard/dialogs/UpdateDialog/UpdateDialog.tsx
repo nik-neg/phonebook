@@ -9,8 +9,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { IUpdateDialogProps } from './types';
 import { UploadButton } from '../common/UploadButton/UploadButton';
-import { SUploadedImage, SUploadedImageWrapper } from './UpdateDialog.styles';
 import { SUploadButtonWrapper } from '../common/UploadButton/UploadButton.styles';
+import { ImageFilter } from '../common/ImageFilter';
 
 // second dialog after choosing a contact to update
 export const UpdateDialog = ({
@@ -104,9 +104,9 @@ export const UpdateDialog = ({
                         <UploadButton onUpload={handleUploadImage} />
                     </SUploadButtonWrapper>
                     {imagePath && (
-                        <SUploadedImageWrapper>
-                            <SUploadedImage src={imagePath.toString()} />
-                        </SUploadedImageWrapper>
+                        <>
+                            <ImageFilter contact={selectedValue} />
+                        </>
                     )}
                 </DialogContent>
                 <DialogActions>
