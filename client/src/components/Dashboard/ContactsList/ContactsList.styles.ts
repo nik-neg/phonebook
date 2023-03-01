@@ -19,6 +19,8 @@ export const SContactListContainer = styled.div`
 
 export const SContactCardsContainer = styled.div`
     height: 675px;
+    border: 4px solid black;
+    border-radius: 10px 10px 0px 10px;
 `;
 
 export const SContactListWrapper = styled.div`
@@ -44,13 +46,17 @@ export const SAddButtonWrapper = styled.div`
 export const SButtonPanel = styled.div`
     display: flex;
     justify-content: center;
-    height: 4.5rem;
+    height: 3.85rem; // change to 4-5 ?
     width: 100%;
     background: #262626;
+    border-right: 4px solid black;
+    border-left: 4px solid black;
+    border-bottom: 4px solid black;
+    border-radius: 0px 0px 10px 10px;
 `;
 
 export const SButtonWrapper = styled.div`
-    padding: 0.75rem 0.25rem 0.25rem 0.25rem;
+    padding: 0.5rem 0.25rem 0.25rem 0.25rem;
 `;
 
 export const SAddButton = styled.button`
