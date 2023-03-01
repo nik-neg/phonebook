@@ -17,6 +17,7 @@ export const SContactCardWrapper = styled.div`
     align-items: center;
     border: 2px solid black;
     border-radius: 10px;
+    box-shadow: 5px 2.5px 2.5px #262626;
 
     &:hover {
         opacity: 0.9;

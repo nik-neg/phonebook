@@ -10,7 +10,10 @@ import { IoIosColorPalette, MdLensBlur, RxShadowInner } from 'react-icons/all';
 import { useState } from 'react';
 import { IFilter } from '../../AddDialog';
 
-export const ImageFilter = ({ contact }: IImageFilterProps): JSX.Element => {
+export const ImageFilter = ({
+    contact,
+    onFilter,
+}: IImageFilterProps): JSX.Element => {
     const [filter, setFilter] = useState<IFilter>({
         blur: 0,
         grayscale: 0,
@@ -19,6 +22,7 @@ export const ImageFilter = ({ contact }: IImageFilterProps): JSX.Element => {
 
     const handleFilterChange = (name: string, value: number) => {
         setFilter({ ...filter, [name]: value });
+        onFilter?.(filter);
 
         console.log({ filter });
     };

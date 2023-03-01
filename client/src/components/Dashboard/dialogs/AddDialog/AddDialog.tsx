@@ -7,12 +7,15 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { IAddDialogProps } from './types';
+import { IAddDialogProps, IFilter } from './types';
 import { SUploadButtonWrapper } from '../common/UploadButton/UploadButton.styles';
 import { UploadButton } from '../common/UploadButton/UploadButton';
 import { SAddDialogContainer } from './AddDialog.styles';
 import { IContact } from '../../ContactsList/ContactCard/types';
-import { createContact } from '../../../../api/ApiClient';
+import {
+    createContact,
+    prefetchFilteredImage,
+} from '../../../../api/ApiClient';
 import { ImageFilter } from '../common/ImageFilter';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
@@ -58,6 +61,20 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         console.log({ imagePath });
         // Apply the filter
         setContact({ ...contact, imageFile: imagePath.toString() });
+    };
+
+    const [filter, setFilter] = useState<IFilter | undefined>({
+        blur: 0,
+        grayscale: 0,
+        saturation: 0,
+    });
+
+    const handleFilter = async (filter: IFilter) => {
+        setFilter(filter);
+    };
+
+    const filterImage = () => {
+        const image = prefetchFilteredImage();
     };
 
     return (
@@ -125,10 +142,16 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                     <SUploadButtonWrapper>
                         <UploadButton onUpload={handleUploadImage} />
                     </SUploadButtonWrapper>
-                    {contact.imageFile && <ImageFilter contact={contact} />}
+                    {contact.imageFile && (
+                        <ImageFilter
+                            contact={contact}
+                            onFilter={handleFilter}
+                        />
+                    )}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={filterImage}>Filter</Button>
                     <Button onClick={handleSave}>Save</Button>
                 </DialogActions>
             </Dialog>

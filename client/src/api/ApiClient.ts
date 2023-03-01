@@ -106,3 +106,35 @@ export const removeContact = async (id: number) => {
         console.error(error);
     }
 };
+
+export const prefetchFilteredImage = async (image: string) => {
+    try {
+        const response = await axios.post(`${baseUrl}`, {
+            query: `{
+                  filterImage {
+                    firstName,
+                    lastName,
+                  }
+                }`,
+        });
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const fetchFilteredImage = async (id: number) => {
+    try {
+        const response = await axios.post(`${baseUrl}`, {
+            query: `mutation {
+                  removeContact(id: ${id}) {
+                    firstName,
+                    lastName,
+                  }
+                }`,
+        });
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+};
