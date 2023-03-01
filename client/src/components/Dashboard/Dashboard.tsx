@@ -72,6 +72,10 @@ export const Dashboard = (): JSX.Element => {
         setFetchedContacts(contacts);
     };
 
+    const onRemoveContact = (id: number) => {
+        setFetchedContacts((prev) => prev.filter((c) => c.id !== id));
+    };
+
     const [open, setOpen] = useState(false);
 
     const [contact, setContact] = useState<IContact>();
@@ -94,6 +98,7 @@ export const Dashboard = (): JSX.Element => {
                     contacts={fetchedContacts}
                     onFetchContacts={onFetchContacts}
                     onAddContact={handleAddContact}
+                    onRemoveContact={onRemoveContact}
                 />
             </SDashboardList>
             <AddDialog

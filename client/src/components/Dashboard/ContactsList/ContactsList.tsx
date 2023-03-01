@@ -11,20 +11,15 @@ import {
 import { IContactListProps } from './types';
 import { ContactCard } from './ContactCard';
 import { CiPower, IoPersonAdd } from 'react-icons/all';
-import React, { useState } from 'react';
+import React from 'react';
 import { getContacts } from '../../../api/ApiClient';
-import { IContact } from './ContactCard/types';
 
 export const ContactsList = ({
     contacts,
     onAddContact,
+    onRemoveContact,
     onFetchContacts,
 }: IContactListProps): JSX.Element => {
-    const [visibleContacts, setVisibleContacts] =
-        useState<IContact[]>(contacts);
-
-    console.log({ visibleContacts });
-
     const handleScroll = () => {
         console.log('scroll');
     };
@@ -41,7 +36,7 @@ export const ContactsList = ({
     };
 
     const handleRemove = async (id: number) => {
-        setVisibleContacts((prev) => prev.filter((c) => c.id !== id));
+        onRemoveContact?.(id);
     };
 
     // on remove refetch new contacts and sort
@@ -50,7 +45,7 @@ export const ContactsList = ({
         <SContactListContainer>
             <SContactListWrapper onScroll={handleScroll}>
                 <SContactCardsContainer>
-                    {visibleContacts.map(
+                    {contacts.map(
                         (contact, index) =>
                             index !== 5 && (
                                 <ContactCard
