@@ -1,5 +1,6 @@
 import { IContact } from '../components/Dashboard/ContactsList/ContactCard/types';
 import axios from 'axios';
+import { IQueryPaginationInput } from './types';
 
 const baseUrl = 'http://localhost:3001/graphql';
 
@@ -51,6 +52,36 @@ export const getContact = async (id: number) => {
                             imageFile
                         }
                     }`,
+        });
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const getContacts = async (
+    queryPaginationInput: IQueryPaginationInput
+) => {
+    try {
+        const response = await axios.post(`${baseUrl}`, {
+            query: `{
+                    contacts(queryPaginationInput: {
+                        keyword: "${queryPaginationInput?.keyword}",
+                        take: ${queryPaginationInput?.take},
+                        skip: ${queryPaginationInput?.skip},
+                    }) {
+                        id
+                        firstName
+                        lastName
+                        nickName
+                        phoneNumbers {
+                            id
+                            phoneNumber
+                        }
+                        address
+                        imageFile
+                    }
+                }`,
         });
         return response;
     } catch (error) {

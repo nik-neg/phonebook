@@ -39,6 +39,7 @@ export class ContactService {
       order: { lastName: 'DESC' },
       take: take,
       skip: skip,
+      relations: ['phoneNumbers'],
     });
     return result;
     // return this.contactRepository.find({ relations: ['phoneNumbers'] });
