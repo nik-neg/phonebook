@@ -64,9 +64,10 @@ export const SAddButton = styled.button`
         rgba(111, 111, 111, 0.9402135854341737) 94%
     );
     opacity: 0.9;
+
     :hover {
         background: #e1e1e1;
-        border: 2px solid black;
+        border: 2px solid #e1e1e1;
     }
 `;
 
