@@ -141,7 +141,7 @@ export const SButtonPanel = styled.div`
     justify-content: center;
     height: 3.85rem; // change to 4-5 ?
     width: 100%;
-    background: #262626;
+    background: black;
     border-right: 4px solid black;
     border-left: 4px solid black;
     border-bottom: 4px solid black;
@@ -156,7 +156,6 @@ export const SAddButton = styled.button`
     width: 6rem;
     height: 3rem;
     border-radius: 10px;
-    border: 1px solid #e7e7e7;
     background: rgb(240, 240, 240);
     background: linear-gradient(
         90deg,
