@@ -32,7 +32,6 @@ export class ContactResolver {
     @Args('createContactInput')
     createContactInput: CreateContactInput,
   ): Promise<GraphQLTypes.Contact> {
-    console.log({ createContactInput });
     return this.contactService.create(createContactInput);
   }
 
