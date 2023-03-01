@@ -23,13 +23,16 @@ export const SContactCardsContainer = styled.div`
 
 export const SContactListWrapper = styled.div`
     width: 100%;
-    box-shadow: 5px 2.5px 2.5px #262626;
     background: url(${background}) no-repeat center center fixed;
     border: 3px solid #262626;
     border-radius: 12px;
     overflow: hidden;
     overflow-y: scroll;
     border-color: rgba(196, 196, 196, 0.67);
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 `;
 
 export const SAddButtonWrapper = styled.div`

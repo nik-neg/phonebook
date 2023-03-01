@@ -11,7 +11,7 @@ export const SContactCardContainer = styled.div`
 
 export const SContactCardWrapper = styled.div`
     cursor: pointer;
-    opacity: 0.8;
+    opacity: 0.75;
     background: aliceblue;
     display: flex;
     flex-direction: row;
