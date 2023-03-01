@@ -36,7 +36,7 @@ export const SContactCardPhoto = styled.img<IContactCardPhotoProps>`
     display: flex;
     width: 75px;
     height: 75px;
-    border-radius: 50%;
+    border-radius: 75%;
     border: 1px solid black;
     src: url(${(props) => props.src});
 `;

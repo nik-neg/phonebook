@@ -1,7 +1,6 @@
 import {
     SAddress,
     SContactCardContainer,
-    SContactCardPhoto,
     SContactCardWrapper,
     SContactInfoWrapper,
     SContactName,
@@ -12,6 +11,7 @@ import React, { useState } from 'react';
 import { IContact, IContactCardProps } from './types';
 import { EditDialog } from '../../dialogs/EditDialog/EditDialog';
 import { UpdateDialog } from '../../dialogs/UpdateDialog/UpdateDialog';
+import Avatar from '@mui/material/Avatar';
 
 export const ContactCard = (contact: IContactCardProps): JSX.Element => {
     const { nickName, firstName, lastName, address, imageFile, phoneNumbers } =
@@ -45,7 +45,11 @@ export const ContactCard = (contact: IContactCardProps): JSX.Element => {
         <SContactCardContainer>
             <SContactCardWrapper onClick={handleClickOpen}>
                 <SContactInfoWrapper>
-                    <SContactCardPhoto src={imageFile} />
+                    <Avatar
+                        alt="Remy Sharp"
+                        src={imageFile}
+                        sx={{ width: 75, height: 75 }}
+                    />
                     <SNameWrapper>
                         <SAddress>{address}</SAddress>
 
