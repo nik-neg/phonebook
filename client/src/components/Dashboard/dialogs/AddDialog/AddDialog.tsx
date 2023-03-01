@@ -20,20 +20,23 @@ import { ImageOptionsSlider } from '../common/ImageOptionsSlider/ImageOptionsSli
 import { IoIosColorPalette, MdLensBlur, RxShadowInner } from 'react-icons/all';
 import { SAddDialogContainer } from './AddDialog.styles';
 import { IContact } from '../../ContactsList/ContactCard/types';
+import { createContact } from '../../../../api/ApiClient';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
 
+    // react hook form, or currying ?
     const [contact, setContact] = useState<IContact>({
-        firstName: '',
-        lastName: '',
-        nickName: '',
-        address: '',
-        phoneNumbers: [],
+        firstName: 'sadasdasd',
+        lastName: 'asdasdasd',
+        nickName: 'asdasdasd',
+        address: 'sadasdasd',
+        phoneNumbers: ['123544488'],
         imageUrl: '',
     });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log({ v: event.target.value, n: event.target.name });
         setContact({ ...contact, [event.target.id]: event.target.value });
     };
 
@@ -55,8 +58,9 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
 
     const handleSave = async () => {
         setContact(contact);
-        console.log({ selectedValue });
-        // const response = await createContact(selectedValue);
+        console.log({ contact });
+        const response = await createContact(contact);
+        onClose?.();
     };
 
     const handleUploadImage = async (
