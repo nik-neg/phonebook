@@ -27,11 +27,12 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
 
     // react hook form, or currying ?
     const [contact, setContact] = useState<IContact>({
-        firstName: 'sadasdasd',
-        lastName: 'asdasdasd',
-        nickName: 'asdasdasd',
-        address: 'sadasdasd',
-        phoneNumbers: ['6497694875'],
+        id: 1,
+        firstName: 'gfhgfh',
+        lastName: 'hfgfh',
+        nickName: 'hfgh',
+        address: 'fghfgh',
+        phoneNumbers: ['8545687'],
         imageFile: '',
     });
 
@@ -86,9 +87,6 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                 // style={{ height: '92.5%', paddingTop: '10%' }} // for mobile
             >
                 <DialogTitle>Add Contact</DialogTitle>
-                <SUploadedImageWrapper>
-                    <SUploadedImage src={uploadedImage?.toString()} />
-                </SUploadedImageWrapper>
                 <DialogContent>
                     <DialogContentText>
                         Please type into the form:
