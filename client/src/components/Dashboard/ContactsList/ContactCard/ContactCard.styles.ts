@@ -11,16 +11,16 @@ export const SContactCardContainer = styled.div`
 
 export const SContactCardWrapper = styled.div`
     cursor: pointer;
-    background: buttonface;
+    background: aliceblue;
     display: flex;
     flex-direction: row;
     align-items: center;
-    border: 2px solid #b7b7b7;
+    border: 2px solid black;
     border-radius: 10px;
 
     &:hover {
         opacity: 0.9;
-        border: 2px solid white;
+        background: aliceblue;
     }
 `;
 
