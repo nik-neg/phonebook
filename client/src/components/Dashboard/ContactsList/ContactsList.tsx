@@ -14,6 +14,7 @@ import { ContactCard } from './ContactCard';
 import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
 import React from 'react';
 import { getContacts } from '../../../api/ApiClient';
+import Tilt from 'react-parallax-tilt';
 
 export const ContactsList = ({
     contacts,
@@ -45,52 +46,54 @@ export const ContactsList = ({
     // on remove refetch new contacts and sort
 
     return (
-        <SContactListContainerWrapper>
-            <SContactListContainer>
-                <SContactListWrapper onScroll={handleScroll}>
-                    <SContactCardsContainer>
-                        {contacts.map(
-                            (contact, index) =>
-                                index !== 5 && (
-                                    <ContactCard
-                                        key={index}
-                                        contact={contact}
-                                        onRemove={handleRemove}
-                                    />
-                                )
-                        )}
-                    </SContactCardsContainer>
-                    <SAddButtonWrapper>
-                        <SButtonPanel>
-                            <SButtonWrapper>
-                                <SAddButton onClick={handleAddContact}>
-                                    {'Add Contact'}
-                                    <SIconWrapper>
-                                        <IoPersonAdd />
-                                    </SIconWrapper>
-                                </SAddButton>
-                            </SButtonWrapper>
-                            <SButtonWrapper>
-                                <SAddButton onClick={handleSearch}>
-                                    {'Search'}
-                                    <SIconWrapper>
-                                        <MdOutlinePersonSearch />
-                                    </SIconWrapper>
-                                </SAddButton>
-                            </SButtonWrapper>
-                            <SButtonWrapper>
-                                <SAddButton onClick={handlePowerOn}>
-                                    {'Power'}
-                                    <SIconWrapper>
-                                        <CiPower />
-                                    </SIconWrapper>
-                                </SAddButton>
-                            </SButtonWrapper>
-                        </SButtonPanel>
-                    </SAddButtonWrapper>
-                </SContactListWrapper>
-            </SContactListContainer>
-        </SContactListContainerWrapper>
+        <Tilt>
+            <SContactListContainerWrapper>
+                <SContactListContainer>
+                    <SContactListWrapper onScroll={handleScroll}>
+                        <SContactCardsContainer>
+                            {contacts.map(
+                                (contact, index) =>
+                                    index !== 5 && (
+                                        <ContactCard
+                                            key={index}
+                                            contact={contact}
+                                            onRemove={handleRemove}
+                                        />
+                                    )
+                            )}
+                        </SContactCardsContainer>
+                        <SAddButtonWrapper>
+                            <SButtonPanel>
+                                <SButtonWrapper>
+                                    <SAddButton onClick={handleAddContact}>
+                                        {'Add Contact'}
+                                        <SIconWrapper>
+                                            <IoPersonAdd />
+                                        </SIconWrapper>
+                                    </SAddButton>
+                                </SButtonWrapper>
+                                <SButtonWrapper>
+                                    <SAddButton onClick={handleSearch}>
+                                        {'Search'}
+                                        <SIconWrapper>
+                                            <MdOutlinePersonSearch />
+                                        </SIconWrapper>
+                                    </SAddButton>
+                                </SButtonWrapper>
+                                <SButtonWrapper>
+                                    <SAddButton onClick={handlePowerOn}>
+                                        {'Power'}
+                                        <SIconWrapper>
+                                            <CiPower />
+                                        </SIconWrapper>
+                                    </SAddButton>
+                                </SButtonWrapper>
+                            </SButtonPanel>
+                        </SAddButtonWrapper>
+                    </SContactListWrapper>
+                </SContactListContainer>
+            </SContactListContainerWrapper>
+        </Tilt>
     );
 };
 
