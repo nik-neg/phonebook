@@ -8,12 +8,16 @@ import {
     SContactListContainerWrapper,
     SContactListWrapper,
     SIconWrapper,
+    STimePanelTime,
+    STimePanelWrapper,
+    STimePanelYear,
 } from './ContactsList.styles';
 import { IContactListProps } from './types';
 import { ContactCard } from './ContactCard';
 import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { getContacts } from '../../../api/ApiClient';
+import date from 'date-and-time';
 import Tilt from 'react-parallax-tilt';
 
 export const ContactsList = ({
@@ -41,6 +45,14 @@ export const ContactsList = ({
         onRemoveContact?.(id);
     };
 
+    const [time, setTime] = React.useState(new Date());
+
+    useEffect(() => {
+        setTimeout(() => {
+            setTime(new Date());
+        }, 1000);
+    }, [time]);
+
     const handleSearch = () => {};
 
     // on remove refetch new contacts and sort
@@ -50,6 +62,14 @@ export const ContactsList = ({
             <SContactListContainerWrapper>
                 <SContactListContainer>
                     <SContactListWrapper onScroll={handleScroll}>
+                        <STimePanelWrapper>
+                            <STimePanelYear>
+                                {date.format(time, 'YYYY/MM/DD')}
+                            </STimePanelYear>
+                            <STimePanelTime>
+                                {date.format(time, 'HH:mm:ss')}
+                            </STimePanelTime>
+                        </STimePanelWrapper>
                         <SContactCardsContainer>
                             {contacts.map(
                                 (contact, index) =>

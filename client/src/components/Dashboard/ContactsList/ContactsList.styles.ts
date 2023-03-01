@@ -23,6 +23,26 @@ export const SContactCardsContainer = styled.div`
     border-radius: 10px 10px 0px 10px;
 `;
 
+export const STimePanelWrapper = styled.div``;
+
+export const STimePanelYear = styled.div`
+    position: absolute;
+    color: white;
+    font-size: 1.5rem;
+    padding-top: 38rem;
+    padding-left: 7.25rem;
+    text-align: center;
+    text-align: center;
+`;
+export const STimePanelTime = styled.div`
+    position: absolute;
+    color: white;
+    font-size: 1.5rem;
+    padding-top: 40rem;
+    padding-left: 8rem;
+    text-align: center;
+`;
+
 export const SContactListWrapper = styled.div`
     width: 100%;
     box-shadow: 10px 5px 5px black;
