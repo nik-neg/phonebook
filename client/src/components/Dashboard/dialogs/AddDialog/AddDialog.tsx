@@ -43,7 +43,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     });
 
     const [contact, setContact] = useState<ContactWithPhoneNumbersAsString>({
-        id: null,
+        id: 1,
         firstName: '',
         lastName: '',
         nickName: '',
@@ -67,7 +67,6 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const handleUploadImage = async (
         imagePath: string | ArrayBuffer
     ): Promise<void> => {
-        console.log({ imagePath });
         // Apply the filter
         // setContact({ ...contact, imageFile: imagePath.toString() });
         setValue('imageFile', imagePath.toString());

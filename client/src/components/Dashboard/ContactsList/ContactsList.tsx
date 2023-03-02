@@ -39,6 +39,12 @@ export const ContactsList = ({
     const [isFetched, setIsFetched] = React.useState(false);
 
     const handlePowerOn = async () => {
+        if (isFetched) {
+            setIsFetched(false);
+
+            onFetchContacts?.([]);
+            return;
+        }
         const contacts = await getContacts({ skip: 0, take: 5, keyword: '' });
         if (contacts?.data?.data?.contacts?.length > 0) {
             setIsFetched(true);

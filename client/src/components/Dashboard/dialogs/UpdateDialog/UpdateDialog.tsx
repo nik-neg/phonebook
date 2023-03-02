@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -16,6 +16,7 @@ import { updateContactSchema } from './validation/schema';
 import { useYupValidationResolver } from '../common/validation/resolver';
 import { updateContact } from '../../../../api/ApiClient';
 import { convertPhoneNumbersToString } from './utils';
+import { IFilter } from '../AddDialog';
 
 // second dialog after choosing a contact to update
 export const UpdateDialog = ({
@@ -30,6 +31,7 @@ export const UpdateDialog = ({
         handleSubmit,
         formState: { errors },
         getValues,
+        setValue,
     } = useForm({
         defaultValues: {
             ...selectedValue,
@@ -41,26 +43,19 @@ export const UpdateDialog = ({
     });
 
     const [contact, setContact] = useState<ContactWithPhoneNumbersAsString>({
-        ...selectedValue,
-        phoneNumbers: convertPhoneNumbersToString(selectedValue.phoneNumbers),
+        id: 1,
+        firstName: '',
+        lastName: '',
+        nickName: '',
+        address: '',
+        phoneNumbers: '',
+        imageFile: '',
     });
 
-    useEffect(() => {
-        setContact((prevState) => ({
-            ...prevState,
-            ...getValues(),
-            phoneNumbers: convertPhoneNumbersToString(
-                selectedValue.phoneNumbers
-            ),
-        }));
-    }, [setContact, getValues]);
-
-    const [imagePath, setImagePath] = useState<string | ArrayBuffer>(
-        contact.imageFile
-    );
-
     const handleUploadImage = (imagePath: string | ArrayBuffer) => {
-        setImagePath(imagePath);
+        // setImagePath(imagePath);
+        setValue('imageFile', imagePath.toString());
+        setContact(getValues());
     };
 
     const handleClickOpen = () => {};
@@ -73,6 +68,16 @@ export const UpdateDialog = ({
         const res = await updateContact(contact);
         console.log({ res });
         // onEditContact?.(res.data.data.up);
+    };
+
+    const [filter, setFilter] = useState<IFilter>({
+        blur: 0,
+        grayscale: false,
+        saturation: 0,
+    });
+
+    const handleFilter = async (filter: IFilter) => {
+        setFilter(filter);
     };
 
     return (
@@ -133,9 +138,12 @@ export const UpdateDialog = ({
                     <SUploadButtonWrapper>
                         <UploadButton onUpload={handleUploadImage} />
                     </SUploadButtonWrapper>
-                    {imagePath && (
+                    {contact.imageFile && (
                         <>
-                            <ImageFilter contact={selectedValue} />
+                            <ImageFilter
+                                contact={contact}
+                                onFilter={handleFilter}
+                            />
                         </>
                     )}
                 </DialogContent>

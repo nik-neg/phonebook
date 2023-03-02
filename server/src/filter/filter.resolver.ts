@@ -10,6 +10,6 @@ export class FilterResolver {
   async filterImage(
     @Args('filterImageInput') filterImageInput: FilterImageInput,
   ): Promise<string> {
-    return this.filterService.filterPreviewImage(filterImageInput);
+    return this.filterService.filterImage(filterImageInput);
   }
 }

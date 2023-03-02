@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { PhoneNumber } from './entities/phone-number.entity/phone-number.entity';
 import { Contact } from './entities/contact.entity/contact.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -10,6 +10,7 @@ import { omit, uniq } from 'lodash';
 import * as GraphQLTypes from '../graphql-types';
 import { FetchContactsArgs } from './dto/fetch-contacts.input/fetch-contacts.input';
 import { parsePhoneNumberArrayString } from './utils';
+import { FilterService } from '../filter/filter.service';
 
 // https://docs.nestjs.com/techniques/validation#stripping-properties
 @Injectable()
@@ -19,6 +20,9 @@ export class ContactService {
     private readonly contactRepository: Repository<Contact>,
     @InjectRepository(PhoneNumber)
     private readonly phoneNumberRepository: Repository<PhoneNumber>,
+
+    @Inject(FilterService)
+    private readonly filterService: FilterService,
   ) {}
 
   async findAll(
@@ -76,6 +80,10 @@ export class ContactService {
     id: number,
     updateContactInput: UpdateContactInput,
   ): Promise<Contact> {
+    const imageFile =
+      updateContactInput.filter &&
+      (await this.filterService.filterImage(updateContactInput.filter));
+
     let phoneNumbers = [];
     let contact;
     if (updateContactInput?.phoneNumbers?.length > 0) {
@@ -88,14 +96,14 @@ export class ContactService {
         {
           id,
         },
-        { ...updateContactInput, phoneNumbers },
+        { ...updateContactInput, phoneNumbers, imageFile },
       );
     } else {
       contact = await this.contactRepository.update(
         {
           id,
         },
-        { ...omit(updateContactInput, ['phoneNumbers']) },
+        { ...omit(updateContactInput, ['phoneNumbers']), imageFile },
       );
     }
 
