@@ -19,6 +19,7 @@ import React, { useState } from 'react';
 import { getContacts } from '../../../api/ApiClient';
 import date from 'date-and-time';
 import Tilt from 'react-parallax-tilt';
+import { debounce } from 'lodash-es';
 
 export const ContactsList = ({
     contacts,
@@ -56,21 +57,37 @@ export const ContactsList = ({
     //     };
     // }, []);
 
-    let firstScrollEvent = true;
-    const handleScroll = async (event: React.UIEvent<HTMLInputElement>) => {
-        console.log({ sc: event.currentTarget.scrollTop, scroll });
-        event.stopPropagation();
-        if (event.currentTarget.scrollTop > scroll && firstScrollEvent) {
-            setScroll(event.currentTarget.scrollTop);
-            setPage((page) => page + 1);
-            // fetch more contacts
-            const newContacts = await getContacts({
-                page: page + 1,
-            });
-            onFetchContacts?.(newContacts?.data?.data?.contacts ?? []);
-            firstScrollEvent = false;
-        }
-    };
+    // const handleScroll = async (event: React.UIEvent<HTMLInputElement>) => {
+    //     if (event.currentTarget.scrollTop >= scroll) {
+    //         setScroll(event.currentTarget.scrollTop);
+    //         setPage((page) => page + 1);
+    //         // fetch more contacts
+    //         const newContacts = await getContacts({
+    //             page: page + 1,
+    //         });
+    //         onFetchContacts?.(newContacts?.data?.data?.contacts ?? []);
+    //     }
+    // };
+    const handleScroll = debounce(
+        async (event: React.UIEvent<HTMLInputElement>) => {
+            const target = event.target as HTMLInputElement; // Type assertion to HTMLInputElement
+            if (target.scrollTop >= scroll) {
+                setScroll(target.scrollTop);
+                setPage((page) => page + 1);
+                // fetch more contacts
+                const newContacts = await getContacts({
+                    page: page + 1,
+                });
+                console.log({ res: newContacts?.data?.data?.contacts });
+                onFetchContacts?.(
+                    newContacts?.data?.data?.contacts?.length > 0
+                        ? newContacts?.data?.data?.contacts
+                        : contacts
+                );
+            }
+        },
+        100
+    );
 
     const handleAddContact = () => {
         console.log('add contact');
@@ -87,9 +104,6 @@ export const ContactsList = ({
             return;
         }
         const contacts = await getContacts({
-            skip: 0,
-            take: 5,
-            keyword: '',
             page: 1,
         });
         if (contacts?.data?.data?.contacts?.length > 0) {

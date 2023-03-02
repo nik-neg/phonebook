@@ -15,6 +15,7 @@
     "axios": "^1.3.4",
     "date-and-time": "^2.4.2",
     "lena.js": "^0.7.6",
+    "lodash-es": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
@@ -25,6 +26,7 @@
     "yup": "^1.0.2"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.6",
     "@types/qs": "^6.9.7",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
