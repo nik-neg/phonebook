@@ -1,6 +1,6 @@
 import { IContact } from '../components/Dashboard/ContactsList/ContactCard/types';
 import axios from 'axios';
-import { IQueryPaginationInput } from './types';
+import { IFilterImageInput, IQueryPaginationInput } from './types';
 
 const baseUrl = 'http://localhost:3001/graphql';
 
@@ -107,14 +107,18 @@ export const removeContact = async (id: number) => {
     }
 };
 
-export const prefetchFilteredImage = async (image: string) => {
+export const prefetchFilteredImage = async (
+    filterImageInput: IFilterImageInput
+) => {
     try {
         const response = await axios.post(`${baseUrl}`, {
             query: `{
-                  filterImage {
-                    firstName,
-                    lastName,
-                  }
+                   filterImage(filterImageInput: {
+                      imageFile: "${filterImageInput.imageFile}",
+                      blur: ${filterImageInput.blur},
+                      grayscale: ${filterImageInput.grayscale},
+                      saturation: ${filterImageInput.saturation},
+                    })
                 }`,
         });
         return response;

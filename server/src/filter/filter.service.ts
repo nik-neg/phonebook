@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UserInputError } from 'apollo-server-express';
 import { IFilterImage } from './types';
 import { ContactService } from '../contact/contact.service';
+import * as sharp from 'sharp';
 
 @Injectable()
 export class FilterService {
@@ -13,7 +14,10 @@ export class FilterService {
     grayscale,
     saturation,
   }: IFilterImage): Promise<string> {
-    return '';
+    const base64Data = imageFile.replace(/^data:image\/\w+;base64,/, '');
+    const buffer = Buffer.from(base64Data, 'base64');
+    const output = await sharp(buffer).greyscale().toBuffer();
+    return 'data:image/jpeg;base64,' + output.toString('base64');
   }
   async filterExistingImage({
     id,

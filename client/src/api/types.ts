@@ -14,3 +14,10 @@ export interface IFilterImage {
     grayscale: number;
     saturation: number;
 }
+
+export interface IFilterImageInput {
+    imageFile: IContact['imageFile'];
+    blur: number;
+    grayscale: number;
+    saturation: number;
+}

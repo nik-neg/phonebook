@@ -58,7 +58,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         setContact({ ...contact, imageFile: imagePath.toString() });
     };
 
-    const [filter, setFilter] = useState<IFilter | undefined>({
+    const [filter, setFilter] = useState<IFilter>({
         blur: 0,
         grayscale: 0,
         saturation: 0,
@@ -68,8 +68,14 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         setFilter(filter);
     };
 
-    const filterImage = () => {
-        const image = prefetchFilteredImage(contact.imageFile);
+    const filterImage = async () => {
+        const image = await prefetchFilteredImage({
+            imageFile: contact.imageFile,
+            ...filter,
+        });
+
+        console.log({ image });
+        setContact({ ...contact, imageFile: image?.data?.data?.filterImage });
     };
 
     return (

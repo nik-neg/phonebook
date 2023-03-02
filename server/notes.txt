@@ -102,9 +102,9 @@ mutation {
 // filterImagePreview
 {
    filterImage(filterImageInput: {
-      imageFile: "Update",
+      imageFile: "imageFile",
       blur: 0,
-      grascale: 0,
+      grayscale: 0,
       saturation: 0,
     })
 }
