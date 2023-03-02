@@ -117,6 +117,8 @@ export const Dashboard = (): JSX.Element => {
             take: 5,
             keyword,
         });
+
+        setFetchedContacts(contacts?.data?.data?.contacts ?? []);
     };
 
     return (
