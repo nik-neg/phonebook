@@ -31,6 +31,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         handleSubmit,
         formState: { errors },
         getValues,
+        setValue,
     } = useForm({
         defaultValues: {
             ...selectedValue,
@@ -51,7 +52,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         imageFile: '',
     });
 
-    console.log({ i: contact.imageFile });
+    console.log({ i: contact.imageFile, iv: getValues() });
 
     const handleClose = () => {
         onClose?.();
@@ -68,7 +69,9 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     ): Promise<void> => {
         console.log({ imagePath });
         // Apply the filter
-        setContact({ ...contact, imageFile: imagePath.toString() });
+        // setContact({ ...contact, imageFile: imagePath.toString() });
+        setValue('imageFile', imagePath.toString());
+        setContact(getValues());
     };
 
     const [filter, setFilter] = useState<IFilter>({

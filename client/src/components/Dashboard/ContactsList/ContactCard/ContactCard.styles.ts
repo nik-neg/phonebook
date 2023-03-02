@@ -19,11 +19,13 @@ export const SContactCardWrapper = styled.div`
     border: 2px solid black;
     border-radius: 10px;
     box-shadow: 5px 2.5px 2.5px #262626;
+    position: relative;
+    z-index: 2;
 
-    //&:hover {
-    //    opacity: 1;
-    //    background: aliceblue;
-    //}
+    &:hover {
+        opacity: 1;
+        background: aliceblue;
+    }
 `;
 
 export const SContactInfoWrapper = styled.div`
