@@ -1,5 +1,11 @@
 import * as GraphQLTypes from '../../../graphql-types';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { PhoneNumber } from '../phone-number.entity/phone-number.entity';
 
 @Entity()
@@ -17,8 +23,9 @@ export class Contact extends GraphQLTypes.Contact {
   nickName?: string;
 
   @OneToMany((type) => PhoneNumber, (phoneNumber) => phoneNumber.contact, {
-    cascade: true,
+    onDelete: 'CASCADE',
   })
+  @JoinColumn()
   phoneNumbers: PhoneNumber[];
 
   @Column()
