@@ -4,20 +4,26 @@ import { ISearchDialogProps } from './types';
 import { SearchBar } from '../common/SearchBar/SearchBar';
 
 export const SearchDialog = (props: ISearchDialogProps): JSX.Element => {
-    const { onClose, selectedValue, open, onEdit, onSearch } = props;
+    const { open, onClose, onSearch } = props;
 
     const [content, setContent] = React.useState<string>('');
-    const handleClose = () => {
+    const handleCloseAndFetch = async () => {
         // fetch contacts
+        // const contacts = await getContacts({
+        //     skip: 0,
+        //     take: 5,
+        //     keyword: content,
+        // });
         onClose();
     };
 
-    const handleSearch = () => {
-        onSearch?.(content);
+    const handleSearch = (value: string) => {
+        setContent(value);
+        onSearch?.(value);
     };
 
     return (
-        <Dialog onClose={handleClose} open={open}>
+        <Dialog onClose={handleCloseAndFetch} open={open}>
             <SearchBar onSearch={handleSearch} content={content} />
         </Dialog>
     );

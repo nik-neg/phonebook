@@ -9,7 +9,7 @@ export interface IContactListProps {
 
     onEditContact?: (contacts: IContact) => void;
 
-    onSearch?: (value: string) => void;
+    onOpenSearch?: () => void;
 }
 
 export interface IContactListWrapper {

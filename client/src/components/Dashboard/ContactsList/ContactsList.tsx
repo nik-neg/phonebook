@@ -25,8 +25,7 @@ export const ContactsList = ({
     onAddContact,
     onRemoveContact,
     onFetchContacts,
-    onEditContact,
-    onSearch,
+    onOpenSearch,
 }: IContactListProps): JSX.Element => {
     const handleScroll = () => {
         console.log('scroll');
@@ -67,7 +66,7 @@ export const ContactsList = ({
     // }, [time]);
 
     const handleSearch = () => {
-        onSearch?.();
+        onOpenSearch?.();
     };
 
     // on remove refetch new contacts and sort

@@ -10,8 +10,6 @@ export const SearchBar = ({ onSearch, content }: ISearchBarProps) => {
     ) => {
         setSearchValue(event.target.value);
         onSearch(event.target.value);
-
-        console.log({ searchValue });
     };
 
     return (

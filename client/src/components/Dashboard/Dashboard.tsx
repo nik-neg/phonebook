@@ -10,6 +10,7 @@ import { DummyContact } from './data';
 import { ContactsList } from './ContactsList';
 import { AddDialog } from './dialogs/AddDialog/AddDialog';
 import { SearchDialog } from './dialogs/SearchDialog/SearchDialog';
+import { getContacts } from '../../api/ApiClient';
 
 export const Dashboard = (): JSX.Element => {
     // add pagination fetch for infinite scroll, add loader animation, sort in the backend!
@@ -100,7 +101,7 @@ export const Dashboard = (): JSX.Element => {
 
     const [openSearch, setOpenSearch] = useState(false);
 
-    const handleSearch = () => {
+    const handleOpenSearch = () => {
         setOpenSearch(true);
     };
 
@@ -108,7 +109,16 @@ export const Dashboard = (): JSX.Element => {
         setOpenSearch(false);
     };
 
-    // <Hidden mdDown>
+    const handleSearch = async (keyword: string) => {
+        if (keyword.length < 3) return;
+        // fetch contacts
+        const contacts = await getContacts({
+            skip: 0,
+            take: 5,
+            keyword,
+        });
+    };
+
     return (
         <SDashboardContainer>
             <SDashboardHeader />
@@ -119,7 +129,7 @@ export const Dashboard = (): JSX.Element => {
                     onAddContact={handleAddContact}
                     onRemoveContact={onRemoveContact}
                     onEditContact={handleEditContact}
-                    onSearch={handleSearch}
+                    onOpenSearch={handleOpenSearch}
                 />
             </SDashboardList>
             <AddDialog
@@ -129,9 +139,9 @@ export const Dashboard = (): JSX.Element => {
                 onEdit={handleAddContact}
             />
             <SearchDialog
-                selectedValue={contact}
                 open={openSearch}
                 onClose={handleSearchClose}
+                onSearch={handleSearch}
             />
             <SDashboardFooter />
         </SDashboardContainer>
