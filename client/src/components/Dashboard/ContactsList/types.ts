@@ -9,3 +9,7 @@ export interface IContactListProps {
 
     onEditContact?: (contacts: IContact) => void;
 }
+
+export interface IContactListWrapper {
+    contactsAreFetched: boolean;
+}

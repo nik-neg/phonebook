@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import background from '../../../assets/mobile.jpg';
+import { IContactListWrapper } from './types';
 
 export const SContactListContainerWrapper = styled.div`
     display: flex;
@@ -43,7 +44,7 @@ export const STimePanelTime = styled.div`
     text-align: center;
 `;
 
-export const SContactListWrapper = styled.div`
+export const SContactListWrapper = styled.div<IContactListWrapper>`
     width: 100%;
     box-shadow: 10px 5px 5px black;
     border: 3px solid #262626;
@@ -61,7 +62,10 @@ export const SContactListWrapper = styled.div`
     width: 100%;
     position: relative;
 
-    &:after {
+    ${(props) =>
+        !props.contactsAreFetched &&
+        `
+        &:after {
         content: '';
         top: 0;
         transform: translateX(100%);
@@ -127,7 +131,7 @@ export const SContactListWrapper = styled.div`
         100% {
             transform: translateX(100%);
         }
-    }
+    }`}
 `;
 
 export const SAddButtonWrapper = styled.div`

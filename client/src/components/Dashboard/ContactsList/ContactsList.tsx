@@ -36,8 +36,13 @@ export const ContactsList = ({
         onAddContact?.();
     };
 
+    const [isFetched, setIsFetched] = React.useState(false);
+
     const handlePowerOn = async () => {
         const contacts = await getContacts({ skip: 0, take: 5, keyword: '' });
+        if (contacts?.data?.data?.contacts?.length > 0) {
+            setIsFetched(true);
+        }
         console.log({ handlePowerOn, contacts });
         onFetchContacts?.(contacts?.data?.data?.contacts ?? []);
     };
@@ -62,7 +67,10 @@ export const ContactsList = ({
         <Tilt>
             <SContactListContainerWrapper>
                 <SContactListContainer>
-                    <SContactListWrapper onScroll={handleScroll}>
+                    <SContactListWrapper
+                        onScroll={handleScroll}
+                        contactsAreFetched={isFetched}
+                    >
                         <STimePanelWrapper>
                             <STimePanelYear>
                                 {date.format(time, 'YYYY/MM/DD')}
