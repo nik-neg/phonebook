@@ -69,6 +69,8 @@ export const ImageFilter = ({
                     name={'Blur'}
                     Icon={MdLensBlur}
                     onChangeParent={handleFilterChange}
+                    min={0.3}
+                    max={1000}
                 />
             </SFilterPanelItem>
 

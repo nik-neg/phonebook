@@ -14,13 +14,30 @@ export class FilterService {
     grayscale,
     saturation,
   }: IFilterImage): Promise<string> {
+    let output;
+    const outputPrefix = 'data:image/png;base64,'; // 'data:image/jpeg;base64,'
+
+    const base64Data = imageFile.replace(/^data:image\/\w+;base64,/, '');
+    const buffer = Buffer.from(base64Data, 'base64');
+
     if (grayscale) {
-      const base64Data = imageFile.replace(/^data:image\/\w+;base64,/, '');
-      const buffer = Buffer.from(base64Data, 'base64');
-      const output = await sharp(buffer).greyscale().toBuffer();
-      return 'data:image/jpeg;base64,' + output.toString('base64');
+      output = await sharp(buffer).greyscale().toBuffer();
     }
-    return imageFile;
+
+    if (blur) {
+      output = await sharp(buffer).blur(blur).toBuffer();
+    }
+
+    if (saturation) {
+      output = await sharp(buffer)
+        .modulate({
+          saturation,
+        })
+        .toBuffer();
+    }
+
+    output = outputPrefix + output.toString('base64');
+    return output ?? imageFile;
   }
   async filterExistingImage({
     id,
