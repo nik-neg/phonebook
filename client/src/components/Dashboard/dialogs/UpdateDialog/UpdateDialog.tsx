@@ -14,7 +14,10 @@ import { ImageFilter } from '../common/ImageFilter';
 import { useForm } from 'react-hook-form';
 import { updateContactSchema } from './validation/schema';
 import { useYupValidationResolver } from '../common/validation/resolver';
-import { updateContact } from '../../../../api/ApiClient';
+import {
+    prefetchFilteredImage,
+    updateContact,
+} from '../../../../api/ApiClient';
 import { convertPhoneNumbersToString } from './utils';
 import { IFilter } from '../AddDialog';
 
@@ -65,14 +68,29 @@ export const UpdateDialog = ({
     });
 
     const handleUpdate = async () => {
-        const res = await updateContact(contact, filter);
-        console.log({ res });
+        const res = await updateContact(getValues(), filter);
+        onClose?.();
         // onEditContact?.(res.data.data.up);
     };
 
     const handleFilter = async (filter: IFilter) => {
         console.log('update', { filter });
         setFilter(filter);
+    };
+
+    const [loading, setLoading] = useState<boolean>(false);
+
+    const filterImage = async () => {
+        setLoading(true);
+        const image = await prefetchFilteredImage({
+            imageFile: contact.imageFile,
+            ...filter,
+        });
+        setLoading(false);
+
+        console.log({ image });
+        setContact({ ...contact, imageFile: image?.data?.data?.filterImage });
+        setValue('imageFile', image?.data?.data?.filterImage);
     };
 
     return (
@@ -144,6 +162,7 @@ export const UpdateDialog = ({
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={filterImage}>Filter</Button>
                     <Button onClick={handleUpdate}>Update</Button>
                 </DialogActions>
             </Dialog>

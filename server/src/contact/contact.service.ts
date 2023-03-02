@@ -91,22 +91,28 @@ export class ContactService {
     let contact;
     if (updateContactInput?.phoneNumbers?.length > 0) {
       phoneNumbers = await Promise.all(
-        updateContactInput?.phoneNumbers?.map((phoneNumber) =>
-          this.preloadPhoneNumber(phoneNumber),
+        uniq(parsePhoneNumberArrayString(updateContactInput.phoneNumbers))?.map(
+          (phoneNumber) => this.preloadPhoneNumber(phoneNumber),
         ),
       );
+      contact = await this.findOne(id);
+      contact.phoneNumbers = phoneNumbers;
+      contact = await this.contactRepository.save(contact);
       contact = await this.contactRepository.update(
         {
           id,
         },
-        { ...updateContactInput, phoneNumbers, imageFile },
+        {
+          ...omit(updateContactInput, ['phoneNumbers', 'filter']),
+          imageFile,
+        },
       );
     } else {
       contact = await this.contactRepository.update(
         {
           id,
         },
-        { ...omit(updateContactInput, ['phoneNumbers']), imageFile },
+        { ...omit(updateContactInput, ['phoneNumbers', 'filter']), imageFile },
       );
     }
 
