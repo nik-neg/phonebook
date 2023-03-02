@@ -32,11 +32,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         imageFile: '',
     });
 
-    const [uploadedImage, setUploadedImage] = useState<string | ArrayBuffer>(
-        ''
-    );
-
-    console.log({ uploadedImage });
+    console.log({ i: contact.imageFile });
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log({ v: event.target.value, n: event.target.name });
@@ -51,7 +47,6 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         setContact(contact);
         console.log({ contact });
         const response = await createContact(contact);
-        setUploadedImage(response?.data?.createContact?.imageFile);
         onClose?.();
     };
 
@@ -74,7 +69,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     };
 
     const filterImage = () => {
-        const image = prefetchFilteredImage();
+        const image = prefetchFilteredImage(contact.imageFile);
     };
 
     return (

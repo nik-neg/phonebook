@@ -1,0 +1,7 @@
+input FilterImageInput {
+    id: ID
+    imageFile: String!
+    blur: Int!
+    grayscale: Int!
+    saturation: Int!
+}

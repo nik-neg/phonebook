@@ -27,7 +27,6 @@ export class ContactResolver {
   }
 
   @Mutation('createContact')
-  // @UseInterceptors(FileInterceptor('image'))
   async create(
     @Args('createContactInput')
     createContactInput: CreateContactInput,

@@ -32,6 +32,14 @@ export class QueryPaginationInput {
     keyword?: Nullable<string>;
 }
 
+export class FilterImageInput {
+    id?: Nullable<number>;
+    imageFile: string;
+    blur: number;
+    grayscale: number;
+    saturation: number;
+}
+
 export class Contact {
     id: number;
     firstName: string;
