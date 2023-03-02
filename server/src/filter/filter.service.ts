@@ -25,7 +25,7 @@ export class FilterService {
     }
 
     if (saturation) {
-      output = await sharp(buffer)
+      output = await sharp(output ?? buffer)
         .modulate({
           saturation,
         })
@@ -33,7 +33,9 @@ export class FilterService {
     }
 
     if (grayscale) {
-      output = await sharp(buffer).greyscale().toBuffer();
+      output = await sharp(output ?? buffer)
+        .greyscale()
+        .toBuffer();
     }
 
     output = outputPrefix + output.toString('base64');

@@ -67,6 +67,7 @@ export const ImageFilter = ({
                             control={<Checkbox defaultChecked />}
                             label=""
                             value={filter.grayscale}
+                            checked={filter.grayscale}
                             onChange={handleChecked}
                         />
                     </FormGroup>
@@ -81,7 +82,7 @@ export const ImageFilter = ({
                     name={'Blur'}
                     Icon={MdLensBlur}
                     onChangeParent={handleFilterChange}
-                    min={0.3}
+                    min={0}
                     max={1000}
                 />
             </SFilterPanelItem>
