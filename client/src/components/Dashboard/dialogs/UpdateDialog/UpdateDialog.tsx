@@ -12,8 +12,8 @@ import { UploadButton } from '../common/UploadButton/UploadButton';
 import { SUploadButtonWrapper } from '../common/UploadButton/UploadButton.styles';
 import { ImageFilter } from '../common/ImageFilter';
 import { useForm } from 'react-hook-form';
-import { updateSchema } from './validation/schema';
-import { useYupValidationResolver } from './validation/resolver';
+import { updateContactSchema } from './validation/schema';
+import { useYupValidationResolver } from '../common/validation/resolver';
 import { updateContact } from '../../../../api/ApiClient';
 import { convertPhoneNumbersToString } from './utils';
 
@@ -37,7 +37,7 @@ export const UpdateDialog = ({
                 selectedValue.phoneNumbers
             ),
         },
-        resolver: useYupValidationResolver(updateSchema),
+        resolver: useYupValidationResolver(updateContactSchema),
     });
 
     const [contact, setContact] = useState<ContactWithPhoneNumbersAsString>({

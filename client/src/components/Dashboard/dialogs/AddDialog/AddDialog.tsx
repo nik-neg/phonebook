@@ -17,9 +17,29 @@ import {
 } from '../../../../api/ApiClient';
 import { ImageFilter } from '../common/ImageFilter';
 import { ContactWithPhoneNumbersAsString } from '../UpdateDialog';
+import { useForm } from 'react-hook-form';
+import { convertPhoneNumbersToString } from '../UpdateDialog/utils';
+import { useYupValidationResolver } from '../common/validation/resolver';
+import { addContactSchema } from './validation/schema';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
+
+    const {
+        register,
+        control,
+        handleSubmit,
+        formState: { errors },
+        getValues,
+    } = useForm({
+        defaultValues: {
+            ...selectedValue,
+            phoneNumbers: convertPhoneNumbersToString(
+                selectedValue?.phoneNumbers
+            ),
+        },
+        resolver: useYupValidationResolver(addContactSchema),
+    });
 
     // react hook form, or currying ?
     const [contact, setContact] = useState<ContactWithPhoneNumbersAsString>({
@@ -101,8 +121,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         label="First Name"
                         fullWidth
                         variant="standard"
-                        value={contact.firstName}
-                        onChange={handleChange}
+                        {...register('firstName')}
                     />
                     <TextField
                         autoFocus
@@ -111,8 +130,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         label="Last Name"
                         fullWidth
                         variant="standard"
-                        value={contact.lastName}
-                        onChange={handleChange}
+                        {...register('lastName')}
                     />
                     <TextField
                         autoFocus
@@ -121,8 +139,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         label="Nickname"
                         fullWidth
                         variant="standard"
-                        value={contact.nickName}
-                        onChange={handleChange}
+                        {...register('nickName')}
                     />
                     <TextField
                         autoFocus
@@ -131,8 +148,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         label="Address"
                         fullWidth
                         variant="standard"
-                        value={contact.address}
-                        onChange={handleChange}
+                        {...register('address')}
                     />
                     <TextField
                         autoFocus
@@ -141,8 +157,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         label="Phone Numbers"
                         fullWidth
                         variant="standard"
-                        value={contact.phoneNumbers}
-                        onChange={handleChange}
+                        {...register('phoneNumbers')}
                     />
                     <SUploadButtonWrapper>
                         <UploadButton onUpload={handleUploadImage} />

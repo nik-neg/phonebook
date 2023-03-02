@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-export const updateSchema = {
+export const updateContactSchema = {
     firstName: yup.string().nullable(),
     lastName: yup.string().nullable(),
     nickName: yup.string().nullable(),
