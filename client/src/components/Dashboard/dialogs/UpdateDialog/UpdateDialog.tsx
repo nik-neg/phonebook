@@ -43,17 +43,11 @@ export const UpdateDialog = ({
     });
 
     const [contact, setContact] = useState<ContactWithPhoneNumbersAsString>({
-        id: 1,
-        firstName: '',
-        lastName: '',
-        nickName: '',
-        address: '',
-        phoneNumbers: '',
-        imageFile: '',
+        ...selectedValue,
+        phoneNumbers: convertPhoneNumbersToString(selectedValue.phoneNumbers),
     });
 
     const handleUploadImage = (imagePath: string | ArrayBuffer) => {
-        // setImagePath(imagePath);
         setValue('imageFile', imagePath.toString());
         setContact(getValues());
     };
@@ -64,19 +58,20 @@ export const UpdateDialog = ({
         onClose?.();
     };
 
-    const handleUpdate = async () => {
-        const res = await updateContact(contact);
-        console.log({ res });
-        // onEditContact?.(res.data.data.up);
-    };
-
     const [filter, setFilter] = useState<IFilter>({
         blur: 0,
         grayscale: false,
         saturation: 0,
     });
 
+    const handleUpdate = async () => {
+        const res = await updateContact(contact, filter);
+        console.log({ res });
+        // onEditContact?.(res.data.data.up);
+    };
+
     const handleFilter = async (filter: IFilter) => {
+        console.log('update', { filter });
         setFilter(filter);
     };
 

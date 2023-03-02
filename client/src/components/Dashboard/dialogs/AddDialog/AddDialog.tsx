@@ -80,6 +80,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     });
 
     const handleFilter = async (filter: IFilter) => {
+        console.log('add', { filter });
         setFilter(filter);
     };
 

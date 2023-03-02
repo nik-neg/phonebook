@@ -24,6 +24,7 @@ export class UpdateContactInput {
     phoneNumbers?: Nullable<Nullable<string>[]>;
     address?: Nullable<string>;
     imageFile?: Nullable<string>;
+    filter?: Nullable<FilterImageInput>;
 }
 
 export class QueryPaginationInput {
@@ -34,7 +35,7 @@ export class QueryPaginationInput {
 
 export class FilterImageInput {
     id?: Nullable<number>;
-    imageFile: string;
+    imageFile?: Nullable<string>;
     blur: number;
     grayscale: boolean;
     saturation: number;

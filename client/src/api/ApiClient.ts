@@ -92,7 +92,8 @@ export const getContacts = async (
 };
 
 export const updateContact = async (
-    contact: ContactWithPhoneNumbersAsString
+    contact: ContactWithPhoneNumbersAsString,
+    filterImageInput?: IFilterImageInput
 ) => {
     try {
         const response = await axios.post(`${baseUrl}`, {
@@ -103,7 +104,12 @@ export const updateContact = async (
                         nickName: "${contact.nickName}",
                         phoneNumbers: "${contact.phoneNumbers}",
                         address: "${contact.address}",
-                        imageFile: "${contact.imageFile}",            
+                        imageFile: "${contact.imageFile}",
+                        filter: {
+                            blur: ${filterImageInput?.blur},
+                            grayscale: ${filterImageInput?.grayscale},
+                            saturation: ${filterImageInput?.saturation},  
+                        }          
                       }) {
                         id,
                         firstName,

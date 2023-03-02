@@ -82,7 +82,10 @@ export class ContactService {
   ): Promise<Contact> {
     const imageFile =
       updateContactInput.filter &&
-      (await this.filterService.filterImage(updateContactInput.filter));
+      (await this.filterService.filterImage({
+        ...updateContactInput.filter,
+        imageFile: updateContactInput.imageFile,
+      }));
 
     let phoneNumbers = [];
     let contact;

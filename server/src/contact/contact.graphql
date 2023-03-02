@@ -29,6 +29,7 @@ input UpdateContactInput {
     phoneNumbers: [String]
     address: String
     imageFile: String
+    filter: FilterImageInput
 }
 
 input QueryPaginationInput {

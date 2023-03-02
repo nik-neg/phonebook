@@ -1,6 +1,6 @@
 input FilterImageInput {
     id: ID
-    imageFile: String!
+    imageFile: String
     blur: Int!
     grayscale: Boolean!
     saturation: Int!

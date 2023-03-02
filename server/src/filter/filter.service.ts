@@ -34,7 +34,6 @@ export class FilterService {
         .toBuffer();
     }
 
-    output = outputPrefix + output.toString('base64');
-    return output ?? imageFile;
+    return output ? outputPrefix + output?.toString('base64') : imageFile;
   }
 }

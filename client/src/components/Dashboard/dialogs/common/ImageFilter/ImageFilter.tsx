@@ -38,13 +38,12 @@ export const ImageFilter = ({
     const handleFilterChange = (name: string, value: number) => {
         setFilter({ ...filter, [name]: value });
         onFilter?.(filter);
-
-        console.log({ filter });
     };
 
     const handleChecked = (event: SyntheticEvent<Element, Event>) => {
         const inputElement = event.target as HTMLInputElement;
         setFilter({ ...filter, grayscale: inputElement.checked });
+        onFilter?.({ ...filter, grayscale: inputElement.checked });
     };
 
     return (

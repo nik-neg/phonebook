@@ -16,7 +16,7 @@ export interface IFilterImage {
 }
 
 export interface IFilterImageInput {
-    imageFile: IContact['imageFile'];
+    imageFile?: IContact['imageFile'];
     blur: number;
     grayscale: boolean;
     saturation: number;
