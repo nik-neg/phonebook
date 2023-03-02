@@ -8,5 +8,6 @@ import { PhoneNumber } from './entities/phone-number.entity/phone-number.entity'
 @Module({
   imports: [TypeOrmModule.forFeature([Contact, PhoneNumber])],
   providers: [ContactService, ContactResolver],
+  exports: [ContactService],
 })
 export class ContactModule {}

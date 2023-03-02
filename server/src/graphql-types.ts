@@ -58,6 +58,7 @@ export class PhoneNumber {
 export abstract class IQuery {
     contacts: Contact[];
     contact?: Nullable<Contact>;
+    filterImage: string;
 }
 
 export abstract class IMutation {

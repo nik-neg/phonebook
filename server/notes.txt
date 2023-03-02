@@ -98,3 +98,13 @@ mutation {
     lastName,
   }
 }
+
+// filterImagePreview
+{
+   filterImage(filterImageInput: {
+      imageFile: "Update",
+      blur: 0,
+      grascale: 0,
+      saturation: 0,
+    })
+}

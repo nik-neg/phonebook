@@ -5,3 +5,7 @@ input FilterImageInput {
     grayscale: Int!
     saturation: Int!
 }
+
+type Query {
+    filterImage (filterImageInput: FilterImageInput): String!
+}

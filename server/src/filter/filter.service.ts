@@ -1,16 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Contact } from '../contact/entities/contact.entity/contact.entity';
-import { Repository } from 'typeorm';
 import { UserInputError } from 'apollo-server-express';
 import { IFilterImage } from './types';
+import { ContactService } from '../contact/contact.service';
 
 @Injectable()
 export class FilterService {
-  constructor(
-    @InjectRepository(Contact)
-    private readonly contactRepository: Repository<Contact>,
-  ) {}
+  constructor(private readonly contactService: ContactService) {}
 
   async filterPreviewImage({
     imageFile,
@@ -26,9 +21,7 @@ export class FilterService {
     grayscale,
     saturation,
   }: IFilterImage): Promise<string> {
-    const contact = await this.contactRepository.findOne({
-      where: { id },
-    });
+    const contact = await this.contactService.findOne(id);
     if (!contact) {
       throw new UserInputError(`Contact #${id} does not exist`);
     }
