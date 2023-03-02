@@ -6,4 +6,6 @@ export interface IContactListProps {
     onRemoveContact: (id: number) => void;
 
     onFetchContacts: (contacts: IContact[]) => void;
+
+    onEditContact?: (contacts: IContact) => void;
 }

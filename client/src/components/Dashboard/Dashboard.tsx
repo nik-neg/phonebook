@@ -89,6 +89,14 @@ export const Dashboard = (): JSX.Element => {
         setOpen(false);
     };
 
+    const handleEditContact = (contact: IContact) => {
+        setFetchedContacts((prev) => {
+            const index = prev.findIndex((c) => c.id === contact.id);
+            prev[index] = contact;
+            return prev;
+        });
+    };
+
     // <Hidden mdDown>
     return (
         <SDashboardContainer>
@@ -99,6 +107,7 @@ export const Dashboard = (): JSX.Element => {
                     onFetchContacts={onFetchContacts}
                     onAddContact={handleAddContact}
                     onRemoveContact={onRemoveContact}
+                    onEditContact={handleEditContact}
                 />
             </SDashboardList>
             <AddDialog

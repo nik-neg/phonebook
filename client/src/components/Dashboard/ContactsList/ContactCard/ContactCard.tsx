@@ -12,11 +12,12 @@ import { IContact, IContactCardProps } from './types';
 import { EditDialog } from '../../dialogs/EditDialog/EditDialog';
 import { UpdateDialog } from '../../dialogs/UpdateDialog/UpdateDialog';
 import Avatar from '@mui/material/Avatar';
-import { removeContact } from '../../../../api/ApiClient';
+import { removeContact, updateContact } from '../../../../api/ApiClient';
 
 export const ContactCard = ({
     contact,
     onRemove,
+    onEditContact,
 }: IContactCardProps): JSX.Element => {
     const {
         id,
@@ -50,6 +51,9 @@ export const ContactCard = ({
 
         if (!remove) {
             setOpenUpdateDialog(true);
+            const res = await updateContact(contact);
+            console.log({ res });
+            // onEditContact?.(res.data.data.up);
             return;
         }
         const res = await removeContact(id);

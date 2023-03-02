@@ -89,7 +89,36 @@ export const getContacts = async (
     }
 };
 
-export const updateContact = async (contact: IContact) => {};
+export const updateContact = async (contact: IContact) => {
+    try {
+        const response = await axios.post(`${baseUrl}`, {
+            query: `mutation {
+                      updateContact(updateContactInput: {
+                        firstName: "${contact.firstName}",
+                        lastName: "${contact.firstName}",
+                        nickName: "${contact.nickName}",
+                        phoneNumbers: ${contact.phoneNumbers},
+                        address: "${contact.address}",
+                        imageFile: "${contact.imageFile}",
+                      }) {
+                        id,
+                        firstName,
+                        lastName,
+                        nickName,
+                        phoneNumbers {
+                            id
+                            phoneNumber
+                        },
+                        address,
+                        imageUrl
+                      }
+                    }`,
+        });
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+};
 
 export const removeContact = async (id: number) => {
     try {

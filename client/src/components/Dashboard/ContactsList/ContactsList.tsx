@@ -25,6 +25,7 @@ export const ContactsList = ({
     onAddContact,
     onRemoveContact,
     onFetchContacts,
+    onEditContact,
 }: IContactListProps): JSX.Element => {
     const handleScroll = () => {
         console.log('scroll');
