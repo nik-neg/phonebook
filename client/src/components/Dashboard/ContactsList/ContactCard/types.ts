@@ -9,6 +9,11 @@ export interface IContactCardProps {
     onEditContact?: (contacts: IContact) => void;
 }
 
+export interface IPhoneNumber {
+    id: number;
+    phoneNumber: string;
+}
+
 export interface IContact {
     id: number;
     nickName?: string;
@@ -17,7 +22,7 @@ export interface IContact {
 
     lastName: string;
 
-    phoneNumbers: string[];
+    phoneNumbers: IPhoneNumber[];
 
     address: string;
 

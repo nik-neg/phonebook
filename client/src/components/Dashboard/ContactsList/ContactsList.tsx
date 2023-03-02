@@ -15,7 +15,7 @@ import {
 import { IContactListProps } from './types';
 import { ContactCard } from './ContactCard';
 import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { getContacts } from '../../../api/ApiClient';
 import date from 'date-and-time';
 import Tilt from 'react-parallax-tilt';
@@ -48,11 +48,11 @@ export const ContactsList = ({
 
     const [time, setTime] = React.useState(new Date());
 
-    useEffect(() => {
-        setTimeout(() => {
-            setTime(new Date());
-        }, 1000);
-    }, [time]);
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setTime(new Date());
+    //     }, 1000);
+    // }, [time]);
 
     const handleSearch = () => {};
 

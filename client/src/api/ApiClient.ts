@@ -1,10 +1,12 @@
-import { IContact } from '../components/Dashboard/ContactsList/ContactCard/types';
 import axios from 'axios';
 import { IFilterImageInput, IQueryPaginationInput } from './types';
+import { ContactWithPhoneNumbersAsString } from '../components/Dashboard/dialogs/UpdateDialog';
 
 const baseUrl = 'http://localhost:3001/graphql';
 
-export const createContact = async (contact: IContact) => {
+export const createContact = async (
+    contact: ContactWithPhoneNumbersAsString
+) => {
     try {
         const response = await axios.post(`${baseUrl}`, {
             query: `mutation {
@@ -89,16 +91,19 @@ export const getContacts = async (
     }
 };
 
-export const updateContact = async (contact: IContact) => {
+export const updateContact = async (
+    contact: ContactWithPhoneNumbersAsString
+) => {
     try {
         const response = await axios.post(`${baseUrl}`, {
             query: `mutation {
-                      updateContact(updateContactInput: {
-                        firstName: "${contact.firstName}",
-                        lastName: "${contact.firstName}",
+                      updateContact(id: ${contact.id}, updateContactInput: {
+                        firstName: "${contact.firstName}"
+                        lastName: "${contact.lastName}",
                         nickName: "${contact.nickName}",
+                        phoneNumbers: "${contact.phoneNumbers}",
                         address: "${contact.address}",
-                        imageFile: "${contact.imageFile}",
+                        imageFile: "${contact.imageFile}",            
                       }) {
                         id,
                         firstName,
@@ -109,7 +114,7 @@ export const updateContact = async (contact: IContact) => {
                             phoneNumber
                         },
                         address,
-                        imageUrl
+                        imageFile
                       }
                     }`,
         });

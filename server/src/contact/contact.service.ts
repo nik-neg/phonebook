@@ -9,6 +9,7 @@ import { UpdateContactInput } from './dto/update-contact.input/update-contact.in
 import { omit, uniq } from 'lodash';
 import * as GraphQLTypes from '../graphql-types';
 import { FetchContactsArgs } from './dto/fetch-contacts.input/fetch-contacts.input';
+import { parsePhoneNumberArrayString } from './utils';
 
 // https://docs.nestjs.com/techniques/validation#stripping-properties
 @Injectable()
@@ -58,8 +59,8 @@ export class ContactService {
 
   async create(createContactInput: CreateContactInput): Promise<Contact> {
     const phoneNumbers = await Promise.all(
-      uniq(createContactInput.phoneNumbers).map((phoneNumber) =>
-        this.preloadPhoneNumber(phoneNumber),
+      uniq(parsePhoneNumberArrayString(createContactInput.phoneNumbers)).map(
+        (phoneNumber) => this.preloadPhoneNumber(phoneNumber),
       ),
     );
     // unique phone numbers

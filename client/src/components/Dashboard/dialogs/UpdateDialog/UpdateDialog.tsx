@@ -7,15 +7,15 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { IUpdateDialogProps } from './types';
+import { ContactWithPhoneNumbersAsString, IUpdateDialogProps } from './types';
 import { UploadButton } from '../common/UploadButton/UploadButton';
 import { SUploadButtonWrapper } from '../common/UploadButton/UploadButton.styles';
 import { ImageFilter } from '../common/ImageFilter';
-import { IContact } from '../../ContactsList/ContactCard/types';
 import { useForm } from 'react-hook-form';
 import { updateSchema } from './validation/schema';
 import { useYupValidationResolver } from './validation/resolver';
 import { updateContact } from '../../../../api/ApiClient';
+import { convertPhoneNumbersToString } from './utils';
 
 // second dialog after choosing a contact to update
 export const UpdateDialog = ({
@@ -31,18 +31,27 @@ export const UpdateDialog = ({
         formState: { errors },
         getValues,
     } = useForm({
-        defaultValues: selectedValue,
+        defaultValues: {
+            ...selectedValue,
+            phoneNumbers: convertPhoneNumbersToString(
+                selectedValue.phoneNumbers
+            ),
+        },
         resolver: useYupValidationResolver(updateSchema),
     });
 
-    const [contact, setContact] = useState<IContact>(selectedValue);
-
-    console.log({ v: getValues(), selectedValue });
+    const [contact, setContact] = useState<ContactWithPhoneNumbersAsString>({
+        ...selectedValue,
+        phoneNumbers: convertPhoneNumbersToString(selectedValue.phoneNumbers),
+    });
 
     useEffect(() => {
         setContact((prevState) => ({
             ...prevState,
             ...getValues(),
+            phoneNumbers: convertPhoneNumbersToString(
+                selectedValue.phoneNumbers
+            ),
         }));
     }, [setContact, getValues]);
 

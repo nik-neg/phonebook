@@ -11,24 +11,24 @@ import { IAddDialogProps, IFilter } from './types';
 import { SUploadButtonWrapper } from '../common/UploadButton/UploadButton.styles';
 import { UploadButton } from '../common/UploadButton/UploadButton';
 import { SAddDialogContainer } from './AddDialog.styles';
-import { IContact } from '../../ContactsList/ContactCard/types';
 import {
     createContact,
     prefetchFilteredImage,
 } from '../../../../api/ApiClient';
 import { ImageFilter } from '../common/ImageFilter';
+import { ContactWithPhoneNumbersAsString } from '../UpdateDialog';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
 
     // react hook form, or currying ?
-    const [contact, setContact] = useState<IContact>({
+    const [contact, setContact] = useState<ContactWithPhoneNumbersAsString>({
         id: 1,
         firstName: 'dassad',
         lastName: 'asdasd',
         nickName: 'asdsad',
         address: 'asdsad',
-        phoneNumbers: ['5465465456'],
+        phoneNumbers: '123545645, 4568787',
         imageFile: '',
     });
 
