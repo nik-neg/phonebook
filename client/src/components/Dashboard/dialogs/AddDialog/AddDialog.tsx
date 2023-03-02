@@ -41,32 +41,25 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         resolver: useYupValidationResolver(addContactSchema),
     });
 
-    // react hook form, or currying ?
     const [contact, setContact] = useState<ContactWithPhoneNumbersAsString>({
-        id: 1,
-        firstName: 'dassad',
-        lastName: 'asdasd',
-        nickName: 'asdsad',
-        address: 'asdsad',
-        phoneNumbers: '123545645, 4568787',
+        id: null,
+        firstName: '',
+        lastName: '',
+        nickName: '',
+        address: '',
+        phoneNumbers: '',
         imageFile: '',
     });
 
     console.log({ i: contact.imageFile });
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log({ v: event.target.value, n: event.target.name });
-        setContact({ ...contact, [event.target.id]: event.target.value });
-    };
 
     const handleClose = () => {
         onClose?.();
     };
 
     const handleSave = async () => {
-        setContact(contact);
-        console.log({ contact });
-        const response = await createContact(contact);
+        setContact(getValues());
+        const response = await createContact(getValues());
         onClose?.();
     };
 
