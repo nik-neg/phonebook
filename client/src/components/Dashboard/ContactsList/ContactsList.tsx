@@ -28,10 +28,18 @@ export const ContactsList = ({
     onOpenSearch,
 }: IContactListProps): JSX.Element => {
     const [scroll, setScroll] = useState(0);
-    const handleScroll = (event: React.UIEvent<HTMLInputElement>) => {
+    const handleScroll = async (event: React.UIEvent<HTMLInputElement>) => {
+        console.log({ sc: event.currentTarget.scrollTop, scroll });
+        // event.stopPropagation();
         if (event.currentTarget.scrollTop > scroll) {
             setScroll(event.currentTarget.scrollTop);
             // fetch more contacts
+            const newContacts = await getContacts({
+                skip: contacts.length,
+                take: 5,
+                keyword: '',
+            });
+            onFetchContacts?.(newContacts?.data?.data?.contacts ?? []);
         }
     };
 
