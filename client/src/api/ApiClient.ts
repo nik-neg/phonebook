@@ -97,7 +97,6 @@ export const updateContact = async (contact: IContact) => {
                         firstName: "${contact.firstName}",
                         lastName: "${contact.firstName}",
                         nickName: "${contact.nickName}",
-                        phoneNumbers: ${contact.phoneNumbers},
                         address: "${contact.address}",
                         imageFile: "${contact.imageFile}",
                       }) {

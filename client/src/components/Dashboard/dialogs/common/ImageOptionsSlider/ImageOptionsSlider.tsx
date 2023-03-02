@@ -51,8 +51,6 @@ export const ImageOptionsSlider = ({
         }
     };
 
-    console.log({ max });
-
     // TODO: bug with max blur
     return (
         <SImageSliderOptionsContainer>

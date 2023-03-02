@@ -20,10 +20,10 @@ export const SContactCardWrapper = styled.div`
     border-radius: 10px;
     box-shadow: 5px 2.5px 2.5px #262626;
 
-    &:hover {
-        opacity: 1;
-        background: aliceblue;
-    }
+    //&:hover {
+    //    opacity: 1;
+    //    background: aliceblue;
+    //}
 `;
 
 export const SContactInfoWrapper = styled.div`

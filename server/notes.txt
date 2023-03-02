@@ -74,7 +74,7 @@ mutation {
 
 // update contact
 mutation {
-  updateContact(updateContactInput: {
+  updateContact(id: 1, updateContactInput: {
     firstName: "Update",
     lastName: "Update",
   }) {
@@ -87,7 +87,7 @@ mutation {
         phoneNumber
     },
     address,
-    imageUrl
+    imageFile
   }
 }
 

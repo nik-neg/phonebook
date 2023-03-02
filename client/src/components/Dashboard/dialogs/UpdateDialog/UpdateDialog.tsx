@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -11,6 +11,11 @@ import { IUpdateDialogProps } from './types';
 import { UploadButton } from '../common/UploadButton/UploadButton';
 import { SUploadButtonWrapper } from '../common/UploadButton/UploadButton.styles';
 import { ImageFilter } from '../common/ImageFilter';
+import { IContact } from '../../ContactsList/ContactCard/types';
+import { useForm } from 'react-hook-form';
+import { updateSchema } from './validation/schema';
+import { useYupValidationResolver } from './validation/resolver';
+import { updateContact } from '../../../../api/ApiClient';
 
 // second dialog after choosing a contact to update
 export const UpdateDialog = ({
@@ -20,20 +25,30 @@ export const UpdateDialog = ({
     onClose,
 }: IUpdateDialogProps): JSX.Element => {
     const {
-        nickName,
+        register,
+        control,
+        handleSubmit,
+        formState: { errors },
+        getValues,
+    } = useForm({
+        defaultValues: selectedValue,
+        resolver: useYupValidationResolver(updateSchema),
+    });
 
-        firstName,
+    const [contact, setContact] = useState<IContact>(selectedValue);
 
-        lastName,
+    console.log({ v: getValues(), selectedValue });
 
-        phoneNumbers,
+    useEffect(() => {
+        setContact((prevState) => ({
+            ...prevState,
+            ...getValues(),
+        }));
+    }, [setContact, getValues]);
 
-        address,
-
-        imageFile,
-    } = selectedValue;
-
-    const [imagePath, setImagePath] = useState<string | ArrayBuffer>(imageFile);
+    const [imagePath, setImagePath] = useState<string | ArrayBuffer>(
+        contact.imageFile
+    );
 
     const handleUploadImage = (imagePath: string | ArrayBuffer) => {
         setImagePath(imagePath);
@@ -43,6 +58,12 @@ export const UpdateDialog = ({
 
     const handleClose = () => {
         onClose?.();
+    };
+
+    const handleUpdate = async () => {
+        const res = await updateContact(contact);
+        console.log({ res });
+        // onEditContact?.(res.data.data.up);
     };
 
     return (
@@ -61,7 +82,7 @@ export const UpdateDialog = ({
                         type="email"
                         fullWidth
                         variant="standard"
-                        value={firstName}
+                        {...register('firstName')}
                     />
                     <TextField
                         autoFocus
@@ -71,7 +92,7 @@ export const UpdateDialog = ({
                         type="email"
                         fullWidth
                         variant="standard"
-                        value={lastName}
+                        {...register('lastName')}
                     />
                     <TextField
                         autoFocus
@@ -80,7 +101,7 @@ export const UpdateDialog = ({
                         label="Nickname"
                         fullWidth
                         variant="standard"
-                        value={nickName}
+                        {...register('nickName')}
                     />
                     <TextField
                         autoFocus
@@ -89,7 +110,7 @@ export const UpdateDialog = ({
                         label="Address"
                         fullWidth
                         variant="standard"
-                        value={address}
+                        {...register('address')}
                     />
                     <TextField
                         autoFocus
@@ -98,7 +119,7 @@ export const UpdateDialog = ({
                         label="Phone Numbers"
                         fullWidth
                         variant="standard"
-                        value={phoneNumbers}
+                        {...register('phoneNumbers')}
                     />
                     <SUploadButtonWrapper>
                         <UploadButton onUpload={handleUploadImage} />
@@ -111,7 +132,7 @@ export const UpdateDialog = ({
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Save</Button>
+                    <Button onClick={handleUpdate}>Update</Button>
                 </DialogActions>
             </Dialog>
         </div>
