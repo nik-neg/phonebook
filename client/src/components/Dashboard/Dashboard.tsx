@@ -113,8 +113,6 @@ export const Dashboard = (): JSX.Element => {
         if (keyword.length < 3) return;
         // fetch contacts
         const contacts = await getContacts({
-            skip: 0,
-            take: 5,
             keyword,
             page: 1,
         });

@@ -15,7 +15,7 @@ import {
 import { IContactListProps } from './types';
 import { ContactCard } from './ContactCard';
 import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { getContacts } from '../../../api/ApiClient';
 import date from 'date-and-time';
 import Tilt from 'react-parallax-tilt';
@@ -30,46 +30,47 @@ export const ContactsList = ({
     const [scroll, setScroll] = useState(0);
 
     const [page, setPage] = useState(1);
-    const [data, setData] = useState([]);
-    useEffect(() => {
-        const fetchInitialData = async () => {
-            const initialData = await getContacts({ page });
-            setData(initialData?.data?.data?.contacts);
-        };
-        fetchInitialData();
-    }, [page]);
+    // const [data, setData] = useState([]);
+    // useEffect(() => {
+    //     const fetchInitialData = async () => {
+    //         const initialData = await getContacts({ page });
+    //         setData(initialData?.data?.data?.contacts);
+    //     };
+    //     fetchInitialData();
+    // }, [page]);
+    //
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //         if (
+    //             window.innerHeight + window.pageYOffset >=
+    //             document.body.scrollHeight - 500
+    //         ) {
+    //             setPage((page) => page + 1);
+    //         }
+    //     };
+    //
+    //     window.addEventListener('scroll', handleScroll);
+    //
+    //     return () => {
+    //         window.removeEventListener('scroll', handleScroll);
+    //     };
+    // }, []);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (
-                window.innerHeight + window.pageYOffset >=
-                document.body.scrollHeight - 500
-            ) {
-                setPage((page) => page + 1);
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
-
-    // const handleScroll = async (event: React.UIEvent<HTMLInputElement>) => {
-    //     console.log({ sc: event.currentTarget.scrollTop, scroll });
-    //     // event.stopPropagation();
-    //     if (event.currentTarget.scrollTop > scroll) {
-    //         setScroll(event.currentTarget.scrollTop);
-    //         // fetch more contacts
-    //         const newContacts = await getContacts({
-    //             skip: contacts.length,
-    //             take: 5,
-    //             keyword: '',
-    //         });
-    //         onFetchContacts?.(newContacts?.data?.data?.contacts ?? []);
-    //     }
-    // };
+    let firstScrollEvent = true;
+    const handleScroll = async (event: React.UIEvent<HTMLInputElement>) => {
+        console.log({ sc: event.currentTarget.scrollTop, scroll });
+        event.stopPropagation();
+        if (event.currentTarget.scrollTop > scroll && firstScrollEvent) {
+            setScroll(event.currentTarget.scrollTop);
+            setPage((page) => page + 1);
+            // fetch more contacts
+            const newContacts = await getContacts({
+                page: page + 1,
+            });
+            onFetchContacts?.(newContacts?.data?.data?.contacts ?? []);
+            firstScrollEvent = false;
+        }
+    };
 
     const handleAddContact = () => {
         console.log('add contact');
@@ -121,7 +122,7 @@ export const ContactsList = ({
             <SContactListContainerWrapper>
                 <SContactListContainer>
                     <SContactListWrapper
-                        // onScroll={handleScroll}
+                        onScroll={handleScroll}
                         contactsAreFetched={isFetched}
                     >
                         <STimePanelWrapper>

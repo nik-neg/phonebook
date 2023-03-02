@@ -11,6 +11,7 @@ import * as GraphQLTypes from '../graphql-types';
 import { FetchContactsArgs } from './dto/fetch-contacts.input/fetch-contacts.input';
 import { parsePhoneNumberArrayString } from './utils';
 import { FilterService } from '../filter/filter.service';
+import { CONTACTS_COUNT } from './constants';
 
 // https://docs.nestjs.com/techniques/validation#stripping-properties
 @Injectable()
@@ -28,8 +29,7 @@ export class ContactService {
   async findAll(
     args: FetchContactsArgs = { skip: 0, take: 5, keyword: '', page: 1 },
   ): Promise<Contact[]> {
-    const take = args.take || 10;
-    const skip = args.skip || 0;
+    const skip = (args.page - 1) * CONTACTS_COUNT;
     const keyword = args.keyword || '';
 
     const searchObject = [
@@ -42,7 +42,7 @@ export class ContactService {
     const [result, total] = await this.contactRepository.findAndCount({
       where: searchObject,
       order: { lastName: 'DESC' },
-      take: take,
+      take: CONTACTS_COUNT,
       skip: skip,
       relations: ['phoneNumbers'],
     });
