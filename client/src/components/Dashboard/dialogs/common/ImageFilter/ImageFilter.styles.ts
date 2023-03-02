@@ -17,3 +17,8 @@ export const SUploadedImage = styled.img`
 export const SFilterPanelItem = styled.div`
     display: flex;
 `;
+
+export const SFilterPanelItemCheckbox = styled.div`
+    display: flex;
+    justify-content: center;
+`;

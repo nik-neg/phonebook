@@ -5,6 +5,6 @@ export interface IFilterImage {
 
   imageFile: Contact['imageFile'];
   blur: number;
-  grayscale: number;
+  grayscale: boolean;
   saturation: number;
 }

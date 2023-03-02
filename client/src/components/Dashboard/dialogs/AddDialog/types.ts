@@ -10,7 +10,7 @@ export interface IAddDialogProps {
 }
 
 export interface IFilter {
-    grayscale: number;
+    grayscale: boolean;
 
     blur: number;
 

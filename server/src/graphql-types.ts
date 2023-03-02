@@ -36,7 +36,7 @@ export class FilterImageInput {
     id?: Nullable<number>;
     imageFile: string;
     blur: number;
-    grayscale: number;
+    grayscale: boolean;
     saturation: number;
 }
 

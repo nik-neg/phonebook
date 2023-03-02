@@ -5,18 +5,27 @@ import {
     SUploadedImage,
     SUploadedImageWrapper,
 } from './ImageFilter.styles';
-import { ImageOptionsSlider } from '../ImageOptionsSlider';
-import { IoIosColorPalette, MdLensBlur, RxShadowInner } from 'react-icons/all';
+import {
+    ImageOptionsSlider,
+    SCheckboxOptionIcon,
+    SCheckboxOptionsContainer,
+    SCheckboxOptionsItem,
+    SImageSliderOptions,
+    SSliderName,
+} from '../ImageOptionsSlider';
+import { IoIosColorPalette, MdLensBlur } from 'react-icons/all';
+import * as React from 'react';
 import { useState } from 'react';
 import { IFilter } from '../../AddDialog';
+import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 
 export const ImageFilter = ({
     contact,
     onFilter,
 }: IImageFilterProps): JSX.Element => {
     const [filter, setFilter] = useState<IFilter>({
+        grayscale: false,
         blur: 0,
-        grayscale: 0,
         saturation: 0,
     });
 
@@ -27,18 +36,33 @@ export const ImageFilter = ({
         console.log({ filter });
     };
 
+    const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFilter({ ...filter, grayscale: event.target.checked });
+    };
+
     return (
         <SImageOptionContainer>
             <SUploadedImageWrapper>
                 <SUploadedImage src={contact.imageFile.toString()} />
             </SUploadedImageWrapper>
-            <SFilterPanelItem>
-                <ImageOptionsSlider
-                    name={'Grayscale'}
-                    Icon={RxShadowInner}
-                    onChangeParent={handleFilterChange}
-                />
-            </SFilterPanelItem>
+            <SCheckboxOptionsContainer>
+                <SCheckboxOptionsItem>
+                    <SSliderName>{'Grayscale'}</SSliderName>
+                </SCheckboxOptionsItem>
+                <SCheckboxOptionIcon>
+                    <FormGroup>
+                        <FormControlLabel
+                            control={<Checkbox defaultChecked />}
+                            label=""
+                            value={filter.grayscale}
+                            onChange={handleChecked}
+                        />
+                    </FormGroup>
+                </SCheckboxOptionIcon>
+                <SImageSliderOptions></SImageSliderOptions>
+
+                <SImageSliderOptions></SImageSliderOptions>
+            </SCheckboxOptionsContainer>
 
             <SFilterPanelItem>
                 <ImageOptionsSlider

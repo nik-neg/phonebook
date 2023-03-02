@@ -60,7 +60,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
 
     const [filter, setFilter] = useState<IFilter>({
         blur: 0,
-        grayscale: 0,
+        grayscale: false,
         saturation: 0,
     });
 
