@@ -15,7 +15,7 @@ import {
 import { IContactListProps } from './types';
 import { ContactCard } from './ContactCard';
 import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
-import React from 'react';
+import React, { useState } from 'react';
 import { getContacts } from '../../../api/ApiClient';
 import date from 'date-and-time';
 import Tilt from 'react-parallax-tilt';
@@ -27,8 +27,12 @@ export const ContactsList = ({
     onFetchContacts,
     onOpenSearch,
 }: IContactListProps): JSX.Element => {
-    const handleScroll = () => {
-        console.log('scroll');
+    const [scroll, setScroll] = useState(0);
+    const handleScroll = (event: React.UIEvent<HTMLInputElement>) => {
+        if (event.currentTarget.scrollTop > scroll) {
+            setScroll(event.currentTarget.scrollTop);
+            // fetch more contacts
+        }
     };
 
     const handleAddContact = () => {
