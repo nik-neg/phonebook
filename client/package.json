@@ -25,6 +25,7 @@
     "yup": "^1.0.2"
   },
   "devDependencies": {
+    "@types/qs": "^6.9.7",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@types/sharp": "^0.31.1",

@@ -31,6 +31,7 @@ export class QueryPaginationInput {
     take?: Nullable<number>;
     skip?: Nullable<number>;
     keyword?: Nullable<string>;
+    page?: Nullable<number>;
 }
 
 export class FilterImageInput {

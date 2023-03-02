@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { IFilterImageInput, IQueryPaginationInput } from './types';
 import { ContactWithPhoneNumbersAsString } from '../components/Dashboard/dialogs/UpdateDialog';
+import { buildContactQuery } from './utils';
 
 const baseUrl = 'http://localhost:3001/graphql';
 
@@ -41,14 +42,11 @@ export const createContact = async (
 export const getContacts = async (
     queryPaginationInput: IQueryPaginationInput
 ) => {
+    const query = buildContactQuery(queryPaginationInput);
     try {
         const response = await axios.post(`${baseUrl}`, {
             query: `{
-                    contacts(queryPaginationInput: {
-                        keyword: "${queryPaginationInput?.keyword}",
-                        take: ${queryPaginationInput?.take},
-                        skip: ${queryPaginationInput?.skip},
-                    }) {
+                    contacts(queryPaginationInput: {${query}}) {
                         id
                         firstName
                         lastName

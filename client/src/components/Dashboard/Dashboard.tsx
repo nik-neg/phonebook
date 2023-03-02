@@ -116,6 +116,7 @@ export const Dashboard = (): JSX.Element => {
             skip: 0,
             take: 5,
             keyword,
+            page: 1,
         });
 
         setFetchedContacts(contacts?.data?.data?.contacts ?? []);

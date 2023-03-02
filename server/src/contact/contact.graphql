@@ -36,6 +36,7 @@ input QueryPaginationInput {
     take: Int
     skip: Int
     keyword: String
+    page: Int
 }
 
 type Query {

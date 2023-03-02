@@ -26,7 +26,7 @@ export class ContactService {
   ) {}
 
   async findAll(
-    args: FetchContactsArgs = { skip: 0, take: 5, keyword: '' },
+    args: FetchContactsArgs = { skip: 0, take: 5, keyword: '', page: 1 },
   ): Promise<Contact[]> {
     const take = args.take || 10;
     const skip = args.skip || 0;

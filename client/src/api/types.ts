@@ -1,9 +1,11 @@
 import { IContact } from '../components/Dashboard/ContactsList/ContactCard/types';
 
 export interface IQueryPaginationInput {
-    skip: number;
-    take: number;
-    keyword: string;
+    skip?: number;
+    take?: number;
+    keyword?: string;
+
+    page?: number;
 }
 
 export interface IFilterImage {
