@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { DummyContact } from './data';
 import { ContactsList } from './ContactsList';
 import { AddDialog } from './dialogs/AddDialog/AddDialog';
+import { SearchDialog } from './dialogs/SearchDialog/SearchDialog';
 
 export const Dashboard = (): JSX.Element => {
     // add pagination fetch for infinite scroll, add loader animation, sort in the backend!
@@ -97,6 +98,16 @@ export const Dashboard = (): JSX.Element => {
         });
     };
 
+    const [openSearch, setOpenSearch] = useState(false);
+
+    const handleSearch = () => {
+        setOpenSearch(true);
+    };
+
+    const handleSearchClose = () => {
+        setOpenSearch(false);
+    };
+
     // <Hidden mdDown>
     return (
         <SDashboardContainer>
@@ -108,6 +119,7 @@ export const Dashboard = (): JSX.Element => {
                     onAddContact={handleAddContact}
                     onRemoveContact={onRemoveContact}
                     onEditContact={handleEditContact}
+                    onSearch={handleSearch}
                 />
             </SDashboardList>
             <AddDialog
@@ -115,6 +127,11 @@ export const Dashboard = (): JSX.Element => {
                 open={open}
                 onClose={handleClose}
                 onEdit={handleAddContact}
+            />
+            <SearchDialog
+                selectedValue={contact}
+                open={openSearch}
+                onClose={handleSearchClose}
             />
             <SDashboardFooter />
         </SDashboardContainer>

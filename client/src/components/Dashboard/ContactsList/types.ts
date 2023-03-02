@@ -8,6 +8,8 @@ export interface IContactListProps {
     onFetchContacts: (contacts: IContact[]) => void;
 
     onEditContact?: (contacts: IContact) => void;
+
+    onSearch?: (value: string) => void;
 }
 
 export interface IContactListWrapper {

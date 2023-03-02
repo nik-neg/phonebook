@@ -37,29 +37,6 @@ export const createContact = async (
 };
 
 // uuid
-export const getContact = async (id: number) => {
-    try {
-        const response = await axios.post(`${baseUrl}`, {
-            query: `{
-                        contact(id: ${id}) {
-                            id
-                            firstName
-                            lastName
-                            nickName
-                            phoneNumbers {
-                                id
-                                phoneNumber
-                            }
-                            address
-                            imageFile
-                        }
-                    }`,
-        });
-        return response;
-    } catch (error) {
-        console.error(error);
-    }
-};
 
 export const getContacts = async (
     queryPaginationInput: IQueryPaginationInput
