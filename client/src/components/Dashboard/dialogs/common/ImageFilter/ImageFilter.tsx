@@ -15,7 +15,7 @@ import {
 } from '../ImageOptionsSlider';
 import { IoIosColorPalette, MdLensBlur } from 'react-icons/all';
 import * as React from 'react';
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import { IFilter } from '../../AddDialog';
 import {
     Checkbox,
@@ -42,8 +42,9 @@ export const ImageFilter = ({
         console.log({ filter });
     };
 
-    const handleChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFilter({ ...filter, grayscale: event.target.checked });
+    const handleChecked = (event: SyntheticEvent<Element, Event>) => {
+        const inputElement = event.target as HTMLInputElement;
+        setFilter({ ...filter, grayscale: inputElement.checked });
     };
 
     return (

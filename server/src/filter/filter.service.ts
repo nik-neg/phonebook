@@ -20,10 +20,6 @@ export class FilterService {
     const base64Data = imageFile.replace(/^data:image\/\w+;base64,/, '');
     const buffer = Buffer.from(base64Data, 'base64');
 
-    if (grayscale) {
-      output = await sharp(buffer).greyscale().toBuffer();
-    }
-
     if (blur) {
       output = await sharp(buffer).blur(blur).toBuffer();
     }
@@ -34,6 +30,10 @@ export class FilterService {
           saturation,
         })
         .toBuffer();
+    }
+
+    if (grayscale) {
+      output = await sharp(buffer).greyscale().toBuffer();
     }
 
     output = outputPrefix + output.toString('base64');
