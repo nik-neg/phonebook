@@ -17,11 +17,17 @@ import { IoIosColorPalette, MdLensBlur } from 'react-icons/all';
 import * as React from 'react';
 import { useState } from 'react';
 import { IFilter } from '../../AddDialog';
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
+import {
+    Checkbox,
+    CircularProgress,
+    FormControlLabel,
+    FormGroup,
+} from '@mui/material';
 
 export const ImageFilter = ({
     contact,
     onFilter,
+    isFetchingImage,
 }: IImageFilterProps): JSX.Element => {
     const [filter, setFilter] = useState<IFilter>({
         grayscale: false,
@@ -42,9 +48,14 @@ export const ImageFilter = ({
 
     return (
         <SImageOptionContainer>
-            <SUploadedImageWrapper>
-                <SUploadedImage src={contact.imageFile.toString()} />
-            </SUploadedImageWrapper>
+            {isFetchingImage ? (
+                <CircularProgress />
+            ) : (
+                <SUploadedImageWrapper>
+                    <SUploadedImage src={contact.imageFile.toString()} />
+                </SUploadedImageWrapper>
+            )}
+
             <SCheckboxOptionsContainer>
                 <SCheckboxOptionsItem>
                     <SSliderName>{'Grayscale'}</SSliderName>

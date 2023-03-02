@@ -5,4 +5,6 @@ export interface IImageFilterProps {
     contact: IContact;
 
     onFilter?: (filter: IFilter) => void;
+
+    isFetchingImage?: boolean;
 }

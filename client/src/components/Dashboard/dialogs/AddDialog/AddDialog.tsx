@@ -24,11 +24,11 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     // react hook form, or currying ?
     const [contact, setContact] = useState<IContact>({
         id: 1,
-        firstName: 'gfhgfh',
-        lastName: 'hfgfh',
-        nickName: 'hfgh',
-        address: 'fghfgh',
-        phoneNumbers: ['8545687'],
+        firstName: 'dassad',
+        lastName: 'asdasd',
+        nickName: 'asdsad',
+        address: 'asdsad',
+        phoneNumbers: ['5465465456'],
         imageFile: '',
     });
 
@@ -68,11 +68,15 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         setFilter(filter);
     };
 
+    const [loading, setLoading] = useState<boolean>(false);
+
     const filterImage = async () => {
+        setLoading(true);
         const image = await prefetchFilteredImage({
             imageFile: contact.imageFile,
             ...filter,
         });
+        setLoading(false);
 
         console.log({ image });
         setContact({ ...contact, imageFile: image?.data?.data?.filterImage });
@@ -147,6 +151,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         <ImageFilter
                             contact={contact}
                             onFilter={handleFilter}
+                            isFetchingImage={loading}
                         />
                     )}
                 </DialogContent>
