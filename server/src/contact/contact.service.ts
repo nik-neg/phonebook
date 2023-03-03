@@ -9,8 +9,8 @@ import { UpdateContactInput } from './dto/update-contact.input';
 import { FetchContactsArgs } from './dto/fetch-contacts.input';
 import { FilterService } from '../filter/filter.service';
 import { CONTACTS_COUNT } from './constants';
+import { omit } from 'lodash';
 
-// https://docs.nestjs.com/techniques/validation#stripping-properties
 @Injectable()
 export class ContactService {
   constructor(
@@ -62,12 +62,6 @@ export class ContactService {
       .split(',')
       .map((phoneNumber) => phoneNumber.trim());
 
-    // const phoneNumbers = await Promise.all(
-    //   uniq(parsedPhoneNumbers).map((phoneNumber) =>
-    //     this.preloadPhoneNumber(phoneNumber),
-    //   ),
-    // );
-
     const phoneNumbers = await Promise.all(
       parsedPhoneNumbers.map((phoneNumber) =>
         this.phoneNumberRepository.create({ phoneNumber }),
@@ -93,7 +87,13 @@ export class ContactService {
         imageFile: updateContactInput.imageFile,
       }));
 
-    let contact;
+    const contact = await this.contactRepository.findOne({
+      where: { id },
+      relations: ['phoneNumbers'],
+    });
+
+    let updatedContact;
+
     if (updateContactInput?.phoneNumbers?.length > 0) {
       const parsedPhoneNumbers = updateContactInput.phoneNumbers[0]
         .split(',')
@@ -105,13 +105,11 @@ export class ContactService {
         ),
       );
 
-      const contact = await this.contactRepository.findOne({
-        where: { id },
-        relations: ['phoneNumbers'],
-      });
-
       const oldPhoneNumbers = contact.phoneNumbers.filter(
-        (phoneNumber) => !phoneNumbers.includes(phoneNumber),
+        (entry) =>
+          !phoneNumbers
+            .map((entry) => entry.phoneNumber)
+            .includes(entry.phoneNumber),
       );
 
       // Delete the old phone numbers
@@ -128,9 +126,26 @@ export class ContactService {
       await this.phoneNumberRepository.remove(phoneNumbersToDeleteEntities);
 
       contact.phoneNumbers = phoneNumbers;
+      await this.contactRepository.save(contact);
 
-      return this.contactRepository.save(contact);
+      updatedContact = await this.contactRepository.update(
+        {
+          id,
+        },
+        {
+          ...omit(updateContactInput, ['phoneNumbers', 'filter']),
+          imageFile,
+        },
+      );
+    } else {
+      updatedContact = await this.contactRepository.update(
+        {
+          id,
+        },
+        { ...omit(updateContactInput, ['phoneNumbers', 'filter']), imageFile },
+      );
     }
+    return this.contactRepository.save(updatedContact);
   }
 
   async remove(id: number): Promise<Contact> {
@@ -139,21 +154,6 @@ export class ContactService {
     // Delete the associated phone numbers first
     await this.phoneNumberRepository.delete({ contact: contactToDelete });
 
-    // Delete the contact
-    await this.contactRepository.delete(id);
-
     return this.contactRepository.remove(contactToDelete);
   }
 }
-//   private async preloadPhoneNumber(
-//     phoneNumber: string,
-//   ): Promise<GraphQLTypes.PhoneNumber> {
-//     const existingPhoneNumber = await this.phoneNumberRepository.findOne({
-//       where: { phoneNumber },
-//     });
-//     if (existingPhoneNumber) {
-//       return existingPhoneNumber;
-//     }
-//     return this.phoneNumberRepository.create({ phoneNumber });
-//   }
-// }
