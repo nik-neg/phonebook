@@ -17,7 +17,6 @@ import { removeContact } from '../../../../api/ApiClient';
 export const ContactCard = ({
     contact,
     onRemove,
-    onEditContact,
 }: IContactCardProps): JSX.Element => {
     const {
         id,

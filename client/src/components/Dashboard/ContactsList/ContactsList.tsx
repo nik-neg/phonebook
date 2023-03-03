@@ -103,9 +103,9 @@ export const ContactsList = ({
     );
 
     useEffect(() => {
-        if (!isLoading && data?.data?.contacts?.length > 0 && isDeviceOn) {
-            onFetchContacts?.(data?.data?.contacts);
-        }
+        // if (!isLoading && data?.data?.contacts?.length > 0 && isDeviceOn) {
+        //     onFetchContacts?.(data?.data?.contacts);
+        // }
     }, [data, isLoading, isDeviceOn]);
 
     const handlePowerOn = async () => {
