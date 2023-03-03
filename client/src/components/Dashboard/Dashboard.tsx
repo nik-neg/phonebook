@@ -14,8 +14,6 @@ import { useLazyGetContactsQuery } from '../../store/api/contacts.api';
 export const Dashboard = (): JSX.Element => {
     const [fetchedContacts, setFetchedContacts] = useState<IContact[]>([]);
 
-    console.log({ fetchedContacts });
-
     const onFetchContacts = (contacts: IContact[]) => {
         setFetchedContacts(contacts);
     };

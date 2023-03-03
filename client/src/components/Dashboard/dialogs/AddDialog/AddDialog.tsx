@@ -45,13 +45,12 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         resolver: yupResolver(addContactSchema),
     });
 
-    console.log({ errors, isValid });
-
     const [contact, setContact] = useState<
         Partial<ContactWithPhoneNumbersAsStringWithoutId>
     >({});
 
     const handleClose = () => {
+        clearForm();
         onClose?.();
     };
 
@@ -65,12 +64,16 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         return lastName && firstName && address && phoneNumbers && imageFile;
     };
 
+    const clearForm = () => {
+        reset(defaultValues);
+        setValue('imageFile', '');
+        setContact(getValues());
+    };
+
     const handleSave = async () => {
         if (await triggerValidation()) {
             const response = await createContact(getValues());
-            reset(defaultValues);
-            setValue('imageFile', '');
-            setContact(getValues());
+            clearForm();
             onClose?.();
         }
     };

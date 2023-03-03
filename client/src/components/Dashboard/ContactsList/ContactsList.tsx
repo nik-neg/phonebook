@@ -27,7 +27,6 @@ import {
 export const ContactsList = ({
     contacts,
     onAddContact,
-    onRemoveContact,
     onFetchContacts,
     onOpenSearch,
 }: IContactListProps): JSX.Element => {
@@ -115,8 +114,6 @@ export const ContactsList = ({
         { page: 1 },
         { skip: !isDeviceOn, refetchOnMountOrArgChange: true }
     );
-
-    console.log({ data });
 
     useEffect(() => {
         if (!isLoading && data?.data?.contacts?.length > 0 && isDeviceOn) {

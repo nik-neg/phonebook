@@ -52,6 +52,7 @@ export const UpdateDialog = ({
         },
         resolver: yupResolver(updateContactSchema),
     });
+    console.log({ selectedValue, v: getValues() });
 
     const [contact, setContact] =
         useState<ContactWithPhoneNumbersAsStringWithoutId>({
@@ -66,8 +67,6 @@ export const UpdateDialog = ({
         setContact(getValues());
     };
 
-    const handleClickOpen = () => {};
-
     const handleClose = () => {
         onClose?.();
     };
@@ -81,17 +80,18 @@ export const UpdateDialog = ({
     const [updateContact, { isLoading: isRemoving, isSuccess, isError }] =
         useUpdateContactMutation();
 
-    const triggerValidation = async () => {
-        await trigger('lastName');
-        await trigger('firstName');
-        await trigger('address');
-        await trigger('phoneNumbers');
-        await trigger('imageFile');
+    const triggerValidation = async (): Promise<boolean> => {
+        const lastName = await trigger('lastName');
+        const firstName = await trigger('firstName');
+        const address = await trigger('address');
+        const phoneNumbers = await trigger('phoneNumbers');
+        const imageFile = await trigger('imageFile');
+
+        return lastName && firstName && address && phoneNumbers && imageFile;
     };
 
     const handleUpdate = async () => {
-        await triggerValidation();
-        if (isValid) {
+        if (await triggerValidation()) {
             const res = await updateContact({
                 contact: { ...getValues(), id: selectedValue.id },
                 filterImageInput: filter,
