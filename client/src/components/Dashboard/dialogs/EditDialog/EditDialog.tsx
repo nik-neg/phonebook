@@ -16,12 +16,12 @@ export const EditDialog = (props: IEditDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
 
     const handleClose = () => {
-        onClose(selectedValue);
+        onClose();
     };
 
     const handleEditContact = async (remove: boolean) => {
         onEdit?.(remove);
-        onClose(selectedValue);
+        onClose();
     };
 
     return (

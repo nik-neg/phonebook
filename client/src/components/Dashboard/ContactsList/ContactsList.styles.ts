@@ -9,6 +9,12 @@ export const SContactListContainerWrapper = styled.div`
     height: 760px;
     background: black;
     border-radius: 10px;
+
+    &:hover {
+        -moz-box-shadow: 0 0 10px 10px #bcd4e6;
+        -webkit-box-shadow: 0 0 10px 10px #bcd4e6;
+        box-shadow: 0 0 10px 10px #bcd4e6;
+    }
 `;
 export const SContactListContainer = styled.div`
     padding-top: 0.25rem;

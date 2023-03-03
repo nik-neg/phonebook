@@ -8,7 +8,7 @@ import {
     SNameWrapper,
 } from './ContactCard.styles';
 import React, { useState } from 'react';
-import { IContact, IContactCardProps } from './types';
+import { IContactCardProps } from './types';
 import { EditDialog } from '../../dialogs/EditDialog/EditDialog';
 import { UpdateDialog } from '../../dialogs/UpdateDialog/UpdateDialog';
 import Avatar from '@mui/material/Avatar';
@@ -36,7 +36,7 @@ export const ContactCard = ({
         setOpen(true);
     };
 
-    const handleClose = (value: IContact) => {
+    const handleClose = () => {
         setOpen(false);
     };
 

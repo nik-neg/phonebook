@@ -55,8 +55,6 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         'phoneNumbers',
     ]);
 
-    console.log({ watchFields });
-
     const [contact, setContact] = useState<
         Partial<ContactWithPhoneNumbersAsStringWithoutId>
     >({
@@ -71,8 +69,6 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         clearForm();
         onClose?.();
     };
-
-    console.log({ v: getValues() });
 
     const triggerValidation = async (): Promise<boolean> => {
         const lastName = await trigger('lastName');
