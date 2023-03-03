@@ -33,7 +33,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const {
         register,
         control,
-        formState: { errors },
+        formState: { errors, isValid },
         getValues,
         setValue,
         reset,
@@ -41,6 +41,8 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         defaultValues,
         resolver: useYupValidationResolver(addContactSchema),
     });
+
+    console.log({ errors, isValid });
 
     const [contact, setContact] = useState<
         Partial<ContactWithPhoneNumbersAsString>
@@ -54,14 +56,14 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         setContact(getValues());
         const response = await createContact(getValues());
         reset({
-            firstName: '',
-            lastName: '',
-            nickName: '',
-            imageFile: '',
-            address: '',
-            phoneNumbers: '',
+            firstName: null,
+            lastName: null,
+            nickName: null,
+            imageFile: null,
+            address: null,
+            phoneNumbers: null,
         });
-        setValue('imageFile', '');
+        setValue('imageFile', null);
 
         onClose?.();
     };

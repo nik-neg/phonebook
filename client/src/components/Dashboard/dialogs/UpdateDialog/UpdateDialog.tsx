@@ -28,8 +28,7 @@ export const UpdateDialog = ({
 }: IUpdateDialogProps): JSX.Element => {
     const {
         register,
-        control,
-        handleSubmit,
+        reset,
         formState: { errors },
         getValues,
         setValue,
@@ -73,6 +72,14 @@ export const UpdateDialog = ({
             contact: getValues(),
             filterImageInput: filter,
         }).unwrap();
+        reset({
+            firstName: null,
+            lastName: null,
+            nickName: null,
+            imageFile: null,
+            address: null,
+            phoneNumbers: null,
+        });
         onClose?.();
     };
 

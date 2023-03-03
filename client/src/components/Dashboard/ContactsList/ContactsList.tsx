@@ -82,13 +82,25 @@ export const ContactsList = ({
                 const newContacts = await getContacts({
                     page: page + 1,
                 });
-                console.log({ res: newContacts?.data?.data?.contacts });
                 onFetchContacts?.(
                     newContacts?.data?.data?.contacts?.length > 0
                         ? newContacts?.data?.data?.contacts
                         : contacts
                 );
             }
+            // else {
+            //     setScroll(target.scrollTop);
+            //     setPage((page) => (page > 1 ? page - 1 : 1));
+            //     // fetch more contacts
+            //     const newContacts = await getContacts({
+            //         page: page > 1 ? page - 1 : 1,
+            //     });
+            //     onFetchContacts?.(
+            //         newContacts?.data?.data?.contacts?.length > 0
+            //             ? newContacts?.data?.data?.contacts
+            //             : contacts
+            //     );
+            // }
         },
         100
     );
