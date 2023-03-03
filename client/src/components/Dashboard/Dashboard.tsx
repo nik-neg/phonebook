@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import { ContactsList } from './ContactsList';
 import { AddDialog } from './dialogs/AddDialog/AddDialog';
 import { SearchDialog } from './dialogs/SearchDialog/SearchDialog';
-import { getContacts } from '../../api/ApiClient';
+import { useLazyGetContactsQuery } from '../../store/api/contacts.api';
 
 export const Dashboard = (): JSX.Element => {
     const [fetchedContacts, setFetchedContacts] = useState<IContact[]>([]);
@@ -55,10 +55,11 @@ export const Dashboard = (): JSX.Element => {
         setOpenSearch(false);
     };
 
+    const [trigger, result, lastPromiseInfo] = useLazyGetContactsQuery();
     const handleSearch = async (keyword: string) => {
         if (keyword.length < 3) return;
         // fetch contacts
-        const contacts = await getContacts({
+        const contacts = await trigger({
             keyword,
             page: 1,
         });

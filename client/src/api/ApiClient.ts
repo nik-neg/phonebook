@@ -65,45 +65,6 @@ export const getContacts = async (
     }
 };
 
-export const updateContact = async (
-    contact: ContactWithPhoneNumbersAsString,
-    filterImageInput?: IFilterImageInput
-) => {
-    try {
-        const response = await axios.post(`${BASE_URL}`, {
-            query: `mutation {
-                      updateContact(id: ${contact.id}, updateContactInput: {
-                        firstName: "${contact.firstName}"
-                        lastName: "${contact.lastName}",
-                        nickName: "${contact.nickName}",
-                        phoneNumbers: "${contact.phoneNumbers}",
-                        address: "${contact.address}",
-                        imageFile: "${contact.imageFile}",
-                        filter: {
-                            blur: ${filterImageInput?.blur},
-                            grayscale: ${filterImageInput?.grayscale},
-                            saturation: ${filterImageInput?.saturation},  
-                        }          
-                      }) {
-                        id,
-                        firstName,
-                        lastName,
-                        nickName,
-                        phoneNumbers {
-                            id
-                            phoneNumber
-                        },
-                        address,
-                        imageFile
-                      }
-                    }`,
-        });
-        return response;
-    } catch (error) {
-        console.error(error);
-    }
-};
-
 export const prefetchFilteredImage = async (
     filterImageInput: IFilterImageInput
 ) => {

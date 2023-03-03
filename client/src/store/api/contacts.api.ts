@@ -112,6 +112,7 @@ export const contactsApi = createApi({
 // auto-generated based on the defined endpoints
 export const {
     useGetContactsQuery,
+    useLazyGetContactsQuery,
     useRemoveContactMutation,
     useUpdateContactMutation,
 } = contactsApi;
