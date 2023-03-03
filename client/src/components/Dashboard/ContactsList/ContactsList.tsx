@@ -91,7 +91,6 @@ export const ContactsList = ({
     );
 
     const handleAddContact = () => {
-        console.log('add contact');
         onAddContact?.();
     };
 

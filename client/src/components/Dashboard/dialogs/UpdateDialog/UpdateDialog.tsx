@@ -14,12 +14,10 @@ import { ImageFilter } from '../common/ImageFilter';
 import { useForm } from 'react-hook-form';
 import { updateContactSchema } from './validation/schema';
 import { useYupValidationResolver } from '../common/validation/resolver';
-import {
-    prefetchFilteredImage,
-    updateContact,
-} from '../../../../api/ApiClient';
+import { prefetchFilteredImage } from '../../../../api/ApiClient';
 import { convertPhoneNumbersToString } from './utils';
 import { IFilter } from '../AddDialog';
+import { useUpdateContactMutation } from '../../../../store/api/contacts.api';
 
 // second dialog after choosing a contact to update
 export const UpdateDialog = ({
@@ -67,10 +65,15 @@ export const UpdateDialog = ({
         saturation: 0,
     });
 
+    const [updateContact, { isLoading: isRemoving, isSuccess, isError }] =
+        useUpdateContactMutation();
+
     const handleUpdate = async () => {
-        const res = await updateContact(getValues(), filter);
+        const res = await updateContact({
+            contact: getValues(),
+            filterImageInput: filter,
+        }).unwrap();
         onClose?.();
-        // onEditContact?.(res.data.data.up);
     };
 
     const handleFilter = async (filter: IFilter) => {
@@ -88,7 +91,6 @@ export const UpdateDialog = ({
         });
         setLoading(false);
 
-        console.log({ image });
         setContact({ ...contact, imageFile: image?.data?.data?.filterImage });
         setValue('imageFile', image?.data?.data?.filterImage);
     };

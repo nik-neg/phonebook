@@ -104,22 +104,6 @@ export const updateContact = async (
     }
 };
 
-export const removeContact = async (id: number) => {
-    try {
-        const response = await axios.post(`${BASE_URL}`, {
-            query: `mutation {
-                  removeContact(id: ${id}) {
-                    firstName,
-                    lastName,
-                  }
-                }`,
-        });
-        return response;
-    } catch (error) {
-        console.error(error);
-    }
-};
-
 export const prefetchFilteredImage = async (
     filterImageInput: IFilterImageInput
 ) => {

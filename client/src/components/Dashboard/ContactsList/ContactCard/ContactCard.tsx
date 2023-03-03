@@ -49,9 +49,6 @@ export const ContactCard = ({ contact }: IContactCardProps): JSX.Element => {
 
         if (!remove) {
             setOpenUpdateDialog(true);
-            //     const res = await updateContact(contact);
-            //     console.log({ res });
-            //     // onEditContact?.(res.data.data.up);
             return;
         }
         await removeContact(id).unwrap();
