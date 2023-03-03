@@ -61,8 +61,12 @@ export class ContactService {
   }
 
   async create(createContactInput: CreateContactInput): Promise<Contact> {
+    const parsedPhoneNumbers = createContactInput.phoneNumbers[0]
+      .split(',')
+      .map((phoneNumber) => phoneNumber.trim());
+
     const phoneNumbers = await Promise.all(
-      uniq(createContactInput.phoneNumbers).map((phoneNumber) =>
+      uniq(parsedPhoneNumbers).map((phoneNumber) =>
         this.preloadPhoneNumber(phoneNumber),
       ),
     );
@@ -89,14 +93,19 @@ export class ContactService {
     let phoneNumbers = [];
     let contact;
     if (updateContactInput?.phoneNumbers?.length > 0) {
+      const parsedPhoneNumbers = updateContactInput.phoneNumbers[0]
+        .split(',')
+        .map((phoneNumber) => phoneNumber.trim());
       phoneNumbers = await Promise.all(
-        uniq(updateContactInput.phoneNumbers)?.map((phoneNumber) =>
+        uniq(parsedPhoneNumbers)?.map((phoneNumber) =>
           this.preloadPhoneNumber(phoneNumber),
         ),
       );
       contact = await this.findOne(id);
+
       contact.phoneNumbers = phoneNumbers;
       contact = await this.contactRepository.save(contact);
+
       contact = await this.contactRepository.update(
         {
           id,
@@ -118,7 +127,7 @@ export class ContactService {
     if (!contact) {
       throw new UserInputError(`Contact #${id} does not exist`);
     }
-    return this.contactRepository.save(contact);
+    return contact;
   }
 
   async remove(id: number): Promise<Contact> {

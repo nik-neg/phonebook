@@ -39,20 +39,40 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         formState: { errors, isValid },
         getValues,
         setValue,
+        watch,
         reset,
     } = useForm({
         defaultValues,
         resolver: yupResolver(addContactSchema),
     });
 
+    const watchFields = watch([
+        'firstName',
+        'lastName',
+        'nickName',
+        'imageFile',
+        'address',
+        'phoneNumbers',
+    ]);
+
+    console.log({ watchFields });
+
     const [contact, setContact] = useState<
         Partial<ContactWithPhoneNumbersAsStringWithoutId>
-    >({});
+    >({
+        firstName: '',
+        lastName: '',
+        nickName: '',
+        imageFile: '',
+        address: '',
+    });
 
     const handleClose = () => {
         clearForm();
         onClose?.();
     };
+
+    console.log({ v: getValues() });
 
     const triggerValidation = async (): Promise<boolean> => {
         const lastName = await trigger('lastName');
@@ -72,6 +92,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
 
     const handleSave = async () => {
         if (await triggerValidation()) {
+            console.log({ inner: getValues() });
             const response = await createContact(getValues());
             clearForm();
             onClose?.();

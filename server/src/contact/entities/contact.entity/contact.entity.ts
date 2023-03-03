@@ -24,7 +24,6 @@ export class Contact extends GraphQLTypes.Contact {
 
   @OneToMany((type) => PhoneNumber, (phoneNumber) => phoneNumber.contact, {
     cascade: true,
-    onDelete: 'CASCADE',
   })
   @JoinColumn()
   phoneNumbers: PhoneNumber[];

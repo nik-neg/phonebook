@@ -8,9 +8,6 @@ export class PhoneNumber extends GraphQLTypes.PhoneNumber {
   id: number;
 
   @Column()
-  contactId: number;
-
-  @Column()
   phoneNumber: string;
 
   @ManyToOne((type) => Contact, (contact) => contact.phoneNumbers)

@@ -1,7 +1,5 @@
 import * as GraphQLTypes from '../../graphql-types';
-import { Transform } from 'class-transformer';
-import { phoneNumbersTransform } from './transform/phoneNumbers.transform';
-import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class UpdateContactInput extends GraphQLTypes.UpdateContactInput {
   @IsOptional()
@@ -15,7 +13,6 @@ export class UpdateContactInput extends GraphQLTypes.UpdateContactInput {
   lastName?: string;
 
   @IsOptional()
-  @IsNotEmpty()
   @IsString()
   nickName?: string;
 
@@ -29,10 +26,10 @@ export class UpdateContactInput extends GraphQLTypes.UpdateContactInput {
   @IsString()
   imageFile?: string;
 
-  @IsOptional()
-  @Transform(phoneNumbersTransform)
-  @IsArray()
-  @IsString({ each: true })
+  // @IsOptional()
+  // @Transform(phoneNumbersTransform)
+  // @IsArray()
+  // @IsString({ each: true })
   phoneNumbers: string[];
 
   @IsOptional()
