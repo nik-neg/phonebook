@@ -2,12 +2,10 @@ import { Inject, Injectable } from '@nestjs/common';
 import { PhoneNumber } from './entities/phone-number.entity/phone-number.entity';
 import { Contact } from './entities/contact.entity/contact.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 import { UserInputError } from 'apollo-server-express';
 import { CreateContactInput } from './dto/create-contact.input';
 import { UpdateContactInput } from './dto/update-contact.input';
-import { omit, uniq } from 'lodash';
-import * as GraphQLTypes from '../graphql-types';
 import { FetchContactsArgs } from './dto/fetch-contacts.input';
 import { FilterService } from '../filter/filter.service';
 import { CONTACTS_COUNT } from './constants';
@@ -20,7 +18,6 @@ export class ContactService {
     private readonly contactRepository: Repository<Contact>,
     @InjectRepository(PhoneNumber)
     private readonly phoneNumberRepository: Repository<PhoneNumber>,
-
     @Inject(FilterService)
     private readonly filterService: FilterService,
   ) {}
@@ -65,9 +62,15 @@ export class ContactService {
       .split(',')
       .map((phoneNumber) => phoneNumber.trim());
 
+    // const phoneNumbers = await Promise.all(
+    //   uniq(parsedPhoneNumbers).map((phoneNumber) =>
+    //     this.preloadPhoneNumber(phoneNumber),
+    //   ),
+    // );
+
     const phoneNumbers = await Promise.all(
-      uniq(parsedPhoneNumbers).map((phoneNumber) =>
-        this.preloadPhoneNumber(phoneNumber),
+      parsedPhoneNumbers.map((phoneNumber) =>
+        this.phoneNumberRepository.create({ phoneNumber }),
       ),
     );
     // unique phone numbers
@@ -90,44 +93,44 @@ export class ContactService {
         imageFile: updateContactInput.imageFile,
       }));
 
-    let phoneNumbers = [];
     let contact;
     if (updateContactInput?.phoneNumbers?.length > 0) {
       const parsedPhoneNumbers = updateContactInput.phoneNumbers[0]
         .split(',')
         .map((phoneNumber) => phoneNumber.trim());
-      phoneNumbers = await Promise.all(
-        uniq(parsedPhoneNumbers)?.map((phoneNumber) =>
-          this.preloadPhoneNumber(phoneNumber),
+
+      const phoneNumbers = await Promise.all(
+        parsedPhoneNumbers.map((phoneNumber) =>
+          this.phoneNumberRepository.create({ phoneNumber }),
         ),
       );
-      contact = await this.findOne(id);
+
+      const contact = await this.contactRepository.findOne({
+        where: { id },
+        relations: ['phoneNumbers'],
+      });
+
+      const oldPhoneNumbers = contact.phoneNumbers.filter(
+        (phoneNumber) => !phoneNumbers.includes(phoneNumber),
+      );
+
+      // Delete the old phone numbers
+      const phoneNumbersToDeleteEntities =
+        await this.phoneNumberRepository.find({
+          where: {
+            phoneNumber: In(
+              oldPhoneNumbers.map((phoneNumber) => phoneNumber.phoneNumber),
+            ),
+            contact: contact,
+          },
+        });
+
+      await this.phoneNumberRepository.remove(phoneNumbersToDeleteEntities);
 
       contact.phoneNumbers = phoneNumbers;
-      contact = await this.contactRepository.save(contact);
 
-      contact = await this.contactRepository.update(
-        {
-          id,
-        },
-        {
-          ...omit(updateContactInput, ['phoneNumbers', 'filter']),
-          imageFile,
-        },
-      );
-    } else {
-      contact = await this.contactRepository.update(
-        {
-          id,
-        },
-        { ...omit(updateContactInput, ['phoneNumbers', 'filter']), imageFile },
-      );
+      return this.contactRepository.save(contact);
     }
-
-    if (!contact) {
-      throw new UserInputError(`Contact #${id} does not exist`);
-    }
-    return contact;
   }
 
   async remove(id: number): Promise<Contact> {
@@ -141,15 +144,16 @@ export class ContactService {
 
     return this.contactRepository.remove(contactToDelete);
   }
-  private async preloadPhoneNumber(
-    phoneNumber: string,
-  ): Promise<GraphQLTypes.PhoneNumber> {
-    const existingPhoneNumber = await this.phoneNumberRepository.findOne({
-      where: { phoneNumber },
-    });
-    if (existingPhoneNumber) {
-      return existingPhoneNumber;
-    }
-    return this.phoneNumberRepository.create({ phoneNumber });
-  }
 }
+//   private async preloadPhoneNumber(
+//     phoneNumber: string,
+//   ): Promise<GraphQLTypes.PhoneNumber> {
+//     const existingPhoneNumber = await this.phoneNumberRepository.findOne({
+//       where: { phoneNumber },
+//     });
+//     if (existingPhoneNumber) {
+//       return existingPhoneNumber;
+//     }
+//     return this.phoneNumberRepository.create({ phoneNumber });
+//   }
+// }
