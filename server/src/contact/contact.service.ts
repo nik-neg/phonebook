@@ -4,12 +4,11 @@ import { Contact } from './entities/contact.entity/contact.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
 import { UserInputError } from 'apollo-server-express';
-import { CreateContactInput } from './dto/create-contact.input/create-contact.input';
-import { UpdateContactInput } from './dto/update-contact.input/update-contact.input';
+import { CreateContactInput } from './dto/create-contact.input';
+import { UpdateContactInput } from './dto/update-contact.input';
 import { omit, uniq } from 'lodash';
 import * as GraphQLTypes from '../graphql-types';
-import { FetchContactsArgs } from './dto/fetch-contacts.input/fetch-contacts.input';
-import { parsePhoneNumberArrayString } from './utils';
+import { FetchContactsArgs } from './dto/fetch-contacts.input';
 import { FilterService } from '../filter/filter.service';
 import { CONTACTS_COUNT } from './constants';
 
@@ -63,8 +62,8 @@ export class ContactService {
 
   async create(createContactInput: CreateContactInput): Promise<Contact> {
     const phoneNumbers = await Promise.all(
-      uniq(parsePhoneNumberArrayString(createContactInput.phoneNumbers)).map(
-        (phoneNumber) => this.preloadPhoneNumber(phoneNumber),
+      uniq(createContactInput.phoneNumbers).map((phoneNumber) =>
+        this.preloadPhoneNumber(phoneNumber),
       ),
     );
     // unique phone numbers
@@ -91,8 +90,8 @@ export class ContactService {
     let contact;
     if (updateContactInput?.phoneNumbers?.length > 0) {
       phoneNumbers = await Promise.all(
-        uniq(parsePhoneNumberArrayString(updateContactInput.phoneNumbers))?.map(
-          (phoneNumber) => this.preloadPhoneNumber(phoneNumber),
+        uniq(updateContactInput.phoneNumbers)?.map((phoneNumber) =>
+          this.preloadPhoneNumber(phoneNumber),
         ),
       );
       contact = await this.findOne(id);

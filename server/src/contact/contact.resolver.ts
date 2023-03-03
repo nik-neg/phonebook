@@ -2,15 +2,14 @@ import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ContactService } from './contact.service';
 import * as GraphQLTypes from '../graphql-types';
 import { ParseIntPipe } from '@nestjs/common';
-import { CreateContactInput } from './dto/create-contact.input/create-contact.input';
-import { UpdateContactInput } from './dto/update-contact.input/update-contact.input';
-import { FetchContactsArgs } from './dto/fetch-contacts.input/fetch-contacts.input';
+import { CreateContactInput } from './dto/create-contact.input';
+import { UpdateContactInput } from './dto/update-contact.input';
+import { FetchContactsArgs } from './dto/fetch-contacts.input';
 
 @Resolver()
 export class ContactResolver {
   constructor(private readonly contactService: ContactService) {}
 
-  // https://www.npmjs.com/package/nestjs-paginate
   @Query('contacts')
   async findAll(
     @Args('queryPaginationInput')
