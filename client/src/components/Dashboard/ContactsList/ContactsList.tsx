@@ -20,6 +20,7 @@ import { getContacts } from '../../../api/ApiClient';
 import date from 'date-and-time';
 import Tilt from 'react-parallax-tilt';
 import { debounce } from 'lodash-es';
+import { useGetContactsQuery } from '../../../store/api/contacts.api';
 
 export const ContactsList = ({
     contacts,
@@ -95,6 +96,9 @@ export const ContactsList = ({
     };
 
     const [isFetched, setIsFetched] = React.useState(false);
+
+    const { data, error, isLoading } = useGetContactsQuery({ page: 1 });
+    console.log({ data });
 
     const handlePowerOn = async () => {
         if (isFetched) {
