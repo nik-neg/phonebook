@@ -46,6 +46,8 @@ export const ImageFilter = ({
         onFilter?.({ ...filter, grayscale: inputElement.checked });
     };
 
+    console.log({ image: contact.imageFile });
+
     return (
         <SImageOptionContainer>
             {isFetchingImage ? (

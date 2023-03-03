@@ -9,6 +9,9 @@ export interface IUpdateDialogProps {
     onClose: () => void;
 }
 
-export type ContactWithPhoneNumbersAsString = Omit<IContact, 'phoneNumbers'> & {
+export type ContactWithPhoneNumbersAsString = Omit<
+    IContact,
+    'phoneNumbers' | 'id'
+> & {
     phoneNumbers: string;
 };

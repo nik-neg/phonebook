@@ -18,28 +18,31 @@ import {
 import { ImageFilter } from '../common/ImageFilter';
 import { ContactWithPhoneNumbersAsString } from '../UpdateDialog';
 import { useForm } from 'react-hook-form';
-import { convertPhoneNumbersToString } from '../UpdateDialog/utils';
-import { useYupValidationResolver } from '../common/validation/resolver';
 import { addContactSchema } from './validation/schema';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
 
     const defaultValues = {
-        ...selectedValue,
-        phoneNumbers: convertPhoneNumbersToString(selectedValue?.phoneNumbers),
+        firstName: '',
+        lastName: '',
+        nickName: '',
+        imageFile: '',
+        address: '',
+        phoneNumbers: '',
     };
 
     const {
         register,
-        control,
+        trigger,
         formState: { errors, isValid },
         getValues,
         setValue,
         reset,
     } = useForm({
         defaultValues,
-        resolver: useYupValidationResolver(addContactSchema),
+        resolver: yupResolver(addContactSchema),
     });
 
     console.log({ errors, isValid });
@@ -52,20 +55,23 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         onClose?.();
     };
 
-    const handleSave = async () => {
-        setContact(getValues());
-        const response = await createContact(getValues());
-        reset({
-            firstName: null,
-            lastName: null,
-            nickName: null,
-            imageFile: null,
-            address: null,
-            phoneNumbers: null,
-        });
-        setValue('imageFile', null);
+    const triggerValidation = async () => {
+        await trigger('lastName');
+        await trigger('firstName');
+        await trigger('address');
+        await trigger('phoneNumbers');
+        await trigger('imageFile');
+    };
 
-        onClose?.();
+    const handleSave = async () => {
+        await triggerValidation();
+        if (isValid) {
+            const response = await createContact(getValues());
+            reset(defaultValues);
+            setValue('imageFile', '');
+            setContact(getValues());
+            onClose?.();
+        }
     };
 
     const handleUploadImage = async (
@@ -117,6 +123,11 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         variant="standard"
                         {...register('firstName')}
                     />
+                    {errors.firstName && (
+                        <span style={{ color: 'red' }}>
+                            {errors.firstName.message}
+                        </span>
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -126,6 +137,11 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         variant="standard"
                         {...register('lastName')}
                     />
+                    {errors.lastName && (
+                        <span style={{ color: 'red' }}>
+                            {errors.lastName.message}
+                        </span>
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -135,6 +151,11 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         variant="standard"
                         {...register('nickName')}
                     />
+                    {errors.nickName && (
+                        <span style={{ color: 'red' }}>
+                            {errors.nickName.message}
+                        </span>
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -144,6 +165,11 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         variant="standard"
                         {...register('address')}
                     />
+                    {errors.address && (
+                        <span style={{ color: 'red' }}>
+                            {errors.address.message}
+                        </span>
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -153,9 +179,19 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         variant="standard"
                         {...register('phoneNumbers')}
                     />
+                    {errors.phoneNumbers && (
+                        <span style={{ color: 'red' }}>
+                            {errors.phoneNumbers.message}
+                        </span>
+                    )}
                     <SUploadButtonWrapper>
                         <UploadButton onUpload={handleUploadImage} />
                     </SUploadButtonWrapper>
+                    {errors.imageFile && (
+                        <span style={{ color: 'red' }}>
+                            {errors.imageFile.message}
+                        </span>
+                    )}
                     {contact.imageFile && (
                         <ImageFilter
                             contact={contact}

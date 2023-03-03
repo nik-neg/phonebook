@@ -13,11 +13,11 @@ import { SUploadButtonWrapper } from '../common/UploadButton/UploadButton.styles
 import { ImageFilter } from '../common/ImageFilter';
 import { useForm } from 'react-hook-form';
 import { updateContactSchema } from './validation/schema';
-import { useYupValidationResolver } from '../common/validation/resolver';
 import { prefetchFilteredImage } from '../../../../api/ApiClient';
 import { convertPhoneNumbersToString } from './utils';
 import { IFilter } from '../AddDialog';
 import { useUpdateContactMutation } from '../../../../store/api/contacts.api';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 // second dialog after choosing a contact to update
 export const UpdateDialog = ({
@@ -29,7 +29,7 @@ export const UpdateDialog = ({
     const {
         register,
         reset,
-        formState: { errors },
+        formState: { errors, isValid },
         getValues,
         setValue,
     } = useForm({
@@ -39,7 +39,7 @@ export const UpdateDialog = ({
                 selectedValue.phoneNumbers
             ),
         },
-        resolver: useYupValidationResolver(updateContactSchema),
+        resolver: yupResolver(updateContactSchema),
     });
 
     const [contact, setContact] = useState<ContactWithPhoneNumbersAsString>({
@@ -172,7 +172,9 @@ export const UpdateDialog = ({
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
                     <Button onClick={filterImage}>Filter</Button>
-                    <Button onClick={handleUpdate}>Update</Button>
+                    <Button onClick={handleUpdate} disabled={!isValid}>
+                        Update
+                    </Button>
                 </DialogActions>
             </Dialog>
         </div>
