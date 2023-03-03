@@ -55,11 +55,11 @@ export const Dashboard = (): JSX.Element => {
         setOpenSearch(false);
     };
 
-    const [trigger, result, lastPromiseInfo] = useLazyGetContactsQuery();
+    const [getContacts, result, lastPromiseInfo] = useLazyGetContactsQuery();
     const handleSearch = async (keyword: string) => {
         if (keyword.length < 3) return;
         // fetch contacts
-        const contacts = await trigger({
+        const contacts = await getContacts({
             keyword,
             page: 1,
         });

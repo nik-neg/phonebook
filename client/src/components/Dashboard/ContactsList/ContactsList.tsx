@@ -16,11 +16,13 @@ import { IContactListProps } from './types';
 import { ContactCard } from './ContactCard';
 import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
 import React, { useEffect, useState } from 'react';
-import { getContacts } from '../../../api/ApiClient';
 import date from 'date-and-time';
 import Tilt from 'react-parallax-tilt';
 import { debounce } from 'lodash-es';
-import { useGetContactsQuery } from '../../../store/api/contacts.api';
+import {
+    useGetContactsQuery,
+    useLazyGetContactsQuery,
+} from '../../../store/api/contacts.api';
 
 export const ContactsList = ({
     contacts,
@@ -69,6 +71,7 @@ export const ContactsList = ({
     //         onFetchContacts?.(newContacts?.data?.data?.contacts ?? []);
     //     }
     // };
+    const [getContacts, result, lastPromiseInfo] = useLazyGetContactsQuery();
     const handleScroll = debounce(
         async (event: React.UIEvent<HTMLInputElement>) => {
             const target = event.target as HTMLInputElement; // Type assertion to HTMLInputElement
