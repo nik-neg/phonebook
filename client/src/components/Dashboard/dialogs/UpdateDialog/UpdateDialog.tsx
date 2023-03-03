@@ -7,10 +7,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import {
-    ContactWithPhoneNumbersAsStringWithoutId,
-    IUpdateDialogProps,
-} from './types';
+import { IUpdateDialogProps } from './types';
 import { UploadButton } from '../common/UploadButton/UploadButton';
 import { SUploadButtonWrapper } from '../common/UploadButton/UploadButton.styles';
 import { ImageFilter } from '../common/ImageFilter';
@@ -25,7 +22,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 export const UpdateDialog = ({
     selectedValue,
     open,
-    onEdit,
     onClose,
 }: IUpdateDialogProps): JSX.Element => {
     const defaultValues = {
@@ -54,20 +50,25 @@ export const UpdateDialog = ({
     });
     console.log({ selectedValue, v: getValues() });
 
-    const [contact, setContact] =
-        useState<ContactWithPhoneNumbersAsStringWithoutId>({
-            ...selectedValue,
-            phoneNumbers: convertPhoneNumbersToString(
-                selectedValue.phoneNumbers
-            ),
-        });
+    // const [contact, setContact] =
+    //     useState<ContactWithPhoneNumbersAsStringWithoutId>({
+    //         ...selectedValue,
+    //         phoneNumbers: convertPhoneNumbersToString(
+    //             selectedValue.phoneNumbers
+    //         ),
+    //     });
 
     const handleUploadImage = (imagePath: string | ArrayBuffer) => {
         setValue('imageFile', imagePath.toString());
-        setContact(getValues());
+    };
+    const clearForm = () => {
+        reset(defaultValues);
+        setValue('imageFile', '');
+        // setContact(getValues());
     };
 
     const handleClose = () => {
+        clearForm();
         onClose?.();
     };
 
@@ -96,7 +97,7 @@ export const UpdateDialog = ({
                 contact: { ...getValues(), id: selectedValue.id },
                 filterImageInput: filter,
             }).unwrap();
-            reset(defaultValues);
+            clearForm();
             onClose?.();
         }
     };
@@ -111,12 +112,11 @@ export const UpdateDialog = ({
     const filterImage = async () => {
         setLoading(true);
         const image = await prefetchFilteredImage({
-            imageFile: contact.imageFile,
+            imageFile: selectedValue.imageFile,
             ...filter,
         });
         setLoading(false);
 
-        setContact({ ...contact, imageFile: image?.data?.data?.filterImage });
         setValue('imageFile', image?.data?.data?.filterImage);
     };
 
@@ -208,10 +208,10 @@ export const UpdateDialog = ({
                             {errors.imageFile.message}
                         </span>
                     )}
-                    {contact.imageFile && (
+                    {selectedValue.imageFile && (
                         <>
                             <ImageFilter
-                                contact={contact}
+                                contact={selectedValue}
                                 onFilter={handleFilter}
                             />
                         </>
