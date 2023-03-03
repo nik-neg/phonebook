@@ -15,7 +15,7 @@ import {
 import { IContactListProps } from './types';
 import { ContactCard } from './ContactCard';
 import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getContacts } from '../../../api/ApiClient';
 import date from 'date-and-time';
 import Tilt from 'react-parallax-tilt';
@@ -95,26 +95,27 @@ export const ContactsList = ({
         onAddContact?.();
     };
 
-    const [isFetched, setIsFetched] = React.useState(false);
+    const [isDeviceOn, setIsDeviceOn] = React.useState(false);
 
-    const { data, error, isLoading } = useGetContactsQuery({ page: 1 });
-    console.log({ data });
+    const { data, error, isLoading } = useGetContactsQuery(
+        { page: 1 },
+        { skip: !isDeviceOn, refetchOnMountOrArgChange: true }
+    );
+
+    useEffect(() => {
+        if (!isLoading && data?.data?.contacts?.length > 0 && isDeviceOn) {
+            onFetchContacts?.(data?.data?.contacts);
+        }
+    }, [data, isLoading, isDeviceOn]);
 
     const handlePowerOn = async () => {
-        if (isFetched) {
-            setIsFetched(false);
+        setIsDeviceOn(!isDeviceOn);
+        if (isDeviceOn) {
+            setIsDeviceOn(false);
 
             onFetchContacts?.([]);
             return;
         }
-        const contacts = await getContacts({
-            page: 1,
-        });
-        if (contacts?.data?.data?.contacts?.length > 0) {
-            setIsFetched(true);
-        }
-        console.log({ handlePowerOn, contacts });
-        onFetchContacts?.(contacts?.data?.data?.contacts ?? []);
     };
 
     const handleRemove = async (id: number) => {
@@ -141,7 +142,7 @@ export const ContactsList = ({
                 <SContactListContainer>
                     <SContactListWrapper
                         onScroll={handleScroll}
-                        contactsAreFetched={isFetched}
+                        contactsAreFetched={isDeviceOn}
                     >
                         <STimePanelWrapper>
                             <STimePanelYear>
