@@ -37,12 +37,14 @@ export const contactsApi = createApi({
                 },
             }),
             providesTags: (result) =>
-                result.data.contacts
+                result?.data?.contacts
                     ? [
-                          ...result.data.contacts.map((contact: IContact) => ({
-                              type: 'Contact' as const,
-                              id: contact.id.toString(),
-                          })),
+                          ...result?.data?.contacts?.map(
+                              (contact: IContact) => ({
+                                  type: 'Contact' as const,
+                                  id: contact.id.toString(),
+                              })
+                          ),
                           { type: 'Contacts', id: 'LIST' },
                       ]
                     : [{ type: 'Contacts', id: 'LIST' }],
