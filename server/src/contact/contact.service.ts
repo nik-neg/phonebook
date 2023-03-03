@@ -129,7 +129,10 @@ export class ContactService {
         { ...omit(updateContactInput, ['phoneNumbers', 'filter']), imageFile },
       );
     }
-    return this.contactRepository.save(updatedContact);
+    return this.contactRepository.findOne({
+      where: { id },
+      relations: ['phoneNumbers'],
+    });
   }
 
   async remove(id: number): Promise<Contact> {

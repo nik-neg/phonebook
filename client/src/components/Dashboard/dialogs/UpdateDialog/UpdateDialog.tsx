@@ -83,6 +83,7 @@ export const UpdateDialog = ({
     };
 
     const handleUpdate = async () => {
+        console.log({ v: getValues() });
         if (await triggerValidation()) {
             const res = await updateContact({
                 contact: { ...getValues(), id: selectedValue.id },

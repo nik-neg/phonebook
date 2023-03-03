@@ -68,7 +68,7 @@ export const contactsApi = createApi({
             invalidatesTags: [{ type: 'Contacts', id: 'LIST' }],
         }),
         updateContact: builder.mutation<
-            IContact,
+            any,
             {
                 contact: ContactWithPhoneNumbersAsString;
                 filterImageInput: IFilterImageInput;
