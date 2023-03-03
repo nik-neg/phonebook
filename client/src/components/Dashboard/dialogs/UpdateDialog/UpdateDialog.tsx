@@ -7,7 +7,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { ContactWithPhoneNumbersAsString, IUpdateDialogProps } from './types';
+import {
+    ContactWithPhoneNumbersAsStringWithoutId,
+    IUpdateDialogProps,
+} from './types';
 import { UploadButton } from '../common/UploadButton/UploadButton';
 import { SUploadButtonWrapper } from '../common/UploadButton/UploadButton.styles';
 import { ImageFilter } from '../common/ImageFilter';
@@ -19,16 +22,24 @@ import { IFilter } from '../AddDialog';
 import { useUpdateContactMutation } from '../../../../store/api/contacts.api';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-// second dialog after choosing a contact to update
 export const UpdateDialog = ({
     selectedValue,
     open,
     onEdit,
     onClose,
 }: IUpdateDialogProps): JSX.Element => {
+    const defaultValues = {
+        firstName: '',
+        lastName: '',
+        nickName: '',
+        imageFile: '',
+        address: '',
+        phoneNumbers: '',
+    };
     const {
         register,
         reset,
+        trigger,
         formState: { errors, isValid },
         getValues,
         setValue,
@@ -42,10 +53,13 @@ export const UpdateDialog = ({
         resolver: yupResolver(updateContactSchema),
     });
 
-    const [contact, setContact] = useState<ContactWithPhoneNumbersAsString>({
-        ...selectedValue,
-        phoneNumbers: convertPhoneNumbersToString(selectedValue.phoneNumbers),
-    });
+    const [contact, setContact] =
+        useState<ContactWithPhoneNumbersAsStringWithoutId>({
+            ...selectedValue,
+            phoneNumbers: convertPhoneNumbersToString(
+                selectedValue.phoneNumbers
+            ),
+        });
 
     const handleUploadImage = (imagePath: string | ArrayBuffer) => {
         setValue('imageFile', imagePath.toString());
@@ -67,20 +81,24 @@ export const UpdateDialog = ({
     const [updateContact, { isLoading: isRemoving, isSuccess, isError }] =
         useUpdateContactMutation();
 
+    const triggerValidation = async () => {
+        await trigger('lastName');
+        await trigger('firstName');
+        await trigger('address');
+        await trigger('phoneNumbers');
+        await trigger('imageFile');
+    };
+
     const handleUpdate = async () => {
-        const res = await updateContact({
-            contact: getValues(),
-            filterImageInput: filter,
-        }).unwrap();
-        reset({
-            firstName: null,
-            lastName: null,
-            nickName: null,
-            imageFile: null,
-            address: null,
-            phoneNumbers: null,
-        });
-        onClose?.();
+        await triggerValidation();
+        if (isValid) {
+            const res = await updateContact({
+                contact: { ...getValues(), id: selectedValue.id },
+                filterImageInput: filter,
+            }).unwrap();
+            reset(defaultValues);
+            onClose?.();
+        }
     };
 
     const handleFilter = async (filter: IFilter) => {
@@ -120,6 +138,11 @@ export const UpdateDialog = ({
                         variant="standard"
                         {...register('firstName')}
                     />
+                    {errors.firstName && (
+                        <span style={{ color: 'red' }}>
+                            {errors.firstName.message}
+                        </span>
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -130,6 +153,11 @@ export const UpdateDialog = ({
                         variant="standard"
                         {...register('lastName')}
                     />
+                    {errors.lastName && (
+                        <span style={{ color: 'red' }}>
+                            {errors.lastName.message}
+                        </span>
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -139,6 +167,11 @@ export const UpdateDialog = ({
                         variant="standard"
                         {...register('nickName')}
                     />
+                    {errors.nickName && (
+                        <span style={{ color: 'red' }}>
+                            {errors.nickName.message}
+                        </span>
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -148,6 +181,11 @@ export const UpdateDialog = ({
                         variant="standard"
                         {...register('address')}
                     />
+                    {errors.address && (
+                        <span style={{ color: 'red' }}>
+                            {errors.address.message}
+                        </span>
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -157,9 +195,19 @@ export const UpdateDialog = ({
                         variant="standard"
                         {...register('phoneNumbers')}
                     />
+                    {errors.phoneNumbers && (
+                        <span style={{ color: 'red' }}>
+                            {errors.phoneNumbers.message}
+                        </span>
+                    )}
                     <SUploadButtonWrapper>
                         <UploadButton onUpload={handleUploadImage} />
                     </SUploadButtonWrapper>
+                    {errors.imageFile && (
+                        <span style={{ color: 'red' }}>
+                            {errors.imageFile.message}
+                        </span>
+                    )}
                     {contact.imageFile && (
                         <>
                             <ImageFilter
@@ -172,9 +220,7 @@ export const UpdateDialog = ({
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
                     <Button onClick={filterImage}>Filter</Button>
-                    <Button onClick={handleUpdate} disabled={!isValid}>
-                        Update
-                    </Button>
+                    <Button onClick={handleUpdate}>Update</Button>
                 </DialogActions>
             </Dialog>
         </div>

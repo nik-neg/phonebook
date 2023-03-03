@@ -1,8 +1,8 @@
 import { IFilter } from '../../AddDialog';
-import { ContactWithPhoneNumbersAsString } from '../../UpdateDialog';
+import { ContactWithPhoneNumbersAsStringWithoutId } from '../../UpdateDialog';
 
 export interface IImageFilterProps {
-    contact: ContactWithPhoneNumbersAsString;
+    contact: ContactWithPhoneNumbersAsStringWithoutId;
 
     onFilter?: (filter: IFilter) => void;
 

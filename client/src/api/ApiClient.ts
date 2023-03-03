@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { IFilterImageInput } from './types';
-import { ContactWithPhoneNumbersAsString } from '../components/Dashboard/dialogs/UpdateDialog';
+import { ContactWithPhoneNumbersAsStringWithoutId } from '../components/Dashboard/dialogs/UpdateDialog';
 import { BASE_URL } from './constants';
 
 export const createContact = async (
-    contact: ContactWithPhoneNumbersAsString
+    contact: ContactWithPhoneNumbersAsStringWithoutId
 ) => {
     try {
         const response = await axios.post(`${BASE_URL}`, {

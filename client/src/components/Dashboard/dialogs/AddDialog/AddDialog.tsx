@@ -16,13 +16,13 @@ import {
     prefetchFilteredImage,
 } from '../../../../api/ApiClient';
 import { ImageFilter } from '../common/ImageFilter';
-import { ContactWithPhoneNumbersAsString } from '../UpdateDialog';
+import { ContactWithPhoneNumbersAsStringWithoutId } from '../UpdateDialog';
 import { useForm } from 'react-hook-form';
 import { addContactSchema } from './validation/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
-    const { onClose, selectedValue, open, onEdit } = props;
+    const { onClose, open } = props;
 
     const defaultValues = {
         firstName: '',
@@ -48,24 +48,25 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     console.log({ errors, isValid });
 
     const [contact, setContact] = useState<
-        Partial<ContactWithPhoneNumbersAsString>
+        Partial<ContactWithPhoneNumbersAsStringWithoutId>
     >({});
 
     const handleClose = () => {
         onClose?.();
     };
 
-    const triggerValidation = async () => {
-        await trigger('lastName');
-        await trigger('firstName');
-        await trigger('address');
-        await trigger('phoneNumbers');
-        await trigger('imageFile');
+    const triggerValidation = async (): Promise<boolean> => {
+        const lastName = await trigger('lastName');
+        const firstName = await trigger('firstName');
+        const address = await trigger('address');
+        const phoneNumbers = await trigger('phoneNumbers');
+        const imageFile = await trigger('imageFile');
+
+        return lastName && firstName && address && phoneNumbers && imageFile;
     };
 
     const handleSave = async () => {
-        await triggerValidation();
-        if (isValid) {
+        if (await triggerValidation()) {
             const response = await createContact(getValues());
             reset(defaultValues);
             setValue('imageFile', '');

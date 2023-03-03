@@ -64,6 +64,8 @@ export const Dashboard = (): JSX.Element => {
             page: 1,
         });
 
+        console.log({ s: contacts });
+
         setFetchedContacts(contacts?.data?.data?.contacts ?? []);
     };
 
@@ -81,7 +83,6 @@ export const Dashboard = (): JSX.Element => {
                 />
             </SDashboardList>
             <AddDialog
-                selectedValue={contact}
                 open={open}
                 onClose={handleClose}
                 onEdit={handleAddContact}

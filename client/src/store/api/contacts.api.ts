@@ -3,6 +3,7 @@ import { IFilterImageInput, IQueryPaginationInput } from '../../api/types';
 import { BASE_URL } from './types';
 import { buildContactQuery } from '../../api/utils';
 import { IContact } from '../../components/Dashboard/ContactsList/ContactCard';
+import { ContactWithPhoneNumbersAsString } from '../../components/Dashboard/dialogs/UpdateDialog';
 
 // Define a service using a base URL and expected endpoints
 export const contactsApi = createApi({
@@ -46,7 +47,7 @@ export const contactsApi = createApi({
                       ]
                     : [{ type: 'Contacts', id: 'LIST' }],
         }),
-        removeContact: builder.mutation<any, number>({
+        removeContact: builder.mutation<any, IContact['id']>({
             query: (id) => ({
                 url: `/graphql`,
                 method: 'POST',
@@ -66,7 +67,10 @@ export const contactsApi = createApi({
         }),
         updateContact: builder.mutation<
             IContact,
-            { contact: IContact; filterImageInput: IFilterImageInput }
+            {
+                contact: ContactWithPhoneNumbersAsString;
+                filterImageInput: IFilterImageInput;
+            }
         >({
             query: ({ contact, filterImageInput }) => ({
                 url: `/graphql`,
