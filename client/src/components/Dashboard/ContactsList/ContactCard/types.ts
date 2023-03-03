@@ -4,7 +4,6 @@ export interface IContactCardPhotoProps {
 
 export interface IContactCardProps {
     contact: IContact;
-    onRemove: (id: number) => void;
 
     onEditContact?: (contacts: IContact) => void;
 }

@@ -20,10 +20,7 @@ import { getContacts } from '../../../api/ApiClient';
 import date from 'date-and-time';
 import Tilt from 'react-parallax-tilt';
 import { debounce } from 'lodash-es';
-import {
-    useGetContactsQuery,
-    useRemoveContactMutation,
-} from '../../../store/api/contacts.api';
+import { useGetContactsQuery } from '../../../store/api/contacts.api';
 
 export const ContactsList = ({
     contacts,
@@ -123,14 +120,6 @@ export const ContactsList = ({
         }
     };
 
-    const [removeContact, { isLoading: isRemoving, isSuccess, isError }] =
-        useRemoveContactMutation();
-    const handleRemove = async (id: number) => {
-        const temp = await removeContact(id).unwrap();
-        console.log({ temp });
-        // onRemoveContact?.(id);
-    };
-
     const [time, setTime] = React.useState(new Date());
 
     // useEffect(() => {
@@ -142,8 +131,6 @@ export const ContactsList = ({
     const handleSearch = () => {
         onOpenSearch?.();
     };
-
-    // on remove refetch new contacts and sort
 
     return (
         <Tilt>
@@ -168,7 +155,6 @@ export const ContactsList = ({
                                         <ContactCard
                                             key={index}
                                             contact={contact}
-                                            onRemove={handleRemove}
                                         />
                                     )
                             )}
