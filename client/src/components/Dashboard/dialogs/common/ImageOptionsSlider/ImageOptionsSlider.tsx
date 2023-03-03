@@ -31,7 +31,6 @@ export const ImageOptionsSlider = ({
         if (Array.isArray(newValue)) {
             return;
         }
-        console.log({ newValue });
         onChangeParent?.(name.toLowerCase(), newValue);
         setValue(newValue);
     };

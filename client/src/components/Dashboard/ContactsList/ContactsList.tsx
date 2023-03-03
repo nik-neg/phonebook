@@ -29,6 +29,7 @@ export const ContactsList = ({
     onAddContact,
     onFetchContacts,
     onOpenSearch,
+    onRemoveContact,
 }: IContactListProps): JSX.Element => {
     const [scroll, setScroll] = useState(0);
 
@@ -131,7 +132,7 @@ export const ContactsList = ({
         }
     };
 
-    const [time, setTime] = React.useState(new Date());
+    const [time, setTime] = useState(new Date());
 
     // useEffect(() => {
     //     setTimeout(() => {
@@ -166,6 +167,7 @@ export const ContactsList = ({
                                         <ContactCard
                                             key={index}
                                             contact={contact}
+                                            onRemoveContact={onRemoveContact}
                                         />
                                     )
                             )}

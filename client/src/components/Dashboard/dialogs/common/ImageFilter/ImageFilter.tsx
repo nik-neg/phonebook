@@ -29,7 +29,6 @@ export const ImageFilter = ({
     onFilter,
     isFetchingImage,
 }: IImageFilterProps): JSX.Element => {
-    console.log({ contact });
     const [filter, setFilter] = useState<IFilter>({
         grayscale: false,
         blur: 0,

@@ -48,15 +48,6 @@ export const UpdateDialog = ({
         },
         resolver: yupResolver(updateContactSchema),
     });
-    console.log({ selectedValue, v: getValues() });
-
-    // const [contact, setContact] =
-    //     useState<ContactWithPhoneNumbersAsStringWithoutId>({
-    //         ...selectedValue,
-    //         phoneNumbers: convertPhoneNumbersToString(
-    //             selectedValue.phoneNumbers
-    //         ),
-    //     });
 
     const handleUploadImage = (imagePath: string | ArrayBuffer) => {
         setValue('imageFile', imagePath.toString());
@@ -64,7 +55,6 @@ export const UpdateDialog = ({
     const clearForm = () => {
         reset(defaultValues);
         setValue('imageFile', '');
-        // setContact(getValues());
     };
 
     const handleClose = () => {
@@ -103,7 +93,6 @@ export const UpdateDialog = ({
     };
 
     const handleFilter = async (filter: IFilter) => {
-        console.log('update', { filter });
         setFilter(filter);
     };
 

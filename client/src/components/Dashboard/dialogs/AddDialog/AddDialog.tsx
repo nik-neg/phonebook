@@ -105,7 +105,6 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         });
         setLoading(false);
 
-        console.log({ image });
         setContact({ ...contact, imageFile: image?.data?.data?.filterImage });
         setValue('imageFile', image?.data?.data?.filterImage);
     };

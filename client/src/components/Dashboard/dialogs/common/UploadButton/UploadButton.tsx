@@ -7,8 +7,6 @@ import { IUploadButtonProps } from './types';
 
 export const UploadButton = ({ onUpload }: IUploadButtonProps): JSX.Element => {
     const onDrop = useCallback((acceptedFiles: any[]) => {
-        console.log({ acceptedFiles });
-
         acceptedFiles.forEach((file) => {
             const reader = new FileReader();
 

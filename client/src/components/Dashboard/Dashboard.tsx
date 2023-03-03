@@ -24,11 +24,8 @@ export const Dashboard = (): JSX.Element => {
 
     const [open, setOpen] = useState(false);
 
-    const [contact, setContact] = useState<IContact>();
-
     const handleAddContact = () => {
         setOpen(true);
-        console.log('add contact');
     };
 
     const handleClose = () => {
@@ -61,8 +58,6 @@ export const Dashboard = (): JSX.Element => {
             keyword,
             page: 1,
         });
-
-        console.log({ s: contacts });
 
         setFetchedContacts(contacts?.data?.data?.contacts ?? []);
     };

@@ -6,6 +6,7 @@ export interface IContactCardProps {
     contact: IContact;
 
     onEditContact?: (contacts: IContact) => void;
+    onRemoveContact?: (id: IContact['id']) => void;
 }
 
 export interface IPhoneNumber {

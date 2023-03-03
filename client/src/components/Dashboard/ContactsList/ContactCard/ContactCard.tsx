@@ -14,7 +14,10 @@ import { UpdateDialog } from '../../dialogs/UpdateDialog/UpdateDialog';
 import Avatar from '@mui/material/Avatar';
 import { useRemoveContactMutation } from '../../../../store/api/contacts.api';
 
-export const ContactCard = ({ contact }: IContactCardProps): JSX.Element => {
+export const ContactCard = ({
+    contact,
+    onRemoveContact,
+}: IContactCardProps): JSX.Element => {
     const {
         id,
         nickName,
@@ -52,6 +55,8 @@ export const ContactCard = ({ contact }: IContactCardProps): JSX.Element => {
             return;
         }
         await removeContact(id).unwrap();
+
+        onRemoveContact?.(id);
     };
     return (
         <SContactCardContainer>
