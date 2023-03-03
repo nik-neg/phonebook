@@ -20,7 +20,10 @@ import { getContacts } from '../../../api/ApiClient';
 import date from 'date-and-time';
 import Tilt from 'react-parallax-tilt';
 import { debounce } from 'lodash-es';
-import { useGetContactsQuery } from '../../../store/api/contacts.api';
+import {
+    useGetContactsQuery,
+    useRemoveContactMutation,
+} from '../../../store/api/contacts.api';
 
 export const ContactsList = ({
     contacts,
@@ -102,10 +105,12 @@ export const ContactsList = ({
         { skip: !isDeviceOn, refetchOnMountOrArgChange: true }
     );
 
+    console.log({ data });
+
     useEffect(() => {
-        // if (!isLoading && data?.data?.contacts?.length > 0 && isDeviceOn) {
-        //     onFetchContacts?.(data?.data?.contacts);
-        // }
+        if (!isLoading && data?.data?.contacts?.length > 0 && isDeviceOn) {
+            onFetchContacts?.(data?.data?.contacts);
+        }
     }, [data, isLoading, isDeviceOn]);
 
     const handlePowerOn = async () => {
@@ -118,8 +123,12 @@ export const ContactsList = ({
         }
     };
 
+    const [removeContact, { isLoading: isRemoving, isSuccess, isError }] =
+        useRemoveContactMutation();
     const handleRemove = async (id: number) => {
-        onRemoveContact?.(id);
+        const temp = await removeContact(id).unwrap();
+        console.log({ temp });
+        // onRemoveContact?.(id);
     };
 
     const [time, setTime] = React.useState(new Date());
