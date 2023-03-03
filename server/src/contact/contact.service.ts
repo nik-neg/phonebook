@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { PhoneNumber } from './entities/phone-number.entity/phone-number.entity';
 import { Contact } from './entities/contact.entity/contact.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Like, Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { UserInputError } from 'apollo-server-express';
 import { CreateContactInput } from './dto/create-contact.input';
 import { UpdateContactInput } from './dto/update-contact.input';
@@ -80,6 +80,7 @@ export class ContactService {
     id: number,
     updateContactInput: UpdateContactInput,
   ): Promise<Contact> {
+    // filter image
     const imageFile =
       updateContactInput.filter &&
       (await this.filterService.filterImage({
@@ -95,37 +96,20 @@ export class ContactService {
     let updatedContact;
 
     if (updateContactInput?.phoneNumbers?.length > 0) {
+      // util ?
       const parsedPhoneNumbers = updateContactInput.phoneNumbers[0]
         .split(',')
         .map((phoneNumber) => phoneNumber.trim());
 
-      const phoneNumbers = await Promise.all(
+      const removedPhoneNumbers = contact.phoneNumbers;
+      await this.phoneNumberRepository.remove(removedPhoneNumbers);
+
+      const newPhoneNumbers = await Promise.all(
         parsedPhoneNumbers.map((phoneNumber) =>
           this.phoneNumberRepository.create({ phoneNumber }),
         ),
       );
-
-      const oldPhoneNumbers = contact.phoneNumbers.filter(
-        (entry) =>
-          !phoneNumbers
-            .map((entry) => entry.phoneNumber)
-            .includes(entry.phoneNumber),
-      );
-
-      // Delete the old phone numbers
-      const phoneNumbersToDeleteEntities =
-        await this.phoneNumberRepository.find({
-          where: {
-            phoneNumber: In(
-              oldPhoneNumbers.map((phoneNumber) => phoneNumber.phoneNumber),
-            ),
-            contact: contact,
-          },
-        });
-
-      await this.phoneNumberRepository.remove(phoneNumbersToDeleteEntities);
-
-      contact.phoneNumbers = phoneNumbers;
+      contact.phoneNumbers = newPhoneNumbers;
       await this.contactRepository.save(contact);
 
       updatedContact = await this.contactRepository.update(
