@@ -15,11 +15,14 @@ import {
 import { IContactListProps } from './types';
 import { ContactCard } from './ContactCard';
 import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
-import React, { useState } from 'react';
-import { getContacts } from '../../../api/ApiClient';
+import React, { useEffect, useState } from 'react';
 import date from 'date-and-time';
 import Tilt from 'react-parallax-tilt';
 import { debounce } from 'lodash-es';
+import {
+    useGetContactsQuery,
+    useLazyGetContactsQuery,
+} from '../../../store/api/contacts.api';
 
 export const ContactsList = ({
     contacts,
@@ -68,6 +71,7 @@ export const ContactsList = ({
     //         onFetchContacts?.(newContacts?.data?.data?.contacts ?? []);
     //     }
     // };
+    const [getContacts, result, lastPromiseInfo] = useLazyGetContactsQuery();
     const handleScroll = debounce(
         async (event: React.UIEvent<HTMLInputElement>) => {
             const target = event.target as HTMLInputElement; // Type assertion to HTMLInputElement
@@ -90,31 +94,32 @@ export const ContactsList = ({
     );
 
     const handleAddContact = () => {
-        console.log('add contact');
         onAddContact?.();
     };
 
-    const [isFetched, setIsFetched] = React.useState(false);
+    const [isDeviceOn, setIsDeviceOn] = React.useState(false);
+
+    const { data, error, isLoading } = useGetContactsQuery(
+        { page: 1 },
+        { skip: !isDeviceOn, refetchOnMountOrArgChange: true }
+    );
+
+    console.log({ data });
+
+    useEffect(() => {
+        if (!isLoading && data?.data?.contacts?.length > 0 && isDeviceOn) {
+            onFetchContacts?.(data?.data?.contacts);
+        }
+    }, [data, isLoading, isDeviceOn]);
 
     const handlePowerOn = async () => {
-        if (isFetched) {
-            setIsFetched(false);
+        setIsDeviceOn(!isDeviceOn);
+        if (isDeviceOn) {
+            setIsDeviceOn(false);
 
             onFetchContacts?.([]);
             return;
         }
-        const contacts = await getContacts({
-            page: 1,
-        });
-        if (contacts?.data?.data?.contacts?.length > 0) {
-            setIsFetched(true);
-        }
-        console.log({ handlePowerOn, contacts });
-        onFetchContacts?.(contacts?.data?.data?.contacts ?? []);
-    };
-
-    const handleRemove = async (id: number) => {
-        onRemoveContact?.(id);
     };
 
     const [time, setTime] = React.useState(new Date());
@@ -129,15 +134,13 @@ export const ContactsList = ({
         onOpenSearch?.();
     };
 
-    // on remove refetch new contacts and sort
-
     return (
         <Tilt>
             <SContactListContainerWrapper>
                 <SContactListContainer>
                     <SContactListWrapper
                         onScroll={handleScroll}
-                        contactsAreFetched={isFetched}
+                        contactsAreFetched={isDeviceOn}
                     >
                         <STimePanelWrapper>
                             <STimePanelYear>
@@ -154,7 +157,6 @@ export const ContactsList = ({
                                         <ContactCard
                                             key={index}
                                             contact={contact}
-                                            onRemove={handleRemove}
                                         />
                                     )
                             )}

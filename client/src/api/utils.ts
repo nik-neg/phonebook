@@ -7,12 +7,9 @@ export const buildContactQuery = (queryInput: IQueryPaginationInput) => {
     if (page) {
         queryString += `page: ${page}`;
     }
-    // else if (take && lastName) {
-    //     queryString += ` contacts(firstName: "${firstName}", lastName: "${lastName}")`;
-    // }
-
-    // queryString +=
-    //     ' { id firstName lastName nickName phoneNumbers { id phoneNumber } address imageFile } }';
+    if (page && keyword) {
+        queryString += `, keyword: "${keyword}"`;
+    }
 
     return queryString;
 };

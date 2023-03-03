@@ -25,34 +25,26 @@ import { addContactSchema } from './validation/schema';
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
 
+    const defaultValues = {
+        ...selectedValue,
+        phoneNumbers: convertPhoneNumbersToString(selectedValue?.phoneNumbers),
+    };
+
     const {
         register,
         control,
-        handleSubmit,
         formState: { errors },
         getValues,
         setValue,
+        reset,
     } = useForm({
-        defaultValues: {
-            ...selectedValue,
-            phoneNumbers: convertPhoneNumbersToString(
-                selectedValue?.phoneNumbers
-            ),
-        },
+        defaultValues,
         resolver: useYupValidationResolver(addContactSchema),
     });
 
-    const [contact, setContact] = useState<ContactWithPhoneNumbersAsString>({
-        id: 1,
-        firstName: '',
-        lastName: '',
-        nickName: '',
-        address: '',
-        phoneNumbers: '',
-        imageFile: '',
-    });
-
-    console.log({ i: contact.imageFile, iv: getValues() });
+    const [contact, setContact] = useState<
+        Partial<ContactWithPhoneNumbersAsString>
+    >({});
 
     const handleClose = () => {
         onClose?.();
@@ -61,14 +53,22 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const handleSave = async () => {
         setContact(getValues());
         const response = await createContact(getValues());
+        reset({
+            firstName: '',
+            lastName: '',
+            nickName: '',
+            imageFile: '',
+            address: '',
+            phoneNumbers: '',
+        });
+        setValue('imageFile', '');
+
         onClose?.();
     };
 
     const handleUploadImage = async (
         imagePath: string | ArrayBuffer
     ): Promise<void> => {
-        // Apply the filter
-        // setContact({ ...contact, imageFile: imagePath.toString() });
         setValue('imageFile', imagePath.toString());
         setContact(getValues());
     };
@@ -80,7 +80,6 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     });
 
     const handleFilter = async (filter: IFilter) => {
-        console.log('add', { filter });
         setFilter(filter);
     };
 
@@ -101,11 +100,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
 
     return (
         <SAddDialogContainer>
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                // style={{ height: '92.5%', paddingTop: '10%' }} // for mobile
-            >
+            <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Add Contact</DialogTitle>
                 <DialogContent>
                     <DialogContentText>

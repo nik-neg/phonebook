@@ -12,13 +12,9 @@ import { IContact, IContactCardProps } from './types';
 import { EditDialog } from '../../dialogs/EditDialog/EditDialog';
 import { UpdateDialog } from '../../dialogs/UpdateDialog/UpdateDialog';
 import Avatar from '@mui/material/Avatar';
-import { removeContact } from '../../../../api/ApiClient';
+import { useRemoveContactMutation } from '../../../../store/api/contacts.api';
 
-export const ContactCard = ({
-    contact,
-    onRemove,
-    onEditContact,
-}: IContactCardProps): JSX.Element => {
+export const ContactCard = ({ contact }: IContactCardProps): JSX.Element => {
     const {
         id,
         nickName,
@@ -45,28 +41,17 @@ export const ContactCard = ({
         setOpenUpdateDialog(false);
     };
 
+    const [removeContact, { isLoading: isRemoving, isSuccess, isError }] =
+        useRemoveContactMutation();
+
     const handleEdit = async (remove: boolean) => {
-        console.log({ contact });
         setOpen(false);
 
         if (!remove) {
             setOpenUpdateDialog(true);
-            //     const res = await updateContact(contact);
-            //     console.log({ res });
-            //     // onEditContact?.(res.data.data.up);
             return;
         }
-        const res = await removeContact(id);
-
-        if (
-            res?.data?.data?.removeContact?.firstName &&
-            res?.data?.data?.removeContact?.lastName
-        ) {
-            // else error handling ?
-            onRemove?.(id);
-        }
-
-        console.log({ res });
+        await removeContact(id).unwrap();
     };
     return (
         <SContactCardContainer>

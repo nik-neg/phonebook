@@ -6,66 +6,12 @@ import {
 } from './Dashboard.styles';
 import { IContact } from './ContactsList/ContactCard/types';
 import React, { useState } from 'react';
-import { DummyContact } from './data';
 import { ContactsList } from './ContactsList';
 import { AddDialog } from './dialogs/AddDialog/AddDialog';
 import { SearchDialog } from './dialogs/SearchDialog/SearchDialog';
-import { getContacts } from '../../api/ApiClient';
+import { useLazyGetContactsQuery } from '../../store/api/contacts.api';
 
 export const Dashboard = (): JSX.Element => {
-    // add pagination fetch for infinite scroll, add loader animation, sort in the backend!
-    const contacts: IContact[] = [
-        {
-            id: 1,
-            firstName: 'John',
-            lastName: 'LastName',
-            nickName: 'Coolio',
-            address: '123, adksljfsjad',
-            phoneNumbers: [],
-            imageFile:
-                'https://t4.ftcdn.net/jpg/02/45/56/35/360_F_245563558_XH9Pe5LJI2kr7VQuzQKAjAbz9PAyejG1.jpg',
-        },
-        {
-            id: 2,
-            firstName: 'John',
-            lastName: 'LastNameVeryVeryLong',
-            address: '123, adksljfsjad',
-            phoneNumbers: [],
-            imageFile:
-                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
-        },
-        {
-            id: 3,
-            firstName: 'John',
-            lastName: 'NickName',
-            address: '',
-            phoneNumbers: [],
-            imageFile:
-                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
-        },
-        {
-            id: 4,
-            firstName: 'John',
-            lastName: 'LastName',
-            nickName: 'NickName',
-            address: '123, adksljfsjad',
-            phoneNumbers: [],
-            imageFile:
-                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
-        },
-        {
-            id: 5,
-            firstName: 'John',
-            lastName: 'LastName',
-            nickName: 'NickName',
-            address: '123, adksljfsjad',
-            phoneNumbers: [],
-            imageFile:
-                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
-        },
-        DummyContact,
-    ];
-
     const [fetchedContacts, setFetchedContacts] = useState<IContact[]>([]);
 
     console.log({ fetchedContacts });
@@ -109,6 +55,7 @@ export const Dashboard = (): JSX.Element => {
         setOpenSearch(false);
     };
 
+    const [getContacts, result, lastPromiseInfo] = useLazyGetContactsQuery();
     const handleSearch = async (keyword: string) => {
         if (keyword.length < 3) return;
         // fetch contacts
