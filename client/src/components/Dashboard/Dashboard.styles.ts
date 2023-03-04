@@ -20,7 +20,7 @@ export const SDashboardHeader = styled.div`
 export const SDashboardList = styled.div`
     padding-top: 6rem;
     grid-area: list;
-    justify-self: center; // end
+    justify-self: center;
     display: flex;
     flex-direction: column;
 `;

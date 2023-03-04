@@ -22,7 +22,7 @@ export class CreateContactInput extends GraphQLTypes.CreateContactInput {
   @IsString()
   imageFile: string;
 
-  // @Transform(phoneNumbersTransform) // random bug should work in general, code tested
+  // @Transform(phoneNumbersTransform) // should work in general, code tested, could be an issue
   // @IsArray()
   // @IsString({ each: true })
   phoneNumbers: string[];

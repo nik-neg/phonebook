@@ -149,8 +149,6 @@ export const ContactsList = ({
         onOpenSearch?.();
     };
 
-    console.log({ isLoading });
-
     return (
         <Tilt>
             <SContactListPanel>

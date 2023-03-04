@@ -143,7 +143,7 @@ export const SButtonPanelWrapper = styled.div`
 export const SButtonPanel = styled.div`
     display: flex;
     justify-content: center;
-    height: 3.85rem; // change to 4-5 ?
+    height: 3.85rem;
     width: 100%;
     background: black;
     border-right: 4px solid black;

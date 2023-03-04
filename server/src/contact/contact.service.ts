@@ -138,7 +138,7 @@ export class ContactService {
   async remove(id: number): Promise<Contact> {
     const contactToDelete = await this.findOne(id);
 
-    // Delete the associated phone numbers first
+    // delete the associated phone numbers first
     await this.phoneNumberRepository.delete({ contact: contactToDelete });
 
     return this.contactRepository.remove(contactToDelete);
