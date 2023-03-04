@@ -36,15 +36,16 @@ It contains a contact management application that allows users to store and mana
 <tr><th>Tech Stack</th></tr>
 <tr><td>
 
- <sub> React </sub> |<sub> TypeScript <sub>| <sub> Styled Components </sub> | <sub> Material-UI </sub> | <sub> Vite </sub> | <sub> Redux </sub>
-|--|--|--|--|--|--
-[<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/react.svg" alt="drawing" width="40" height="40"/>](https://reactjs.org/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/ts.svg" alt="drawing" width="40" height="40"/>](https://www.typescriptlang.org/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/sc.png" alt="drawing" width="40" height="40"/>](https://styled-components.com/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/material.svg" alt="drawing" width="40" height="40"/>](https://material-ui.com/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/vite.svg" alt="drawing" width="40" height="40"/>](https://vitejs.dev/guide/) |  [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/redux.svg" alt="drawing" width="40" height="40"/>](https://redux.js.org)
+ <sub> React </sub> |<sub> TypeScript <sub>| <sub> Styled Components </sub> | <sub> Material-UI </sub> | <sub> Vite </sub> | <sub> Redux </sub> | <sub> React Hook Form </sub>
+|--|--|--|--|--|--|--
+[<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/react.svg" alt="drawing" width="40" height="40"/>](https://reactjs.org/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/ts.svg" alt="drawing" width="40" height="40"/>](https://www.typescriptlang.org/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/sc.png" alt="drawing" width="40" height="40"/>](https://styled-components.com/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/material.svg" alt="drawing" width="40" height="40"/>](https://material-ui.com/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/vite.svg" alt="drawing" width="40" height="40"/>](https://vitejs.dev/guide/) |  [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/redux.svg" alt="drawing" width="40" height="40"/>](https://redux.js.org) | <img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/react-hook-form.png" alt="drawing" width="40" height="40"/>](https://react-hook-form.com/)
 </td></tr>
 <tr><td>
 
 <sub> GraphQL </sub> | <sub> NestJS </sub> |  <sub> postgreSQL </sub>  | <sub> typeORM </sub>  | <sub> Jest </sub>  | <sub> Sharp </sub> | <sub> Docker </sub>
-|--|--|--|--|--|--
+|--|--|--|--|--|--|--
 [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/graphql.svg" alt="drawing" width="40" height="40"/>](https://graphql.org/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/nestjs.svg" alt="drawing" width="40" height="40"/>](https://nestjs.com/) |  [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/postgresql.svg" alt="drawing" width="40" height="40"/>](https://www.postgresql.org)  |  [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/typeorm.svg" alt="drawing" width="40" height="40"/>](https://typeorm.io/)  | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/jest.svg" alt="drawing" width="40" height="40"/>](https://jestjs.io/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/sharp.png" alt="drawing" width="40" height="40"/>](https://sharp.pixelplumbing.com/)
+ | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/docker.svg" alt="drawing" width="40" height="40"/>](https://www.docker.com/)
 </td></tr>
 </table>
 </div>
