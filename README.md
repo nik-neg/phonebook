@@ -34,14 +34,12 @@ It contains a contact management application that allows users to store and mana
 <div align="center">
 <table>
 <tr><th>Tech Stack</th></tr>
-    <tr>
-      <td>
-        <sub> React </sub> | <sub> TypeScript </sub> | <sub> Styled Components </sub> | <sub> Material-UI </sub> | <sub> Vite </sub> | <sub> Redux </sub> | <sub> React Hook Form </sub>
-        <br>
-        --- | --- | --- | --- | --- | --- | ---
-        [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/react.svg" alt="drawing" width="40" height="40"/>](https://reactjs.org/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/ts.svg" alt="drawing" width="40" height="40"/>](https://www.typescriptlang.org/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/sc.png" alt="drawing" width="40" height="40"/>](https://styled-components.com/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/material.svg" alt="drawing" width="40" height="40"/>](https://material-ui.com/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/vite.svg" alt="drawing" width="40" height="40"/>](https://vitejs.dev/guide/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/redux.svg" alt="drawing" width="40" height="40"/>](https://redux.js.org) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/react-hook-form.png" alt="drawing" width="40" height="40"/>](https://react-hook-form.com/)
-      </td>
-    </tr>
+<tr><td>
+
+ <sub> React </sub> |<sub> TypeScript <sub>| <sub> Styled Components </sub> | <sub> Material-UI </sub> | <sub> Vite </sub> | <sub> Redux </sub> | <sub> React Hook Form </sub>
+|--|--|--|--|--|--|--
+[<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/react.svg" alt="drawing" width="40" height="40"/>](https://reactjs.org/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/ts.svg" alt="drawing" width="40" height="40"/>](https://www.typescriptlang.org/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/sc.png" alt="drawing" width="40" height="40"/>](https://styled-components.com/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/material.svg" alt="drawing" width="40" height="40"/>](https://material-ui.com/) | [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/vite.svg" alt="drawing" width="40" height="40"/>](https://vitejs.dev/guide/) |  [<img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/redux.svg" alt="drawing" width="40" height="40"/>](https://redux.js.org) | <img src="https://github.com/nik-neg/phonebook/blob/readme/.techstack/react-hook-form.png" alt="drawing" width="40" height="40"/>](https://react-hook-form.com/)
+</td></tr>
 <tr><td>
 
 <sub> GraphQL </sub> | <sub> NestJS </sub> |  <sub> postgreSQL </sub>  | <sub> typeORM </sub>  | <sub> Jest </sub>  | <sub> Sharp </sub> | <sub> Docker </sub>
