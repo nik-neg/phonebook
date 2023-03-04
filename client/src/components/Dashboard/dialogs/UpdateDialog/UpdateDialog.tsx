@@ -81,14 +81,11 @@ export const UpdateDialog = ({
     };
 
     const handleUpdate = async () => {
-        console.log({ v: getValues() });
         if (await triggerValidation()) {
-            const res = await updateContact({
+            await updateContact({
                 contact: { ...getValues(), id: selectedValue.id },
                 filterImageInput: filter,
             }).unwrap();
-
-            console.log({ res });
 
             onClose?.();
         }
