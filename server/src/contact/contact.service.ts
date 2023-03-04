@@ -10,6 +10,7 @@ import { FetchContactsArgs } from './dto/fetch-contacts.input';
 import { FilterService } from '../filter/filter.service';
 import { CONTACTS_COUNT } from './constants';
 import { omit } from 'lodash';
+import * as GraphQLTypes from '../graphql-types';
 
 @Injectable()
 export class ContactService {
@@ -24,7 +25,7 @@ export class ContactService {
 
   async findAll(
     args: FetchContactsArgs = { skip: 0, take: 5, keyword: '', page: 1 },
-  ): Promise<Contact[]> {
+  ): Promise<GraphQLTypes.ContactsResponse> {
     const skip = (args.page - 1) * CONTACTS_COUNT;
     const keyword = args.keyword || '';
 
@@ -42,7 +43,7 @@ export class ContactService {
       skip: skip,
       relations: ['phoneNumbers'],
     });
-    return result;
+    return { contacts: result, total };
   }
 
   async findOne(id: number): Promise<Contact> {

@@ -12,6 +12,7 @@ export const createContact = async (
                       createContact(createContactInput: {
                         firstName: "${contact.firstName}",
                         lastName: "${contact.lastName}",
+                        nickName: "${contact.nickName}",
                         phoneNumbers: "${contact.phoneNumbers}",
                         address: "${contact.address}"
                         imageFile: "${contact.imageFile}",

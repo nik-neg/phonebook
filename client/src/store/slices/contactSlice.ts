@@ -3,12 +3,16 @@ import { State } from './types';
 
 const initialState: State = {
     contacts: [],
+    total: 5,
 };
 
 export const contactsSlice = createSlice({
     name: 'contacts',
     initialState,
     reducers: {
+        getTotalNumberOfContacts: (state, action) => {
+            state.total = action.payload;
+        },
         addContact: (state, action) => {
             state.contacts.push(action.payload);
         },
@@ -20,6 +24,7 @@ export const contactsSlice = createSlice({
     },
 });
 
-export const { addContact, removeContact } = contactsSlice.actions;
+export const { addContact, removeContact, getTotalNumberOfContacts } =
+    contactsSlice.actions;
 
 export default contactsSlice;
