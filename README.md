@@ -1,12 +1,15 @@
 # Phonebook
 
-Phonebook is a contact management application that allows users to store and manage their contacts.
+Phonebook is the result of a one-week full stack challenge,
+almost without prior experience with GraphQL.
+
+It contains a contact management application that allows users to store and manage their contacts.
 
 ## Features
 * add, edit, and delete contacts
-* infinite scroll
 * upload and filter images
 * search for contacts
+* infinite scroll
 
 ## Implementation features
 * Frontend
@@ -16,11 +19,11 @@ Phonebook is a contact management application that allows users to store and man
   * form validation with `React Hook Form` and `Yup`
   
 * Backend
-  * `GraphQL` with `NestJS` backend using `transactions`
+  * `GraphQL` with `NestJS` backend using Transactions and `postgreSQL`
   * Data Transfer Objects with Validation Pipe
   * Exception Filter
   * image filter with `sharp`
-  * integration tests with `jest`
+  * integration tests with `Jest`
 
 ## Limitations
 * phone numbers have to be comma separated in the UI, e.g. 0532123456, 0532123457
