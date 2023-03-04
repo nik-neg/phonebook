@@ -16,6 +16,7 @@ export const SContactListContainerWrapper = styled.div`
     height: 760px;
     background: black;
     border-radius: 10px;
+    box-shadow: 5px 2.5px 2.5px #262626;
 
     &:hover {
         -moz-box-shadow: 0 0 10px 10px #bcd4e6;
