@@ -10,8 +10,9 @@ export const SContactListPanel = styled.div`
 export const SContactListContainerWrapper = styled.div`
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
-    width: 360px;
+    width: 365px;
     height: 760px;
     background: black;
     border-radius: 10px;
@@ -27,25 +28,26 @@ export const SContactListContainer = styled.div`
     display: flex;
     justify-content: center;
     width: 350px;
+    border: 3px solid rgba(196, 196, 196, 0.67);
+    border-bottom: none;
+    border-radius: 15px;
     background: url(${background}) repeat;
-    //height: 750px;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 `;
 
 export const SContactCardsContainer = styled.div`
     height: 675px;
-    //border: 4px solid black;
     border-radius: 10px 10px 0px 10px;
 `;
 
 export const SContactListWrapper = styled.div<IContactListWrapper>`
     width: 100%;
     //box-shadow: 10px 5px 5px black;
-    border: 3px solid #262626;
+    border: 3px solid transparent;
     border-bottom: none;
     border-radius: 12px;
-    border-color: rgba(196, 196, 196, 0.67);
-    //background: url(${background}) repeat;
-    //position: sticky;
 
     //overflow-x: hidden;
     //overflow-y: scroll;
