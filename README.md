@@ -50,6 +50,26 @@ It contains a contact management application that allows users to store and mana
 </div>
 
 
+# Intro screen
+![alt text](https://github.com/nik-neg/Appetize/blob/main/.images/1_login.png)
+
+
+# Add contact functionality
+![alt text](https://github.com/nik-neg/Appetize/blob/main/.images/1_login.png)
+
+
+# Add contact functionality
+![alt text](https://github.com/nik-neg/Appetize/blob/main/.images/1_login.png)
+
+
+# Contact list view
+![alt text](https://github.com/nik-neg/Appetize/blob/main/.images/1_login.png)
+
+
+# Edit contact functionality
+![alt text](https://github.com/nik-neg/Appetize/blob/main/.images/1_login.png)
+
+
 # Getting started
 
 - run `docker-compose up -d`in the server folder to start the db
