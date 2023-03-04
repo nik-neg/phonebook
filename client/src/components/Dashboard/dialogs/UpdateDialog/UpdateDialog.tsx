@@ -24,19 +24,10 @@ export const UpdateDialog = ({
     onClose,
     onFilterImage,
 }: IUpdateDialogProps): JSX.Element => {
-    const defaultValues = {
-        firstName: '',
-        lastName: '',
-        nickName: '',
-        imageFile: '',
-        address: '',
-        phoneNumbers: '',
-    };
     const {
         register,
-        reset,
         trigger,
-        formState: { errors, isValid },
+        formState: { errors },
         getValues,
         setValue,
     } = useForm({
@@ -46,13 +37,11 @@ export const UpdateDialog = ({
         resolver: yupResolver(updateContactSchema),
     });
 
+    console.log({ selectedValue, v: getValues() });
+
     const handleUploadImage = (imagePath: string | ArrayBuffer) => {
         setValue('imageFile', imagePath.toString());
     };
-    // const clearForm = () => {
-    //     reset(defaultValues);
-    //     setValue('imageFile', '');
-    // };
 
     const handleClose = () => {
         onClose?.();
