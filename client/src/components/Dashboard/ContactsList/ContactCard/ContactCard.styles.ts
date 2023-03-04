@@ -21,6 +21,7 @@ export const SContactCardWrapper = styled.div`
     &:hover {
         opacity: 1;
         background: aliceblue;
+        border-color: aliceblue;
     }
 `;
 
