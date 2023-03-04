@@ -156,10 +156,11 @@ export const SButtonWrapper = styled.div`
     padding: 0.5rem 0.25rem 0.25rem 0.25rem;
 `;
 
-export const SAddButton = styled.button`
+export const SButton = styled.button`
     width: 6rem;
     height: 3rem;
     border-radius: 10px;
+    cursor: pointer;
     background: rgb(240, 240, 240);
     background: linear-gradient(
         90deg,

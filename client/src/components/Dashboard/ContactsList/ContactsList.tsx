@@ -1,5 +1,5 @@
 import {
-    SAddButton,
+    SButton,
     SButtonPanel,
     SButtonPanelWrapper,
     SButtonWrapper,
@@ -188,28 +188,28 @@ export const ContactsList = ({
                     <SButtonPanelWrapper>
                         <SButtonPanel>
                             <SButtonWrapper>
-                                <SAddButton onClick={handleAddContact}>
+                                <SButton onClick={handleAddContact}>
                                     {'Add Contact'}
                                     <SIconWrapper>
                                         <IoPersonAdd />
                                     </SIconWrapper>
-                                </SAddButton>
+                                </SButton>
                             </SButtonWrapper>
                             <SButtonWrapper>
-                                <SAddButton onClick={handleSearch}>
+                                <SButton onClick={handleSearch}>
                                     {'Search'}
                                     <SIconWrapper>
                                         <MdOutlinePersonSearch />
                                     </SIconWrapper>
-                                </SAddButton>
+                                </SButton>
                             </SButtonWrapper>
                             <SButtonWrapper>
-                                <SAddButton onClick={handlePowerOn}>
+                                <SButton onClick={handlePowerOn}>
                                     {'Power'}
                                     <SIconWrapper>
                                         <CiPower />
                                     </SIconWrapper>
-                                </SAddButton>
+                                </SButton>
                             </SButtonWrapper>
                         </SButtonPanel>
                     </SButtonPanelWrapper>
