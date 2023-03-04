@@ -8,6 +8,11 @@ type Contact {
     imageFile: String!
 }
 
+type ContactsResponse {
+    contacts: [Contact!]!
+    total: Int!
+}
+
 type PhoneNumber {
     id: ID!
     phoneNumber: String!
@@ -40,8 +45,8 @@ input QueryPaginationInput {
 }
 
 type Query {
-    contacts (queryPaginationInput: QueryPaginationInput): [Contact!]!
-    contact(id: ID!): Contact
+    getContacts (queryPaginationInput: QueryPaginationInput): ContactsResponse!
+    getContact(id: ID!): Contact
     filterImage (filterImageInput: FilterImageInput): String!
 }
 

@@ -117,6 +117,7 @@ export const ContactsList = ({
     );
 
     useEffect(() => {
+        console.log({ res: data });
         if (!isLoading && data?.data?.contacts?.length > 0 && isDeviceOn) {
             onFetchContacts?.(data?.data?.contacts);
         }
