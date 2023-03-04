@@ -12,13 +12,13 @@ Phonebook is a contact management application that allows users to store and man
 * Frontend
   * responsive design with a mobile like experience
   * `React` with `TypeScript`, `Styled Components`, `Material-UI` and `Vite`
-  * state management with `redux` and `RTKQ`
-  * form validation with `react-hook-form` and `yup`
+  * state management with `Redux` and `RTKQ`
+  * form validation with `React Hook Form` and `Yup`
   
 * Backend
   * `GraphQL` with `NestJS` backend using `transactions`
   * Data Transfer Objects with Validation Pipe
-  * Exceptions Filter
+  * Exception Filter
   * image filter with `sharp`
   * integration tests with `jest`
 
@@ -27,14 +27,15 @@ Phonebook is a contact management application that allows users to store and man
 * images can only be stored as `jpeg` and `png`
 * image filtering currently only supports `grayscale`, `blur` and `saturation`
 
+
 <div align="center">
 <table>
 <tr><th>Tech Stack</th></tr>
 <tr><td>
 
- <sub> React </sub> |<sub> TypeScript <sub>| <sub> Redux & RTKQ </sub> | <sub> Styled Components </sub> | <sub> Material-UI </sub> | <sub> React Hook Form </sub> | <sub> Vite </sub>
-|--|--|--|--|--|--|--|--
-[<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/react.svg" alt="drawing" width="40" height="40"/>](https://reactjs.org/) | [<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redux/redux-original.svg" alt="redux" width="40" height="40"/>](https://redux.js.org) | [<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/material-ui.svg" alt="drawing" width="40" height="40"/>](https://material-ui.com/) | [<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/nodejs.svg" alt="drawing" width="40" height="40"/>](https://nodejs.org/en/) | [<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/nest.svg" alt="drawing" width="40" height="40"/>](https://nestjs.com/) |  [<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/mongodb.svg" alt="drawing" width="40" height="40"/>](https://www.mongodb.com/)
+ <sub> React </sub> |<sub>  Redux <sub>| <sub> Material-UI </sub> | <sub> Node.js </sub> | <sub> Express </sub> | <sub> MongoDB </sub>
+|--|--|--|--|--|--
+[<img src="https://github.com/nik-neg/appetize/blob/main/.techstack_images/react.svg" alt="drawing" width="40" height="40"/>](https://reactjs.org/) | [<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redux/redux-original.svg" alt="redux" width="40" height="40"/>](https://redux.js.org) | [<img src="https://github.com/nik-neg/appetize/blob/main/.techstack_images/material-ui.svg" alt="drawing" width="40" height="40"/>](https://material-ui.com/) | [<img src="https://github.com/nik-neg/appetize/blob/main/.techstack_images/nodejs.svg" alt="drawing" width="40" height="40"/>](https://nodejs.org/en/) | [<img src="https://github.com/nik-neg/appetize/blob/main/.techstack_images/express.svg" alt="drawing" width="40" height="40"/>](https://expressjs.com/) |  [<img src="https://github.com/nik-neg/appetize/blob/main/.techstack_images/mongodb.svg" alt="drawing" width="40" height="40"/>](https://www.mongodb.com/)
 </td></tr>
 <tr><td>
 
@@ -50,4 +51,4 @@ Phonebook is a contact management application that allows users to store and man
 
 - run `docker-compose up -d`in the server folder to start the db
 - run `npm i && npm run dev` in the client folder to start the client
-- run `npm i && npm run dev`in the server folder to start server
+- run `npm i && nest start` in the server folder to start server
