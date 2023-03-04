@@ -52,14 +52,19 @@ export class Contact {
     imageFile: string;
 }
 
+export class ContactsResponse {
+    contacts: Contact[];
+    total: number;
+}
+
 export class PhoneNumber {
     id: number;
     phoneNumber: string;
 }
 
 export abstract class IQuery {
-    contacts: Contact[];
-    contact?: Nullable<Contact>;
+    getContacts: ContactsResponse;
+    getContact?: Nullable<Contact>;
     filterImage: string;
 }
 

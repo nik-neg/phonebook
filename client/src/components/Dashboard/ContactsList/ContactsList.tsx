@@ -1,28 +1,28 @@
 import {
     SAddButton,
-    SAddButtonWrapper,
     SButtonPanel,
+    SButtonPanelWrapper,
     SButtonWrapper,
     SContactCardsContainer,
     SContactListContainer,
     SContactListContainerWrapper,
+    SContactListPanel,
     SContactListWrapper,
     SIconWrapper,
-    STimePanelTime,
-    STimePanelWrapper,
-    STimePanelYear,
 } from './ContactsList.styles';
 import { IContactListProps } from './types';
-import { ContactCard } from './ContactCard';
-import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
-import React, { useEffect, useState } from 'react';
-import date from 'date-and-time';
-import Tilt from 'react-parallax-tilt';
-import { debounce } from 'lodash-es';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     useGetContactsQuery,
     useLazyGetContactsQuery,
 } from '../../../store/api/contacts.api';
+import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
+import { ContactCard } from './ContactCard';
+import { useAppDispatch, useAppSelector } from '../../../store';
+import { selectTotalNumberOfContacts } from '../../../store/selectors/contacts.selector';
+import { getTotalNumberOfContacts } from '../../../store/slices';
+import { debounce } from 'lodash-es';
+import Tilt from 'react-parallax-tilt';
 
 export const ContactsList = ({
     contacts,
@@ -31,83 +31,17 @@ export const ContactsList = ({
     onOpenSearch,
     onRemoveContact,
 }: IContactListProps): JSX.Element => {
+    const dispatch = useAppDispatch();
+
+    const totalNumberOfContacts = useAppSelector(selectTotalNumberOfContacts);
+
+    const outerRef = useRef<HTMLDivElement>(null);
+    const innerRef = useRef<HTMLDivElement>(null);
+    const [page, setPage] = useState(1);
+
     const [scroll, setScroll] = useState(0);
 
-    const [page, setPage] = useState(1);
-    // const [data, setData] = useState([]);
-    // useEffect(() => {
-    //     const fetchInitialData = async () => {
-    //         const initialData = await getContacts({ page });
-    //         setData(initialData?.data?.data?.contacts);
-    //     };
-    //     fetchInitialData();
-    // }, [page]);
-    //
-    // useEffect(() => {
-    //     const handleScroll = () => {
-    //         if (
-    //             window.innerHeight + window.pageYOffset >=
-    //             document.body.scrollHeight - 500
-    //         ) {
-    //             setPage((page) => page + 1);
-    //         }
-    //     };
-    //
-    //     window.addEventListener('scroll', handleScroll);
-    //
-    //     return () => {
-    //         window.removeEventListener('scroll', handleScroll);
-    //     };
-    // }, []);
-
-    // const handleScroll = async (event: React.UIEvent<HTMLInputElement>) => {
-    //     if (event.currentTarget.scrollTop >= scroll) {
-    //         setScroll(event.currentTarget.scrollTop);
-    //         setPage((page) => page + 1);
-    //         // fetch more contacts
-    //         const newContacts = await getContacts({
-    //             page: page + 1,
-    //         });
-    //         onFetchContacts?.(newContacts?.data?.data?.contacts ?? []);
-    //     }
-    // };
-    const [getContacts, result, lastPromiseInfo] = useLazyGetContactsQuery();
-    const handleScroll = debounce(
-        async (event: React.UIEvent<HTMLInputElement>) => {
-            const target = event.target as HTMLInputElement; // Type assertion to HTMLInputElement
-            if (target.scrollTop >= scroll) {
-                setScroll(target.scrollTop);
-                setPage((page) => page + 1);
-                // fetch more contacts
-                const newContacts = await getContacts({
-                    page: page + 1,
-                });
-                onFetchContacts?.(
-                    newContacts?.data?.data?.contacts?.length > 0
-                        ? newContacts?.data?.data?.contacts
-                        : contacts
-                );
-            }
-            // else {
-            //     setScroll(target.scrollTop);
-            //     setPage((page) => (page > 1 ? page - 1 : 1));
-            //     // fetch more contacts
-            //     const newContacts = await getContacts({
-            //         page: page > 1 ? page - 1 : 1,
-            //     });
-            //     onFetchContacts?.(
-            //         newContacts?.data?.data?.contacts?.length > 0
-            //             ? newContacts?.data?.data?.contacts
-            //             : contacts
-            //     );
-            // }
-        },
-        100
-    );
-
-    const handleAddContact = () => {
-        onAddContact?.();
-    };
+    const [getContacts] = useLazyGetContactsQuery();
 
     const [isDeviceOn, setIsDeviceOn] = React.useState(false);
 
@@ -117,8 +51,13 @@ export const ContactsList = ({
     );
 
     useEffect(() => {
-        if (!isLoading && data?.data?.contacts?.length > 0 && isDeviceOn) {
-            onFetchContacts?.(data?.data?.contacts);
+        if (
+            !isLoading &&
+            data?.data?.getContacts?.contacts?.length > 0 &&
+            isDeviceOn
+        ) {
+            dispatch(getTotalNumberOfContacts(data?.data?.getContacts?.total));
+            onFetchContacts?.(data?.data?.getContacts?.contacts);
         }
     }, [data, isLoading, isDeviceOn]);
 
@@ -132,13 +71,73 @@ export const ContactsList = ({
         }
     };
 
-    const [time, setTime] = useState(new Date());
+    const loadMoreContacts = useCallback(
+        async (outerElem: HTMLDivElement) => {
+            setTimeout(async () => {
+                const { scrollTop, clientHeight } = outerElem;
+                setScroll(scrollTop);
 
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         setTime(new Date());
-    //     }, 1000);
-    // }, [time]);
+                if (
+                    !(scrollTop < scroll) &&
+                    scrollTop < clientHeight &&
+                    totalNumberOfContacts >= page * 5
+                ) {
+                    setPage((page) => page + 1);
+                    const newContacts = await getContacts({
+                        page: page + 1,
+                    });
+                    dispatch(
+                        getTotalNumberOfContacts(
+                            newContacts?.data?.data?.getContacts?.total
+                        )
+                    );
+                    onFetchContacts?.(
+                        newContacts?.data?.data?.getContacts?.contacts?.length >
+                            0
+                            ? newContacts?.data?.data?.getContacts?.contacts
+                            : contacts
+                    );
+                } else {
+                    const scrollBackOCondition = (page: number) =>
+                        page - 1 > 1 ? page - 1 : 1;
+                    setPage((page) => scrollBackOCondition(page));
+                    // fetch more contacts
+                    const newContacts = await getContacts({
+                        page: scrollBackOCondition(page),
+                    });
+                    onFetchContacts?.(
+                        newContacts?.data?.data?.getContacts?.contacts?.length >
+                            0
+                            ? newContacts?.data?.data?.getContacts?.contacts
+                            : contacts
+                    );
+                }
+            }, 1000);
+        },
+        [page]
+    );
+
+    useEffect(() => {
+        const outerElem = outerRef.current;
+        const innerElem = innerRef.current;
+        if (!outerElem || !innerElem) {
+            return;
+        }
+        const handleScroll = debounce(async () => {
+            const { scrollTop, scrollHeight, clientHeight } = outerElem;
+            if (scrollTop < clientHeight) {
+                await loadMoreContacts(outerElem);
+            }
+        }, 100);
+        outerElem.addEventListener('scroll', handleScroll);
+        return () => {
+            outerElem.removeEventListener('scroll', handleScroll);
+        };
+    }, [page]);
+
+    const handleAddContact = () => {
+        onAddContact?.();
+    };
 
     const handleSearch = () => {
         onOpenSearch?.();
@@ -146,63 +145,63 @@ export const ContactsList = ({
 
     return (
         <Tilt>
-            <SContactListContainerWrapper>
-                <SContactListContainer>
-                    <SContactListWrapper
-                        onScroll={handleScroll}
-                        contactsAreFetched={isDeviceOn}
+            <SContactListPanel>
+                <SContactListContainerWrapper>
+                    <SContactListContainer
+                        ref={outerRef}
+                        style={{ overflow: 'auto', height: '680px' }}
                     >
-                        <STimePanelWrapper>
-                            <STimePanelYear>
-                                {date.format(time, 'YYYY/MM/DD')}
-                            </STimePanelYear>
-                            <STimePanelTime>
-                                {date.format(time, 'HH:mm:ss')}
-                            </STimePanelTime>
-                        </STimePanelWrapper>
-                        <SContactCardsContainer>
-                            {contacts.map(
-                                (contact, index) =>
-                                    index !== 5 && (
-                                        <ContactCard
-                                            key={index}
-                                            contact={contact}
-                                            onRemoveContact={onRemoveContact}
-                                        />
-                                    )
-                            )}
-                        </SContactCardsContainer>
-                        <SAddButtonWrapper>
-                            <SButtonPanel>
-                                <SButtonWrapper>
-                                    <SAddButton onClick={handleAddContact}>
-                                        {'Add Contact'}
-                                        <SIconWrapper>
-                                            <IoPersonAdd />
-                                        </SIconWrapper>
-                                    </SAddButton>
-                                </SButtonWrapper>
-                                <SButtonWrapper>
-                                    <SAddButton onClick={handleSearch}>
-                                        {'Search'}
-                                        <SIconWrapper>
-                                            <MdOutlinePersonSearch />
-                                        </SIconWrapper>
-                                    </SAddButton>
-                                </SButtonWrapper>
-                                <SButtonWrapper>
-                                    <SAddButton onClick={handlePowerOn}>
-                                        {'Power'}
-                                        <SIconWrapper>
-                                            <CiPower />
-                                        </SIconWrapper>
-                                    </SAddButton>
-                                </SButtonWrapper>
-                            </SButtonPanel>
-                        </SAddButtonWrapper>
-                    </SContactListWrapper>
-                </SContactListContainer>
-            </SContactListContainerWrapper>
+                        <SContactListWrapper
+                            contactsAreFetched={isDeviceOn}
+                            style={{ height: '750px' }}
+                            ref={innerRef}
+                        >
+                            <SContactCardsContainer>
+                                {contacts.map(
+                                    (contact, index) =>
+                                        index <= 4 && (
+                                            <ContactCard
+                                                key={index}
+                                                contact={contact}
+                                                onRemoveContact={
+                                                    onRemoveContact
+                                                }
+                                            />
+                                        )
+                                )}
+                            </SContactCardsContainer>
+                        </SContactListWrapper>
+                    </SContactListContainer>
+                    <SButtonPanelWrapper>
+                        <SButtonPanel>
+                            <SButtonWrapper>
+                                <SAddButton onClick={handleAddContact}>
+                                    {'Add Contact'}
+                                    <SIconWrapper>
+                                        <IoPersonAdd />
+                                    </SIconWrapper>
+                                </SAddButton>
+                            </SButtonWrapper>
+                            <SButtonWrapper>
+                                <SAddButton onClick={handleSearch}>
+                                    {'Search'}
+                                    <SIconWrapper>
+                                        <MdOutlinePersonSearch />
+                                    </SIconWrapper>
+                                </SAddButton>
+                            </SButtonWrapper>
+                            <SButtonWrapper>
+                                <SAddButton onClick={handlePowerOn}>
+                                    {'Power'}
+                                    <SIconWrapper>
+                                        <CiPower />
+                                    </SIconWrapper>
+                                </SAddButton>
+                            </SButtonWrapper>
+                        </SButtonPanel>
+                    </SButtonPanelWrapper>
+                </SContactListContainerWrapper>
+            </SContactListPanel>
         </Tilt>
     );
 };

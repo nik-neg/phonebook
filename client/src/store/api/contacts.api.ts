@@ -19,19 +19,22 @@ export const contactsApi = createApi({
                 },
                 body: {
                     query: `{
-                        contacts(queryPaginationInput: {${buildContactQuery(
+                        getContacts(queryPaginationInput: {${buildContactQuery(
                             body
                         )}}) {
-                            id
-                            firstName
-                            lastName
-                            nickName
-                            phoneNumbers {
+                            contacts {
                                 id
-                                phoneNumber
-                            }
-                            address
-                            imageFile
+                                firstName
+                                lastName
+                                nickName
+                                phoneNumbers {
+                                    id
+                                    phoneNumber
+                                }
+                                address
+                                imageFile
+                            },
+                            total,
                         }
                     }`,
                 },

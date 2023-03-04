@@ -10,15 +10,15 @@ import { FetchContactsArgs } from './dto/fetch-contacts.input';
 export class ContactResolver {
   constructor(private readonly contactService: ContactService) {}
 
-  @Query('contacts')
+  @Query('getContacts')
   async findAll(
     @Args('queryPaginationInput')
     queryPaginationInput: FetchContactsArgs,
-  ): Promise<GraphQLTypes.Contact[]> {
+  ): Promise<GraphQLTypes.ContactsResponse> {
     return this.contactService.findAll(queryPaginationInput);
   }
 
-  @Query(() => GraphQLTypes.Contact, { name: 'contact' })
+  @Query(() => GraphQLTypes.Contact, { name: 'getContact' })
   async findOne(
     @Args('id', { type: () => ID }, ParseIntPipe) id: number,
   ): Promise<GraphQLTypes.Contact> {
