@@ -11,16 +11,17 @@ import { AiFillEdit, MdDeleteForever } from 'react-icons/all';
 import { red } from '@mui/material/colors';
 import { IEditDialogProps } from './types';
 
+// first dialog after clicking on a contact card
 export const EditDialog = (props: IEditDialogProps): JSX.Element => {
     const { onClose, selectedValue, open, onEdit } = props;
 
     const handleClose = () => {
-        onClose(selectedValue);
+        onClose();
     };
 
-    const handleEditContact = (remove: boolean) => {
+    const handleEditContact = async (remove: boolean) => {
         onEdit?.(remove);
-        onClose(selectedValue);
+        onClose();
     };
 
     return (

@@ -6,85 +6,85 @@ import {
 } from './Dashboard.styles';
 import { IContact } from './ContactsList/ContactCard/types';
 import React, { useState } from 'react';
-import { DummyContact } from './data';
 import { ContactsList } from './ContactsList';
 import { AddDialog } from './dialogs/AddDialog/AddDialog';
+import { SearchDialog } from './dialogs/SearchDialog/SearchDialog';
+import { useLazyGetContactsQuery } from '../../store/api/contacts.api';
 
 export const Dashboard = (): JSX.Element => {
-    // add pagination fetch for infinite scroll, add loader animation, sort in the backend!
-    const contacts: IContact[] = [
-        {
-            firstName: 'John',
-            lastName: 'LastName',
-            nickName: 'Coolio',
-            address: '123, adksljfsjad',
-            phoneNumbers: [],
-            imageUrl:
-                'https://t4.ftcdn.net/jpg/02/45/56/35/360_F_245563558_XH9Pe5LJI2kr7VQuzQKAjAbz9PAyejG1.jpg',
-        },
-        {
-            firstName: 'John',
-            lastName: 'LastName',
-            address: '123, adksljfsjad',
-            phoneNumbers: [],
-            imageUrl:
-                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
-        },
-        {
-            firstName: 'John',
-            lastName: '',
-            address: '',
-            phoneNumbers: [],
-            imageUrl:
-                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
-        },
-        {
-            firstName: 'John',
-            lastName: 'LastName',
-            nickName: 'NickName',
-            address: '123, adksljfsjad',
-            phoneNumbers: [],
-            imageUrl:
-                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
-        },
-        {
-            firstName: 'John',
-            lastName: 'LastName',
-            nickName: 'NickName',
-            address: '123, adksljfsjad',
-            phoneNumbers: [],
-            imageUrl:
-                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
-        },
-        DummyContact,
-    ];
+    const [fetchedContacts, setFetchedContacts] = useState<IContact[]>([]);
+
+    const onFetchContacts = (contacts: IContact[]) => {
+        setFetchedContacts(contacts);
+    };
+
+    const onRemoveContact = (id: number) => {
+        setFetchedContacts((prev) => prev.filter((c) => c.id !== id));
+    };
 
     const [open, setOpen] = useState(false);
 
     const handleAddContact = () => {
         setOpen(true);
-        console.log('add contact');
     };
 
     const handleClose = () => {
         setOpen(false);
     };
 
-    // <Hidden mdDown>
+    const handleEditContact = (contact: IContact) => {
+        setFetchedContacts((prev) => {
+            const index = prev.findIndex((c) => c.id === contact.id);
+            prev[index] = contact;
+            return prev;
+        });
+    };
+
+    const [openSearch, setOpenSearch] = useState(false);
+
+    const handleOpenSearch = () => {
+        setOpenSearch(true);
+    };
+
+    const handleSearchClose = () => {
+        setOpenSearch(false);
+    };
+
+    const [getContacts, result, lastPromiseInfo] = useLazyGetContactsQuery();
+    const handleSearch = async (keyword: string) => {
+        if (keyword.length < 3) return;
+        setFetchedContacts([]);
+        // fetch contacts
+        const contacts = await getContacts({
+            keyword,
+            page: 1,
+        });
+
+        setFetchedContacts(contacts?.data?.data?.contacts ?? []);
+    };
+
     return (
         <SDashboardContainer>
             <SDashboardHeader />
             <SDashboardList>
                 <ContactsList
-                    contacts={contacts}
+                    contacts={fetchedContacts}
+                    onFetchContacts={onFetchContacts}
                     onAddContact={handleAddContact}
+                    onRemoveContact={onRemoveContact}
+                    onEditContact={handleEditContact}
+                    onOpenSearch={handleOpenSearch}
                 />
             </SDashboardList>
             <AddDialog
-                selectedValue={null}
                 open={open}
                 onClose={handleClose}
                 onEdit={handleAddContact}
+            />
+            <SearchDialog
+                open={openSearch}
+                onClose={handleSearchClose}
+                onSearch={handleSearch}
             />
             <SDashboardFooter />
         </SDashboardContainer>

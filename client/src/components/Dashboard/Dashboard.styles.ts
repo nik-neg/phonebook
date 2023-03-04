@@ -18,7 +18,7 @@ export const SDashboardHeader = styled.div`
 `;
 
 export const SDashboardList = styled.div`
-    padding-top: 3rem;
+    padding-top: 6rem;
     grid-area: list;
     justify-self: center; // end
     display: flex;

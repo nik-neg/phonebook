@@ -1,0 +1,52 @@
+type Contact {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    nickName: String
+    phoneNumbers: [PhoneNumber!]!
+    address: String!
+    imageFile: String!
+}
+
+type PhoneNumber {
+    id: ID!
+    phoneNumber: String!
+}
+
+input CreateContactInput {
+    firstName: String!
+    lastName: String!
+    nickName: String
+    phoneNumbers: [String!]!
+    address: String!
+    imageFile: String!
+}
+
+input UpdateContactInput {
+    firstName: String
+    lastName: String
+    nickName: String
+    phoneNumbers: [String]
+    address: String
+    imageFile: String
+    filter: FilterImageInput
+}
+
+input QueryPaginationInput {
+    take: Int
+    skip: Int
+    keyword: String
+    page: Int
+}
+
+type Query {
+    contacts (queryPaginationInput: QueryPaginationInput): [Contact!]!
+    contact(id: ID!): Contact
+    filterImage (filterImageInput: FilterImageInput): String!
+}
+
+type Mutation {
+    createContact(createContactInput: CreateContactInput!): Contact!
+    updateContact(id: ID!, updateContactInput: UpdateContactInput!): Contact!
+    removeContact(id: ID!): Contact!
+}

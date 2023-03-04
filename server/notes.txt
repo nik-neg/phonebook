@@ -1,0 +1,110 @@
+npx ts-node src/generate-types
+
+// create contact
+mutation {
+  createContact(createContactInput: {
+    firstName: "firstName",
+    lastName: "lastName",
+    phoneNumbers: ["123456789", "123456789"]
+    address: "address"
+    imageUrl: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg",
+  }) {
+    id,
+    firstName,
+    lastName,
+    nickName,
+    phoneNumbers {
+        id
+        phoneNumber
+    },
+    address,
+    imageUrl
+  }
+}
+
+// get contacts
+{
+    contacts {
+        id
+        firstName
+        lastName
+        nickName
+        phoneNumbers {
+            id
+            phoneNumber
+        }
+        address
+        imageUrl
+    }
+}
+
+// with pagination
+{
+      contacts(queryPaginationInput: {
+        skip: 5,
+      }) {
+        id
+        firstName
+        lastName
+        nickName
+        phoneNumbers {
+            id
+            phoneNumber
+        }
+        address
+        imageUrl
+    }
+}
+
+// get contact
+{
+    contact(id: 1) {
+        id
+        firstName
+        lastName
+        nickName
+        phoneNumbers {
+            id
+            phoneNumber
+        }
+        address
+        imageUrl
+    }
+}
+
+// update contact
+mutation {
+  updateContact(id: 1, updateContactInput: {
+    firstName: "Update",
+    lastName: "Update",
+  }) {
+    id,
+    firstName,
+    lastName,
+    nickName,
+    phoneNumbers {
+        id
+        phoneNumber
+    },
+    address,
+    imageFile
+  }
+}
+
+// remove contact
+mutation {
+  removeContact(id: 1) {
+    firstName,
+    lastName,
+  }
+}
+
+// filterImagePreview
+{
+   filterImage(filterImageInput: {
+      imageFile: "imageFile",
+      blur: 0,
+      grayscale: 0,
+      saturation: 0,
+    })
+}

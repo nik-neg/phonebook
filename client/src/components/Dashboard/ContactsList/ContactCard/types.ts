@@ -4,18 +4,27 @@ export interface IContactCardPhotoProps {
 
 export interface IContactCardProps {
     contact: IContact;
+
+    onEditContact?: (contacts: IContact) => void;
+    onRemoveContact?: (id: IContact['id']) => void;
+}
+
+export interface IPhoneNumber {
+    id: number;
+    phoneNumber: string;
 }
 
 export interface IContact {
+    id: number;
     nickName?: string;
 
     firstName: string;
 
     lastName: string;
 
-    phoneNumbers: string[];
+    phoneNumbers: IPhoneNumber[];
 
     address: string;
 
-    imageUrl: string;
+    imageFile: string;
 }

@@ -9,39 +9,103 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { IUpdateDialogProps } from './types';
 import { UploadButton } from '../common/UploadButton/UploadButton';
-import { SUploadedImage, SUploadedImageWrapper } from './UpdateDialog.styles';
 import { SUploadButtonWrapper } from '../common/UploadButton/UploadButton.styles';
+import { ImageFilter } from '../common/ImageFilter';
+import { useForm } from 'react-hook-form';
+import { updateContactSchema } from './validation/schema';
+import { prefetchFilteredImage } from '../../../../api/ApiClient';
+import { convertPhoneNumbersToString } from './utils';
+import { IFilter } from '../AddDialog';
+import { useUpdateContactMutation } from '../../../../store/api/contacts.api';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export const UpdateDialog = ({
     selectedValue,
     open,
-    onEdit,
     onClose,
 }: IUpdateDialogProps): JSX.Element => {
+    const defaultValues = {
+        firstName: '',
+        lastName: '',
+        nickName: '',
+        imageFile: '',
+        address: '',
+        phoneNumbers: '',
+    };
     const {
-        nickName,
-
-        firstName,
-
-        lastName,
-
-        phoneNumbers,
-
-        address,
-
-        imageUrl,
-    } = selectedValue;
-
-    const [imagePath, setImagePath] = useState<string | ArrayBuffer>(imageUrl);
+        register,
+        reset,
+        trigger,
+        formState: { errors, isValid },
+        getValues,
+        setValue,
+    } = useForm({
+        defaultValues: {
+            ...selectedValue,
+            phoneNumbers: convertPhoneNumbersToString(
+                selectedValue.phoneNumbers
+            ),
+        },
+        resolver: yupResolver(updateContactSchema),
+    });
 
     const handleUploadImage = (imagePath: string | ArrayBuffer) => {
-        setImagePath(imagePath);
+        setValue('imageFile', imagePath.toString());
     };
-
-    const handleClickOpen = () => {};
+    const clearForm = () => {
+        reset(defaultValues);
+        setValue('imageFile', '');
+    };
 
     const handleClose = () => {
         onClose?.();
+    };
+
+    const [filter, setFilter] = useState<IFilter>({
+        blur: 0,
+        grayscale: false,
+        saturation: 0,
+    });
+
+    const [updateContact, { isLoading: isRemoving, isSuccess, isError }] =
+        useUpdateContactMutation();
+
+    const triggerValidation = async (): Promise<boolean> => {
+        const lastName = await trigger('lastName');
+        const firstName = await trigger('firstName');
+        const address = await trigger('address');
+        const phoneNumbers = await trigger('phoneNumbers');
+        const imageFile = await trigger('imageFile');
+
+        return lastName && firstName && address && phoneNumbers && imageFile;
+    };
+
+    const handleUpdate = async () => {
+        if (await triggerValidation()) {
+            await updateContact({
+                contact: { ...getValues(), id: selectedValue.id },
+                filterImageInput: filter,
+            }).unwrap();
+
+            onClose?.();
+        }
+    };
+
+    const handleFilter = async (filter: IFilter) => {
+        setFilter(filter);
+    };
+
+    const [loading, setLoading] = useState<boolean>(false);
+
+    const filterImage = async () => {
+        setLoading(true);
+        const image = await prefetchFilteredImage({
+            imageFile: selectedValue.imageFile,
+            ...filter,
+        });
+        setLoading(false);
+
+        setValue('imageFile', image?.data?.data?.filterImage);
     };
 
     return (
@@ -60,8 +124,13 @@ export const UpdateDialog = ({
                         type="email"
                         fullWidth
                         variant="standard"
-                        value={firstName}
+                        {...register('firstName')}
                     />
+                    {errors.firstName && (
+                        <span style={{ color: 'red' }}>
+                            {errors.firstName.message}
+                        </span>
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -70,8 +139,13 @@ export const UpdateDialog = ({
                         type="email"
                         fullWidth
                         variant="standard"
-                        value={lastName}
+                        {...register('lastName')}
                     />
+                    {errors.lastName && (
+                        <span style={{ color: 'red' }}>
+                            {errors.lastName.message}
+                        </span>
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -79,8 +153,13 @@ export const UpdateDialog = ({
                         label="Nickname"
                         fullWidth
                         variant="standard"
-                        value={nickName}
+                        {...register('nickName')}
                     />
+                    {errors.nickName && (
+                        <span style={{ color: 'red' }}>
+                            {errors.nickName.message}
+                        </span>
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -88,8 +167,13 @@ export const UpdateDialog = ({
                         label="Address"
                         fullWidth
                         variant="standard"
-                        value={address}
+                        {...register('address')}
                     />
+                    {errors.address && (
+                        <span style={{ color: 'red' }}>
+                            {errors.address.message}
+                        </span>
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -97,20 +181,34 @@ export const UpdateDialog = ({
                         label="Phone Numbers"
                         fullWidth
                         variant="standard"
-                        value={phoneNumbers}
+                        {...register('phoneNumbers')}
                     />
+                    {errors.phoneNumbers && (
+                        <span style={{ color: 'red' }}>
+                            {errors.phoneNumbers.message}
+                        </span>
+                    )}
                     <SUploadButtonWrapper>
                         <UploadButton onUpload={handleUploadImage} />
                     </SUploadButtonWrapper>
-                    {imagePath && (
-                        <SUploadedImageWrapper>
-                            <SUploadedImage src={imagePath.toString()} />
-                        </SUploadedImageWrapper>
+                    {errors.imageFile && (
+                        <span style={{ color: 'red' }}>
+                            {errors.imageFile.message}
+                        </span>
+                    )}
+                    {selectedValue.imageFile && (
+                        <>
+                            <ImageFilter
+                                contact={selectedValue}
+                                onFilter={handleFilter}
+                            />
+                        </>
                     )}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Save</Button>
+                    <Button onClick={filterImage}>Filter</Button>
+                    <Button onClick={handleUpdate}>Update</Button>
                 </DialogActions>
             </Dialog>
         </div>

@@ -10,52 +10,124 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { IAddDialogProps, IFilter } from './types';
 import { SUploadButtonWrapper } from '../common/UploadButton/UploadButton.styles';
 import { UploadButton } from '../common/UploadButton/UploadButton';
-import {
-    SFilterPanelItem,
-    SImageOptionContainer,
-    SUploadedImage,
-    SUploadedImageWrapper,
-} from '../UpdateDialog/UpdateDialog.styles';
-import { ImageOptionsSlider } from '../common/ImageOptionsSlider/ImageOptionsSlider';
-import { IoIosColorPalette, MdLensBlur, RxShadowInner } from 'react-icons/all';
 import { SAddDialogContainer } from './AddDialog.styles';
+import {
+    createContact,
+    prefetchFilteredImage,
+} from '../../../../api/ApiClient';
+import { ImageFilter } from '../common/ImageFilter';
+import { ContactWithPhoneNumbersAsStringWithoutId } from '../UpdateDialog';
+import { useForm } from 'react-hook-form';
+import { addContactSchema } from './validation/schema';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
-    const { onClose, selectedValue, open, onEdit } = props;
+    const { onClose, open } = props;
 
-    const [imagePath, setImagePath] = useState<string | ArrayBuffer>('');
-
-    const [filter, setFilter] = useState<IFilter>({
-        blur: 0,
-        grayscale: 0,
-        saturation: 0,
-    });
-
-    const handleFilterChange = (name: string, value: number) => {
-        setFilter({ ...filter, [name]: value });
-
-        console.log({ filter });
+    const defaultValues = {
+        firstName: '',
+        lastName: '',
+        nickName: '',
+        imageFile: '',
+        address: '',
+        phoneNumbers: '',
     };
 
+    const {
+        register,
+        trigger,
+        formState: { errors, isValid },
+        getValues,
+        setValue,
+        watch,
+        reset,
+    } = useForm({
+        defaultValues,
+        resolver: yupResolver(addContactSchema),
+    });
+
+    const watchFields = watch([
+        'firstName',
+        'lastName',
+        'nickName',
+        'imageFile',
+        'address',
+        'phoneNumbers',
+    ]);
+
+    const [contact, setContact] = useState<
+        Partial<ContactWithPhoneNumbersAsStringWithoutId>
+    >({
+        firstName: '',
+        lastName: '',
+        nickName: '',
+        imageFile: '',
+        address: '',
+    });
+
     const handleClose = () => {
+        clearForm();
         onClose?.();
+    };
+
+    const triggerValidation = async (): Promise<boolean> => {
+        const lastName = await trigger('lastName');
+        const firstName = await trigger('firstName');
+        const address = await trigger('address');
+        const phoneNumbers = await trigger('phoneNumbers');
+        const imageFile = await trigger('imageFile');
+
+        return lastName && firstName && address && phoneNumbers && imageFile;
+    };
+
+    const clearForm = () => {
+        reset(defaultValues);
+        setValue('imageFile', '');
+        setContact(getValues());
+    };
+
+    const handleSave = async () => {
+        if (await triggerValidation()) {
+            const response = await createContact(getValues());
+            clearForm();
+            onClose?.();
+        }
     };
 
     const handleUploadImage = async (
         imagePath: string | ArrayBuffer
     ): Promise<void> => {
-        // Apply the filter
-        // LenaJS.filterImage(filteredImageCanvas, filter, originalImage);
-        setImagePath(imagePath);
+        setValue('imageFile', imagePath.toString());
+        setContact(getValues());
+    };
+
+    const [filter, setFilter] = useState<IFilter>({
+        blur: 0,
+        grayscale: false,
+        saturation: 0,
+    });
+
+    const handleFilter = async (filter: IFilter) => {
+        setFilter(filter);
+    };
+
+    const [loading, setLoading] = useState<boolean>(false);
+
+    const filterImage = async () => {
+        setLoading(true);
+        const image = await prefetchFilteredImage({
+            imageFile: contact.imageFile,
+            ...filter,
+        });
+        setLoading(false);
+
+        setContact({ ...contact, imageFile: image?.data?.data?.filterImage });
+        setValue('imageFile', image?.data?.data?.filterImage);
     };
 
     return (
         <SAddDialogContainer>
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                // style={{ height: '92.5%', paddingTop: '10%' }} // for mobile
-            >
+            <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Add Contact</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -66,19 +138,29 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         margin="dense"
                         id="name"
                         label="First Name"
-                        type="email"
                         fullWidth
                         variant="standard"
+                        {...register('firstName')}
                     />
+                    {errors.firstName && (
+                        <span style={{ color: 'red' }}>
+                            {errors.firstName.message}
+                        </span>
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
                         id="name"
                         label="Last Name"
-                        type="email"
                         fullWidth
                         variant="standard"
+                        {...register('lastName')}
                     />
+                    {errors.lastName && (
+                        <span style={{ color: 'red' }}>
+                            {errors.lastName.message}
+                        </span>
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -86,7 +168,13 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         label="Nickname"
                         fullWidth
                         variant="standard"
+                        {...register('nickName')}
                     />
+                    {errors.nickName && (
+                        <span style={{ color: 'red' }}>
+                            {errors.nickName.message}
+                        </span>
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -94,7 +182,13 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         label="Address"
                         fullWidth
                         variant="standard"
+                        {...register('address')}
                     />
+                    {errors.address && (
+                        <span style={{ color: 'red' }}>
+                            {errors.address.message}
+                        </span>
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -102,48 +196,33 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         label="Phone Numbers"
                         fullWidth
                         variant="standard"
+                        {...register('phoneNumbers')}
                     />
+                    {errors.phoneNumbers && (
+                        <span style={{ color: 'red' }}>
+                            {errors.phoneNumbers.message}
+                        </span>
+                    )}
                     <SUploadButtonWrapper>
                         <UploadButton onUpload={handleUploadImage} />
                     </SUploadButtonWrapper>
-                    {imagePath && (
-                        <>
-                            <SImageOptionContainer>
-                                <SUploadedImageWrapper>
-                                    <SUploadedImage
-                                        src={imagePath.toString()}
-                                    />
-                                </SUploadedImageWrapper>
-                                <SFilterPanelItem>
-                                    <ImageOptionsSlider
-                                        name={'Grayscale'}
-                                        Icon={RxShadowInner}
-                                        onChangeParent={handleFilterChange}
-                                    />
-                                </SFilterPanelItem>
-
-                                <SFilterPanelItem>
-                                    <ImageOptionsSlider
-                                        name={'Blur'}
-                                        Icon={MdLensBlur}
-                                        onChangeParent={handleFilterChange}
-                                    />
-                                </SFilterPanelItem>
-
-                                <SFilterPanelItem>
-                                    <ImageOptionsSlider
-                                        name={'Saturation'}
-                                        Icon={IoIosColorPalette}
-                                        onChangeParent={handleFilterChange}
-                                    />
-                                </SFilterPanelItem>
-                            </SImageOptionContainer>
-                        </>
+                    {errors.imageFile && (
+                        <span style={{ color: 'red' }}>
+                            {errors.imageFile.message}
+                        </span>
+                    )}
+                    {contact.imageFile && (
+                        <ImageFilter
+                            contact={contact}
+                            onFilter={handleFilter}
+                            isFetchingImage={loading}
+                        />
                     )}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Save</Button>
+                    <Button onClick={filterImage}>Filter</Button>
+                    <Button onClick={handleSave}>Save</Button>
                 </DialogActions>
             </Dialog>
         </SAddDialogContainer>

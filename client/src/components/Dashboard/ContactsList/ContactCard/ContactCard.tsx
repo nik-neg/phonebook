@@ -1,6 +1,6 @@
 import {
+    SAddress,
     SContactCardContainer,
-    SContactCardPhoto,
     SContactCardWrapper,
     SContactInfoWrapper,
     SContactName,
@@ -8,13 +8,25 @@ import {
     SNameWrapper,
 } from './ContactCard.styles';
 import React, { useState } from 'react';
-import { IContact, IContactCardProps } from './types';
+import { IContactCardProps } from './types';
 import { EditDialog } from '../../dialogs/EditDialog/EditDialog';
 import { UpdateDialog } from '../../dialogs/UpdateDialog/UpdateDialog';
+import Avatar from '@mui/material/Avatar';
+import { useRemoveContactMutation } from '../../../../store/api/contacts.api';
 
-export const ContactCard = (contact: IContactCardProps): JSX.Element => {
-    const { nickName, firstName, lastName, address, imageUrl, phoneNumbers } =
-        contact.contact;
+export const ContactCard = ({
+    contact,
+    onRemoveContact,
+}: IContactCardProps): JSX.Element => {
+    const {
+        id,
+        nickName,
+        firstName,
+        lastName,
+        address,
+        imageFile,
+        phoneNumbers,
+    } = contact;
 
     const [open, setOpen] = useState(false);
 
@@ -24,7 +36,7 @@ export const ContactCard = (contact: IContactCardProps): JSX.Element => {
         setOpen(true);
     };
 
-    const handleClose = (value: IContact) => {
+    const handleClose = () => {
         setOpen(false);
     };
 
@@ -32,20 +44,32 @@ export const ContactCard = (contact: IContactCardProps): JSX.Element => {
         setOpenUpdateDialog(false);
     };
 
-    const handleEdit = (remove: boolean) => {
-        console.log({ contact });
+    const [removeContact, { isLoading: isRemoving, isSuccess, isError }] =
+        useRemoveContactMutation();
+
+    const handleEdit = async (remove: boolean) => {
         setOpen(false);
 
         if (!remove) {
             setOpenUpdateDialog(true);
+            return;
         }
+        await removeContact(id).unwrap();
+
+        onRemoveContact?.(id);
     };
     return (
         <SContactCardContainer>
             <SContactCardWrapper onClick={handleClickOpen}>
                 <SContactInfoWrapper>
-                    <SContactCardPhoto src={imageUrl} />
+                    <Avatar
+                        alt="Remy Sharp"
+                        src={imageFile}
+                        sx={{ width: 75, height: 75 }}
+                    />
                     <SNameWrapper>
+                        <SAddress>{address}</SAddress>
+
                         {nickName ? (
                             <SContactNickName>{nickName}</SContactNickName>
                         ) : (
@@ -59,13 +83,13 @@ export const ContactCard = (contact: IContactCardProps): JSX.Element => {
                 </SContactInfoWrapper>
             </SContactCardWrapper>
             <EditDialog
-                selectedValue={contact.contact}
+                selectedValue={contact}
                 open={open}
                 onClose={handleClose}
                 onEdit={handleEdit}
             />
             <UpdateDialog
-                selectedValue={contact.contact}
+                selectedValue={contact}
                 open={openUpdateDialog}
                 onClose={handleCloseUpdateDialog}
                 onEdit={handleEdit}

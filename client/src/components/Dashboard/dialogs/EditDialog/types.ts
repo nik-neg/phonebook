@@ -6,5 +6,5 @@ export interface IEditDialogProps {
 
     onEdit?: (remove: boolean) => void;
 
-    onClose: (value: IContact) => void;
+    onClose: () => void;
 }

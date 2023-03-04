@@ -1,16 +1,13 @@
-import { IContact } from '../../ContactsList/ContactCard/types';
-
 export interface IAddDialogProps {
     open: boolean;
-    selectedValue: IContact;
 
-    onEdit?: (value: IContact, remove: boolean) => void;
+    onEdit?: () => void;
 
     onClose: () => void;
 }
 
 export interface IFilter {
-    grayscale: number;
+    grayscale: boolean;
 
     blur: number;
 

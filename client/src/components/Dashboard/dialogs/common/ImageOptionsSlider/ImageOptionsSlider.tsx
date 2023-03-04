@@ -20,6 +20,8 @@ export const ImageOptionsSlider = ({
     name,
     Icon,
     onChangeParent,
+    min = 0,
+    max = 100,
 }: IImageOptionsSliderProps): JSX.Element => {
     const [value, setValue] = useState<
         number | string | Array<number | string>
@@ -35,19 +37,20 @@ export const ImageOptionsSlider = ({
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue =
-            event.target.value === '' ? 0 : Number(event.target.value);
+            event.target.value === '' ? min : Number(event.target.value);
         onChangeParent?.(name.toLowerCase(), newValue);
         setValue(newValue);
     };
 
     const handleBlur = () => {
-        if (value < 0) {
-            setValue(0);
-        } else if (value > 100) {
-            setValue(100);
+        if (value < min) {
+            setValue(min);
+        } else if (value > max) {
+            setValue(max);
         }
     };
 
+    // TODO: bug with max blur
     return (
         <SImageSliderOptionsContainer>
             <SImageSliderOptionsItem>
@@ -58,9 +61,12 @@ export const ImageOptionsSlider = ({
             </SImageSliderOptionIcon>
             <SImageSliderOptions>
                 <Slider
-                    value={typeof value === 'number' ? value : 0}
+                    value={typeof value === 'number' ? value : min}
                     onChange={handleSliderChange}
                     aria-labelledby="input-slider"
+                    min={min}
+                    max={max}
+                    step={1}
                 />
             </SImageSliderOptions>
 
@@ -71,9 +77,9 @@ export const ImageOptionsSlider = ({
                     onChange={handleInputChange}
                     onBlur={handleBlur}
                     inputProps={{
-                        step: 10,
-                        min: 0,
-                        max: 100,
+                        step: 1,
+                        min: min,
+                        max: max,
                         type: 'number',
                         'aria-labelledby': 'input-slider',
                     }}

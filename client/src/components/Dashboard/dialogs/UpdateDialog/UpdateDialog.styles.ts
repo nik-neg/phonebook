@@ -12,11 +12,6 @@ export const SUploadedImage = styled.img`
     border-radius: 10px;
 `;
 
-export const SFilterPanel = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
-
 export const SFilterPanelItem = styled.div`
     display: flex;
 `;

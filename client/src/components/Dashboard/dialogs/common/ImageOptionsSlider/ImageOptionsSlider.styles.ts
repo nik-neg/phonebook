@@ -5,6 +5,12 @@ export const SImageSliderOptionsContainer = styled.div`
     padding-top: 1rem;
     width: 100%;
 `;
+
+export const SCheckboxOptionsContainer = styled.div`
+    display: flex;
+    padding-top: 1rem;
+    width: 100%;
+`;
 export const SImageSliderOptionsItem = styled.div`
     display: flex;
     justify-content: flex-end;
@@ -12,7 +18,21 @@ export const SImageSliderOptionsItem = styled.div`
     width: 100%;
 `;
 
+export const SCheckboxOptionsItem = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+`;
+
 export const SImageSliderOptionIcon = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+`;
+
+export const SCheckboxOptionIcon = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
