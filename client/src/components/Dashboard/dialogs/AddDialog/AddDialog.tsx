@@ -87,6 +87,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     };
 
     const handleSave = async () => {
+        console.log({ v: getValues() });
         if (await triggerValidation()) {
             const response = await createContact(getValues());
             clearForm();
