@@ -32,6 +32,7 @@ export const ContactsList = ({
     onRemoveContact,
 }: IContactListProps): JSX.Element => {
     const dispatch = useAppDispatch();
+    const [hover, setHover] = useState(false);
 
     const totalNumberOfContacts = useAppSelector(selectTotalNumberOfContacts);
 
@@ -82,9 +83,14 @@ export const ContactsList = ({
                     scrollTop < clientHeight &&
                     totalNumberOfContacts >= page * 5
                 ) {
+                    onFetchContacts?.([]);
                     setPage((page) => page + 1);
                     const newContacts = await getContacts({
                         page: page + 1,
+                    });
+                    console.log({
+                        newContacts:
+                            newContacts?.data?.data?.getContacts?.contacts,
                     });
                     dispatch(
                         getTotalNumberOfContacts(
@@ -143,6 +149,8 @@ export const ContactsList = ({
         onOpenSearch?.();
     };
 
+    console.log({ isLoading });
+
     return (
         <Tilt>
             <SContactListPanel>
@@ -152,9 +160,14 @@ export const ContactsList = ({
                         style={{ overflow: 'auto', height: '680px' }}
                     >
                         <SContactListWrapper
-                            contactsAreFetched={isDeviceOn}
+                            contactsAreFetched={
+                                isDeviceOn || contacts?.length > 0
+                            }
                             style={{ height: '750px' }}
                             ref={innerRef}
+                            hover={hover}
+                            onMouseEnter={() => setHover(true)}
+                            onMouseLeave={() => setHover(false)}
                         >
                             <SContactCardsContainer>
                                 {contacts.map(

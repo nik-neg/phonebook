@@ -55,11 +55,16 @@ export const SContactListWrapper = styled.div<IContactListWrapper>`
         display: none;
     }
 
+    &:hover {
+        cursor: pointer;
+    }
+
     width: 100%;
     position: relative;
 
     ${(props) =>
         !props.contactsAreFetched &&
+        !props.hover &&
         `
         &:after {
         content: '';

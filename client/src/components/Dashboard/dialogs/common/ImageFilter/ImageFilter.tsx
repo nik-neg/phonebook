@@ -63,7 +63,7 @@ export const ImageFilter = ({
                 <SCheckboxOptionIcon>
                     <FormGroup>
                         <FormControlLabel
-                            control={<Checkbox defaultChecked />}
+                            control={<Checkbox />}
                             label=""
                             value={filter.grayscale}
                             checked={filter.grayscale}

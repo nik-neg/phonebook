@@ -15,6 +15,7 @@ export const Dashboard = (): JSX.Element => {
     const [fetchedContacts, setFetchedContacts] = useState<IContact[]>([]);
 
     const onFetchContacts = (contacts: IContact[]) => {
+        console.log('contacts', contacts);
         setFetchedContacts(contacts);
     };
 

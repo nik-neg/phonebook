@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -24,18 +24,37 @@ export const UpdateDialog = ({
     onClose,
     onFilterImage,
 }: IUpdateDialogProps): JSX.Element => {
+    const defaultValues = {
+        firstName: '',
+        lastName: '',
+        nickName: '',
+        imageFile: '',
+        address: '',
+        phoneNumbers: '',
+    };
     const {
         register,
         trigger,
         formState: { errors },
         getValues,
         setValue,
+        reset,
     } = useForm({
         defaultValues: {
             ...selectedValue,
         },
         resolver: yupResolver(updateContactSchema),
     });
+
+    useEffect(() => {
+        clearForm();
+        setValue('firstName', selectedValue.firstName);
+        setValue('lastName', selectedValue.lastName);
+        setValue('nickName', selectedValue.nickName);
+        setValue('imageFile', selectedValue.imageFile);
+        setValue('address', selectedValue.address);
+        setValue('phoneNumbers', selectedValue.phoneNumbers);
+    }, [selectedValue]);
 
     const handleUploadImage = (imagePath: string | ArrayBuffer) => {
         setValue('imageFile', imagePath.toString());
@@ -91,6 +110,11 @@ export const UpdateDialog = ({
 
         onFilterImage?.(image?.data?.data?.filterImage);
         setValue('imageFile', image?.data?.data?.filterImage);
+    };
+    const clearForm = () => {
+        reset(defaultValues);
+        setValue('imageFile', '');
+        // setContact(getValues());
     };
 
     return (
