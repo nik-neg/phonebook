@@ -2,9 +2,11 @@ import { IContact } from '../../ContactsList/ContactCard/types';
 
 export interface IUpdateDialogProps {
     open: boolean;
-    selectedValue: IContact;
+    selectedValue: ContactWithPhoneNumbersAsString;
 
     onEdit?: (remove: boolean) => void;
+
+    onFilterImage?: (image: string) => void;
 
     onClose: () => void;
 }

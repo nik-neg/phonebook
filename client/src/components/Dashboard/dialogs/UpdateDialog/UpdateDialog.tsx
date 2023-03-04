@@ -14,7 +14,6 @@ import { ImageFilter } from '../common/ImageFilter';
 import { useForm } from 'react-hook-form';
 import { updateContactSchema } from './validation/schema';
 import { prefetchFilteredImage } from '../../../../api/ApiClient';
-import { convertPhoneNumbersToString } from './utils';
 import { IFilter } from '../AddDialog';
 import { useUpdateContactMutation } from '../../../../store/api/contacts.api';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -23,38 +22,23 @@ export const UpdateDialog = ({
     selectedValue,
     open,
     onClose,
+    onFilterImage,
 }: IUpdateDialogProps): JSX.Element => {
-    const defaultValues = {
-        firstName: '',
-        lastName: '',
-        nickName: '',
-        imageFile: '',
-        address: '',
-        phoneNumbers: '',
-    };
     const {
         register,
-        reset,
         trigger,
-        formState: { errors, isValid },
+        formState: { errors },
         getValues,
         setValue,
     } = useForm({
         defaultValues: {
             ...selectedValue,
-            phoneNumbers: convertPhoneNumbersToString(
-                selectedValue.phoneNumbers
-            ),
         },
         resolver: yupResolver(updateContactSchema),
     });
 
     const handleUploadImage = (imagePath: string | ArrayBuffer) => {
         setValue('imageFile', imagePath.toString());
-    };
-    const clearForm = () => {
-        reset(defaultValues);
-        setValue('imageFile', '');
     };
 
     const handleClose = () => {
@@ -105,6 +89,7 @@ export const UpdateDialog = ({
         });
         setLoading(false);
 
+        onFilterImage?.(image?.data?.data?.filterImage);
         setValue('imageFile', image?.data?.data?.filterImage);
     };
 
@@ -201,6 +186,7 @@ export const UpdateDialog = ({
                             <ImageFilter
                                 contact={selectedValue}
                                 onFilter={handleFilter}
+                                isFetchingImage={loading}
                             />
                         </>
                     )}

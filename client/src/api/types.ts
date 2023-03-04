@@ -7,16 +7,6 @@ export interface IQueryPaginationInput {
 
     page?: number;
 }
-
-export interface IFilterImage {
-    id: IContact['id'];
-
-    imageFile: IContact['imageFile'];
-    blur: number;
-    grayscale: number;
-    saturation: number;
-}
-
 export interface IFilterImageInput {
     imageFile?: IContact['imageFile'];
     blur: number;

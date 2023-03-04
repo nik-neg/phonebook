@@ -45,7 +45,7 @@ export const ContactsList = ({
 
     const [isDeviceOn, setIsDeviceOn] = React.useState(false);
 
-    const { data, error, isLoading } = useGetContactsQuery(
+    const { data, isLoading } = useGetContactsQuery(
         { page: 1 },
         { skip: !isDeviceOn, refetchOnMountOrArgChange: true }
     );

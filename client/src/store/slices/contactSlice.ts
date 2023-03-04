@@ -3,7 +3,7 @@ import { State } from './types';
 
 const initialState: State = {
     contacts: [],
-    total: 5,
+    total: 5, // set to 5 for initial scroll logic
 };
 
 export const contactsSlice = createSlice({

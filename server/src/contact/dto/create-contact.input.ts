@@ -2,7 +2,7 @@ import * as GraphQLTypes from '../../graphql-types';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateContactInput extends GraphQLTypes.CreateContactInput {
-  // @IsNotEmpty()
+  @IsNotEmpty()
   @IsString()
   firstName: string;
 
@@ -22,7 +22,7 @@ export class CreateContactInput extends GraphQLTypes.CreateContactInput {
   @IsString()
   imageFile: string;
 
-  // @Transform(phoneNumbersTransform)
+  // @Transform(phoneNumbersTransform) // random bug should work in general, code tested
   // @IsArray()
   // @IsString({ each: true })
   phoneNumbers: string[];

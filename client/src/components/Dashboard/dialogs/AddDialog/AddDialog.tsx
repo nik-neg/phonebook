@@ -16,10 +16,10 @@ import {
     prefetchFilteredImage,
 } from '../../../../api/ApiClient';
 import { ImageFilter } from '../common/ImageFilter';
-import { ContactWithPhoneNumbersAsStringWithoutId } from '../UpdateDialog';
 import { useForm } from 'react-hook-form';
 import { addContactSchema } from './validation/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { ContactWithPhoneNumbersAsString } from '../UpdateDialog';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, open } = props;
@@ -56,13 +56,14 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     ]);
 
     const [contact, setContact] = useState<
-        Partial<ContactWithPhoneNumbersAsStringWithoutId>
+        Partial<ContactWithPhoneNumbersAsString>
     >({
         firstName: '',
         lastName: '',
         nickName: '',
         imageFile: '',
         address: '',
+        phoneNumbers: '',
     });
 
     const handleClose = () => {
