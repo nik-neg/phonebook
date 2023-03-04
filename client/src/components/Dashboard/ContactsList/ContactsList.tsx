@@ -37,7 +37,6 @@ export const ContactsList = ({
     const outerRef = useRef<HTMLDivElement>(null);
     const innerRef = useRef<HTMLDivElement>(null);
     const [page, setPage] = useState(1);
-    const [isLoadingItems, setIsLoadingItems] = useState(false);
 
     const [scroll, setScroll] = useState(0);
 
@@ -74,11 +73,11 @@ export const ContactsList = ({
     const loadMoreContacts = useCallback(
         async (outerElem: HTMLDivElement) => {
             setTimeout(async () => {
-                const { scrollTop, scrollHeight, clientHeight } = outerElem;
-                console.log({ scrollTop, scroll });
+                const { scrollTop, clientHeight } = outerElem;
+                setScroll(scrollTop);
+
                 if (
-                    scrollTop !== 0 &&
-                    scrollTop >= scroll &&
+                    !(scrollTop < scroll) &&
                     scrollTop < clientHeight &&
                     totalNumberOfContacts >= page * 5
                 ) {
@@ -98,7 +97,6 @@ export const ContactsList = ({
                             : contacts
                     );
                 } else {
-                    console.log('else', page - 1 > 1 ? page - 1 : 1);
                     const scrollBackOCondition = (page: number) =>
                         page - 1 > 1 ? page - 1 : 1;
                     setPage((page) => scrollBackOCondition(page));
@@ -113,7 +111,6 @@ export const ContactsList = ({
                             : contacts
                     );
                 }
-                setScroll(scrollTop);
             }, 1000);
         },
         [page]
@@ -127,7 +124,6 @@ export const ContactsList = ({
         }
         const handleScroll = debounce(async () => {
             const { scrollTop, scrollHeight, clientHeight } = outerElem;
-            console.log({ scrollTop, scrollHeight, clientHeight });
             if (scrollTop < clientHeight) {
                 await loadMoreContacts(outerElem);
                 console.log('if ok');
@@ -156,10 +152,9 @@ export const ContactsList = ({
                     style={{ overflow: 'auto', height: '680px' }}
                 >
                     <SContactListWrapper
-                        style={{ height: '775px' }}
-                        ref={innerRef}
-                        // onScroll={handleScroll}
                         contactsAreFetched={isDeviceOn}
+                        style={{ height: '750px' }}
+                        ref={innerRef}
                     >
                         <SContactCardsContainer>
                             {contacts.map(
