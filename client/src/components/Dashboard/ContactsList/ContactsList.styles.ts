@@ -41,14 +41,6 @@ export const STimePanelYear = styled.div`
     text-align: center;
     text-align: center;
 `;
-export const STimePanelTime = styled.div`
-    position: absolute;
-    color: white;
-    font-size: 1.5rem;
-    padding-top: 40rem;
-    padding-left: 8rem;
-    text-align: center;
-`;
 
 export const SContactListWrapper = styled.div<IContactListWrapper>`
     width: 100%;

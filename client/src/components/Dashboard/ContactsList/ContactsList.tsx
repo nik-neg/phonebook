@@ -8,7 +8,6 @@ import {
     SContactListContainerWrapper,
     SContactListWrapper,
     SIconWrapper,
-    STimePanelTime,
     STimePanelWrapper,
     STimePanelYear,
 } from './ContactsList.styles';
@@ -16,9 +15,7 @@ import { IContactListProps } from './types';
 import { ContactCard } from './ContactCard';
 import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
 import React, { useEffect, useState } from 'react';
-import date from 'date-and-time';
 import Tilt from 'react-parallax-tilt';
-import { debounce } from 'lodash-es';
 import {
     useGetContactsQuery,
     useLazyGetContactsQuery,
@@ -32,41 +29,43 @@ export const ContactsList = ({
     onRemoveContact,
 }: IContactListProps): JSX.Element => {
     const [page, setPage] = useState(1);
-    const [total, setTotal] = useState(0);
-    const [getContacts, result, lastPromiseInfo] = useLazyGetContactsQuery();
-    const handleScroll = debounce(
-        async (event: React.UIEvent<HTMLInputElement>) => {
-            const target = event.target as HTMLInputElement; // Type assertion to HTMLInputElement
 
-            console.log({ t: total !== 0, t2: total > page * 5, total, page });
-            if (total !== 0 && total > page * 5) {
-                setPage((page) => page + 1);
-                // fetch more contacts
-                const newContacts = await getContacts({
-                    page: page + 1,
-                });
-                onFetchContacts?.(
-                    newContacts?.data?.data?.getContacts?.contacts?.length > 0
-                        ? newContacts?.data?.data?.getContacts?.contacts
-                        : contacts
-                );
-            } else {
-                const scrollBackOCondition = (page: number) =>
-                    page - 1 > 1 ? page - 1 : 1;
-                setPage((page) => scrollBackOCondition(page));
-                // fetch more contacts
-                const newContacts = await getContacts({
-                    page: scrollBackOCondition(page),
-                });
-                onFetchContacts?.(
-                    newContacts?.data?.data?.getContacts?.contacts?.length > 0
-                        ? newContacts?.data?.data?.getContacts?.contacts
-                        : contacts
-                );
-            }
-        },
-        100
-    );
+    const [scroll, setScroll] = useState(0);
+
+    const [total, setTotal] = useState(0);
+
+    const [getContacts] = useLazyGetContactsQuery();
+
+    const handleScroll = async (event: React.UIEvent<HTMLInputElement>) => {
+        const target = event.target as HTMLInputElement;
+        console.log({ scrollTop: target.scrollTop, scroll });
+        // setScroll(target.scrollTop);
+        //
+        // if (total !== 0 && total > page * 5 && target.scrollTop >= scroll) {
+        //     setPage((page) => page + 1);
+        //     const newContacts = await getContacts({
+        //         page: page + 1,
+        //     });
+        //     onFetchContacts?.(
+        //         newContacts?.data?.data?.getContacts?.contacts?.length > 0
+        //             ? newContacts?.data?.data?.getContacts?.contacts
+        //             : contacts
+        //     );
+        // } else {
+        //     const scrollBackOCondition = (page: number) =>
+        //         page - 1 > 1 ? page - 1 : 1;
+        //     setPage((page) => scrollBackOCondition(page));
+        //     // fetch more contacts
+        //     const newContacts = await getContacts({
+        //         page: scrollBackOCondition(page),
+        //     });
+        //     onFetchContacts?.(
+        //         newContacts?.data?.data?.getContacts?.contacts?.length > 0
+        //             ? newContacts?.data?.data?.getContacts?.contacts
+        //             : contacts
+        //     );
+        // }
+    };
 
     const handleAddContact = () => {
         onAddContact?.();
@@ -100,14 +99,6 @@ export const ContactsList = ({
         }
     };
 
-    const [time, setTime] = useState(new Date());
-
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         setTime(new Date());
-    //     }, 1000);
-    // }, [time]);
-
     const handleSearch = () => {
         onOpenSearch?.();
     };
@@ -121,17 +112,12 @@ export const ContactsList = ({
                         contactsAreFetched={isDeviceOn}
                     >
                         <STimePanelWrapper>
-                            <STimePanelYear>
-                                {date.format(time, 'YYYY/MM/DD')}
-                            </STimePanelYear>
-                            <STimePanelTime>
-                                {date.format(time, 'HH:mm:ss')}
-                            </STimePanelTime>
+                            <STimePanelYear></STimePanelYear>
                         </STimePanelWrapper>
                         <SContactCardsContainer>
                             {contacts.map(
                                 (contact, index) =>
-                                    index !== 5 && (
+                                    index <= 4 && (
                                         <ContactCard
                                             key={index}
                                             contact={contact}
