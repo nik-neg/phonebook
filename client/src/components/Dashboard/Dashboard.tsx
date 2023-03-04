@@ -54,12 +54,18 @@ export const Dashboard = (): JSX.Element => {
     const handleSearch = async (keyword: string) => {
         if (keyword.length < 3) return;
         setFetchedContacts([]);
-        const contacts = await getContacts({
-            keyword,
-            page: 1,
-        });
+        try {
+            const contacts = await getContacts({
+                keyword,
+                page: 1,
+            });
 
-        setFetchedContacts(contacts?.data?.data?.getContacts.contacts ?? []);
+            setFetchedContacts(
+                contacts?.data?.data?.getContacts.contacts ?? []
+            );
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     return (

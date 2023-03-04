@@ -75,6 +75,8 @@ export const ContactsList = ({
     const loadMoreContacts = useCallback(
         async (outerElem: HTMLDivElement) => {
             setTimeout(async () => {
+                let newContacts;
+
                 const { scrollTop, clientHeight } = outerElem;
                 setScroll(scrollTop);
 
@@ -85,9 +87,14 @@ export const ContactsList = ({
                 ) {
                     onFetchContacts?.([]);
                     setPage((page) => page + 1);
-                    const newContacts = await getContacts({
-                        page: page + 1,
-                    });
+                    try {
+                        newContacts = await getContacts({
+                            page: page + 1,
+                        });
+                    } catch (e) {
+                        console.log(e);
+                    }
+
                     dispatch(
                         getTotalNumberOfContacts(
                             newContacts?.data?.data?.getContacts?.total
@@ -103,9 +110,14 @@ export const ContactsList = ({
                     const scrollBackOCondition = (page: number) =>
                         page - 1 > 1 ? page - 1 : 1;
                     setPage((page) => scrollBackOCondition(page));
-                    const newContacts = await getContacts({
-                        page: scrollBackOCondition(page),
-                    });
+
+                    try {
+                        newContacts = await getContacts({
+                            page: scrollBackOCondition(page),
+                        });
+                    } catch (e) {
+                        console.log(e);
+                    }
                     onFetchContacts?.(
                         newContacts?.data?.data?.getContacts?.contacts?.length >
                             0
@@ -125,9 +137,13 @@ export const ContactsList = ({
             return;
         }
         const handleScroll = debounce(async () => {
-            const { scrollTop, scrollHeight, clientHeight } = outerElem;
+            const { scrollTop, clientHeight } = outerElem;
             if (scrollTop < clientHeight) {
-                await loadMoreContacts(outerElem);
+                try {
+                    await loadMoreContacts(outerElem);
+                } catch (e) {
+                    console.log(e);
+                }
             }
         }, 100);
         outerElem.addEventListener('scroll', handleScroll);

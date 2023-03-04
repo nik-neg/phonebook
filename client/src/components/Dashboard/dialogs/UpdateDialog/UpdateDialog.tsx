@@ -70,28 +70,40 @@ export const UpdateDialog = ({
         saturation: 0,
     });
 
-    const [updateContact, { isLoading: isRemoving, isSuccess, isError }] =
-        useUpdateContactMutation();
+    const [updateContact] = useUpdateContactMutation();
 
     const triggerValidation = async (): Promise<boolean> => {
-        const lastName = await trigger('lastName');
-        const firstName = await trigger('firstName');
-        const address = await trigger('address');
-        const phoneNumbers = await trigger('phoneNumbers');
-        const imageFile = await trigger('imageFile');
+        let lastName = false;
+        let firstName = false;
+        let address = false;
+        let phoneNumbers = false;
+        let imageFile = false;
+        try {
+            lastName = await trigger('lastName');
+            firstName = await trigger('firstName');
+            address = await trigger('address');
+            phoneNumbers = await trigger('phoneNumbers');
+            imageFile = await trigger('imageFile');
+        } catch (e) {
+            console.log(e);
+        }
 
         return lastName && firstName && address && phoneNumbers && imageFile;
     };
 
     const handleUpdate = async () => {
-        if (await triggerValidation()) {
-            await updateContact({
-                contact: { ...getValues(), id: selectedValue.id },
-                filterImageInput: filter,
-            }).unwrap();
+        try {
+            if (await triggerValidation()) {
+                await updateContact({
+                    contact: { ...getValues(), id: selectedValue.id },
+                    filterImageInput: filter,
+                }).unwrap();
 
-            setValue('imageFile', getValues().imageFile);
-            onClose?.();
+                setValue('imageFile', getValues().imageFile);
+                onClose?.();
+            }
+        } catch (e) {
+            console.log(e);
         }
     };
 
@@ -103,10 +115,15 @@ export const UpdateDialog = ({
 
     const filterImage = async () => {
         setLoading(true);
-        const image = await prefetchFilteredImage({
-            imageFile: selectedValue.imageFile,
-            ...filter,
-        });
+        let image;
+        try {
+            image = await prefetchFilteredImage({
+                imageFile: selectedValue.imageFile,
+                ...filter,
+            });
+        } catch (e) {
+            console.log(e);
+        }
         setLoading(false);
 
         onFilterImage?.(image?.data?.data?.filterImage);
