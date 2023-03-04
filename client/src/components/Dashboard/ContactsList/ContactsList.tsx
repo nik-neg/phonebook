@@ -72,6 +72,8 @@ export const ContactsList = ({
         }
     };
 
+    const reloadCondition = totalNumberOfContacts - page * 5;
+
     const loadMoreContacts = useCallback(
         async (outerElem: HTMLDivElement) => {
             setTimeout(async () => {
@@ -127,7 +129,7 @@ export const ContactsList = ({
                 }
             }, 1000);
         },
-        [page]
+        [page, reloadCondition]
     );
 
     useEffect(() => {

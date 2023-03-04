@@ -36,8 +36,9 @@ export const ImageFilter = ({
     });
 
     const handleFilterChange = (name: string, value: number) => {
+        onFilter?.({ ...filter, [name]: value });
+
         setFilter({ ...filter, [name]: value });
-        onFilter?.(filter);
     };
 
     const handleChecked = (event: SyntheticEvent<Element, Event>) => {
@@ -81,6 +82,7 @@ export const ImageFilter = ({
                     name={'Blur'}
                     Icon={MdLensBlur}
                     onChangeParent={handleFilterChange}
+                    parentValue={filter.blur}
                     min={0}
                     max={1000}
                 />
@@ -90,6 +92,7 @@ export const ImageFilter = ({
                 <ImageOptionsSlider
                     name={'Saturation'}
                     Icon={IoIosColorPalette}
+                    parentValue={filter.saturation}
                     onChangeParent={handleFilterChange}
                 />
             </SFilterPanelItem>

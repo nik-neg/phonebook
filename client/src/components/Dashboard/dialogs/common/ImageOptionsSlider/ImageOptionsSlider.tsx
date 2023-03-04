@@ -22,10 +22,11 @@ export const ImageOptionsSlider = ({
     onChangeParent,
     min = 0,
     max = 100,
+    parentValue,
 }: IImageOptionsSliderProps): JSX.Element => {
     const [value, setValue] = useState<
         number | string | Array<number | string>
-    >(30);
+    >(parentValue);
 
     const handleSliderChange = (event: Event, newValue: number | number[]) => {
         if (Array.isArray(newValue)) {
@@ -50,7 +51,6 @@ export const ImageOptionsSlider = ({
         }
     };
 
-    // TODO: bug with max blur
     return (
         <SImageSliderOptionsContainer>
             <SImageSliderOptionsItem>
