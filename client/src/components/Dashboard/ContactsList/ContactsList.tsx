@@ -22,6 +22,7 @@ import { useAppDispatch, useAppSelector } from '../../../store';
 import { selectTotalNumberOfContacts } from '../../../store/selectors/contacts.selector';
 import { getTotalNumberOfContacts } from '../../../store/slices';
 import { debounce } from 'lodash-es';
+import Tilt from 'react-parallax-tilt';
 
 export const ContactsList = ({
     contacts,
@@ -143,63 +144,65 @@ export const ContactsList = ({
     };
 
     return (
-        // <Tilt>
-        <SContactListPanel>
-            <SContactListContainerWrapper>
-                <SContactListContainer
-                    ref={outerRef}
-                    style={{ overflow: 'auto', height: '680px' }}
-                >
-                    <SContactListWrapper
-                        contactsAreFetched={isDeviceOn}
-                        style={{ height: '750px' }}
-                        ref={innerRef}
+        <Tilt>
+            <SContactListPanel>
+                <SContactListContainerWrapper>
+                    <SContactListContainer
+                        ref={outerRef}
+                        style={{ overflow: 'auto', height: '680px' }}
                     >
-                        <SContactCardsContainer>
-                            {contacts.map(
-                                (contact, index) =>
-                                    index <= 4 && (
-                                        <ContactCard
-                                            key={index}
-                                            contact={contact}
-                                            onRemoveContact={onRemoveContact}
-                                        />
-                                    )
-                            )}
-                        </SContactCardsContainer>
-                    </SContactListWrapper>
-                </SContactListContainer>
-                <SButtonPanelWrapper>
-                    <SButtonPanel>
-                        <SButtonWrapper>
-                            <SAddButton onClick={handleAddContact}>
-                                {'Add Contact'}
-                                <SIconWrapper>
-                                    <IoPersonAdd />
-                                </SIconWrapper>
-                            </SAddButton>
-                        </SButtonWrapper>
-                        <SButtonWrapper>
-                            <SAddButton onClick={handleSearch}>
-                                {'Search'}
-                                <SIconWrapper>
-                                    <MdOutlinePersonSearch />
-                                </SIconWrapper>
-                            </SAddButton>
-                        </SButtonWrapper>
-                        <SButtonWrapper>
-                            <SAddButton onClick={handlePowerOn}>
-                                {'Power'}
-                                <SIconWrapper>
-                                    <CiPower />
-                                </SIconWrapper>
-                            </SAddButton>
-                        </SButtonWrapper>
-                    </SButtonPanel>
-                </SButtonPanelWrapper>
-            </SContactListContainerWrapper>
-        </SContactListPanel>
-        // </Tilt>
+                        <SContactListWrapper
+                            contactsAreFetched={isDeviceOn}
+                            style={{ height: '750px' }}
+                            ref={innerRef}
+                        >
+                            <SContactCardsContainer>
+                                {contacts.map(
+                                    (contact, index) =>
+                                        index <= 4 && (
+                                            <ContactCard
+                                                key={index}
+                                                contact={contact}
+                                                onRemoveContact={
+                                                    onRemoveContact
+                                                }
+                                            />
+                                        )
+                                )}
+                            </SContactCardsContainer>
+                        </SContactListWrapper>
+                    </SContactListContainer>
+                    <SButtonPanelWrapper>
+                        <SButtonPanel>
+                            <SButtonWrapper>
+                                <SAddButton onClick={handleAddContact}>
+                                    {'Add Contact'}
+                                    <SIconWrapper>
+                                        <IoPersonAdd />
+                                    </SIconWrapper>
+                                </SAddButton>
+                            </SButtonWrapper>
+                            <SButtonWrapper>
+                                <SAddButton onClick={handleSearch}>
+                                    {'Search'}
+                                    <SIconWrapper>
+                                        <MdOutlinePersonSearch />
+                                    </SIconWrapper>
+                                </SAddButton>
+                            </SButtonWrapper>
+                            <SButtonWrapper>
+                                <SAddButton onClick={handlePowerOn}>
+                                    {'Power'}
+                                    <SIconWrapper>
+                                        <CiPower />
+                                    </SIconWrapper>
+                                </SAddButton>
+                            </SButtonWrapper>
+                        </SButtonPanel>
+                    </SButtonPanelWrapper>
+                </SContactListContainerWrapper>
+            </SContactListPanel>
+        </Tilt>
     );
 };
 
