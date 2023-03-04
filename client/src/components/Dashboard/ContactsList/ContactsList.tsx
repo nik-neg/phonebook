@@ -31,76 +31,39 @@ export const ContactsList = ({
     onOpenSearch,
     onRemoveContact,
 }: IContactListProps): JSX.Element => {
-    const [scroll, setScroll] = useState(0);
-
     const [page, setPage] = useState(1);
-    // const [data, setData] = useState([]);
-    // useEffect(() => {
-    //     const fetchInitialData = async () => {
-    //         const initialData = await getContacts({ page });
-    //         setData(initialData?.data?.data?.contacts);
-    //     };
-    //     fetchInitialData();
-    // }, [page]);
-    //
-    // useEffect(() => {
-    //     const handleScroll = () => {
-    //         if (
-    //             window.innerHeight + window.pageYOffset >=
-    //             document.body.scrollHeight - 500
-    //         ) {
-    //             setPage((page) => page + 1);
-    //         }
-    //     };
-    //
-    //     window.addEventListener('scroll', handleScroll);
-    //
-    //     return () => {
-    //         window.removeEventListener('scroll', handleScroll);
-    //     };
-    // }, []);
-
-    // const handleScroll = async (event: React.UIEvent<HTMLInputElement>) => {
-    //     if (event.currentTarget.scrollTop >= scroll) {
-    //         setScroll(event.currentTarget.scrollTop);
-    //         setPage((page) => page + 1);
-    //         // fetch more contacts
-    //         const newContacts = await getContacts({
-    //             page: page + 1,
-    //         });
-    //         onFetchContacts?.(newContacts?.data?.data?.contacts ?? []);
-    //     }
-    // };
+    const [total, setTotal] = useState(0);
     const [getContacts, result, lastPromiseInfo] = useLazyGetContactsQuery();
     const handleScroll = debounce(
         async (event: React.UIEvent<HTMLInputElement>) => {
             const target = event.target as HTMLInputElement; // Type assertion to HTMLInputElement
-            if (target.scrollTop >= scroll) {
-                setScroll(target.scrollTop);
+
+            console.log({ t: total !== 0, t2: total > page * 5, total, page });
+            if (total !== 0 && total > page * 5) {
                 setPage((page) => page + 1);
                 // fetch more contacts
                 const newContacts = await getContacts({
                     page: page + 1,
                 });
                 onFetchContacts?.(
-                    newContacts?.data?.data?.contacts?.length > 0
-                        ? newContacts?.data?.data?.contacts
+                    newContacts?.data?.data?.getContacts?.contacts?.length > 0
+                        ? newContacts?.data?.data?.getContacts?.contacts
+                        : contacts
+                );
+            } else {
+                const scrollBackOCondition = (page: number) =>
+                    page - 1 > 1 ? page - 1 : 1;
+                setPage((page) => scrollBackOCondition(page));
+                // fetch more contacts
+                const newContacts = await getContacts({
+                    page: scrollBackOCondition(page),
+                });
+                onFetchContacts?.(
+                    newContacts?.data?.data?.getContacts?.contacts?.length > 0
+                        ? newContacts?.data?.data?.getContacts?.contacts
                         : contacts
                 );
             }
-            // else {
-            //     setScroll(target.scrollTop);
-            //     setPage((page) => (page > 1 ? page - 1 : 1));
-            //     // fetch more contacts
-            //     const newContacts = await getContacts({
-            //         page: page > 1 ? page - 1 : 1,
-            //     });
-            //     onFetchContacts?.(
-            //         newContacts?.data?.data?.contacts?.length > 0
-            //             ? newContacts?.data?.data?.contacts
-            //             : contacts
-            //     );
-            // }
         },
         100
     );
@@ -122,6 +85,7 @@ export const ContactsList = ({
             data?.data?.getContacts?.contacts?.length > 0 &&
             isDeviceOn
         ) {
+            setTotal(data?.data?.getContacts?.total);
             onFetchContacts?.(data?.data?.getContacts?.contacts);
         }
     }, [data, isLoading, isDeviceOn]);
