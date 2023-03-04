@@ -37,8 +37,6 @@ export const UpdateDialog = ({
         resolver: yupResolver(updateContactSchema),
     });
 
-    console.log({ selectedValue, v: getValues() });
-
     const handleUploadImage = (imagePath: string | ArrayBuffer) => {
         setValue('imageFile', imagePath.toString());
     };
