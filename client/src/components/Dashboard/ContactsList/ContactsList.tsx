@@ -11,12 +11,16 @@ import {
     SIconWrapper,
 } from './ContactsList.styles';
 import { IContactListProps } from './types';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     useGetContactsQuery,
     useLazyGetContactsQuery,
 } from '../../../store/api/contacts.api';
 import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
+import { ContactCard } from './ContactCard';
+import { useAppDispatch, useAppSelector } from '../../../store';
+import { getTotalNumberOfContacts } from '../../../store/slices';
+import { selectTotalNumberOfContacts } from '../../../store/selectors/contacts.selector';
 
 export const ContactsList = ({
     contacts,
@@ -25,6 +29,10 @@ export const ContactsList = ({
     onOpenSearch,
     onRemoveContact,
 }: IContactListProps): JSX.Element => {
+    const dispatch = useAppDispatch();
+
+    const totalNumberOfContacts = useAppSelector(selectTotalNumberOfContacts);
+
     const outerRef = useRef<HTMLDivElement>(null);
     const innerRef = useRef<HTMLDivElement>(null);
     const [items, setItems] = useState<number[]>([]);
@@ -37,23 +45,52 @@ export const ContactsList = ({
 
     const [getContacts] = useLazyGetContactsQuery();
 
-    /////////////////////////////////////////////////
+    const [isDeviceOn, setIsDeviceOn] = React.useState(false);
 
-    const loadMore = useCallback(() => {
-        if (isLoading) {
+    const { data, error, isLoading } = useGetContactsQuery(
+        { page: 1 },
+        { skip: !isDeviceOn, refetchOnMountOrArgChange: true }
+    );
+
+    useEffect(() => {
+        if (
+            !isLoading &&
+            data?.data?.getContacts?.contacts?.length > 0 &&
+            isDeviceOn
+        ) {
+            console.log({ totla: data?.data?.getContacts?.total });
+            dispatch(getTotalNumberOfContacts(data?.data?.getContacts?.total));
+            onFetchContacts?.(data?.data?.getContacts?.contacts);
+        }
+    }, [data, isLoading, isDeviceOn]);
+
+    const handlePowerOn = async () => {
+        setIsDeviceOn(!isDeviceOn);
+        if (isDeviceOn) {
+            setIsDeviceOn(false);
+
+            onFetchContacts?.([]);
             return;
         }
-        setIsLoadingItems(true);
-        setTimeout(() => {
-            const newItems = Array.from(
-                { length: 40 },
-                (_, i) => i + items.length
-            );
-            setItems((prevItems) => [...prevItems, ...newItems]);
-            setIsLoadingItems(false);
-            setPage((prevPage) => prevPage + 1);
-        }, 1000);
-    }, [isLoadingItems, items.length]);
+    };
+
+    /////////////////////////////////////////////////
+
+    // const loadMore = useCallback(async () => {
+    //     if (isLoading) {
+    //         return;
+    //     }
+    //     setIsLoadingItems(true);
+    //     setTimeout(async () => {
+    //         const newItems = Array.from(
+    //             { length: 40 },
+    //             (_, i) => i + items.length
+    //         );
+    //         setItems((prevItems) => [...prevItems, ...newItems]);
+    //         setIsLoadingItems(false);
+    //         setPage((prevPage) => prevPage + 1);
+    //     }, 1000);
+    // }, [isLoadingItems, items.length]);
 
     useEffect(() => {
         const outerElem = outerRef.current;
@@ -61,23 +98,48 @@ export const ContactsList = ({
         if (!outerElem || !innerElem) {
             return;
         }
-        const handleScroll = () => {
+        const handleScroll = async () => {
             const { scrollTop, scrollHeight, clientHeight } = outerElem;
-            console.log({
-                scrollTop,
-                scrollHeight,
-                clientHeight,
-                t: scrollTop < clientHeight,
-            });
+            console.log({ scrollTop, scrollHeight, clientHeight });
             if (scrollTop < clientHeight) {
-                loadMore();
+                console.log({ total, page, t: scrollTop >= scroll });
+                if (
+                    totalNumberOfContacts !== 0 &&
+                    totalNumberOfContacts > page * 5 &&
+                    scrollTop >= scroll
+                ) {
+                    setPage((page) => page + 1);
+                    const newContacts = await getContacts({
+                        page: page + 1,
+                    });
+                    onFetchContacts?.(
+                        newContacts?.data?.data?.getContacts?.contacts?.length >
+                            0
+                            ? newContacts?.data?.data?.getContacts?.contacts
+                            : contacts
+                    );
+                } else {
+                    const scrollBackOCondition = (page: number) =>
+                        page - 1 > 1 ? page - 1 : 1;
+                    setPage((page) => scrollBackOCondition(page));
+                    // fetch more contacts
+                    const newContacts = await getContacts({
+                        page: scrollBackOCondition(page),
+                    });
+                    onFetchContacts?.(
+                        newContacts?.data?.data?.getContacts?.contacts?.length >
+                            0
+                            ? newContacts?.data?.data?.getContacts?.contacts
+                            : contacts
+                    );
+                }
             }
         };
         outerElem.addEventListener('scroll', handleScroll);
         return () => {
             outerElem.removeEventListener('scroll', handleScroll);
         };
-    }, [loadMore]);
+    }, [page]);
     /////////////////////////////////////////////////
 
     // const handleScroll = async (event: React.UIEvent<HTMLInputElement>) => {
@@ -115,34 +177,6 @@ export const ContactsList = ({
         onAddContact?.();
     };
 
-    const [isDeviceOn, setIsDeviceOn] = React.useState(false);
-
-    const { data, error, isLoading } = useGetContactsQuery(
-        { page: 1 },
-        { skip: !isDeviceOn, refetchOnMountOrArgChange: true }
-    );
-
-    // useEffect(() => {
-    //     if (
-    //         !isLoading &&
-    //         data?.data?.getContacts?.contacts?.length > 0 &&
-    //         isDeviceOn
-    //     ) {
-    //         setTotal(data?.data?.getContacts?.total);
-    //         onFetchContacts?.(data?.data?.getContacts?.contacts);
-    //     }
-    // }, [data, isLoading, isDeviceOn]);
-
-    const handlePowerOn = async () => {
-        setIsDeviceOn(!isDeviceOn);
-        if (isDeviceOn) {
-            setIsDeviceOn(false);
-
-            onFetchContacts?.([]);
-            return;
-        }
-    };
-
     const handleSearch = () => {
         onOpenSearch?.();
     };
@@ -162,28 +196,16 @@ export const ContactsList = ({
                         contactsAreFetched={isDeviceOn}
                     >
                         <SContactCardsContainer>
-                            {/*{contacts.map(*/}
-                            {/*    (contact, index) =>*/}
-                            {/*        index <= 4 && (*/}
-                            {/*            <ContactCard*/}
-                            {/*                key={index}*/}
-                            {/*                contact={contact}*/}
-                            {/*                onRemoveContact={onRemoveContact}*/}
-                            {/*            />*/}
-                            {/*        )*/}
-                            {/*)}*/}
-                            {items.map((item) => (
-                                <div
-                                    key={item + Math.random() * 10000000}
-                                    style={{
-                                        height: 'calc(679 / 100)px',
-                                        color: 'white',
-                                    }}
-                                >
-                                    {item}
-                                </div>
-                            ))}
-                            {isLoadingItems && <div>Loading...</div>}
+                            {contacts.map(
+                                (contact, index) =>
+                                    index <= 4 && (
+                                        <ContactCard
+                                            key={index}
+                                            contact={contact}
+                                            onRemoveContact={onRemoveContact}
+                                        />
+                                    )
+                            )}
                         </SContactCardsContainer>
                     </SContactListWrapper>
                 </SContactListContainer>
