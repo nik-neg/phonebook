@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -24,18 +24,37 @@ export const UpdateDialog = ({
     onClose,
     onFilterImage,
 }: IUpdateDialogProps): JSX.Element => {
+    const defaultValues = {
+        firstName: '',
+        lastName: '',
+        nickName: '',
+        imageFile: '',
+        address: '',
+        phoneNumbers: '',
+    };
     const {
         register,
         trigger,
         formState: { errors },
         getValues,
         setValue,
+        reset,
     } = useForm({
         defaultValues: {
             ...selectedValue,
         },
         resolver: yupResolver(updateContactSchema),
     });
+
+    useEffect(() => {
+        clearForm();
+        setValue('firstName', selectedValue.firstName);
+        setValue('lastName', selectedValue.lastName);
+        setValue('nickName', selectedValue.nickName);
+        setValue('imageFile', selectedValue.imageFile);
+        setValue('address', selectedValue.address);
+        setValue('phoneNumbers', selectedValue.phoneNumbers);
+    }, [selectedValue]);
 
     const handleUploadImage = (imagePath: string | ArrayBuffer) => {
         setValue('imageFile', imagePath.toString());
@@ -51,27 +70,40 @@ export const UpdateDialog = ({
         saturation: 0,
     });
 
-    const [updateContact, { isLoading: isRemoving, isSuccess, isError }] =
-        useUpdateContactMutation();
+    const [updateContact] = useUpdateContactMutation();
 
     const triggerValidation = async (): Promise<boolean> => {
-        const lastName = await trigger('lastName');
-        const firstName = await trigger('firstName');
-        const address = await trigger('address');
-        const phoneNumbers = await trigger('phoneNumbers');
-        const imageFile = await trigger('imageFile');
+        let lastName = false;
+        let firstName = false;
+        let address = false;
+        let phoneNumbers = false;
+        let imageFile = false;
+        try {
+            lastName = await trigger('lastName');
+            firstName = await trigger('firstName');
+            address = await trigger('address');
+            phoneNumbers = await trigger('phoneNumbers');
+            imageFile = await trigger('imageFile');
+        } catch (e) {
+            console.log(e);
+        }
 
         return lastName && firstName && address && phoneNumbers && imageFile;
     };
 
     const handleUpdate = async () => {
-        if (await triggerValidation()) {
-            await updateContact({
-                contact: { ...getValues(), id: selectedValue.id },
-                filterImageInput: filter,
-            }).unwrap();
+        try {
+            if (await triggerValidation()) {
+                await updateContact({
+                    contact: { ...getValues(), id: selectedValue.id },
+                    filterImageInput: filter,
+                }).unwrap();
 
-            onClose?.();
+                setValue('imageFile', getValues().imageFile);
+                onClose?.();
+            }
+        } catch (e) {
+            console.log(e);
         }
     };
 
@@ -83,14 +115,23 @@ export const UpdateDialog = ({
 
     const filterImage = async () => {
         setLoading(true);
-        const image = await prefetchFilteredImage({
-            imageFile: selectedValue.imageFile,
-            ...filter,
-        });
+        let image;
+        try {
+            image = await prefetchFilteredImage({
+                imageFile: selectedValue.imageFile,
+                ...filter,
+            });
+        } catch (e) {
+            console.log(e);
+        }
         setLoading(false);
 
         onFilterImage?.(image?.data?.data?.filterImage);
         setValue('imageFile', image?.data?.data?.filterImage);
+    };
+    const clearForm = () => {
+        reset(defaultValues);
+        setValue('imageFile', '');
     };
 
     return (

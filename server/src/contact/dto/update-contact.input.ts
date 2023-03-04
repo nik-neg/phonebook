@@ -27,7 +27,7 @@ export class UpdateContactInput extends GraphQLTypes.UpdateContactInput {
   imageFile?: string;
 
   // @IsOptional()
-  // @Transform(phoneNumbersTransform)
+  // @Transform(phoneNumbersTransform) // should work in general, code tested, could be an issue
   // @IsArray()
   // @IsString({ each: true })
   phoneNumbers: string[];

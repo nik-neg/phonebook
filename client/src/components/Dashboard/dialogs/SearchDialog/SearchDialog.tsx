@@ -7,13 +7,7 @@ export const SearchDialog = (props: ISearchDialogProps): JSX.Element => {
     const { open, onClose, onSearch } = props;
 
     const [content, setContent] = React.useState<string>('');
-    const handleCloseAndFetch = async () => {
-        // fetch contacts
-        // const contacts = await getContacts({
-        //     skip: 0,
-        //     take: 5,
-        //     keyword: content,
-        // });
+    const handleClose = async () => {
         onClose();
     };
 
@@ -23,7 +17,7 @@ export const SearchDialog = (props: ISearchDialogProps): JSX.Element => {
     };
 
     return (
-        <Dialog onClose={handleCloseAndFetch} open={open}>
+        <Dialog onClose={handleClose} open={open}>
             <SearchBar onSearch={handleSearch} content={content} />
         </Dialog>
     );

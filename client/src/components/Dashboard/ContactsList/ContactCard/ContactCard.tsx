@@ -54,7 +54,11 @@ export const ContactCard = ({
             setOpenUpdateDialog(true);
             return;
         }
-        await removeContact(id).unwrap();
+        try {
+            await removeContact(id).unwrap();
+        } catch (e) {
+            console.log(e);
+        }
 
         onRemoveContact?.(id);
     };

@@ -13,15 +13,10 @@ export const UploadButton = ({ onUpload }: IUploadButtonProps): JSX.Element => {
             reader.onabort = () => console.log('file reading was aborted');
             reader.onerror = () => console.log('file reading has failed');
             reader.onload = (e) => {
-                // Do whatever you want with the file contents
-                const binaryStr = reader.result ?? '';
-                // Do whatever you want with the file contents
                 onUpload(e.target?.result ?? '');
             };
             reader.readAsDataURL(file);
         });
-
-        // Do something with the files
     }, []);
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: { 'image/png': ['.png'], 'image/jpeg': ['.jpeg'] },

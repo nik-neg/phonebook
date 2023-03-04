@@ -13,7 +13,7 @@ import { IEditDialogProps } from './types';
 
 // first dialog after clicking on a contact card
 export const EditDialog = (props: IEditDialogProps): JSX.Element => {
-    const { onClose, selectedValue, open, onEdit } = props;
+    const { onClose, open, onEdit } = props;
 
     const handleClose = () => {
         onClose();

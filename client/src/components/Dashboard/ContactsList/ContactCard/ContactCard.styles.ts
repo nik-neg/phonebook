@@ -3,9 +3,6 @@ import styled from 'styled-components';
 export const SContactCardContainer = styled.div`
     padding: 1rem;
     z-index: 1;
-    //:last-of-type {
-    //    opacity: 0;
-    //}
 `;
 
 export const SContactCardWrapper = styled.div`

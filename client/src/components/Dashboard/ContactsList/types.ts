@@ -14,4 +14,5 @@ export interface IContactListProps {
 
 export interface IContactListWrapper {
     contactsAreFetched: boolean;
+    hover: boolean;
 }

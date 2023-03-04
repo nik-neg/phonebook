@@ -16,24 +16,28 @@ export class FilterService {
     const base64Data = imageFile.replace(/^data:image\/\w+;base64,/, '');
     const buffer = Buffer.from(base64Data, 'base64');
 
-    if (blur) {
-      output = await sharp(buffer).blur(blur).toBuffer();
-    }
+    try {
+      if (blur) {
+        output = await sharp(buffer).blur(blur).toBuffer();
+      }
 
-    if (saturation) {
-      output = await sharp(output ?? buffer)
-        .modulate({
-          saturation,
-        })
-        .toBuffer();
-    }
+      if (saturation) {
+        output = await sharp(output ?? buffer)
+          .modulate({
+            saturation,
+          })
+          .toBuffer();
+      }
 
-    if (grayscale) {
-      output = await sharp(output ?? buffer)
-        .greyscale()
-        .toBuffer();
-    }
+      if (grayscale) {
+        output = await sharp(output ?? buffer)
+          .greyscale()
+          .toBuffer();
+      }
 
-    return output ? outputPrefix + output?.toString('base64') : imageFile;
+      return output ? outputPrefix + output?.toString('base64') : imageFile;
+    } catch (e) {
+      console.error(e);
+    }
   }
 }

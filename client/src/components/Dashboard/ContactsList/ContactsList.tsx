@@ -1,5 +1,5 @@
 import {
-    SAddButton,
+    SButton,
     SButtonPanel,
     SButtonPanelWrapper,
     SButtonWrapper,
@@ -32,6 +32,7 @@ export const ContactsList = ({
     onRemoveContact,
 }: IContactListProps): JSX.Element => {
     const dispatch = useAppDispatch();
+    const [hover, setHover] = useState(false);
 
     const totalNumberOfContacts = useAppSelector(selectTotalNumberOfContacts);
 
@@ -74,6 +75,8 @@ export const ContactsList = ({
     const loadMoreContacts = useCallback(
         async (outerElem: HTMLDivElement) => {
             setTimeout(async () => {
+                let newContacts;
+
                 const { scrollTop, clientHeight } = outerElem;
                 setScroll(scrollTop);
 
@@ -82,10 +85,16 @@ export const ContactsList = ({
                     scrollTop < clientHeight &&
                     totalNumberOfContacts >= page * 5
                 ) {
+                    onFetchContacts?.([]);
                     setPage((page) => page + 1);
-                    const newContacts = await getContacts({
-                        page: page + 1,
-                    });
+                    try {
+                        newContacts = await getContacts({
+                            page: page + 1,
+                        });
+                    } catch (e) {
+                        console.log(e);
+                    }
+
                     dispatch(
                         getTotalNumberOfContacts(
                             newContacts?.data?.data?.getContacts?.total
@@ -101,10 +110,14 @@ export const ContactsList = ({
                     const scrollBackOCondition = (page: number) =>
                         page - 1 > 1 ? page - 1 : 1;
                     setPage((page) => scrollBackOCondition(page));
-                    // fetch more contacts
-                    const newContacts = await getContacts({
-                        page: scrollBackOCondition(page),
-                    });
+
+                    try {
+                        newContacts = await getContacts({
+                            page: scrollBackOCondition(page),
+                        });
+                    } catch (e) {
+                        console.log(e);
+                    }
                     onFetchContacts?.(
                         newContacts?.data?.data?.getContacts?.contacts?.length >
                             0
@@ -124,9 +137,13 @@ export const ContactsList = ({
             return;
         }
         const handleScroll = debounce(async () => {
-            const { scrollTop, scrollHeight, clientHeight } = outerElem;
+            const { scrollTop, clientHeight } = outerElem;
             if (scrollTop < clientHeight) {
-                await loadMoreContacts(outerElem);
+                try {
+                    await loadMoreContacts(outerElem);
+                } catch (e) {
+                    console.log(e);
+                }
             }
         }, 100);
         outerElem.addEventListener('scroll', handleScroll);
@@ -152,9 +169,14 @@ export const ContactsList = ({
                         style={{ overflow: 'auto', height: '680px' }}
                     >
                         <SContactListWrapper
-                            contactsAreFetched={isDeviceOn}
+                            contactsAreFetched={
+                                isDeviceOn || contacts?.length > 0
+                            }
                             style={{ height: '750px' }}
                             ref={innerRef}
+                            hover={hover}
+                            onMouseEnter={() => setHover(true)}
+                            onMouseLeave={() => setHover(false)}
                         >
                             <SContactCardsContainer>
                                 {contacts.map(
@@ -175,28 +197,28 @@ export const ContactsList = ({
                     <SButtonPanelWrapper>
                         <SButtonPanel>
                             <SButtonWrapper>
-                                <SAddButton onClick={handleAddContact}>
+                                <SButton onClick={handleAddContact}>
                                     {'Add Contact'}
                                     <SIconWrapper>
                                         <IoPersonAdd />
                                     </SIconWrapper>
-                                </SAddButton>
+                                </SButton>
                             </SButtonWrapper>
                             <SButtonWrapper>
-                                <SAddButton onClick={handleSearch}>
+                                <SButton onClick={handleSearch}>
                                     {'Search'}
                                     <SIconWrapper>
                                         <MdOutlinePersonSearch />
                                     </SIconWrapper>
-                                </SAddButton>
+                                </SButton>
                             </SButtonWrapper>
                             <SButtonWrapper>
-                                <SAddButton onClick={handlePowerOn}>
+                                <SButton onClick={handlePowerOn}>
                                     {'Power'}
                                     <SIconWrapper>
                                         <CiPower />
                                     </SIconWrapper>
-                                </SAddButton>
+                                </SButton>
                             </SButtonWrapper>
                         </SButtonPanel>
                     </SButtonPanelWrapper>
