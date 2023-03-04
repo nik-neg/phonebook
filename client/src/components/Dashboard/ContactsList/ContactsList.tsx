@@ -88,10 +88,6 @@ export const ContactsList = ({
                     const newContacts = await getContacts({
                         page: page + 1,
                     });
-                    console.log({
-                        newContacts:
-                            newContacts?.data?.data?.getContacts?.contacts,
-                    });
                     dispatch(
                         getTotalNumberOfContacts(
                             newContacts?.data?.data?.getContacts?.total
@@ -107,7 +103,6 @@ export const ContactsList = ({
                     const scrollBackOCondition = (page: number) =>
                         page - 1 > 1 ? page - 1 : 1;
                     setPage((page) => scrollBackOCondition(page));
-                    // fetch more contacts
                     const newContacts = await getContacts({
                         page: scrollBackOCondition(page),
                     });

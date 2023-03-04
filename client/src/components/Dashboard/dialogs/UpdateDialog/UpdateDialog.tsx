@@ -114,7 +114,6 @@ export const UpdateDialog = ({
     const clearForm = () => {
         reset(defaultValues);
         setValue('imageFile', '');
-        // setContact(getValues());
     };
 
     return (

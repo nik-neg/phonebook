@@ -5,12 +5,10 @@ import { IContact } from '../../components/Dashboard/ContactsList/ContactCard';
 import { ContactWithPhoneNumbersAsString } from '../../components/Dashboard/dialogs/UpdateDialog';
 import { BASE_URL } from './constants';
 
-// Define a service using a base URL and expected endpoints
 export const contactsApi = createApi({
     reducerPath: 'contactsApi',
     baseQuery: fetchBaseQuery({ baseUrl: `${BASE_URL}` }),
     endpoints: (builder) => ({
-        // return type set to any because of the way the query is built
         getContacts: builder.query<any, IQueryPaginationInput>({
             query: (body) => ({
                 url: '/graphql',
