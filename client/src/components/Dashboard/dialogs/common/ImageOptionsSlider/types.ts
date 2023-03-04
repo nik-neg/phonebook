@@ -6,6 +6,8 @@ export interface IImageOptionsSliderProps {
 
     onChangeParent?: (name: string, value: number) => void;
 
+    parentValue: number;
+
     min?: number;
     max?: number;
 }
