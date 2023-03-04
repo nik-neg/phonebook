@@ -21,13 +21,6 @@ import { FilterModule } from './filter/filter.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],
-      // context: ({ req }) => {
-      //   return { request: req };
-      // },
-      // formatError: (error) => {
-      //   const { message, locations, extensions } = error;
-      //   return { message, locations, extensions };
-      // },
     }),
     ContactModule,
     FilterModule,

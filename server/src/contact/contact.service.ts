@@ -97,7 +97,6 @@ export class ContactService {
     let updatedContact;
 
     if (updateContactInput?.phoneNumbers?.length > 0) {
-      // util ?
       const parsedPhoneNumbers = updateContactInput.phoneNumbers[0]
         .split(',')
         .map((phoneNumber) => phoneNumber.trim());

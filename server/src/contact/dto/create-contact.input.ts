@@ -2,7 +2,7 @@ import * as GraphQLTypes from '../../graphql-types';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateContactInput extends GraphQLTypes.CreateContactInput {
-  // @IsNotEmpty()
+  @IsNotEmpty()
   @IsString()
   firstName: string;
 
