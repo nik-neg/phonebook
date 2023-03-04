@@ -52,7 +52,7 @@ export const ImageFilter = ({
                 <CircularProgress />
             ) : (
                 <SUploadedImageWrapper>
-                    <SUploadedImage src={contact.imageFile.toString()} />
+                    <SUploadedImage src={contact?.imageFile?.toString()} />
                 </SUploadedImageWrapper>
             )}
 

@@ -13,20 +13,20 @@ import { EditDialog } from '../../dialogs/EditDialog/EditDialog';
 import { UpdateDialog } from '../../dialogs/UpdateDialog/UpdateDialog';
 import Avatar from '@mui/material/Avatar';
 import { useRemoveContactMutation } from '../../../../store/api/contacts.api';
+import { ContactWithPhoneNumbersAsString } from '../../dialogs/UpdateDialog';
+import { convertPhoneNumbersToString } from '../../dialogs/UpdateDialog/utils';
 
 export const ContactCard = ({
     contact,
     onRemoveContact,
 }: IContactCardProps): JSX.Element => {
-    const {
-        id,
-        nickName,
-        firstName,
-        lastName,
-        address,
-        imageFile,
-        phoneNumbers,
-    } = contact;
+    const { id, nickName, firstName, lastName, address, imageFile } = contact;
+
+    const [contactState, setContactState] =
+        useState<ContactWithPhoneNumbersAsString>({
+            ...contact,
+            phoneNumbers: convertPhoneNumbersToString(contact.phoneNumbers),
+        });
 
     const [open, setOpen] = useState(false);
 
@@ -57,6 +57,13 @@ export const ContactCard = ({
         await removeContact(id).unwrap();
 
         onRemoveContact?.(id);
+    };
+
+    const handleFilterImage = (filteredImage: string) => {
+        setContactState((prevState) => ({
+            ...prevState,
+            imageFile: filteredImage,
+        }));
     };
     return (
         <SContactCardContainer>
@@ -89,10 +96,11 @@ export const ContactCard = ({
                 onEdit={handleEdit}
             />
             <UpdateDialog
-                selectedValue={contact}
+                selectedValue={contactState}
                 open={openUpdateDialog}
                 onClose={handleCloseUpdateDialog}
                 onEdit={handleEdit}
+                onFilterImage={handleFilterImage}
             />
         </SContactCardContainer>
     );
