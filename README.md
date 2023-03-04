@@ -17,7 +17,7 @@ It contains a contact management application that allows users to store and mana
   * `React` with `TypeScript`, `Styled Components`, `Material-UI` and `Vite`
   * state management with `Redux` and `RTKQ`
   * form validation with `React Hook Form` and `Yup`
-
+  
 * Backend
   * `GraphQL` with `NestJS` backend using Transactions and `postgreSQL` with `typeORM`
   * Data Transfer Objects with Validation Pipe
