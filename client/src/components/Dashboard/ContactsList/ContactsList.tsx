@@ -11,7 +11,7 @@ import {
     SIconWrapper,
 } from './ContactsList.styles';
 import { IContactListProps } from './types';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLazyGetContactsQuery } from '../../../store/api/contacts.api';
 import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
 import { ContactCard } from './ContactCard';
@@ -35,7 +35,6 @@ export const ContactsList = ({
 
     const outerRef = useRef<HTMLDivElement>(null);
     const innerRef = useRef<HTMLDivElement>(null);
-    const [items, setItems] = useState<number[]>([]);
     const [page, setPage] = useState(1);
     const [isLoadingItems, setIsLoadingItems] = useState(false);
 
@@ -72,22 +71,14 @@ export const ContactsList = ({
         }
     };
 
-    useEffect(() => {
-        const outerElem = outerRef.current;
-        const innerElem = innerRef.current;
-        if (!outerElem || !innerElem) {
-            return;
-        }
-        const handleScroll = debounce(async () => {
-            const { scrollTop, scrollHeight, clientHeight } = outerElem;
-            console.log({ scrollTop, scrollHeight, clientHeight });
-            if (scrollTop < clientHeight) {
-                console.log('if ok');
+    const loadMoreContacts = useCallback(
+        async (outerElem: HTMLDivElement) => {
+            setTimeout(async () => {
+                const { scrollTop, scrollHeight, clientHeight } = outerElem;
                 if (
                     scrollTop < clientHeight &&
                     totalNumberOfContacts >= page * 5
                 ) {
-                    //                     totalNumberOfContacts > page * 5 &&
                     setPage((page) => page + 1);
                     const newContacts = await getContacts({
                         page: page + 1,
@@ -105,6 +96,7 @@ export const ContactsList = ({
                             : contacts
                     );
                 } else {
+                    console.log('else', page - 1 > 1 ? page - 1 : 1);
                     const scrollBackOCondition = (page: number) =>
                         page - 1 > 1 ? page - 1 : 1;
                     setPage((page) => scrollBackOCondition(page));
@@ -119,6 +111,58 @@ export const ContactsList = ({
                             : contacts
                     );
                 }
+            }, 1000);
+        },
+        [page]
+    );
+
+    useEffect(() => {
+        const outerElem = outerRef.current;
+        const innerElem = innerRef.current;
+        if (!outerElem || !innerElem) {
+            return;
+        }
+        const handleScroll = debounce(async () => {
+            const { scrollTop, scrollHeight, clientHeight } = outerElem;
+            console.log({ scrollTop, scrollHeight, clientHeight });
+            if (scrollTop < clientHeight) {
+                loadMoreContacts(outerElem);
+                console.log('if ok');
+                // if (
+                //     scrollTop < clientHeight &&
+                //     totalNumberOfContacts >= page * 5
+                // ) {
+                //     setPage((page) => page + 1);
+                //     const newContacts = await getContacts({
+                //         page: page + 1,
+                //     });
+                //     console.log({ newContacts });
+                //     dispatch(
+                //         getTotalNumberOfContacts(
+                //             newContacts?.data?.data?.getContacts?.total
+                //         )
+                //     );
+                //     onFetchContacts?.(
+                //         newContacts?.data?.data?.getContacts?.contacts?.length >
+                //             0
+                //             ? newContacts?.data?.data?.getContacts?.contacts
+                //             : contacts
+                //     );
+                // } else {
+                //     const scrollBackOCondition = (page: number) =>
+                //         page - 1 > 1 ? page - 1 : 1;
+                //     setPage((page) => scrollBackOCondition(page));
+                //     // fetch more contacts
+                //     const newContacts = await getContacts({
+                //         page: scrollBackOCondition(page),
+                //     });
+                //     onFetchContacts?.(
+                //         newContacts?.data?.data?.getContacts?.contacts?.length >
+                //             0
+                //             ? newContacts?.data?.data?.getContacts?.contacts
+                //             : contacts
+                //     );
+                // }
             }
         }, 100);
         outerElem.addEventListener('scroll', handleScroll);
