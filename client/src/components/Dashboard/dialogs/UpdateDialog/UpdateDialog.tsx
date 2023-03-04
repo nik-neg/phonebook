@@ -90,6 +90,7 @@ export const UpdateDialog = ({
                 filterImageInput: filter,
             }).unwrap();
 
+            setValue('imageFile', getValues().imageFile);
             onClose?.();
         }
     };
