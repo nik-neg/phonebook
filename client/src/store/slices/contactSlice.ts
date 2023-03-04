@@ -3,7 +3,7 @@ import { State } from './types';
 
 const initialState: State = {
     contacts: [],
-    total: 0,
+    total: 5,
 };
 
 export const contactsSlice = createSlice({

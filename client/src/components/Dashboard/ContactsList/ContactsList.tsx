@@ -12,15 +12,13 @@ import {
 } from './ContactsList.styles';
 import { IContactListProps } from './types';
 import React, { useEffect, useRef, useState } from 'react';
-import {
-    useGetContactsQuery,
-    useLazyGetContactsQuery,
-} from '../../../store/api/contacts.api';
+import { useLazyGetContactsQuery } from '../../../store/api/contacts.api';
 import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
 import { ContactCard } from './ContactCard';
 import { useAppDispatch, useAppSelector } from '../../../store';
-import { getTotalNumberOfContacts } from '../../../store/slices';
 import { selectTotalNumberOfContacts } from '../../../store/selectors/contacts.selector';
+import { getTotalNumberOfContacts } from '../../../store/slices';
+import { debounce } from 'lodash-es';
 
 export const ContactsList = ({
     contacts,
@@ -33,6 +31,8 @@ export const ContactsList = ({
 
     const totalNumberOfContacts = useAppSelector(selectTotalNumberOfContacts);
 
+    console.log({ totalNumberOfContacts });
+
     const outerRef = useRef<HTMLDivElement>(null);
     const innerRef = useRef<HTMLDivElement>(null);
     const [items, setItems] = useState<number[]>([]);
@@ -41,28 +41,26 @@ export const ContactsList = ({
 
     const [scroll, setScroll] = useState(0);
 
-    const [total, setTotal] = useState(0);
-
     const [getContacts] = useLazyGetContactsQuery();
 
     const [isDeviceOn, setIsDeviceOn] = React.useState(false);
 
-    const { data, error, isLoading } = useGetContactsQuery(
-        { page: 1 },
-        { skip: !isDeviceOn, refetchOnMountOrArgChange: true }
-    );
+    // const { data, error, isLoading } = useGetContactsQuery(
+    //     { page: 1 },
+    //     { skip: !isDeviceOn, refetchOnMountOrArgChange: true }
+    // );
 
-    useEffect(() => {
-        if (
-            !isLoading &&
-            data?.data?.getContacts?.contacts?.length > 0 &&
-            isDeviceOn
-        ) {
-            console.log({ totla: data?.data?.getContacts?.total });
-            dispatch(getTotalNumberOfContacts(data?.data?.getContacts?.total));
-            onFetchContacts?.(data?.data?.getContacts?.contacts);
-        }
-    }, [data, isLoading, isDeviceOn]);
+    // useEffect(() => {
+    //     if (
+    //         !isLoading &&
+    //         data?.data?.getContacts?.contacts?.length > 0 &&
+    //         isDeviceOn
+    //     ) {
+    //         console.log({ totla: data?.data?.getContacts?.total });
+    //         dispatch(getTotalNumberOfContacts(data?.data?.getContacts?.total));
+    //         onFetchContacts?.(data?.data?.getContacts?.contacts);
+    //     }
+    // }, [data, isLoading, isDeviceOn]);
 
     const handlePowerOn = async () => {
         setIsDeviceOn(!isDeviceOn);
@@ -74,44 +72,32 @@ export const ContactsList = ({
         }
     };
 
-    /////////////////////////////////////////////////
-
-    // const loadMore = useCallback(async () => {
-    //     if (isLoading) {
-    //         return;
-    //     }
-    //     setIsLoadingItems(true);
-    //     setTimeout(async () => {
-    //         const newItems = Array.from(
-    //             { length: 40 },
-    //             (_, i) => i + items.length
-    //         );
-    //         setItems((prevItems) => [...prevItems, ...newItems]);
-    //         setIsLoadingItems(false);
-    //         setPage((prevPage) => prevPage + 1);
-    //     }, 1000);
-    // }, [isLoadingItems, items.length]);
-
     useEffect(() => {
         const outerElem = outerRef.current;
         const innerElem = innerRef.current;
         if (!outerElem || !innerElem) {
             return;
         }
-        const handleScroll = async () => {
+        const handleScroll = debounce(async () => {
             const { scrollTop, scrollHeight, clientHeight } = outerElem;
             console.log({ scrollTop, scrollHeight, clientHeight });
             if (scrollTop < clientHeight) {
-                console.log({ total, page, t: scrollTop >= scroll });
+                console.log('if ok');
                 if (
-                    totalNumberOfContacts !== 0 &&
-                    totalNumberOfContacts > page * 5 &&
-                    scrollTop >= scroll
+                    scrollTop < clientHeight &&
+                    totalNumberOfContacts >= page * 5
                 ) {
+                    //                     totalNumberOfContacts > page * 5 &&
                     setPage((page) => page + 1);
                     const newContacts = await getContacts({
                         page: page + 1,
                     });
+                    console.log({ newContacts });
+                    dispatch(
+                        getTotalNumberOfContacts(
+                            newContacts?.data?.data?.getContacts?.total
+                        )
+                    );
                     onFetchContacts?.(
                         newContacts?.data?.data?.getContacts?.contacts?.length >
                             0
@@ -134,44 +120,12 @@ export const ContactsList = ({
                     );
                 }
             }
-        };
+        }, 100);
         outerElem.addEventListener('scroll', handleScroll);
         return () => {
             outerElem.removeEventListener('scroll', handleScroll);
         };
     }, [page]);
-    /////////////////////////////////////////////////
-
-    // const handleScroll = async (event: React.UIEvent<HTMLInputElement>) => {
-    //     const target = event.target as HTMLInputElement;
-    //     console.log({ scrollTop: target.scrollTop, scroll });
-    //     // setScroll(target.scrollTop);
-    //     //
-    //     // if (total !== 0 && total > page * 5 && target.scrollTop >= scroll) {
-    //     //     setPage((page) => page + 1);
-    //     //     const newContacts = await getContacts({
-    //     //         page: page + 1,
-    //     //     });
-    //     //     onFetchContacts?.(
-    //     //         newContacts?.data?.data?.getContacts?.contacts?.length > 0
-    //     //             ? newContacts?.data?.data?.getContacts?.contacts
-    //     //             : contacts
-    //     //     );
-    //     // } else {
-    //     //     const scrollBackOCondition = (page: number) =>
-    //     //         page - 1 > 1 ? page - 1 : 1;
-    //     //     setPage((page) => scrollBackOCondition(page));
-    //     //     // fetch more contacts
-    //     //     const newContacts = await getContacts({
-    //     //         page: scrollBackOCondition(page),
-    //     //     });
-    //     //     onFetchContacts?.(
-    //     //         newContacts?.data?.data?.getContacts?.contacts?.length > 0
-    //     //             ? newContacts?.data?.data?.getContacts?.contacts
-    //     //             : contacts
-    //     //     );
-    //     // }
-    // };
 
     const handleAddContact = () => {
         onAddContact?.();
