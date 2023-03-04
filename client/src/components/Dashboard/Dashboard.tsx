@@ -53,6 +53,7 @@ export const Dashboard = (): JSX.Element => {
     const [getContacts, result, lastPromiseInfo] = useLazyGetContactsQuery();
     const handleSearch = async (keyword: string) => {
         if (keyword.length < 3) return;
+        setFetchedContacts([]);
         // fetch contacts
         const contacts = await getContacts({
             keyword,

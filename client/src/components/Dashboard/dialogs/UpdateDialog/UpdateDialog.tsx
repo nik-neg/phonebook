@@ -24,7 +24,6 @@ export const UpdateDialog = ({
     open,
     onClose,
 }: IUpdateDialogProps): JSX.Element => {
-    console.log({ selectedValue });
     const defaultValues = {
         firstName: '',
         lastName: '',
@@ -59,7 +58,6 @@ export const UpdateDialog = ({
     };
 
     const handleClose = () => {
-        // clearForm();
         onClose?.();
     };
 
@@ -91,11 +89,6 @@ export const UpdateDialog = ({
             }).unwrap();
 
             console.log({ res });
-
-            // clear form only if other card
-            // if (res?.data?.data?.updateContact?.id !== selectedValue.id) {
-            //     clearForm();
-            // }
 
             onClose?.();
         }
