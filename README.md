@@ -49,25 +49,26 @@ It contains a contact management application that allows users to store and mana
 </table>
 </div>
 
-
 # Intro screen
-![alt text](https://github.com/nik-neg/Appetize/blob/main/.images/1_login.png)
+![alt text](https://github.com/nik-neg/phonebook/blob/readme/.images/1_intro.jpg)
 
 
-# Add contact functionality
-![alt text](https://github.com/nik-neg/Appetize/blob/main/.images/1_login.png)
+# Add contact functionality with contact details
+![alt text](https://github.com/nik-neg/phonebook/blob/readme/.images/21_add.jpg)
 
 
-# Add contact functionality
-![alt text](https://github.com/nik-neg/Appetize/blob/main/.images/1_login.png)
+# Add contact functionality with image filter
+![alt text](https://github.com/nik-neg/phonebook/blob/readme/.images/22_add.jpg)
 
 
 # Contact list view
-![alt text](https://github.com/nik-neg/Appetize/blob/main/.images/1_login.png)
+![alt text](https://github.com/nik-neg/phonebook/blob/readme/.images/3_list.jpg)
 
 
 # Edit contact functionality
-![alt text](https://github.com/nik-neg/Appetize/blob/main/.images/1_login.png)
+![alt text](https://github.com/nik-neg/phonebook/blob/readme/.images/4_edit.jpg)
+
+
 
 
 # Getting started
