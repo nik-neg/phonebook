@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { IContactCardPhotoProps } from './types';
 
 export const SContactCardContainer = styled.div`
     padding: 1rem;
@@ -34,15 +33,6 @@ export const SContactInfoWrapper = styled.div`
     padding-left: 0.5rem;
     height: 100px;
     width: 100px;
-`;
-
-export const SContactCardPhoto = styled.img<IContactCardPhotoProps>`
-    display: flex;
-    width: 75px;
-    height: 75px;
-    border-radius: 75%;
-    border: 1px solid black;
-    src: url(${(props) => props.src});
 `;
 
 export const SNameWrapper = styled.div`

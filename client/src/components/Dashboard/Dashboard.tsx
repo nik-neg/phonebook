@@ -50,7 +50,7 @@ export const Dashboard = (): JSX.Element => {
         setOpenSearch(false);
     };
 
-    const [getContacts, result, lastPromiseInfo] = useLazyGetContactsQuery();
+    const [getContacts] = useLazyGetContactsQuery();
     const handleSearch = async (keyword: string) => {
         if (keyword.length < 3) return;
         setFetchedContacts([]);
@@ -59,8 +59,6 @@ export const Dashboard = (): JSX.Element => {
             keyword,
             page: 1,
         });
-
-        console.log({ contacts });
 
         setFetchedContacts(contacts?.data?.data?.getContacts.contacts ?? []);
     };

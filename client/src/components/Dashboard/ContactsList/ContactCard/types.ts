@@ -1,7 +1,3 @@
-export interface IContactCardPhotoProps {
-    src: string;
-}
-
 export interface IContactCardProps {
     contact: IContact;
 
