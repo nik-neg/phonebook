@@ -60,7 +60,9 @@ export const Dashboard = (): JSX.Element => {
             page: 1,
         });
 
-        setFetchedContacts(contacts?.data?.data?.contacts ?? []);
+        console.log({ contacts });
+
+        setFetchedContacts(contacts?.data?.data?.getContacts.contacts ?? []);
     };
 
     return (
