@@ -126,7 +126,6 @@ export const ContactsList = ({
             const { scrollTop, scrollHeight, clientHeight } = outerElem;
             if (scrollTop < clientHeight) {
                 await loadMoreContacts(outerElem);
-                console.log('if ok');
             }
         }, 100);
         outerElem.addEventListener('scroll', handleScroll);
