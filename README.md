@@ -50,23 +50,23 @@ It contains a contact management application that allows users to store and mana
 </div>
 
 # Intro screen
-![alt text](https://github.com/nik-neg/phonebook/blob/readme/.images/1_intro.jpg)
+![alt text](https://github.com/nik-neg/phonebook/blob/main/.images/1_intro.jpg)
 
 
 # Add contact functionality with contact details
-![alt text](https://github.com/nik-neg/phonebook/blob/readme/.images/21_add.jpg)
+![alt text](https://github.com/nik-neg/phonebook/blob/main/.images/21_add.jpg)
 
 
 # Add contact functionality with image filter
-![alt text](https://github.com/nik-neg/phonebook/blob/readme/.images/22_add.jpg)
+![alt text](https://github.com/nik-neg/phonebook/blob/main/.images/22_add.jpg)
 
 
 # Contact list view
-![alt text](https://github.com/nik-neg/phonebook/blob/readme/.images/3_list.jpg)
+![alt text](https://github.com/nik-neg/phonebook/blob/main/.images/3_list.jpg)
 
 
 # Edit contact functionality
-![alt text](https://github.com/nik-neg/phonebook/blob/readme/.images/4_edit.jpg)
+![alt text](https://github.com/nik-neg/phonebook/blob/main/.images/4_edit.jpg)
 
 
 
