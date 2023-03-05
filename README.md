@@ -28,7 +28,8 @@ It contains a contact management application that allows users to store and mana
 ## Limitations
 * phone numbers have to be comma separated in the UI, e.g. 0532123456, 0532123457
 * images can only be stored as `jpeg` and `png`
-* image filtering currently only supports `grayscale`, `blur` and `saturation`
+* image filtering currently only supports `grayscale`, `blur` and `saturation`; please set blur and saturation to `0` if
+you don't want to apply them
 
 
 <div align="center">
