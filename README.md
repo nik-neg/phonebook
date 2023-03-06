@@ -51,26 +51,27 @@ you don't want to apply them
 </table>
 </div>
 
-# Intro screen
+## Intro screen
 ![alt text](https://github.com/nik-neg/phonebook/blob/main/.images/1_intro.jpg)
 
 
-# Add contact functionality with contact details
+## Add contact functionality with contact details
 ![alt text](https://github.com/nik-neg/phonebook/blob/main/.images/21_add.jpg)
 
 
-# Add contact functionality with image filter
+## Add contact functionality with image filter
 ![alt text](https://github.com/nik-neg/phonebook/blob/main/.images/22_add.jpg)
 
 
-# Contact list view
+## Contact list view
 ![alt text](https://github.com/nik-neg/phonebook/blob/main/.images/3_list.jpg)
 
 
-# Edit contact functionality
+## Edit contact functionality
 ![alt text](https://github.com/nik-neg/phonebook/blob/main/.images/4_edit.jpg)
 
-
+## Demo
+https://www.loom.com/share/66c8bd361138443bb12d98c10031c7d4
 
 
 # Getting started
