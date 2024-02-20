@@ -154,6 +154,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                     </DialogContentText>
                     <TextField
                         autoFocus
+                        autoComplete={'given-name'}
                         margin="dense"
                         id="name"
                         label="First Name"
@@ -168,6 +169,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                     )}
                     <TextField
                         autoFocus
+                        autoComplete={'family-name'}
                         margin="dense"
                         id="name"
                         label="Last Name"
@@ -182,6 +184,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                     )}
                     <TextField
                         autoFocus
+                        autoComplete={'username'}
                         margin="dense"
                         id="name"
                         label="Nickname"
@@ -196,6 +199,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                     )}
                     <TextField
                         autoFocus
+                        autoComplete={'address'}
                         margin="dense"
                         id="name"
                         label="Address"
@@ -210,6 +214,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                     )}
                     <TextField
                         autoFocus
+                        autoComplete={'tel'}
                         margin="dense"
                         id="name"
                         label="Phone Numbers"
