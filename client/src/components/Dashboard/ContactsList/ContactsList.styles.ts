@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import background from '../../../assets/mobile.jpg';
 import { IContactListWrapper } from './types';
+import Button from '@mui/material/Button';
 
 export const SContactListPanel = styled.div`
     display: flex;
@@ -157,27 +158,48 @@ export const SButtonWrapper = styled.div`
     padding: 0.5rem 0.25rem 0.25rem 0.25rem;
 `;
 
-export const SButton = styled.button`
-    width: 6rem;
-    height: 3rem;
-    border-radius: 10px;
-    cursor: pointer;
-    background: rgb(240, 240, 240);
-    background: linear-gradient(
-        90deg,
-        rgba(240, 240, 240, 1) 0%,
-        rgba(111, 111, 111, 1) 35%,
-        rgba(111, 111, 111, 0.9402135854341737) 52%,
-        rgba(111, 111, 111, 0.9402135854341737) 94%
-    );
-    opacity: 0.9;
+interface SButtonProps {
+    fontFamily?: string;
+}
 
-    :hover {
-        background: #e1e1e1;
-        border: 2px solid #e1e1e1;
+export const SButton = styled(Button)<SButtonProps>`
+    && {
+        width: 6rem;
+        height: 3rem;
+        cursor: pointer;
+        color: black;
+        text-transform: none;
+        font-size: 14px;
+        font-family: "'Crimson Pro', serif, 'Mochiy Pop One', sans-serif";
+
+        border: 2px solid rgba(111, 111, 111, 1);
+        border-radius: 10px;
+        background: rgb(240, 240, 240);
+        background: linear-gradient(
+            90deg,
+            rgba(240, 240, 240, 1) 0%,
+            rgba(111, 111, 111, 1) 35%,
+            rgba(111, 111, 111, 0.9402135854341737) 52%,
+            rgba(111, 111, 111, 0.9402135854341737) 94%
+        );
+        opacity: 0.9;
+
+        transition: none;
+
+        &:hover {
+            background: #e1e1e1;
+            border: 2px solid #e1e1e1;
+        }
     }
 `;
 
-export const SIconWrapper = styled.div`
-    padding-top: 0.25rem;
+export const SButtonContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+`;
+
+export const SButtonRow = styled.div`
+    display: flex;
+    justify-content: center;
 `;

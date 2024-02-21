@@ -1,14 +1,15 @@
 import {
     SButton,
+    SButtonContainer,
     SButtonPanel,
     SButtonPanelWrapper,
+    SButtonRow,
     SButtonWrapper,
     SContactCardsContainer,
     SContactListContainer,
     SContactListContainerWrapper,
     SContactListPanel,
     SContactListWrapper,
-    SIconWrapper,
 } from './ContactsList.styles';
 import { IContactListProps } from './types';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -199,27 +200,38 @@ export const ContactsList = ({
                     <SButtonPanelWrapper>
                         <SButtonPanel>
                             <SButtonWrapper>
-                                <SButton onClick={handleAddContact}>
-                                    {'Add Contact'}
-                                    <SIconWrapper>
-                                        <IoPersonAdd />
-                                    </SIconWrapper>
+                                <SButton
+                                    onClick={handleAddContact}
+                                    onMouseLeave={() => setHover(false)}
+                                >
+                                    <SButtonContainer>
+                                        <SButtonRow>Add Contact</SButtonRow>
+                                        <SButtonRow>
+                                            <IoPersonAdd size={'1rem'} />
+                                        </SButtonRow>
+                                    </SButtonContainer>
                                 </SButton>
                             </SButtonWrapper>
                             <SButtonWrapper>
                                 <SButton onClick={handleSearch}>
-                                    {'Search'}
-                                    <SIconWrapper>
-                                        <MdOutlinePersonSearch />
-                                    </SIconWrapper>
+                                    <SButtonContainer>
+                                        <SButtonRow>Search</SButtonRow>
+                                        <SButtonRow>
+                                            <MdOutlinePersonSearch
+                                                size={'1rem'}
+                                            />
+                                        </SButtonRow>
+                                    </SButtonContainer>
                                 </SButton>
                             </SButtonWrapper>
                             <SButtonWrapper>
                                 <SButton onClick={handlePowerOn}>
-                                    {'Power'}
-                                    <SIconWrapper>
-                                        <CiPower />
-                                    </SIconWrapper>
+                                    <SButtonContainer>
+                                        <SButtonRow>Power</SButtonRow>
+                                        <SButtonRow>
+                                            <CiPower size={'1rem'} />
+                                        </SButtonRow>
+                                    </SButtonContainer>
                                 </SButton>
                             </SButtonWrapper>
                         </SButtonPanel>
