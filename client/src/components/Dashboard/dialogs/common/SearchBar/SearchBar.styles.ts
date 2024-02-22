@@ -11,7 +11,7 @@ export const STextFieldWrapper = styled.div`
 `;
 export const STextField = styled(TextField)`
     && {
-        width: 91%;
+        width: 300px;
         background-color: white;
         border-radius: 20px;
         border-color: black;

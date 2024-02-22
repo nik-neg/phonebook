@@ -10,6 +10,7 @@ import {
     SContactListContainerWrapper,
     SContactListPanel,
     SContactListWrapper,
+    SearchBarContainer,
 } from './ContactsList.styles';
 import { IContactListProps } from './types';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -23,8 +24,10 @@ import { selectTotalNumberOfContacts } from '../../../store/selectors/contacts.s
 import { getTotalNumberOfContacts } from '../../../store/slices';
 import { debounce } from 'lodash-es';
 import Tilt from 'react-parallax-tilt';
+import { SearchBar } from '../dialogs/common/SearchBar';
+import { Spacer } from '../../common/Spacer';
+import { CONTACTS_PER_PAGE, SEARCH_BAR_WITHOUT_BUTTON } from './constants';
 import { ContactCard } from './ContactCard';
-import { CONTACTS_PER_PAGE } from './constants';
 
 export const ContactsList = ({
     contacts,
@@ -180,6 +183,17 @@ export const ContactsList = ({
                             onMouseEnter={() => setHover(true)}
                             onMouseLeave={() => setHover(false)}
                         >
+                            <Spacer height={4} />
+
+                            {SEARCH_BAR_WITHOUT_BUTTON && (
+                                <SearchBarContainer>
+                                    <SearchBar
+                                        onSearch={handleSearch}
+                                        content={content}
+                                    />
+                                </SearchBarContainer>
+                            )}
+
                             <SContactCardsContainer>
                                 {contacts.map(
                                     (contact, index) =>
@@ -196,6 +210,7 @@ export const ContactsList = ({
                             </SContactCardsContainer>
                         </SContactListWrapper>
                     </SContactListContainer>
+
                     <SButtonPanelWrapper>
                         <SButtonPanel>
                             <SButtonWrapper>
@@ -211,18 +226,24 @@ export const ContactsList = ({
                                     </SButtonContainer>
                                 </SButton>
                             </SButtonWrapper>
-                            <SButtonWrapper>
-                                <SButton onClick={handleSearch} disableRipple>
-                                    <SButtonContainer>
-                                        <SButtonRow>Search</SButtonRow>
-                                        <SButtonRow>
-                                            <MdOutlinePersonSearch
-                                                size={'1rem'}
-                                            />
-                                        </SButtonRow>
-                                    </SButtonContainer>
-                                </SButton>
-                            </SButtonWrapper>
+                            {!SEARCH_BAR_WITHOUT_BUTTON && (
+                                <SButtonWrapper>
+                                    <SButton
+                                        onClick={handleSearch}
+                                        disableRipple
+                                    >
+                                        <SButtonContainer>
+                                            <SButtonRow>Search</SButtonRow>
+                                            <SButtonRow>
+                                                <MdOutlinePersonSearch
+                                                    size={'1rem'}
+                                                />
+                                            </SButtonRow>
+                                        </SButtonContainer>
+                                    </SButton>
+                                </SButtonWrapper>
+                            )}
+
                             <SButtonWrapper>
                                 <SButton onClick={handlePowerOn} disableRipple>
                                     <SButtonContainer>

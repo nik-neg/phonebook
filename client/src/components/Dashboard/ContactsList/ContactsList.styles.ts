@@ -25,7 +25,6 @@ export const SContactListContainerWrapper = styled.div`
         box-shadow: 0 0 10px 10px #bcd4e6;
     }
 `;
-
 export const SContactListContainer = styled.div`
     display: flex;
     justify-content: center;
@@ -42,11 +41,8 @@ export const SContactListContainer = styled.div`
 `;
 
 export const SearchBarContainer = styled.div`
-    width: 100%;
-    height: 725px;
     position: absolute;
-    //position: sticky;
-    //top: 0;
+    width: 100%;
 `;
 
 export const SContactCardsContainer = styled.div`
@@ -69,7 +65,6 @@ export const SContactListWrapper = styled.div<IContactListWrapper>`
         cursor: pointer;
     }
 
-    width: 100%;
     position: relative;
 
     ${(props) =>
