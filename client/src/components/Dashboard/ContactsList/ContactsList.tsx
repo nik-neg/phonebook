@@ -26,16 +26,17 @@ import { getTotalNumberOfContacts } from '../../../store/slices';
 import { debounce } from 'lodash-es';
 import Tilt from 'react-parallax-tilt';
 import { SearchBar } from '../dialogs/common/SearchBar';
-import { CONTACTS_PER_PAGE, SEARCH_BAR_WITHOUT_BUTTON } from './constants';
+import { CONTACTS_PER_PAGE } from './constants';
 import { ContactCard } from './ContactCard';
 import { Spacer } from '../../common/Spacer';
+import { shouldActivate } from '../../../utils';
 
 export const ContactsList = ({
     contacts,
     onAddContact,
     onFetchContacts,
-    onOpenSearch,
     onRemoveContact,
+    onHandleSearch,
 }: IContactListProps): JSX.Element => {
     const dispatch = useAppDispatch();
     const [hover, setHover] = useState(false);
@@ -44,13 +45,14 @@ export const ContactsList = ({
 
     const outerRef = useRef<HTMLDivElement>(null);
     const innerRef = useRef<HTMLDivElement>(null);
+
     const [page, setPage] = useState(1);
 
     const [scroll, setScroll] = useState(0);
 
     const [getContacts] = useLazyGetContactsQuery();
 
-    const [isDeviceOn, setIsDeviceOn] = React.useState(false);
+    const [isDeviceOn, setIsDeviceOn] = useState(false);
 
     const { data, isLoading } = useGetContactsQuery(
         { page: 1 },
@@ -155,6 +157,7 @@ export const ContactsList = ({
             }
         }, 100);
         outerElem.addEventListener('scroll', handleScroll);
+
         return () => {
             outerElem.removeEventListener('scroll', handleScroll);
         };
@@ -164,24 +167,23 @@ export const ContactsList = ({
         onAddContact?.();
     };
 
-    const handleSearch = () => {
-        onOpenSearch?.();
-    };
+    const [content, setContent] = useState<string>('');
 
-    const [content, setContent] = React.useState<string>('');
+    const handleSearch = (value: string) => {
+        setContent(value);
+    };
 
     return (
         <Tilt>
             <SContactListPanel>
                 <SContactListContainerWrapper>
                     <SContactListContainerPanel>
-                        {SEARCH_BAR_WITHOUT_BUTTON && (
+                        {shouldActivate(
+                            import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
+                        ) && (
                             <SearchBarContainer>
                                 <Spacer height={10} />
-                                <SearchBar
-                                    onSearch={handleSearch}
-                                    content={content}
-                                />
+                                <SearchBar onSearch={handleSearch} />
                             </SearchBarContainer>
                         )}
                         <SContactListContainer ref={outerRef}>
@@ -227,7 +229,9 @@ export const ContactsList = ({
                                     </SButtonContainer>
                                 </SButton>
                             </SButtonWrapper>
-                            {!SEARCH_BAR_WITHOUT_BUTTON && (
+                            {!shouldActivate(
+                                import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
+                            ) && (
                                 <SButtonWrapper>
                                     <SButton
                                         onClick={handleSearch}
@@ -262,5 +266,3 @@ export const ContactsList = ({
         </Tilt>
     );
 };
-
-export default ContactsList;

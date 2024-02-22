@@ -9,6 +9,8 @@ import React, { useState } from 'react';
 import { ContactsList } from './ContactsList';
 import { AddDialog } from './dialogs/AddDialog/AddDialog';
 import { useLazyGetContactsQuery } from '../../store/api/contacts.api';
+import { SearchDialog } from './dialogs/SearchDialog';
+import { shouldActivate } from '../../utils';
 
 export const Dashboard = (): JSX.Element => {
     const [fetchedContacts, setFetchedContacts] = useState<IContact[]>([]);
@@ -39,16 +41,6 @@ export const Dashboard = (): JSX.Element => {
         });
     };
 
-    const [openSearch, setOpenSearch] = useState(false);
-
-    const handleOpenSearch = () => {
-        setOpenSearch(true);
-    };
-
-    const handleSearchClose = () => {
-        setOpenSearch(false);
-    };
-
     const [getContacts] = useLazyGetContactsQuery();
     const handleSearch = async (keyword: string) => {
         if (keyword.length < 3) return;
@@ -67,6 +59,16 @@ export const Dashboard = (): JSX.Element => {
         }
     };
 
+    const [openSearch, setOpenSearch] = useState(false);
+
+    const handleOpenSearch = () => {
+        setOpenSearch(true);
+    };
+
+    const handleSearchClose = () => {
+        setOpenSearch(false);
+    };
+
     return (
         <SDashboardContainer>
             <SDashboardHeader />
@@ -77,7 +79,7 @@ export const Dashboard = (): JSX.Element => {
                     onAddContact={handleAddContact}
                     onRemoveContact={onRemoveContact}
                     onEditContact={handleEditContact}
-                    onOpenSearch={handleOpenSearch}
+                    onHandleSearch={handleSearch}
                 />
             </SDashboardList>
             <AddDialog
@@ -85,6 +87,16 @@ export const Dashboard = (): JSX.Element => {
                 onClose={handleClose}
                 onEdit={handleAddContact}
             />
+            {!shouldActivate(
+                import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
+            ) && (
+                <SearchDialog
+                    open={openSearch}
+                    onClose={handleSearchClose}
+                    onSearch={handleSearch}
+                />
+            )}
+
             <SDashboardFooter />
         </SDashboardContainer>
     );

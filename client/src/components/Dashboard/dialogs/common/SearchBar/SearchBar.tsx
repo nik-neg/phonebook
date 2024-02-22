@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import { ISearchBarProps } from './types';
 import { STextField, STextFieldWrapper } from './SearchBar.styles';
 
-export const SearchBar = ({ onSearch, content }: ISearchBarProps) => {
+export const SearchBar = ({ onSearch }: ISearchBarProps) => {
     const [searchValue, setSearchValue] = useState('');
 
     const handleSearchChange = (

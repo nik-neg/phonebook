@@ -135,8 +135,10 @@ export const SButtonRow = styled.div`
 
 export const SContactListWrapper = styled.div<IContactListWrapper>`
     width: 100%;
-    height: 750px;
+    height: 790px;
     position: absolute;
+    z-index: 3;
+    padding-bottom: 200px;
     border: 3px solid transparent;
     border-bottom: none;
     border-radius: 12px;
