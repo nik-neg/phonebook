@@ -45,13 +45,9 @@ export const SContactCardsContainer = styled.div`
 
 export const SContactListWrapper = styled.div<IContactListWrapper>`
     width: 100%;
-    //box-shadow: 10px 5px 5px black;
     border: 3px solid transparent;
     border-bottom: none;
     border-radius: 12px;
-
-    //overflow-x: hidden;
-    //overflow-y: scroll;
 
     &::-webkit-scrollbar {
         display: none;
@@ -173,6 +169,9 @@ export const SButton = styled(Button)<SButtonProps>`
         font-family: "'Crimson Pro', serif, 'Mochiy Pop One', sans-serif";
 
         border: 2px solid rgba(111, 111, 111, 1);
+        border-color: rgba(111, 111, 111, 0.9402135854341737)
+            rgba(35, 35, 35, 1) rgba(35, 35, 35, 1)
+            rgba(111, 111, 111, 0.9402135854341737);
         border-radius: 10px;
         background: rgb(240, 240, 240);
         background: linear-gradient(
