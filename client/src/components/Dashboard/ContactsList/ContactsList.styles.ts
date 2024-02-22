@@ -153,9 +153,8 @@ export const SContactListWrapper = styled.div<IContactListWrapper>`
 
     position: relative;
 
-    ${(props) =>
-        !props.contactsAreFetched &&
-        !props.hover &&
+    ${({ contactsAreFetched }) =>
+        !contactsAreFetched &&
         `
         &:after {
         content: '';

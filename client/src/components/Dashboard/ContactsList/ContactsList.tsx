@@ -52,7 +52,7 @@ export const ContactsList = ({
 
     const [getContacts] = useLazyGetContactsQuery();
 
-    const [isDeviceOn, setIsDeviceOn] = useState(false);
+    const [isDeviceOn, setIsDeviceOn] = useState(true);
 
     const { data, isLoading } = useGetContactsQuery(
         { page: 1 },
@@ -72,12 +72,6 @@ export const ContactsList = ({
 
     const handlePowerOn = async () => {
         setIsDeviceOn(!isDeviceOn);
-        if (isDeviceOn) {
-            setIsDeviceOn(false);
-
-            onFetchContacts?.([]);
-            return;
-        }
     };
 
     const reloadCondition = totalNumberOfContacts - page * CONTACTS_PER_PAGE;
@@ -171,6 +165,7 @@ export const ContactsList = ({
 
     const handleSearch = (value: string) => {
         setContent(value);
+        onHandleSearch?.(value);
     };
 
     return (
@@ -188,11 +183,8 @@ export const ContactsList = ({
                         )}
                         <SContactListContainer ref={outerRef}>
                             <SContactListWrapper
-                                contactsAreFetched={
-                                    isDeviceOn || contacts?.length > 0
-                                }
+                                contactsAreFetched={isDeviceOn}
                                 ref={innerRef}
-                                hover={hover}
                                 onMouseEnter={() => setHover(true)}
                                 onMouseLeave={() => setHover(false)}
                             >
