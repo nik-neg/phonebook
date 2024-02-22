@@ -202,7 +202,7 @@ export const ContactsList = ({
                             <SButtonWrapper>
                                 <SButton
                                     onClick={handleAddContact}
-                                    onMouseLeave={() => setHover(false)}
+                                    disableRipple
                                 >
                                     <SButtonContainer>
                                         <SButtonRow>Add Contact</SButtonRow>
@@ -213,7 +213,7 @@ export const ContactsList = ({
                                 </SButton>
                             </SButtonWrapper>
                             <SButtonWrapper>
-                                <SButton onClick={handleSearch}>
+                                <SButton onClick={handleSearch} disableRipple>
                                     <SButtonContainer>
                                         <SButtonRow>Search</SButtonRow>
                                         <SButtonRow>
@@ -225,7 +225,7 @@ export const ContactsList = ({
                                 </SButton>
                             </SButtonWrapper>
                             <SButtonWrapper>
-                                <SButton onClick={handlePowerOn}>
+                                <SButton onClick={handlePowerOn} disableRipple>
                                     <SButtonContainer>
                                         <SButtonRow>Power</SButtonRow>
                                         <SButtonRow>
