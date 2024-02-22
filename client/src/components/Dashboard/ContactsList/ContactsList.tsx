@@ -18,12 +18,13 @@ import {
     useLazyGetContactsQuery,
 } from '../../../store/api/contacts.api';
 import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
-import { ContactCard } from './ContactCard';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { selectTotalNumberOfContacts } from '../../../store/selectors/contacts.selector';
 import { getTotalNumberOfContacts } from '../../../store/slices';
 import { debounce } from 'lodash-es';
 import Tilt from 'react-parallax-tilt';
+import { ContactCard } from './ContactCard';
+import { CONTACTS_PER_PAGE } from './constants';
 
 export const ContactsList = ({
     contacts,
@@ -73,7 +74,7 @@ export const ContactsList = ({
         }
     };
 
-    const reloadCondition = totalNumberOfContacts - page * 5;
+    const reloadCondition = totalNumberOfContacts - page * CONTACTS_PER_PAGE;
 
     const loadMoreContacts = useCallback(
         async (outerElem: HTMLDivElement) => {
@@ -86,7 +87,7 @@ export const ContactsList = ({
                 if (
                     !(scrollTop < scroll) &&
                     scrollTop < clientHeight &&
-                    totalNumberOfContacts >= page * 5
+                    totalNumberOfContacts >= page * CONTACTS_PER_PAGE
                 ) {
                     onFetchContacts?.([]);
                     setPage((page) => page + 1);
@@ -163,19 +164,17 @@ export const ContactsList = ({
         onOpenSearch?.();
     };
 
+    const [content, setContent] = React.useState<string>('');
+
     return (
         <Tilt>
             <SContactListPanel>
                 <SContactListContainerWrapper>
-                    <SContactListContainer
-                        ref={outerRef}
-                        style={{ overflow: 'auto', height: '680px' }}
-                    >
+                    <SContactListContainer ref={outerRef}>
                         <SContactListWrapper
                             contactsAreFetched={
                                 isDeviceOn || contacts?.length > 0
                             }
-                            style={{ height: '750px' }}
                             ref={innerRef}
                             hover={hover}
                             onMouseEnter={() => setHover(true)}
@@ -184,7 +183,7 @@ export const ContactsList = ({
                             <SContactCardsContainer>
                                 {contacts.map(
                                     (contact, index) =>
-                                        index <= 4 && (
+                                        index < CONTACTS_PER_PAGE && (
                                             <ContactCard
                                                 key={index}
                                                 contact={contact}

@@ -25,26 +25,38 @@ export const SContactListContainerWrapper = styled.div`
         box-shadow: 0 0 10px 10px #bcd4e6;
     }
 `;
+
 export const SContactListContainer = styled.div`
     display: flex;
     justify-content: center;
     width: 350px;
+    height: 680px;
+
     border: 3px solid rgba(196, 196, 196, 0.67);
     border-radius: 15px;
-    height: 760px;
     background: url(${background}) repeat;
     &::-webkit-scrollbar {
         display: none;
     }
+    overflow: auto;
+`;
+
+export const SearchBarContainer = styled.div`
+    width: 100%;
+    height: 725px;
+    position: absolute;
+    //position: sticky;
+    //top: 0;
 `;
 
 export const SContactCardsContainer = styled.div`
-    height: 675px;
+    height: 625px;
     border-radius: 10px 10px 0px 10px;
 `;
 
 export const SContactListWrapper = styled.div<IContactListWrapper>`
     width: 100%;
+    height: 750px;
     border: 3px solid transparent;
     border-bottom: none;
     border-radius: 12px;

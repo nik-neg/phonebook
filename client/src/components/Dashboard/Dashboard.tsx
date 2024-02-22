@@ -8,7 +8,6 @@ import { IContact } from './ContactsList/ContactCard/types';
 import React, { useState } from 'react';
 import { ContactsList } from './ContactsList';
 import { AddDialog } from './dialogs/AddDialog/AddDialog';
-import { SearchDialog } from './dialogs/SearchDialog/SearchDialog';
 import { useLazyGetContactsQuery } from '../../store/api/contacts.api';
 
 export const Dashboard = (): JSX.Element => {
@@ -85,11 +84,6 @@ export const Dashboard = (): JSX.Element => {
                 open={open}
                 onClose={handleClose}
                 onEdit={handleAddContact}
-            />
-            <SearchDialog
-                open={openSearch}
-                onClose={handleSearchClose}
-                onSearch={handleSearch}
             />
             <SDashboardFooter />
         </SDashboardContainer>
