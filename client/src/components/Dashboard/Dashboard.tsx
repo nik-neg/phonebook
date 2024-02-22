@@ -44,17 +44,18 @@ export const Dashboard = (): JSX.Element => {
     const [getContacts] = useLazyGetContactsQuery();
     const handleSearch = async (keyword: string) => {
         if (!keyword || keyword.length >= 3) {
-            setFetchedContacts([]);
-
             try {
                 const contacts = await getContacts({
                     keyword,
                     page: 1,
                 });
 
-                setFetchedContacts(
-                    contacts?.data?.data?.getContacts.contacts ?? []
-                );
+                const newContacts = contacts?.data?.data?.getContacts.contacts
+                    ?.length
+                    ? contacts?.data?.data?.getContacts.contacts
+                    : fetchedContacts;
+
+                setFetchedContacts(newContacts);
             } catch (e) {
                 console.log(e);
             }

@@ -71,6 +71,9 @@ export const ContactsList = ({
     }, [data, isLoading, isDeviceOn]);
 
     const handlePowerOn = async () => {
+        if (isDeviceOn) {
+            onFetchContacts?.([]);
+        }
         setIsDeviceOn(!isDeviceOn);
     };
 
@@ -168,6 +171,10 @@ export const ContactsList = ({
         onHandleSearch?.(value);
     };
 
+    const handleButtonSearch = () => {
+        onHandleSearch?.(content);
+    };
+
     return (
         <Tilt>
             <SContactListPanel>
@@ -179,6 +186,7 @@ export const ContactsList = ({
                             <SearchBarContainer>
                                 <Spacer height={10} />
                                 <SearchBar onSearch={handleSearch} />
+                                <Spacer height={10} />
                             </SearchBarContainer>
                         )}
                         <SContactListContainer ref={outerRef}>
@@ -226,7 +234,7 @@ export const ContactsList = ({
                             ) && (
                                 <SButtonWrapper>
                                     <SButton
-                                        onClick={handleSearch}
+                                        onClick={handleButtonSearch}
                                         disableRipple
                                     >
                                         <SButtonContainer>
