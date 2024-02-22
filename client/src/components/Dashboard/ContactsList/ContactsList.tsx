@@ -7,6 +7,7 @@ import {
     SButtonWrapper,
     SContactCardsContainer,
     SContactListContainer,
+    SContactListContainerPanel,
     SContactListContainerWrapper,
     SContactListPanel,
     SContactListWrapper,
@@ -25,9 +26,9 @@ import { getTotalNumberOfContacts } from '../../../store/slices';
 import { debounce } from 'lodash-es';
 import Tilt from 'react-parallax-tilt';
 import { SearchBar } from '../dialogs/common/SearchBar';
-import { Spacer } from '../../common/Spacer';
 import { CONTACTS_PER_PAGE, SEARCH_BAR_WITHOUT_BUTTON } from './constants';
 import { ContactCard } from './ContactCard';
+import { Spacer } from '../../common/Spacer';
 
 export const ContactsList = ({
     contacts,
@@ -173,43 +174,43 @@ export const ContactsList = ({
         <Tilt>
             <SContactListPanel>
                 <SContactListContainerWrapper>
-                    <SContactListContainer ref={outerRef}>
-                        <SContactListWrapper
-                            contactsAreFetched={
-                                isDeviceOn || contacts?.length > 0
-                            }
-                            ref={innerRef}
-                            hover={hover}
-                            onMouseEnter={() => setHover(true)}
-                            onMouseLeave={() => setHover(false)}
-                        >
-                            <Spacer height={4} />
-
-                            {SEARCH_BAR_WITHOUT_BUTTON && (
-                                <SearchBarContainer>
-                                    <SearchBar
-                                        onSearch={handleSearch}
-                                        content={content}
-                                    />
-                                </SearchBarContainer>
-                            )}
-
-                            <SContactCardsContainer>
-                                {contacts.map(
-                                    (contact, index) =>
-                                        index < CONTACTS_PER_PAGE && (
-                                            <ContactCard
-                                                key={index}
-                                                contact={contact}
-                                                onRemoveContact={
-                                                    onRemoveContact
-                                                }
-                                            />
-                                        )
-                                )}
-                            </SContactCardsContainer>
-                        </SContactListWrapper>
-                    </SContactListContainer>
+                    <SContactListContainerPanel>
+                        {SEARCH_BAR_WITHOUT_BUTTON && (
+                            <SearchBarContainer>
+                                <Spacer height={10} />
+                                <SearchBar
+                                    onSearch={handleSearch}
+                                    content={content}
+                                />
+                            </SearchBarContainer>
+                        )}
+                        <SContactListContainer ref={outerRef}>
+                            <SContactListWrapper
+                                contactsAreFetched={
+                                    isDeviceOn || contacts?.length > 0
+                                }
+                                ref={innerRef}
+                                hover={hover}
+                                onMouseEnter={() => setHover(true)}
+                                onMouseLeave={() => setHover(false)}
+                            >
+                                <SContactCardsContainer>
+                                    {contacts.map(
+                                        (contact, index) =>
+                                            index < CONTACTS_PER_PAGE && (
+                                                <ContactCard
+                                                    key={index}
+                                                    contact={contact}
+                                                    onRemoveContact={
+                                                        onRemoveContact
+                                                    }
+                                                />
+                                            )
+                                    )}
+                                </SContactCardsContainer>
+                            </SContactListWrapper>
+                        </SContactListContainer>
+                    </SContactListContainerPanel>
 
                     <SButtonPanelWrapper>
                         <SButtonPanel>
