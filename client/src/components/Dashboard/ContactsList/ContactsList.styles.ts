@@ -39,6 +39,7 @@ export const SContactListContainerPanel = styled.div`
 
 export const SearchBarContainer = styled.div`
     padding-top: 10px;
+    position: relative;
 `;
 
 export const SContactListContainer = styled.div`
@@ -70,7 +71,8 @@ export const SButtonPanelWrapper = styled.div`
 export const SButtonPanel = styled.div`
     display: flex;
     justify-content: center;
-    height: 3.85rem;
+    align-items: center;
+    height: 4rem;
     width: 100%;
     background: black;
     border-right: 4px solid black;

@@ -53,7 +53,7 @@ export const Dashboard = (): JSX.Element => {
                 const newContacts = contacts?.data?.data?.getContacts.contacts
                     ?.length
                     ? contacts?.data?.data?.getContacts.contacts
-                    : fetchedContacts;
+                    : [];
 
                 setFetchedContacts(newContacts);
             } catch (e) {
