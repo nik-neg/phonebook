@@ -1,14 +1,22 @@
-import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
+import {
+    autocomplete,
+    getAlgoliaResults,
+    OnStateChangeProps,
+} from '@algolia/autocomplete-js';
 import { createElement, Fragment, useEffect, useRef } from 'react';
 import { createRoot, Root } from 'react-dom/client';
 import algoliasearch from 'algoliasearch';
-import { AutoCompleteWrapperProps } from './types';
-import TextField from '@mui/material/TextField';
+import { AutoCompleteWrapperProps, IAutocompleteProps } from './types';
+import { createPortal } from 'react-dom';
 
-export const Autocomplete = (props: any) => {
+export const Autocomplete = ({
+    portalId,
+    isSuggestionsVisible,
+    onHandleSuggestionsVisible,
+    ...otherProps
+}: IAutocompleteProps) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const panelRootRef = useRef<Root | null>(null);
-    let rootRef = useRef<HTMLElement | null>(null);
+    const panelRootRef = useRef<Root | null>(null); // Ref to store the root
 
     useEffect(() => {
         if (!containerRef.current) {
@@ -16,37 +24,43 @@ export const Autocomplete = (props: any) => {
         }
 
         const search = autocomplete({
-            debug: true,
+            ...otherProps,
             container: containerRef.current,
             renderer: { createElement, Fragment, render: () => {} },
-            render: function ({ children }, root) {
-                if (!panelRootRef.current || rootRef.current !== root) {
-                    rootRef.current = root;
-
-                    if (panelRootRef.current) {
-                        panelRootRef.current.unmount();
+            onStateChange: (props: OnStateChangeProps<any>) => {
+                // console.log({ props });
+                onHandleSuggestionsVisible(true);
+            },
+            render: ({ children }, root) => {
+                if (isSuggestionsVisible) {
+                    const portalRoot = document.getElementById(portalId);
+                    if (portalRoot) {
+                        // Create the root only if it doesn't already exist
+                        if (!panelRootRef.current) {
+                            panelRootRef.current = createRoot(portalRoot);
+                        }
+                        // Use the existing root's render method
+                        panelRootRef.current.render(
+                            createPortal(children, portalRoot)
+                        );
                     }
-
-                    panelRootRef.current = createRoot(root);
+                } else {
+                    panelRootRef.current?.unmount();
                 }
-
-                panelRootRef.current?.render(children);
             },
-            onSubmit: function ({ state }) {
-                console.log(state);
-            },
-
-            ...props,
         });
-
-        search?.setActiveItemId(1);
 
         return () => {
             search.destroy();
+            panelRootRef.current?.unmount();
         };
-    }, [props]);
+    }, [otherProps, isSuggestionsVisible]);
 
-    return <div ref={containerRef} />;
+    return (
+        <div ref={containerRef}>
+            <div id={portalId} onClick={() => console.log({ portalId })}></div>
+        </div>
+    );
 };
 
 const appId = import.meta.env.VITE_APP_ID as string;
@@ -54,16 +68,25 @@ const apiKey = import.meta.env.VITE_API_KEY as string;
 const searchClient = algoliasearch(appId, apiKey);
 
 export const AutoCompleteWrapper = ({
+    portalId,
+    isSuggestionsVisible,
+    onHandleSuggestionsVisible,
     attributeName,
     formFieldName,
-    register,
     handleSetValue,
 }: AutoCompleteWrapperProps) => {
     return (
         <Autocomplete
-            insights={true}
-            openOnFocus={true}
-            placeholder="Search for a firstname"
+            portalId={portalId}
+            isSuggestionsVisible={isSuggestionsVisible}
+            onHandleSuggestionsVisible={onHandleSuggestionsVisible}
+            // openOnFocus={true}
+            // onFocus={() => onHandleSuggestionsVisible(true)}
+            // onBlur={() => onHandleSuggestionsVisible(false)}
+            onClick={() =>
+                console.log({ portalId, label: 'AutoCompleteWrapper' })
+            }
+            placeholder={`Search for ${attributeName}`}
             getSources={({
                 query,
                 refresh,
@@ -74,6 +97,7 @@ export const AutoCompleteWrapper = ({
                 refresh: any;
                 setQuery: any;
                 setIsOpen: any;
+                setCollections: any;
             }) => [
                 {
                     sourceId: attributeName,
@@ -96,27 +120,14 @@ export const AutoCompleteWrapper = ({
                             item: any;
                             components: any;
                         }) {
+                            console.log({ item });
                             return (
-                                <div
-                                    className="aa-ItemContent"
-                                    style={{
-                                        zIndex: 999,
-                                        backgroundColor: 'white',
-                                    }}
-                                >
-                                    <TextField
-                                        autoFocus
-                                        autoComplete={'given-name'}
-                                        margin="dense"
-                                        id="name"
-                                        label="First Name"
-                                        fullWidth
-                                        variant="standard"
-                                        {...register}
-                                    />
+                                <div className="aa-ItemContent">
                                     <div
                                         className="aa-ItemTitle"
-                                        style={{ width: '100px' }}
+                                        style={{
+                                            width: '100px',
+                                        }}
                                     >
                                         <components.Highlight
                                             hit={item}
@@ -133,10 +144,11 @@ export const AutoCompleteWrapper = ({
                                                 item[attributeName]
                                             );
                                             setIsOpen(false);
+                                            onHandleSuggestionsVisible(false);
                                             refresh();
                                         }}
                                     >
-                                        Choose firstname
+                                        Select option
                                     </button>
                                 </div>
                             );

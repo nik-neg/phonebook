@@ -20,6 +20,9 @@ import { ContactWithPhoneNumbersAsString } from '../UpdateDialog';
 import '@algolia/autocomplete-theme-classic';
 import { AutoCompleteWrapper } from '../../../common/Autocomplete';
 import TextField from '@mui/material/TextField';
+import { SUploadButtonWrapper, UploadButton } from '../common/UploadButton';
+import { Spacer } from '../../../common/Spacer';
+import { HALF_REM, ONE_REM } from '../../../common/Spacer/constants';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, open } = props;
@@ -40,10 +43,21 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         getValues,
         setValue,
         reset,
+        watch,
     } = useForm({
         defaultValues,
         resolver: yupResolver(addContactSchema),
     });
+
+    // const watchFields = watch([
+    //     'firstName',
+    //     'lastName',
+    //     'nickName',
+    //     'imageFile',
+    //     'address',
+    //     'phoneNumbers',
+    // ]);
+    // console.log({ watchFields });
 
     const handleSetValue = (name: keyof IAddDialogState, value: string) => {
         setValue(name, value);
@@ -139,6 +153,12 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         setValue('imageFile', image?.data?.data?.filterImage);
     };
 
+    const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(true);
+
+    const onHandleSuggestionsVisible = (value: boolean) => {
+        setIsSuggestionsVisible(value);
+    };
+
     return (
         <SAddDialogContainer>
             <Dialog open={open} onClose={handleClose} style={{ zIndex: 2 }}>
@@ -147,97 +167,87 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                     <DialogContentText>
                         Please type into the form:
                     </DialogContentText>
+
+                    <Spacer height={HALF_REM} />
+
                     <AutoCompleteWrapper
+                        portalId={'autocomplete-portal-firstname'}
+                        isSuggestionsVisible={isSuggestionsVisible}
+                        onHandleSuggestionsVisible={onHandleSuggestionsVisible}
                         attributeName={'firstname'}
                         formFieldName={'firstName'}
-                        register={{ ...register('firstName') }}
                         handleSetValue={handleSetValue}
                     />
-
-                    {/*<TextField*/}
-                    {/*    autoFocus*/}
-                    {/*    autoComplete={'given-name'}*/}
-                    {/*    margin="dense"*/}
-                    {/*    id="name"*/}
-                    {/*    label="First Name"*/}
-                    {/*    fullWidth*/}
-                    {/*    variant="standard"*/}
-                    {/*    {...register('firstName')}*/}
-                    {/*/>*/}
-                    {/*<AutoCompleteWrapper attributeName={'firstname'} />*/}
                     {errors.firstName && (
                         <span style={{ color: 'red' }}>
                             {errors.firstName.message}
                         </span>
                     )}
-                    <TextField
-                        autoFocus
-                        autoComplete={'family-name'}
-                        margin="dense"
-                        id="name"
-                        label="Last Name"
-                        fullWidth
-                        variant="standard"
-                        {...register('lastName')}
+
+                    <Spacer height={ONE_REM} />
+
+                    <AutoCompleteWrapper
+                        portalId={'autocomplete-portal-lastname'}
+                        isSuggestionsVisible={isSuggestionsVisible}
+                        onHandleSuggestionsVisible={onHandleSuggestionsVisible}
+                        attributeName={'lastname'}
+                        formFieldName={'lastName'}
+                        handleSetValue={handleSetValue}
                     />
                     {errors.lastName && (
                         <span style={{ color: 'red' }}>
                             {errors.lastName.message}
                         </span>
                     )}
-                    {/*<TextField*/}
-                    {/*    autoFocus*/}
-                    {/*    autoComplete={'username'}*/}
-                    {/*    margin="dense"*/}
-                    {/*    id="name"*/}
-                    {/*    label="Nickname"*/}
-                    {/*    fullWidth*/}
-                    {/*    variant="standard"*/}
-                    {/*    {...register('nickName')}*/}
-                    {/*/>*/}
-                    {/*{errors.nickName && (*/}
-                    {/*    <span style={{ color: 'red' }}>*/}
-                    {/*        {errors.nickName.message}*/}
-                    {/*    </span>*/}
-                    {/*)}*/}
-                    {/*<TextField*/}
-                    {/*    autoFocus*/}
-                    {/*    autoComplete={'address'} // https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform*/}
-                    {/*    margin="dense"*/}
-                    {/*    id="name"*/}
-                    {/*    label="Address"*/}
-                    {/*    fullWidth*/}
-                    {/*    variant="standard"*/}
-                    {/*    {...register('address')}*/}
-                    {/*/>*/}
-                    {/*{errors.address && (*/}
-                    {/*    <span style={{ color: 'red' }}>*/}
-                    {/*        {errors.address.message}*/}
-                    {/*    </span>*/}
-                    {/*)}*/}
-                    {/*<TextField*/}
-                    {/*    autoFocus*/}
-                    {/*    autoComplete={'tel'}*/}
-                    {/*    margin="dense"*/}
-                    {/*    id="name"*/}
-                    {/*    label="Phone Numbers"*/}
-                    {/*    fullWidth*/}
-                    {/*    variant="standard"*/}
-                    {/*    {...register('phoneNumbers')}*/}
-                    {/*/>*/}
-                    {/*{errors.phoneNumbers && (*/}
-                    {/*    <span style={{ color: 'red' }}>*/}
-                    {/*        {errors.phoneNumbers.message}*/}
-                    {/*    </span>*/}
-                    {/*)}*/}
-                    {/*<SUploadButtonWrapper>*/}
-                    {/*    <UploadButton onUpload={handleUploadImage} />*/}
-                    {/*</SUploadButtonWrapper>*/}
-                    {/*{errors.imageFile && (*/}
-                    {/*    <span style={{ color: 'red' }}>*/}
-                    {/*        {errors.imageFile.message}*/}
-                    {/*    </span>*/}
-                    {/*)}*/}
+
+                    <Spacer height={ONE_REM} />
+
+                    <AutoCompleteWrapper
+                        portalId={'autocomplete-portal-username'}
+                        isSuggestionsVisible={isSuggestionsVisible}
+                        onHandleSuggestionsVisible={onHandleSuggestionsVisible}
+                        attributeName={'username'}
+                        formFieldName={'nickName'}
+                        handleSetValue={handleSetValue}
+                    />
+                    <TextField
+                        autoFocus
+                        autoComplete={'address'} // https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
+                        margin="dense"
+                        id="name"
+                        label="Address"
+                        fullWidth
+                        variant="standard"
+                        {...register('address')}
+                    />
+                    {errors.address && (
+                        <span style={{ color: 'red' }}>
+                            {errors.address.message}
+                        </span>
+                    )}
+                    <TextField
+                        autoFocus
+                        autoComplete={'tel'}
+                        margin="dense"
+                        id="name"
+                        label="Phone Numbers"
+                        fullWidth
+                        variant="standard"
+                        {...register('phoneNumbers')}
+                    />
+                    {errors.phoneNumbers && (
+                        <span style={{ color: 'red' }}>
+                            {errors.phoneNumbers.message}
+                        </span>
+                    )}
+                    <SUploadButtonWrapper>
+                        <UploadButton onUpload={handleUploadImage} />
+                    </SUploadButtonWrapper>
+                    {errors.imageFile && (
+                        <span style={{ color: 'red' }}>
+                            {errors.imageFile.message}
+                        </span>
+                    )}
                     {contact.imageFile && (
                         <ImageFilter
                             contact={contact}
@@ -251,6 +261,9 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                     <Button onClick={filterImage}>Filter</Button>
                     <Button onClick={handleSave}>Save</Button>
                 </DialogActions>
+                <div id="autocomplete-portal-firstname"></div>
+                <div id="autocomplete-portal-lastname"></div>
+                <div id="autocomplete-portal-username"></div>
             </Dialog>
         </SAddDialogContainer>
     );
