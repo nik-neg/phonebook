@@ -1,15 +1,12 @@
 import * as React from 'react';
 import { useState } from 'react';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { IAddDialogProps, IFilter } from './types';
-import { SUploadButtonWrapper } from '../common/UploadButton/UploadButton.styles';
-import { UploadButton } from '../common/UploadButton/UploadButton';
+import { IAddDialogProps, IAddDialogState, IFilter } from './types';
 import { SAddDialogContainer } from './AddDialog.styles';
 import {
     createContact,
@@ -20,11 +17,14 @@ import { useForm } from 'react-hook-form';
 import { addContactSchema } from './validation/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ContactWithPhoneNumbersAsString } from '../UpdateDialog';
+import '@algolia/autocomplete-theme-classic';
+import { AutoCompleteWrapper } from '../../../common/Autocomplete';
+import TextField from '@mui/material/TextField';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, open } = props;
 
-    const defaultValues = {
+    const defaultValues: IAddDialogState = {
         firstName: '',
         lastName: '',
         nickName: '',
@@ -39,21 +39,15 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         formState: { errors, isValid },
         getValues,
         setValue,
-        watch,
         reset,
     } = useForm({
         defaultValues,
         resolver: yupResolver(addContactSchema),
     });
 
-    const watchFields = watch([
-        'firstName',
-        'lastName',
-        'nickName',
-        'imageFile',
-        'address',
-        'phoneNumbers',
-    ]);
+    const handleSetValue = (name: keyof IAddDialogState, value: string) => {
+        setValue(name, value);
+    };
 
     const [contact, setContact] = useState<
         Partial<ContactWithPhoneNumbersAsString>
@@ -80,6 +74,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         try {
             lastName = await trigger('lastName');
             firstName = await trigger('firstName');
+
             address = await trigger('address');
             phoneNumbers = await trigger('phoneNumbers');
             imageFile = await trigger('imageFile');
@@ -146,22 +141,30 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
 
     return (
         <SAddDialogContainer>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={open} onClose={handleClose} style={{ zIndex: 2 }}>
                 <DialogTitle>Add Contact</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         Please type into the form:
                     </DialogContentText>
-                    <TextField
-                        autoFocus
-                        autoComplete={'given-name'}
-                        margin="dense"
-                        id="name"
-                        label="First Name"
-                        fullWidth
-                        variant="standard"
-                        {...register('firstName')}
+                    <AutoCompleteWrapper
+                        attributeName={'firstname'}
+                        formFieldName={'firstName'}
+                        register={{ ...register('firstName') }}
+                        handleSetValue={handleSetValue}
                     />
+
+                    {/*<TextField*/}
+                    {/*    autoFocus*/}
+                    {/*    autoComplete={'given-name'}*/}
+                    {/*    margin="dense"*/}
+                    {/*    id="name"*/}
+                    {/*    label="First Name"*/}
+                    {/*    fullWidth*/}
+                    {/*    variant="standard"*/}
+                    {/*    {...register('firstName')}*/}
+                    {/*/>*/}
+                    {/*<AutoCompleteWrapper attributeName={'firstname'} />*/}
                     {errors.firstName && (
                         <span style={{ color: 'red' }}>
                             {errors.firstName.message}
@@ -182,59 +185,59 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                             {errors.lastName.message}
                         </span>
                     )}
-                    <TextField
-                        autoFocus
-                        autoComplete={'username'}
-                        margin="dense"
-                        id="name"
-                        label="Nickname"
-                        fullWidth
-                        variant="standard"
-                        {...register('nickName')}
-                    />
-                    {errors.nickName && (
-                        <span style={{ color: 'red' }}>
-                            {errors.nickName.message}
-                        </span>
-                    )}
-                    <TextField
-                        autoFocus
-                        autoComplete={'address'}
-                        margin="dense"
-                        id="name"
-                        label="Address"
-                        fullWidth
-                        variant="standard"
-                        {...register('address')}
-                    />
-                    {errors.address && (
-                        <span style={{ color: 'red' }}>
-                            {errors.address.message}
-                        </span>
-                    )}
-                    <TextField
-                        autoFocus
-                        autoComplete={'tel'}
-                        margin="dense"
-                        id="name"
-                        label="Phone Numbers"
-                        fullWidth
-                        variant="standard"
-                        {...register('phoneNumbers')}
-                    />
-                    {errors.phoneNumbers && (
-                        <span style={{ color: 'red' }}>
-                            {errors.phoneNumbers.message}
-                        </span>
-                    )}
-                    <SUploadButtonWrapper>
-                        <UploadButton onUpload={handleUploadImage} />
-                    </SUploadButtonWrapper>
-                    {errors.imageFile && (
-                        <span style={{ color: 'red' }}>
-                            {errors.imageFile.message}
-                        </span>
-                    )}
+                    {/*<TextField*/}
+                    {/*    autoFocus*/}
+                    {/*    autoComplete={'username'}*/}
+                    {/*    margin="dense"*/}
+                    {/*    id="name"*/}
+                    {/*    label="Nickname"*/}
+                    {/*    fullWidth*/}
+                    {/*    variant="standard"*/}
+                    {/*    {...register('nickName')}*/}
+                    {/*/>*/}
+                    {/*{errors.nickName && (*/}
+                    {/*    <span style={{ color: 'red' }}>*/}
+                    {/*        {errors.nickName.message}*/}
+                    {/*    </span>*/}
+                    {/*)}*/}
+                    {/*<TextField*/}
+                    {/*    autoFocus*/}
+                    {/*    autoComplete={'address'} // https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform*/}
+                    {/*    margin="dense"*/}
+                    {/*    id="name"*/}
+                    {/*    label="Address"*/}
+                    {/*    fullWidth*/}
+                    {/*    variant="standard"*/}
+                    {/*    {...register('address')}*/}
+                    {/*/>*/}
+                    {/*{errors.address && (*/}
+                    {/*    <span style={{ color: 'red' }}>*/}
+                    {/*        {errors.address.message}*/}
+                    {/*    </span>*/}
+                    {/*)}*/}
+                    {/*<TextField*/}
+                    {/*    autoFocus*/}
+                    {/*    autoComplete={'tel'}*/}
+                    {/*    margin="dense"*/}
+                    {/*    id="name"*/}
+                    {/*    label="Phone Numbers"*/}
+                    {/*    fullWidth*/}
+                    {/*    variant="standard"*/}
+                    {/*    {...register('phoneNumbers')}*/}
+                    {/*/>*/}
+                    {/*{errors.phoneNumbers && (*/}
+                    {/*    <span style={{ color: 'red' }}>*/}
+                    {/*        {errors.phoneNumbers.message}*/}
+                    {/*    </span>*/}
+                    {/*)}*/}
+                    {/*<SUploadButtonWrapper>*/}
+                    {/*    <UploadButton onUpload={handleUploadImage} />*/}
+                    {/*</SUploadButtonWrapper>*/}
+                    {/*{errors.imageFile && (*/}
+                    {/*    <span style={{ color: 'red' }}>*/}
+                    {/*        {errors.imageFile.message}*/}
+                    {/*    </span>*/}
+                    {/*)}*/}
                     {contact.imageFile && (
                         <ImageFilter
                             contact={contact}

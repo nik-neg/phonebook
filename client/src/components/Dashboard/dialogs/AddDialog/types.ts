@@ -13,3 +13,12 @@ export interface IFilter {
 
     saturation: number;
 }
+
+export interface IAddDialogState {
+    firstName: string;
+    lastName: string;
+    nickName: string;
+    imageFile: string;
+    address: string;
+    phoneNumbers: string;
+}
