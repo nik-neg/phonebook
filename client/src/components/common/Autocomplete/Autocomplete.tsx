@@ -58,7 +58,7 @@ export const Autocomplete = ({
 
     return (
         <div ref={containerRef}>
-            <div id={portalId} onClick={() => console.log({ portalId })}></div>
+            <div id={portalId}></div>
         </div>
     );
 };

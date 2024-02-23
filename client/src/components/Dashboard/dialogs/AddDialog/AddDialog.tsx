@@ -161,7 +161,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
 
     return (
         <SAddDialogContainer>
-            <Dialog open={open} onClose={handleClose} style={{ zIndex: 2 }}>
+            <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Add Contact</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -212,7 +212,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                     />
                     <TextField
                         autoFocus
-                        autoComplete={'address'} // https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
+                        autoComplete={'address'}
                         margin="dense"
                         id="name"
                         label="Address"
@@ -225,15 +225,13 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                             {errors.address.message}
                         </span>
                     )}
-                    <TextField
-                        autoFocus
-                        autoComplete={'tel'}
-                        margin="dense"
-                        id="name"
-                        label="Phone Numbers"
-                        fullWidth
-                        variant="standard"
-                        {...register('phoneNumbers')}
+                    <AutoCompleteWrapper
+                        portalId={'autocomplete-portal-dial_code'}
+                        isSuggestionsVisible={isSuggestionsVisible}
+                        onHandleSuggestionsVisible={onHandleSuggestionsVisible}
+                        attributeName={'dial_code'}
+                        formFieldName={'phoneNumbers'}
+                        handleSetValue={handleSetValue}
                     />
                     {errors.phoneNumbers && (
                         <span style={{ color: 'red' }}>
@@ -264,6 +262,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                 <div id="autocomplete-portal-firstname"></div>
                 <div id="autocomplete-portal-lastname"></div>
                 <div id="autocomplete-portal-username"></div>
+                <div id="autocomplete-portal-dial_code"></div>
             </Dialog>
         </SAddDialogContainer>
     );
