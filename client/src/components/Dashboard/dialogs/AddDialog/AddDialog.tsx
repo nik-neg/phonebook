@@ -190,12 +190,12 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                                 variant="standard"
                                 {...register('firstName')}
                             />
-                            {errors.firstName && (
-                                <span style={{ color: 'red' }}>
-                                    {errors.firstName.message}
-                                </span>
-                            )}
                         </>
+                    )}
+                    {errors.firstName && (
+                        <span style={{ color: 'red' }}>
+                            {errors.firstName.message}
+                        </span>
                     )}
 
                     <Spacer height={ONE_REM} />
@@ -224,12 +224,12 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                                 variant="standard"
                                 {...register('lastName')}
                             />
-                            {errors.lastName && (
-                                <span style={{ color: 'red' }}>
-                                    {errors.lastName.message}
-                                </span>
-                            )}
                         </>
+                    )}
+                    {errors.lastName && (
+                        <span style={{ color: 'red' }}>
+                            {errors.lastName.message}
+                        </span>
                     )}
 
                     <Spacer height={ONE_REM} />
@@ -283,12 +283,12 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                                 variant="standard"
                                 {...register('address')}
                             />
-                            {errors.address && (
-                                <span style={{ color: 'red' }}>
-                                    {errors.address.message}
-                                </span>
-                            )}
                         </>
+                    )}
+                    {errors.address && (
+                        <span style={{ color: 'red' }}>
+                            {errors.address.message}
+                        </span>
                     )}
 
                     <Spacer height={ONE_REM} />
@@ -317,12 +317,12 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                                 variant="standard"
                                 {...register('phoneNumbers')}
                             />
-                            {errors.phoneNumbers && (
-                                <span style={{ color: 'red' }}>
-                                    {errors.phoneNumbers.message}
-                                </span>
-                            )}
                         </>
+                    )}
+                    {errors.phoneNumbers && (
+                        <span style={{ color: 'red' }}>
+                            {errors.phoneNumbers.message}
+                        </span>
                     )}
 
                     <SUploadButtonWrapper>
