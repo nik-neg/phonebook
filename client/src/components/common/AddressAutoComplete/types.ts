@@ -1,7 +1,6 @@
 import { IAddDialogState } from '../../Dashboard/dialogs/AddDialog';
 
 export interface AddressAutoCompleteProps {
-    isSuggestionsVisible: boolean;
     handleSetValue: (name: keyof IAddDialogState, value: string) => void;
     formFieldName: keyof IAddDialogState;
 }

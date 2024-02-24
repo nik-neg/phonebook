@@ -3,7 +3,12 @@ import { createElement, Fragment, useEffect, useRef, useState } from 'react';
 import algoliasearch from 'algoliasearch';
 import { AutoCompleteWrapperProps, IAutocompleteProps } from './types';
 import { createPortal } from 'react-dom';
-import { SAutocompleteWrapper, STextOption } from './Autocomplete.styles';
+import {
+    SAutocompleteWrapper,
+    SButton,
+    SItemContent,
+    STextOption,
+} from './Autocomplete.styles';
 
 export const Autocomplete = ({
     portalId,
@@ -114,7 +119,7 @@ export const AutoCompleteWrapper = ({
                                     components: any;
                                 }) {
                                     return (
-                                        <div className="aa-ItemContent">
+                                        <SItemContent className="aa-ItemContent">
                                             <STextOption
                                                 className="aa-ItemTitle"
                                                 role={'option'}
@@ -124,7 +129,7 @@ export const AutoCompleteWrapper = ({
                                                     attribute={attributeName}
                                                 />
                                             </STextOption>
-                                            <button
+                                            <SButton
                                                 className="aa-ItemActionButton"
                                                 onClick={(event) => {
                                                     event.stopPropagation();
@@ -145,8 +150,8 @@ export const AutoCompleteWrapper = ({
                                                 }}
                                             >
                                                 Select option
-                                            </button>
-                                        </div>
+                                            </SButton>
+                                        </SItemContent>
                                     );
                                 },
                             },

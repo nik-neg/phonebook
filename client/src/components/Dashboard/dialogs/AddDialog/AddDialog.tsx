@@ -273,9 +273,6 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
 
                     {isSuggestionsVisible[ESuggestionType.ADDRESS] ? (
                         <AddressAutoComplete
-                            isSuggestionsVisible={
-                                isSuggestionsVisible[ESuggestionType.ADDRESS]
-                            }
                             formFieldName={'address'}
                             handleSetValue={handleSetValue}
                         />

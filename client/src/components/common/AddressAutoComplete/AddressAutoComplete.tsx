@@ -51,7 +51,6 @@ export const AddressAutoCompleteWithAdornment = (props: any) => {
 };
 
 export const AddressAutoComplete = ({
-    isSuggestionsVisible,
     handleSetValue,
     formFieldName,
 }: AddressAutoCompleteProps) => {
