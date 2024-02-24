@@ -3,19 +3,24 @@ import * as React from 'react';
 import { ChangeEvent, useRef } from 'react';
 import {
     SAddressAutoComplete,
+    SAddressAutoCompleteWrapper,
     SContentElement,
     SContentElementWrapper,
     SContentSuggestions,
+    SDataListCountries,
+    SInput,
+    SInputWrapper,
+    SOption,
     SResultSmall,
     SResultStrong,
-    SSAddressAutoCompleteWrapper,
 } from './AddressAutoComplete.styles';
 import { AddressAutoCompleteProps, InputAdornmentWrapperProps } from './types';
 import { ONE_REM } from '../Spacer/constants';
 import { Spacer } from '../Spacer';
 import { InputAdornment } from '@mui/material';
 import { FiSearch } from 'react-icons/all';
-import { noop } from 'lodash-es';
+import { shouldActivate } from '../../../utils';
+import { COUNTRIES } from './constants';
 
 export const InputAdornmentWrapper = ({
     color,
@@ -54,9 +59,6 @@ export const AddressAutoComplete = ({
     handleSetValue,
     formFieldName,
 }: AddressAutoCompleteProps) => {
-    const handlePlaces = () => {
-        noop();
-    };
     const {
         ready,
         value,
@@ -64,7 +66,7 @@ export const AddressAutoComplete = ({
         setValue,
         clearSuggestions,
     } = usePlacesAutocomplete({
-        callbackName: 'handlePlaces',
+        callbackName: null,
         requestOptions: {
             /* Define search scope here */
         },
@@ -75,31 +77,27 @@ export const AddressAutoComplete = ({
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
         // Update the keyword of the input element
         setValue(e?.target?.value);
+        handleSetValue(formFieldName, e?.target?.value);
     };
 
     const handleSelect =
         ({ description }: { description: string }) =>
         () => {
-            // When the user selects a place, we can replace the keyword without request data from API
-            // by setting the second parameter to "false"
             setValue(description, false);
             clearSuggestions();
             handleSetValue(formFieldName, description);
         };
 
     const renderSuggestions = () =>
-        data.map((suggestion) => {
+        data.map((suggestion, index) => {
             const {
                 place_id,
                 structured_formatting: { main_text, secondary_text },
             } = suggestion;
 
             return (
-                <SContentElementWrapper>
-                    <SContentElement
-                        key={place_id}
-                        onClick={handleSelect(suggestion)}
-                    >
+                <SContentElementWrapper key={place_id}>
+                    <SContentElement onClick={handleSelect(suggestion)}>
                         <SResultStrong>{main_text}</SResultStrong>
                         <SResultSmall>{secondary_text}</SResultSmall>
                     </SContentElement>
@@ -108,22 +106,53 @@ export const AddressAutoComplete = ({
         });
 
     return (
-        <SSAddressAutoCompleteWrapper ref={ref}>
-            <AddressAutoCompleteWithAdornment
-                value={value}
-                onChange={handleInput}
-                disabled={!ready}
-                placeholder="Search for address"
-                role="searchbox"
-            />
-            {status === 'OK' && (
+        <SAddressAutoCompleteWrapper ref={ref}>
+            {shouldActivate(import.meta.env.VITE_SHOULD_USE_LOCATION) ? (
                 <>
-                    <Spacer height={ONE_REM} />
-                    <SContentSuggestions>
-                        {renderSuggestions()}
-                    </SContentSuggestions>
+                    <AddressAutoCompleteWithAdornment
+                        value={value}
+                        onChange={handleInput}
+                        disabled={!ready}
+                        placeholder="Search for address"
+                        role="searchbox"
+                        list="countrydata"
+                        id="country"
+                        name="country"
+                        autoComplete="off"
+                    />
+                    {status === 'OK' && (
+                        <>
+                            <Spacer height={ONE_REM} />
+                            <SContentSuggestions>
+                                {renderSuggestions()}
+                            </SContentSuggestions>
+                        </>
+                    )}
+                </>
+            ) : (
+                <>
+                    <SDataListCountries id="countrydata">
+                        {COUNTRIES.map((country, index) => (
+                            <SOption key={index.toString() + country}>
+                                {country}
+                            </SOption>
+                        ))}
+                    </SDataListCountries>
+                    <SInputWrapper>
+                        <SInput
+                            value={value}
+                            onChange={handleInput}
+                            disabled={!ready}
+                            placeholder="Search for address"
+                            role="searchbox"
+                            list="countrydata"
+                            id="country"
+                            name="country"
+                            autoComplete="off"
+                        />
+                    </SInputWrapper>
                 </>
             )}
-        </SSAddressAutoCompleteWrapper>
+        </SAddressAutoCompleteWrapper>
     );
 };

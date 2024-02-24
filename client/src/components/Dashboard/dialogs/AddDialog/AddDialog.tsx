@@ -27,8 +27,8 @@ import { AutoCompleteWrapper } from '../../../common/Autocomplete';
 import { SUploadButtonWrapper, UploadButton } from '../common/UploadButton';
 import { Spacer } from '../../../common/Spacer';
 import { HALF_REM, ONE_REM } from '../../../common/Spacer/constants';
-import { AddressAutoComplete } from '../../../common/AddressAutoComplete/AddressAutoComplete';
 import TextField from '@mui/material/TextField';
+import { AddressAutoComplete } from '../../../common/AddressAutoComplete';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, open } = props;

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 
-export const SSAddressAutoCompleteWrapper = styled.div``;
+export const SAddressAutoCompleteWrapper = styled.div``;
 
 export const SAddressAutoComplete = styled(TextField)`
     width: 100%;
@@ -43,3 +43,17 @@ export const SContentElement = styled.div`
         background-color: #f5f5f5;
     }
 `;
+
+export const SDataListCountries = styled.datalist`
+    width: 100%;
+`;
+
+export const SInputWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+`;
+
+export const SOption = styled.option``;
+
+export const SInput = styled.input``;
