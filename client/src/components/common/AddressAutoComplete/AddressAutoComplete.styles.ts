@@ -5,12 +5,21 @@ export const SAddressAutoCompleteWrapper = styled.div``;
 
 export const SAddressAutoComplete = styled(TextField)`
     width: 100%;
+
     .MuiInputBase-root {
         font-size: 15px;
         color: black;
-      &::placeholder {
-        opacity: 1
-      },
+
+        &::placeholder {
+            opacity: 1;
+        }
+    }
+
+    .MuiOutlinedInput-root {
+        &.Mui-focused fieldset {
+            border: 1px solid black;
+            box-shadow: 0 0 0 0.1rem #d9d3ff, inset 0 0 0 0.1rem #d9d3ff;
+        }
     }
 `;
 
