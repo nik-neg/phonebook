@@ -154,6 +154,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
             'autocomplete-portal-lastname': true,
             'autocomplete-portal-username': true,
             'autocomplete-portal-dial_code': true,
+            'autocomplete-address': true,
         });
 
     const onHandleSuggestionsVisible = (portalId: string, value: boolean) => {
@@ -190,7 +191,6 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         <>
                             <TextField
                                 autoFocus
-                                autoComplete={'given-name'}
                                 margin="dense"
                                 id="name"
                                 label="First Name"
@@ -225,7 +225,6 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         <>
                             <TextField
                                 autoFocus
-                                autoComplete={'family-name'}
                                 margin="dense"
                                 id="name"
                                 label="Last Name"
@@ -260,7 +259,6 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         <>
                             <TextField
                                 autoFocus
-                                autoComplete={'username'}
                                 margin="dense"
                                 id="name"
                                 label="Nickname"
@@ -273,7 +271,32 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
 
                     <Spacer height={ONE_REM} />
 
-                    <AddressAutoComplete />
+                    {isSuggestionsVisible[ESuggestionType.ADDRESS] ? (
+                        <AddressAutoComplete
+                            isSuggestionsVisible={
+                                isSuggestionsVisible[ESuggestionType.ADDRESS]
+                            }
+                            formFieldName={'address'}
+                            handleSetValue={handleSetValue}
+                        />
+                    ) : (
+                        <>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Address"
+                                fullWidth
+                                variant="standard"
+                                {...register('address')}
+                            />
+                            {errors.address && (
+                                <span style={{ color: 'red' }}>
+                                    {errors.address.message}
+                                </span>
+                            )}
+                        </>
+                    )}
 
                     <Spacer height={ONE_REM} />
 
@@ -294,7 +317,6 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                         <>
                             <TextField
                                 autoFocus
-                                autoComplete={'tel'}
                                 margin="dense"
                                 id="name"
                                 label="Phone Numbers"

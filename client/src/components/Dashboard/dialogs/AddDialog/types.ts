@@ -27,6 +27,7 @@ export enum ESuggestionType {
     FIRST_NAME = 'autocomplete-portal-firstname',
     LAST_NAME = 'autocomplete-portal-lastname',
     USER_NAME = 'autocomplete-portal-username',
+    ADDRESS = 'autocomplete-address',
     TELEPHONE = 'autocomplete-portal-dial_code',
 }
 
@@ -35,4 +36,5 @@ export type SuggestionState = {
     'autocomplete-portal-lastname': boolean;
     'autocomplete-portal-username': boolean;
     'autocomplete-portal-dial_code': boolean;
+    'autocomplete-address': boolean;
 };

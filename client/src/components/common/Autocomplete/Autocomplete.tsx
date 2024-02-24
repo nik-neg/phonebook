@@ -3,6 +3,7 @@ import { createElement, Fragment, useEffect, useRef, useState } from 'react';
 import algoliasearch from 'algoliasearch';
 import { AutoCompleteWrapperProps, IAutocompleteProps } from './types';
 import { createPortal } from 'react-dom';
+import { SAutocompleteWrapper, STextOption } from './Autocomplete.styles';
 
 export const Autocomplete = ({
     portalId,
@@ -65,91 +66,94 @@ export const AutoCompleteWrapper = ({
     handleSetValue,
 }: AutoCompleteWrapperProps) => {
     return (
-        <Autocomplete
-            portalId={portalId}
-            isSuggestionsVisible={isSuggestionsVisible}
-            placeholder={`Search for ${attributeName}`}
-            getSources={({
-                query,
-                refresh,
-                setQuery,
-                setIsOpen,
-            }: {
-                query?: any;
-                refresh?: any;
-                setQuery?: any;
-                setIsOpen?: any;
-            }) => {
-                return [
-                    {
-                        sourceId: attributeName,
-                        getItems() {
-                            return getAlgoliaResults({
-                                searchClient,
-                                queries: [
-                                    {
-                                        indexName: 'phonebook',
-                                        query,
+        <SAutocompleteWrapper>
+            <Autocomplete
+                portalId={portalId}
+                isSuggestionsVisible={isSuggestionsVisible}
+                placeholder={`Search for ${attributeName}`}
+                role="searchbox"
+                getSources={({
+                    query,
+                    refresh,
+                    setQuery,
+                    setIsOpen,
+                }: {
+                    query?: any;
+                    refresh?: any;
+                    setQuery?: any;
+                    setIsOpen?: any;
+                }) => {
+                    return [
+                        {
+                            sourceId: attributeName,
+                            getItems() {
+                                return getAlgoliaResults({
+                                    searchClient,
+                                    queries: [
+                                        {
+                                            indexName: 'phonebook',
+                                            query,
+                                        },
+                                    ],
+                                    transformResponse({ hits }) {
+                                        const data = hits[0];
+                                        return data.filter((item: any) =>
+                                            item.hasOwnProperty(
+                                                attributeName.toLowerCase()
+                                            )
+                                        );
                                     },
-                                ],
-                                transformResponse({ hits }) {
-                                    const data = hits[0];
-                                    return data.filter((item: any) =>
-                                        item.hasOwnProperty(
-                                            attributeName.toLowerCase()
-                                        )
+                                });
+                            },
+                            templates: {
+                                item({
+                                    item,
+                                    components,
+                                }: {
+                                    item: any;
+                                    components: any;
+                                }) {
+                                    return (
+                                        <div className="aa-ItemContent">
+                                            <STextOption
+                                                className="aa-ItemTitle"
+                                                role={'option'}
+                                            >
+                                                <components.Highlight
+                                                    hit={item}
+                                                    attribute={attributeName}
+                                                />
+                                            </STextOption>
+                                            <button
+                                                className="aa-ItemActionButton"
+                                                onClick={(event) => {
+                                                    event.stopPropagation();
+
+                                                    setQuery(
+                                                        item[attributeName]
+                                                    );
+                                                    handleSetValue(
+                                                        formFieldName,
+                                                        item[attributeName]
+                                                    );
+                                                    setIsOpen(false);
+                                                    refresh();
+                                                    onHandleSuggestionsVisible(
+                                                        portalId,
+                                                        false
+                                                    );
+                                                }}
+                                            >
+                                                Select option
+                                            </button>
+                                        </div>
                                     );
                                 },
-                            });
-                        },
-                        templates: {
-                            item({
-                                item,
-                                components,
-                            }: {
-                                item: any;
-                                components: any;
-                            }) {
-                                return (
-                                    <div className="aa-ItemContent">
-                                        <div
-                                            className="aa-ItemTitle"
-                                            style={{
-                                                width: '100px',
-                                            }}
-                                        >
-                                            <components.Highlight
-                                                hit={item}
-                                                attribute={attributeName}
-                                            />
-                                        </div>
-                                        <button
-                                            className="aa-ItemActionButton"
-                                            onClick={(event) => {
-                                                event.stopPropagation();
-
-                                                setQuery(item[attributeName]);
-                                                handleSetValue(
-                                                    formFieldName,
-                                                    item[attributeName]
-                                                );
-                                                setIsOpen(false);
-                                                refresh();
-                                                onHandleSuggestionsVisible(
-                                                    portalId,
-                                                    false
-                                                );
-                                            }}
-                                        >
-                                            Select option
-                                        </button>
-                                    </div>
-                                );
                             },
                         },
-                    },
-                ];
-            }}
-        />
+                    ];
+                }}
+            />
+        </SAutocompleteWrapper>
     );
 };
