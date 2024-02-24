@@ -29,6 +29,8 @@ import { Spacer } from '../../../common/Spacer';
 import { HALF_REM, ONE_REM } from '../../../common/Spacer/constants';
 import TextField from '@mui/material/TextField';
 import { AddressAutoComplete } from '../../../common/AddressAutoComplete';
+import { triggerValidation } from '../common/utils';
+import { keys, omit } from 'lodash-es';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, open } = props;
@@ -72,26 +74,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const handleClose = () => {
         clearForm();
         onClose?.();
-    };
-
-    const triggerValidation = async (): Promise<boolean> => {
-        let lastName = false;
-        let firstName = false;
-        let address = false;
-        let phoneNumbers = false;
-        let imageFile = false;
-        try {
-            lastName = await trigger('lastName');
-            firstName = await trigger('firstName');
-
-            address = await trigger('address');
-            phoneNumbers = await trigger('phoneNumbers');
-            imageFile = await trigger('imageFile');
-        } catch (e) {
-            console.log(e);
-        }
-
-        return lastName && firstName && address && phoneNumbers && imageFile;
+        setIsSuggestionsVisible(defaultSuggestionsVisible);
     };
 
     const clearForm = () => {
@@ -102,7 +85,14 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
 
     const handleSave = async () => {
         try {
-            if (await triggerValidation()) {
+            if (
+                await triggerValidation(
+                    trigger,
+                    keys(omit(defaultValues, 'nickName')) as Array<
+                        keyof IAddDialogState
+                    >
+                )
+            ) {
                 await createContact(getValues());
                 clearForm();
                 setIsSuggestionsVisible(defaultSuggestionsVisible);
@@ -275,8 +265,12 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
 
                     {isSuggestionsVisible[ESuggestionType.ADDRESS] ? (
                         <AddressAutoComplete
+                            portalId={ESuggestionType.ADDRESS}
                             formFieldName={'address'}
                             handleSetValue={handleSetValue}
+                            onHandleSuggestionsVisible={
+                                onHandleSuggestionsVisible
+                            }
                         />
                     ) : (
                         <>

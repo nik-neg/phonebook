@@ -56,8 +56,10 @@ export const AddressAutoCompleteWithAdornment = (props: any) => {
 };
 
 export const AddressAutoComplete = ({
-    handleSetValue,
+    portalId,
     formFieldName,
+    handleSetValue,
+    onHandleSuggestionsVisible,
 }: AddressAutoCompleteProps) => {
     const {
         ready,
@@ -86,6 +88,7 @@ export const AddressAutoComplete = ({
             setValue(description, false);
             clearSuggestions();
             handleSetValue(formFieldName, description);
+            onHandleSuggestionsVisible(portalId, false);
         };
 
     const renderSuggestions = () =>
