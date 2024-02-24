@@ -1,10 +1,5 @@
-import {
-    autocomplete,
-    getAlgoliaResults,
-    OnStateChangeProps,
-} from '@algolia/autocomplete-js';
-import { createElement, Fragment, useEffect, useRef } from 'react';
-import { createRoot, Root } from 'react-dom/client';
+import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js';
+import { createElement, Fragment, useEffect, useRef, useState } from 'react';
 import algoliasearch from 'algoliasearch';
 import { AutoCompleteWrapperProps, IAutocompleteProps } from './types';
 import { createPortal } from 'react-dom';
@@ -12,11 +7,11 @@ import { createPortal } from 'react-dom';
 export const Autocomplete = ({
     portalId,
     isSuggestionsVisible,
-    onHandleSuggestionsVisible,
     ...otherProps
 }: IAutocompleteProps) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const panelRootRef = useRef<Root | null>(null); // Ref to store the root
+    const [childrenElements, setChildrenElements] =
+        useState<JSX.Element | null>(null);
 
     useEffect(() => {
         if (!containerRef.current) {
@@ -27,38 +22,32 @@ export const Autocomplete = ({
             ...otherProps,
             container: containerRef.current,
             renderer: { createElement, Fragment, render: () => {} },
-            onStateChange: (props: OnStateChangeProps<any>) => {
-                // console.log({ props });
-                onHandleSuggestionsVisible(true);
-            },
             render: ({ children }, root) => {
                 if (isSuggestionsVisible) {
-                    const portalRoot = document.getElementById(portalId);
-                    if (portalRoot) {
-                        // Create the root only if it doesn't already exist
-                        if (!panelRootRef.current) {
-                            panelRootRef.current = createRoot(portalRoot);
-                        }
-                        // Use the existing root's render method
-                        panelRootRef.current.render(
-                            createPortal(children, portalRoot)
-                        );
-                    }
+                    setChildrenElements(<Fragment>{children}</Fragment>);
                 } else {
-                    panelRootRef.current?.unmount();
+                    setChildrenElements(null);
                 }
             },
         });
 
         return () => {
             search.destroy();
-            panelRootRef.current?.unmount();
         };
-    }, [otherProps, isSuggestionsVisible]);
+    }, [isSuggestionsVisible]);
 
     return (
         <div ref={containerRef}>
             <div id={portalId}></div>
+            {isSuggestionsVisible &&
+            portalId &&
+            document.getElementById(portalId) &&
+            childrenElements
+                ? createPortal(
+                      childrenElements,
+                      document.getElementById(portalId)!
+                  )
+                : null}
         </div>
     );
 };
@@ -79,13 +68,6 @@ export const AutoCompleteWrapper = ({
         <Autocomplete
             portalId={portalId}
             isSuggestionsVisible={isSuggestionsVisible}
-            onHandleSuggestionsVisible={onHandleSuggestionsVisible}
-            // openOnFocus={true}
-            // onFocus={() => onHandleSuggestionsVisible(true)}
-            // onBlur={() => onHandleSuggestionsVisible(false)}
-            onClick={() =>
-                console.log({ portalId, label: 'AutoCompleteWrapper' })
-            }
             placeholder={`Search for ${attributeName}`}
             getSources={({
                 query,
@@ -93,69 +75,81 @@ export const AutoCompleteWrapper = ({
                 setQuery,
                 setIsOpen,
             }: {
-                query: any;
-                refresh: any;
-                setQuery: any;
-                setIsOpen: any;
-                setCollections: any;
-            }) => [
-                {
-                    sourceId: attributeName,
-                    getItems() {
-                        return getAlgoliaResults({
-                            searchClient,
-                            queries: [
-                                {
-                                    indexName: 'phonebook',
-                                    query,
+                query?: any;
+                refresh?: any;
+                setQuery?: any;
+                setIsOpen?: any;
+            }) => {
+                return [
+                    {
+                        sourceId: attributeName,
+                        getItems() {
+                            return getAlgoliaResults({
+                                searchClient,
+                                queries: [
+                                    {
+                                        indexName: 'phonebook',
+                                        query,
+                                    },
+                                ],
+                                transformResponse({ hits }) {
+                                    const data = hits[0];
+                                    return data.filter((item: any) =>
+                                        item.hasOwnProperty(
+                                            attributeName.toLowerCase()
+                                        )
+                                    );
                                 },
-                            ],
-                        });
-                    },
-                    templates: {
-                        item({
-                            item,
-                            components,
-                        }: {
-                            item: any;
-                            components: any;
-                        }) {
-                            console.log({ item });
-                            return (
-                                <div className="aa-ItemContent">
-                                    <div
-                                        className="aa-ItemTitle"
-                                        style={{
-                                            width: '100px',
-                                        }}
-                                    >
-                                        <components.Highlight
-                                            hit={item}
-                                            attribute={attributeName}
-                                        />
+                            });
+                        },
+                        templates: {
+                            item({
+                                item,
+                                components,
+                            }: {
+                                item: any;
+                                components: any;
+                            }) {
+                                return (
+                                    <div className="aa-ItemContent">
+                                        <div
+                                            className="aa-ItemTitle"
+                                            style={{
+                                                width: '100px',
+                                            }}
+                                        >
+                                            <components.Highlight
+                                                hit={item}
+                                                attribute={attributeName}
+                                            />
+                                        </div>
+                                        <button
+                                            className="aa-ItemActionButton"
+                                            onClick={(event) => {
+                                                event.stopPropagation();
+
+                                                setQuery(item[attributeName]);
+                                                handleSetValue(
+                                                    formFieldName,
+                                                    item[attributeName]
+                                                );
+                                                setIsOpen(false);
+                                                refresh();
+                                                onHandleSuggestionsVisible(
+                                                    portalId,
+                                                    false
+                                                );
+                                            }}
+                                        >
+                                            Select option
+                                        </button>
                                     </div>
-                                    <button
-                                        className="aa-ItemActionButton"
-                                        onClick={(event) => {
-                                            event.stopPropagation();
-                                            setQuery(item[attributeName]);
-                                            handleSetValue(
-                                                formFieldName,
-                                                item[attributeName]
-                                            );
-                                            setIsOpen(false);
-                                            onHandleSuggestionsVisible(false);
-                                            refresh();
-                                        }}
-                                    >
-                                        Select option
-                                    </button>
-                                </div>
-                            );
+                                );
+                            },
                         },
                     },
-                },
-            ]}
+                ];
+            }}
         />
     );
 };

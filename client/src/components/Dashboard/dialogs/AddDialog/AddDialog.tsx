@@ -153,7 +153,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
             'autocomplete-portal-firstname': true,
             'autocomplete-portal-lastname': true,
             'autocomplete-portal-username': true,
-            'autocomplete-portal-telephone': true,
+            'autocomplete-portal-dial_code': true,
         });
 
     const onHandleSuggestionsVisible = (portalId: string, value: boolean) => {

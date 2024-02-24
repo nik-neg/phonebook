@@ -3,7 +3,6 @@ import { IAddDialogState } from '../../Dashboard/dialogs/AddDialog';
 export interface IAutocompleteProps {
     portalId: string;
     isSuggestionsVisible: boolean;
-    onHandleSuggestionsVisible: (portalId: string, value: boolean) => void;
     [key: string]: any;
 }
 export interface AutoCompleteWrapperProps {
