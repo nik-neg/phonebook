@@ -22,3 +22,17 @@ export interface IAddDialogState {
     address: string;
     phoneNumbers: string;
 }
+
+export enum ESuggestionType {
+    FIRST_NAME = 'autocomplete-portal-firstname',
+    LAST_NAME = 'autocomplete-portal-lastname',
+    USER_NAME = 'autocomplete-portal-username',
+    TELEPHONE = 'autocomplete-portal-telephone',
+}
+
+export type SuggestionState = {
+    'autocomplete-portal-firstname': boolean;
+    'autocomplete-portal-lastname': boolean;
+    'autocomplete-portal-username': boolean;
+    'autocomplete-portal-telephone': boolean;
+};

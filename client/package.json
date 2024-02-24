@@ -29,6 +29,7 @@
     "react-parallax-tilt": "^1.7.109",
     "react-redux": "^8.0.5",
     "styled-components": "^5.3.6",
+    "use-places-autocomplete": "^4.0.1",
     "yup": "^1.0.2"
   },
   "resolutions": {

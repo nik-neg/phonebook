@@ -1,13 +1,18 @@
 import * as React from 'react';
 import { useState } from 'react';
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { IAddDialogProps, IAddDialogState, IFilter } from './types';
-import { SAddDialogContainer } from './AddDialog.styles';
+import {
+    ESuggestionType,
+    IAddDialogProps,
+    IAddDialogState,
+    IFilter,
+    SuggestionState,
+} from './types';
+import { SAddDialogContainer, SDialog } from './AddDialog.styles';
 import {
     createContact,
     prefetchFilteredImage,
@@ -19,10 +24,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ContactWithPhoneNumbersAsString } from '../UpdateDialog';
 import '@algolia/autocomplete-theme-classic';
 import { AutoCompleteWrapper } from '../../../common/Autocomplete';
-import TextField from '@mui/material/TextField';
 import { SUploadButtonWrapper, UploadButton } from '../common/UploadButton';
 import { Spacer } from '../../../common/Spacer';
 import { HALF_REM, ONE_REM } from '../../../common/Spacer/constants';
+import { AddressAutoComplete } from '../../../common/AddressAutoComplete/AddressAutoComplete';
+import TextField from '@mui/material/TextField';
 
 export const AddDialog = (props: IAddDialogProps): JSX.Element => {
     const { onClose, open } = props;
@@ -43,21 +49,10 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         getValues,
         setValue,
         reset,
-        watch,
     } = useForm({
         defaultValues,
         resolver: yupResolver(addContactSchema),
     });
-
-    // const watchFields = watch([
-    //     'firstName',
-    //     'lastName',
-    //     'nickName',
-    //     'imageFile',
-    //     'address',
-    //     'phoneNumbers',
-    // ]);
-    // console.log({ watchFields });
 
     const handleSetValue = (name: keyof IAddDialogState, value: string) => {
         setValue(name, value);
@@ -153,15 +148,23 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         setValue('imageFile', image?.data?.data?.filterImage);
     };
 
-    const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(true);
+    const [isSuggestionsVisible, setIsSuggestionsVisible] =
+        useState<SuggestionState>({
+            'autocomplete-portal-firstname': true,
+            'autocomplete-portal-lastname': true,
+            'autocomplete-portal-username': true,
+            'autocomplete-portal-telephone': true,
+        });
 
-    const onHandleSuggestionsVisible = (value: boolean) => {
-        setIsSuggestionsVisible(value);
+    const onHandleSuggestionsVisible = (portalId: string, value: boolean) => {
+        setIsSuggestionsVisible((prevState) => {
+            return { ...prevState, [portalId]: value };
+        });
     };
 
     return (
         <SAddDialogContainer>
-            <Dialog open={open} onClose={handleClose}>
+            <SDialog open={open} onClose={handleClose}>
                 <DialogTitle>Add Contact</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -170,74 +173,143 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
 
                     <Spacer height={HALF_REM} />
 
-                    <AutoCompleteWrapper
-                        portalId={'autocomplete-portal-firstname'}
-                        isSuggestionsVisible={isSuggestionsVisible}
-                        onHandleSuggestionsVisible={onHandleSuggestionsVisible}
-                        attributeName={'firstname'}
-                        formFieldName={'firstName'}
-                        handleSetValue={handleSetValue}
-                    />
-                    {errors.firstName && (
-                        <span style={{ color: 'red' }}>
-                            {errors.firstName.message}
-                        </span>
+                    {isSuggestionsVisible[ESuggestionType.FIRST_NAME] ? (
+                        <AutoCompleteWrapper
+                            portalId={ESuggestionType.FIRST_NAME}
+                            isSuggestionsVisible={
+                                isSuggestionsVisible[ESuggestionType.FIRST_NAME]
+                            }
+                            onHandleSuggestionsVisible={
+                                onHandleSuggestionsVisible
+                            }
+                            attributeName={'firstname'}
+                            formFieldName={'firstName'}
+                            handleSetValue={handleSetValue}
+                        />
+                    ) : (
+                        <>
+                            <TextField
+                                autoFocus
+                                autoComplete={'given-name'}
+                                margin="dense"
+                                id="name"
+                                label="First Name"
+                                fullWidth
+                                variant="standard"
+                                {...register('firstName')}
+                            />
+                            {errors.firstName && (
+                                <span style={{ color: 'red' }}>
+                                    {errors.firstName.message}
+                                </span>
+                            )}
+                        </>
                     )}
 
                     <Spacer height={ONE_REM} />
 
-                    <AutoCompleteWrapper
-                        portalId={'autocomplete-portal-lastname'}
-                        isSuggestionsVisible={isSuggestionsVisible}
-                        onHandleSuggestionsVisible={onHandleSuggestionsVisible}
-                        attributeName={'lastname'}
-                        formFieldName={'lastName'}
-                        handleSetValue={handleSetValue}
-                    />
-                    {errors.lastName && (
-                        <span style={{ color: 'red' }}>
-                            {errors.lastName.message}
-                        </span>
+                    {isSuggestionsVisible[ESuggestionType.LAST_NAME] ? (
+                        <AutoCompleteWrapper
+                            portalId={ESuggestionType.LAST_NAME}
+                            isSuggestionsVisible={
+                                isSuggestionsVisible[ESuggestionType.LAST_NAME]
+                            }
+                            onHandleSuggestionsVisible={
+                                onHandleSuggestionsVisible
+                            }
+                            attributeName={'lastname'}
+                            formFieldName={'lastName'}
+                            handleSetValue={handleSetValue}
+                        />
+                    ) : (
+                        <>
+                            <TextField
+                                autoFocus
+                                autoComplete={'family-name'}
+                                margin="dense"
+                                id="name"
+                                label="Last Name"
+                                fullWidth
+                                variant="standard"
+                                {...register('lastName')}
+                            />
+                            {errors.lastName && (
+                                <span style={{ color: 'red' }}>
+                                    {errors.lastName.message}
+                                </span>
+                            )}
+                        </>
                     )}
 
                     <Spacer height={ONE_REM} />
 
-                    <AutoCompleteWrapper
-                        portalId={'autocomplete-portal-username'}
-                        isSuggestionsVisible={isSuggestionsVisible}
-                        onHandleSuggestionsVisible={onHandleSuggestionsVisible}
-                        attributeName={'username'}
-                        formFieldName={'nickName'}
-                        handleSetValue={handleSetValue}
-                    />
-                    <TextField
-                        autoFocus
-                        autoComplete={'address'}
-                        margin="dense"
-                        id="name"
-                        label="Address"
-                        fullWidth
-                        variant="standard"
-                        {...register('address')}
-                    />
-                    {errors.address && (
-                        <span style={{ color: 'red' }}>
-                            {errors.address.message}
-                        </span>
+                    {isSuggestionsVisible[ESuggestionType.USER_NAME] ? (
+                        <AutoCompleteWrapper
+                            portalId={ESuggestionType.USER_NAME}
+                            isSuggestionsVisible={
+                                isSuggestionsVisible[ESuggestionType.USER_NAME]
+                            }
+                            onHandleSuggestionsVisible={
+                                onHandleSuggestionsVisible
+                            }
+                            attributeName={'username'}
+                            formFieldName={'nickName'}
+                            handleSetValue={handleSetValue}
+                        />
+                    ) : (
+                        <>
+                            <TextField
+                                autoFocus
+                                autoComplete={'username'}
+                                margin="dense"
+                                id="name"
+                                label="Nickname"
+                                fullWidth
+                                variant="standard"
+                                {...register('nickName')}
+                            />
+                        </>
                     )}
-                    <AutoCompleteWrapper
-                        portalId={'autocomplete-portal-dial_code'}
-                        isSuggestionsVisible={isSuggestionsVisible}
-                        onHandleSuggestionsVisible={onHandleSuggestionsVisible}
-                        attributeName={'dial_code'}
-                        formFieldName={'phoneNumbers'}
-                        handleSetValue={handleSetValue}
-                    />
-                    {errors.phoneNumbers && (
-                        <span style={{ color: 'red' }}>
-                            {errors.phoneNumbers.message}
-                        </span>
+
+                    <Spacer height={ONE_REM} />
+
+                    <AddressAutoComplete />
+
+                    <Spacer height={ONE_REM} />
+
+                    {isSuggestionsVisible[ESuggestionType.TELEPHONE] ? (
+                        <AutoCompleteWrapper
+                            portalId={ESuggestionType.TELEPHONE}
+                            isSuggestionsVisible={
+                                isSuggestionsVisible[ESuggestionType.TELEPHONE]
+                            }
+                            onHandleSuggestionsVisible={
+                                onHandleSuggestionsVisible
+                            }
+                            attributeName={'dial_code'}
+                            formFieldName={'phoneNumbers'}
+                            handleSetValue={handleSetValue}
+                        />
+                    ) : (
+                        <>
+                            <TextField
+                                autoFocus
+                                autoComplete={'tel'}
+                                margin="dense"
+                                id="name"
+                                label="Phone Numbers"
+                                fullWidth
+                                variant="standard"
+                                {...register('phoneNumbers')}
+                            />
+                            {errors.phoneNumbers && (
+                                <span style={{ color: 'red' }}>
+                                    {errors.phoneNumbers.message}
+                                </span>
+                            )}
+                        </>
                     )}
+
                     <SUploadButtonWrapper>
                         <UploadButton onUpload={handleUploadImage} />
                     </SUploadButtonWrapper>
@@ -263,7 +335,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                 <div id="autocomplete-portal-lastname"></div>
                 <div id="autocomplete-portal-username"></div>
                 <div id="autocomplete-portal-dial_code"></div>
-            </Dialog>
+            </SDialog>
         </SAddDialogContainer>
     );
 };
