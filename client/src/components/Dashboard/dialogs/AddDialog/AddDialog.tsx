@@ -105,6 +105,7 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
             if (await triggerValidation()) {
                 await createContact(getValues());
                 clearForm();
+                setIsSuggestionsVisible(defaultSuggestionsVisible);
                 onClose?.();
             }
         } catch (e) {
@@ -148,14 +149,15 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
         setValue('imageFile', image?.data?.data?.filterImage);
     };
 
+    const defaultSuggestionsVisible: SuggestionState = {
+        'autocomplete-portal-firstname': true,
+        'autocomplete-portal-lastname': true,
+        'autocomplete-portal-username': true,
+        'autocomplete-portal-dial_code': true,
+        'autocomplete-address': true,
+    };
     const [isSuggestionsVisible, setIsSuggestionsVisible] =
-        useState<SuggestionState>({
-            'autocomplete-portal-firstname': true,
-            'autocomplete-portal-lastname': true,
-            'autocomplete-portal-username': true,
-            'autocomplete-portal-dial_code': true,
-            'autocomplete-address': true,
-        });
+        useState<SuggestionState>(defaultSuggestionsVisible);
 
     const onHandleSuggestionsVisible = (portalId: string, value: boolean) => {
         setIsSuggestionsVisible((prevState) => {
