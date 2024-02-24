@@ -66,7 +66,7 @@ export const AddressAutoComplete = ({
         setValue,
         clearSuggestions,
     } = usePlacesAutocomplete({
-        callbackName: null,
+        callbackName: '',
         requestOptions: {
             /* Define search scope here */
         },

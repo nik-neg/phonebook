@@ -43,6 +43,9 @@ export const SAddress = styled.div`
     padding-top: 0.5rem;
     display: flex;
     justify-content: flex-end;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 `;
 
 export const SContactNickName = styled.div`
