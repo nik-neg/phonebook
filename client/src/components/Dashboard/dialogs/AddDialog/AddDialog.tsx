@@ -32,9 +32,11 @@ import { AddressAutoComplete } from '../../../common/AddressAutoComplete';
 import { triggerValidation } from '../common/utils';
 import { keys, omit } from 'lodash-es';
 
-export const AddDialog = (props: IAddDialogProps): JSX.Element => {
-    const { onClose, open } = props;
-
+export const AddDialog = ({
+    open,
+    onSave,
+    onClose,
+}: IAddDialogProps): JSX.Element => {
     const defaultValues: IAddDialogState = {
         firstName: '',
         lastName: '',
@@ -93,7 +95,9 @@ export const AddDialog = (props: IAddDialogProps): JSX.Element => {
                     >
                 )
             ) {
-                await createContact(getValues());
+                const res = await createContact(getValues());
+                onSave?.(res?.data?.data?.createContact);
+
                 clearForm();
                 setIsSuggestionsVisible(defaultSuggestionsVisible);
                 onClose?.();

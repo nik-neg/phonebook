@@ -1,7 +1,9 @@
+import { IContact } from '../../ContactsList/ContactCard';
+
 export interface IAddDialogProps {
     open: boolean;
 
-    onEdit?: () => void;
+    onSave?: (contact: IContact) => void;
 
     onClose: () => void;
 }

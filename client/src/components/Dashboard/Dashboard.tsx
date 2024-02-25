@@ -25,8 +25,12 @@ export const Dashboard = (): JSX.Element => {
 
     const [open, setOpen] = useState(false);
 
-    const handleAddContact = () => {
+    const handleOpenAddContact = () => {
         setOpen(true);
+    };
+
+    const handleAddContact = (contact: IContact) => {
+        setFetchedContacts((prev) => [...prev, contact]);
     };
 
     const handleClose = () => {
@@ -79,7 +83,7 @@ export const Dashboard = (): JSX.Element => {
                 <ContactsList
                     contacts={fetchedContacts}
                     onFetchContacts={onFetchContacts}
-                    onAddContact={handleAddContact}
+                    onAddContact={handleOpenAddContact}
                     onRemoveContact={onRemoveContact}
                     onEditContact={handleEditContact}
                     onHandleSearch={handleSearch}
@@ -88,7 +92,7 @@ export const Dashboard = (): JSX.Element => {
             <AddDialog
                 open={open}
                 onClose={handleClose}
-                onEdit={handleAddContact}
+                onSave={handleAddContact}
             />
             {!shouldActivate(
                 import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
