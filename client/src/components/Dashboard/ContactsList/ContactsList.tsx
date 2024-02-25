@@ -39,7 +39,6 @@ export const ContactsList = ({
     onHandleSearch,
 }: IContactListProps): JSX.Element => {
     const dispatch = useAppDispatch();
-    const [hover, setHover] = useState(false);
 
     const totalNumberOfContacts = useAppSelector(selectTotalNumberOfContacts);
 
@@ -193,8 +192,6 @@ export const ContactsList = ({
                             <SContactListWrapper
                                 contactsAreFetched={isDeviceOn}
                                 ref={innerRef}
-                                onMouseEnter={() => setHover(true)}
-                                onMouseLeave={() => setHover(false)}
                             >
                                 <SContactCardsContainer>
                                     {contacts.map(
