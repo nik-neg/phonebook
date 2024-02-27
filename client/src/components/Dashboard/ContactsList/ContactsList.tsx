@@ -178,7 +178,7 @@ export const ContactsList = ({
         <Tilt>
             <SContactListPanel>
                 <SContactListContainerWrapper>
-                    <SContactListContainerPanel>
+                    <SContactListContainerPanel contactsAreFetched={isDeviceOn}>
                         {shouldActivate(
                             import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
                         ) && (
@@ -189,10 +189,7 @@ export const ContactsList = ({
                             </SearchBarContainer>
                         )}
                         <SContactListContainer ref={outerRef}>
-                            <SContactListWrapper
-                                contactsAreFetched={isDeviceOn}
-                                ref={innerRef}
-                            >
+                            <SContactListWrapper ref={innerRef}>
                                 <SContactCardsContainer>
                                     {contacts.map(
                                         (contact, index) =>
@@ -210,7 +207,6 @@ export const ContactsList = ({
                             </SContactListWrapper>
                         </SContactListContainer>
                     </SContactListContainerPanel>
-
                     <SButtonPanelWrapper>
                         <SButtonPanel>
                             <SButtonWrapper>

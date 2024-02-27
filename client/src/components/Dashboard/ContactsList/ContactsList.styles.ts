@@ -26,7 +26,7 @@ export const SContactListContainerWrapper = styled.div`
     }
 `;
 
-export const SContactListContainerPanel = styled.div`
+export const SContactListContainerPanel = styled.div<IContactListWrapper>`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -35,11 +35,107 @@ export const SContactListContainerPanel = styled.div`
     background: url(${background}) repeat;
     border: 3px solid rgba(196, 196, 196, 0.67);
     border-radius: 15px;
+
+    position: relative;
+
+    ${({ contactsAreFetched }) =>
+        !contactsAreFetched &&
+        `
+        &:after {
+        content: '';
+        top: 0px;
+        left: 40px;
+        transform: translateX(100%);
+        width: 60px;
+        height: 680px;
+        position: absolute;
+        z-index: 1;
+        animation: slide 9s infinite;
+        /*
+        CSS Gradient - complete browser support from http://www.colorzilla.com/gradient-editor/
+        */
+        background: -moz-linear-gradient(
+            left,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.8) 50%,
+            rgba(128, 186, 232, 0) 99%,
+            rgba(125, 185, 232, 0) 100%
+        ); /* FF3.6+ */
+        background: -webkit-gradient(
+            linear,
+            left top,
+            right top,
+            color-stop(0%, rgba(255, 255, 255, 0)),
+            color-stop(50%, rgba(255, 255, 255, 0.8)),
+            color-stop(99%, rgba(128, 186, 232, 0)),
+            color-stop(100%, rgba(125, 185, 232, 0))
+        ); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(
+            left,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.8) 50%,
+            rgba(128, 186, 232, 0) 99%,
+            rgba(125, 185, 232, 0) 100%
+        ); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(
+            left,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.8) 50%,
+            rgba(128, 186, 232, 0) 99%,
+            rgba(125, 185, 232, 0) 100%
+        ); /* Opera 11.10+ */
+        background: -ms-linear-gradient(
+            left,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.8) 50%,
+            rgba(128, 186, 232, 0) 99%,
+            rgba(125, 185, 232, 0) 100%
+        ); /* IE10+ */
+        background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.8) 50%,
+            rgba(128, 186, 232, 0) 99%,
+            rgba(125, 185, 232, 0) 100%
+        ); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#007db9e8',GradientType=1 ); /* IE6-9 */
+    }
+    @keyframes slide {
+        0% {
+            transform: translateX(-70%);
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+        5% {
+            border-radius: 0px;
+        }
+        50% {
+            transform: translateX(420%);
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+            border-top-left-radius: 0px;
+            border-bottom-left-radius: 0px;
+        }
+        55% {
+            border-radius: 0px;
+        }
+        95% {
+            transform: translateX(-70%);
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+        100% {
+            transform: translateX(-70%);
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+    }`}
 `;
 
 export const SearchBarContainer = styled.div`
     padding-top: 10px;
     position: relative;
+    z-index: 2;
 `;
 
 export const SContactListContainer = styled.div`
@@ -135,10 +231,9 @@ export const SButtonRow = styled.div`
     justify-content: center;
 `;
 
-export const SContactListWrapper = styled.div<IContactListWrapper>`
+export const SContactListWrapper = styled.div`
     width: 100%;
     height: 790px;
-    position: absolute;
     padding-bottom: 200px;
     border: 3px solid transparent;
     border-bottom: none;
@@ -153,74 +248,4 @@ export const SContactListWrapper = styled.div<IContactListWrapper>`
     }
 
     position: relative;
-
-    ${({ contactsAreFetched }) =>
-        !contactsAreFetched &&
-        `
-        &:after {
-        content: '';
-        top: -10px;
-        transform: translateX(100%);
-        width: 225px;
-        height: 690px;
-        position: absolute;
-        z-index: 1;
-        animation: slide 6.67s infinite;
-        /*
-        CSS Gradient - complete browser support from http://www.colorzilla.com/gradient-editor/
-        */
-        background: -moz-linear-gradient(
-            left,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.8) 50%,
-            rgba(128, 186, 232, 0) 99%,
-            rgba(125, 185, 232, 0) 100%
-        ); /* FF3.6+ */
-        background: -webkit-gradient(
-            linear,
-            left top,
-            right top,
-            color-stop(0%, rgba(255, 255, 255, 0)),
-            color-stop(50%, rgba(255, 255, 255, 0.8)),
-            color-stop(99%, rgba(128, 186, 232, 0)),
-            color-stop(100%, rgba(125, 185, 232, 0))
-        ); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(
-            left,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.8) 50%,
-            rgba(128, 186, 232, 0) 99%,
-            rgba(125, 185, 232, 0) 100%
-        ); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(
-            left,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.8) 50%,
-            rgba(128, 186, 232, 0) 99%,
-            rgba(125, 185, 232, 0) 100%
-        ); /* Opera 11.10+ */
-        background: -ms-linear-gradient(
-            left,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.8) 50%,
-            rgba(128, 186, 232, 0) 99%,
-            rgba(125, 185, 232, 0) 100%
-        ); /* IE10+ */
-        background: linear-gradient(
-            to right,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.8) 50%,
-            rgba(128, 186, 232, 0) 99%,
-            rgba(125, 185, 232, 0) 100%
-        ); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#007db9e8',GradientType=1 ); /* IE6-9 */
-    }
-    @keyframes slide {
-        0% {
-            transform: translateX(-100%);
-        }
-        100% {
-            transform: translateX(100%);
-        }
-    }`}
 `;
