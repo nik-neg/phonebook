@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import background from '../../../assets/mobile.jpg';
+import buttonBackground from '../../../assets/buttonBackground.jpeg';
 import { IContactListWrapper } from './types';
 import Button from '@mui/material/Button';
 
@@ -50,7 +51,7 @@ export const SContactListContainerPanel = styled.div<IContactListWrapper>`
         height: 680px;
         position: absolute;
         z-index: 1;
-        animation: slide 12s infinite;
+        animation: slide 14.4s infinite; // make this configurable
         /*
         CSS Gradient - complete browser support from http://www.colorzilla.com/gradient-editor/
         */
@@ -172,24 +173,25 @@ export const SButton = styled(Button)<SButtonProps>`
     border-radius: 10px;
     cursor: pointer;
 
-    background: rgb(240, 240, 240);
-    background: linear-gradient(
-        90deg,
-        rgba(240, 240, 240, 1) 0%,
-        rgba(111, 111, 111, 1) 35%,
-        rgba(111, 111, 111, 0.9402135854341737) 52%,
-        rgba(111, 111, 111, 0.9402135854341737) 94%
-    );
+    //background: rgb(240, 240, 240);
+    //background: linear-gradient(
+    //    90deg,
+    //    rgba(240, 240, 240, 1) 0%,
+    //    rgba(111, 111, 111, 1) 35%,
+    //    rgba(111, 111, 111, 0.9402135854341737) 52%,
+    //    rgba(111, 111, 111, 0.9402135854341737) 94%
+    //);
+    background: url(${buttonBackground}) repeat;
     opacity: 0.9;
 
     && {
         text-transform: none;
         transition: none;
         color: black;
-        font-size: 14px;
+        font-size: 13px;
         font-family: "'Crimson Pro', serif, 'Mochiy Pop One', sans-serif";
 
-        border: 2px solid rgba(111, 111, 111, 1);
+        border: 5px solid rgba(111, 111, 111, 1);
         border-color: rgba(111, 111, 111, 0.9402135854341737)
             rgba(35, 35, 35, 1) rgba(35, 35, 35, 1)
             rgba(111, 111, 111, 0.9402135854341737);
