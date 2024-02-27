@@ -46,11 +46,11 @@ export const SContactListContainerPanel = styled.div<IContactListWrapper>`
         top: 0px;
         left: -30px;
         transform: translateX(100%);
-        width: 100px;
+        width: 50px;
         height: 680px;
         position: absolute;
         z-index: 1;
-        animation: slide 8s infinite;
+        animation: slide 12s infinite;
         /*
         CSS Gradient - complete browser support from http://www.colorzilla.com/gradient-editor/
         */
@@ -102,13 +102,13 @@ export const SContactListContainerPanel = styled.div<IContactListWrapper>`
     }
     @keyframes slide {
         0% {
-            transform: translateX(-70%);
+            transform: translateX(-25%);
         }
         50% {
-            transform: translateX(350%);
+            transform: translateX(735%);
         }
         100% {
-            transform: translateX(-70%);
+            transform: translateX(-25%);
         }
     }`}
 `;
