@@ -81,6 +81,7 @@ https://www.loom.com/share/66c8bd361138443bb12d98c10031c7d4
 - [x] the validation trigger has been refactored to use a utility to reduce duplicated code
 - [x] the buttons are now using the material-ui `Button` component with preserved styles
 - [x] the search field for the address has been refactored to align with the rest of the UI in the add contact modal
+- [x] the shine effect is now preserved under the search bar and the contact list and has now a reversed direction
 - [x] the functionality has been tested on `Chrome`, `Firefox` and `Opera`
 
 ```typescript

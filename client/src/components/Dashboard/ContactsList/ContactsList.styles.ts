@@ -35,7 +35,7 @@ export const SContactListContainerPanel = styled.div<IContactListWrapper>`
     background: url(${background}) repeat;
     border: 3px solid rgba(196, 196, 196, 0.67);
     border-radius: 15px;
-
+    overflow: hidden;
     position: relative;
 
     ${({ contactsAreFetched }) =>
@@ -44,13 +44,13 @@ export const SContactListContainerPanel = styled.div<IContactListWrapper>`
         &:after {
         content: '';
         top: 0px;
-        left: 40px;
+        left: -30px;
         transform: translateX(100%);
-        width: 60px;
+        width: 100px;
         height: 680px;
         position: absolute;
         z-index: 1;
-        animation: slide 9s infinite;
+        animation: slide 8s infinite;
         /*
         CSS Gradient - complete browser support from http://www.colorzilla.com/gradient-editor/
         */
@@ -103,31 +103,12 @@ export const SContactListContainerPanel = styled.div<IContactListWrapper>`
     @keyframes slide {
         0% {
             transform: translateX(-70%);
-            border-top-left-radius: 15px;
-            border-bottom-left-radius: 15px;
-        }
-        5% {
-            border-radius: 0px;
         }
         50% {
-            transform: translateX(420%);
-            border-top-right-radius: 15px;
-            border-bottom-right-radius: 15px;
-            border-top-left-radius: 0px;
-            border-bottom-left-radius: 0px;
-        }
-        55% {
-            border-radius: 0px;
-        }
-        95% {
-            transform: translateX(-70%);
-            border-top-left-radius: 15px;
-            border-bottom-left-radius: 15px;
+            transform: translateX(350%);
         }
         100% {
             transform: translateX(-70%);
-            border-top-left-radius: 15px;
-            border-bottom-left-radius: 15px;
         }
     }`}
 `;
