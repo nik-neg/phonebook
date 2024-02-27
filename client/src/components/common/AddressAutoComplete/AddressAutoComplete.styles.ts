@@ -7,6 +7,7 @@ export const SAddressAutoComplete = styled(TextField)`
     width: 100%;
 
     .MuiInputBase-root {
+        height: 3rem;
         font-size: 15px;
         color: black;
 

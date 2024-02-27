@@ -48,7 +48,10 @@ export const AddressAutoCompleteWithAdornment = (props: any) => {
             InputProps={{
                 ...props.InputProps,
                 startAdornment: (
-                    <InputAdornmentWrapper width={'14%'} color={'#343ebe'} />
+                    <InputAdornmentWrapper
+                        width={'2rem'}
+                        color={'rgba(64,58,232,0.94)'}
+                    />
                 ),
             }}
         />
