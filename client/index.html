@@ -2,12 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <link rel="icon" type="image/svg+xml" href="/phone.svg"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="/phone.svg" rel="icon" type="image/svg+xml"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Phonebook</title>
 </head>
 <body>
 <div id="root"></div>
-<script type="module" src="/src/main.tsx"></script>
+<script src="/src/main.tsx" type="module"></script>
 </body>
+<script type="module">
+    document.addEventListener('DOMContentLoaded', () => {
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = `${import.meta.env.VITE_LOCATION_PROVIDER}?key=${import.meta.env.VITE_LOCATION_API_KEY}&${import.meta.env.VITE_LOCATION_API_PARAMS}`;
+        document.head.appendChild(script);
+    });
+</script>
 </html>

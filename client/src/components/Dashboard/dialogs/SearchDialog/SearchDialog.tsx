@@ -18,7 +18,7 @@ export const SearchDialog = (props: ISearchDialogProps): JSX.Element => {
 
     return (
         <Dialog onClose={handleClose} open={open}>
-            <SearchBar onSearch={handleSearch} content={content} />
+            <SearchBar onSearch={handleSearch} />
         </Dialog>
     );
 };

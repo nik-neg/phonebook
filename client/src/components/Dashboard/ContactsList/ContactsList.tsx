@@ -1,14 +1,17 @@
 import {
     SButton,
+    SButtonContainer,
     SButtonPanel,
     SButtonPanelWrapper,
+    SButtonRow,
     SButtonWrapper,
     SContactCardsContainer,
     SContactListContainer,
+    SContactListContainerPanel,
     SContactListContainerWrapper,
     SContactListPanel,
     SContactListWrapper,
-    SIconWrapper,
+    SearchBarContainer,
 } from './ContactsList.styles';
 import { IContactListProps } from './types';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -17,34 +20,38 @@ import {
     useLazyGetContactsQuery,
 } from '../../../store/api/contacts.api';
 import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
-import { ContactCard } from './ContactCard';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { selectTotalNumberOfContacts } from '../../../store/selectors/contacts.selector';
 import { getTotalNumberOfContacts } from '../../../store/slices';
 import { debounce } from 'lodash-es';
 import Tilt from 'react-parallax-tilt';
+import { SearchBar } from '../dialogs/common/SearchBar';
+import { CONTACTS_PER_PAGE } from './constants';
+import { ContactCard } from './ContactCard';
+import { Spacer } from '../../common/Spacer';
+import { shouldActivate } from '../../../utils';
 
 export const ContactsList = ({
     contacts,
     onAddContact,
     onFetchContacts,
-    onOpenSearch,
     onRemoveContact,
+    onHandleSearch,
 }: IContactListProps): JSX.Element => {
     const dispatch = useAppDispatch();
-    const [hover, setHover] = useState(false);
 
     const totalNumberOfContacts = useAppSelector(selectTotalNumberOfContacts);
 
     const outerRef = useRef<HTMLDivElement>(null);
     const innerRef = useRef<HTMLDivElement>(null);
+
     const [page, setPage] = useState(1);
 
     const [scroll, setScroll] = useState(0);
 
     const [getContacts] = useLazyGetContactsQuery();
 
-    const [isDeviceOn, setIsDeviceOn] = React.useState(false);
+    const [isDeviceOn, setIsDeviceOn] = useState(true);
 
     const { data, isLoading } = useGetContactsQuery(
         { page: 1 },
@@ -63,16 +70,13 @@ export const ContactsList = ({
     }, [data, isLoading, isDeviceOn]);
 
     const handlePowerOn = async () => {
-        setIsDeviceOn(!isDeviceOn);
         if (isDeviceOn) {
-            setIsDeviceOn(false);
-
             onFetchContacts?.([]);
-            return;
         }
+        setIsDeviceOn(!isDeviceOn);
     };
 
-    const reloadCondition = totalNumberOfContacts - page * 5;
+    const reloadCondition = totalNumberOfContacts - page * CONTACTS_PER_PAGE;
 
     const loadMoreContacts = useCallback(
         async (outerElem: HTMLDivElement) => {
@@ -85,7 +89,7 @@ export const ContactsList = ({
                 if (
                     !(scrollTop < scroll) &&
                     scrollTop < clientHeight &&
-                    totalNumberOfContacts >= page * 5
+                    totalNumberOfContacts >= page * CONTACTS_PER_PAGE
                 ) {
                     onFetchContacts?.([]);
                     setPage((page) => page + 1);
@@ -149,6 +153,7 @@ export const ContactsList = ({
             }
         }, 100);
         outerElem.addEventListener('scroll', handleScroll);
+
         return () => {
             outerElem.removeEventListener('scroll', handleScroll);
         };
@@ -158,68 +163,93 @@ export const ContactsList = ({
         onAddContact?.();
     };
 
-    const handleSearch = () => {
-        onOpenSearch?.();
+    const [content, setContent] = useState<string>('');
+
+    const handleSearch = (value: string) => {
+        setContent(value);
+        onHandleSearch?.(value);
+    };
+
+    const handleButtonSearch = () => {
+        onHandleSearch?.(content);
     };
 
     return (
         <Tilt>
             <SContactListPanel>
                 <SContactListContainerWrapper>
-                    <SContactListContainer
-                        ref={outerRef}
-                        style={{ overflow: 'auto', height: '680px' }}
-                    >
-                        <SContactListWrapper
-                            contactsAreFetched={
-                                isDeviceOn || contacts?.length > 0
-                            }
-                            style={{ height: '750px' }}
-                            ref={innerRef}
-                            hover={hover}
-                            onMouseEnter={() => setHover(true)}
-                            onMouseLeave={() => setHover(false)}
-                        >
-                            <SContactCardsContainer>
-                                {contacts.map(
-                                    (contact, index) =>
-                                        index <= 4 && (
-                                            <ContactCard
-                                                key={index}
-                                                contact={contact}
-                                                onRemoveContact={
-                                                    onRemoveContact
-                                                }
-                                            />
-                                        )
-                                )}
-                            </SContactCardsContainer>
-                        </SContactListWrapper>
-                    </SContactListContainer>
+                    <SContactListContainerPanel contactsAreFetched={isDeviceOn}>
+                        {shouldActivate(
+                            import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
+                        ) && (
+                            <SearchBarContainer>
+                                <Spacer height={10} />
+                                <SearchBar onSearch={handleSearch} />
+                                <Spacer height={10} />
+                            </SearchBarContainer>
+                        )}
+                        <SContactListContainer ref={outerRef}>
+                            <SContactListWrapper ref={innerRef}>
+                                <SContactCardsContainer>
+                                    {contacts.map(
+                                        (contact, index) =>
+                                            index < CONTACTS_PER_PAGE && (
+                                                <ContactCard
+                                                    key={index}
+                                                    contact={contact}
+                                                    onRemoveContact={
+                                                        onRemoveContact
+                                                    }
+                                                />
+                                            )
+                                    )}
+                                </SContactCardsContainer>
+                            </SContactListWrapper>
+                        </SContactListContainer>
+                    </SContactListContainerPanel>
                     <SButtonPanelWrapper>
                         <SButtonPanel>
                             <SButtonWrapper>
-                                <SButton onClick={handleAddContact}>
-                                    {'Add Contact'}
-                                    <SIconWrapper>
-                                        <IoPersonAdd />
-                                    </SIconWrapper>
+                                <SButton
+                                    onClick={handleAddContact}
+                                    disableRipple
+                                >
+                                    <SButtonContainer>
+                                        <SButtonRow>Add Contact</SButtonRow>
+                                        <SButtonRow>
+                                            <IoPersonAdd size={'1rem'} />
+                                        </SButtonRow>
+                                    </SButtonContainer>
                                 </SButton>
                             </SButtonWrapper>
+                            {!shouldActivate(
+                                import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
+                            ) && (
+                                <SButtonWrapper>
+                                    <SButton
+                                        onClick={handleButtonSearch}
+                                        disableRipple
+                                    >
+                                        <SButtonContainer>
+                                            <SButtonRow>Search</SButtonRow>
+                                            <SButtonRow>
+                                                <MdOutlinePersonSearch
+                                                    size={'1rem'}
+                                                />
+                                            </SButtonRow>
+                                        </SButtonContainer>
+                                    </SButton>
+                                </SButtonWrapper>
+                            )}
+
                             <SButtonWrapper>
-                                <SButton onClick={handleSearch}>
-                                    {'Search'}
-                                    <SIconWrapper>
-                                        <MdOutlinePersonSearch />
-                                    </SIconWrapper>
-                                </SButton>
-                            </SButtonWrapper>
-                            <SButtonWrapper>
-                                <SButton onClick={handlePowerOn}>
-                                    {'Power'}
-                                    <SIconWrapper>
-                                        <CiPower />
-                                    </SIconWrapper>
+                                <SButton onClick={handlePowerOn} disableRipple>
+                                    <SButtonContainer>
+                                        <SButtonRow>Power</SButtonRow>
+                                        <SButtonRow>
+                                            <CiPower size={'1rem'} />
+                                        </SButtonRow>
+                                    </SButtonContainer>
                                 </SButton>
                             </SButtonWrapper>
                         </SButtonPanel>
@@ -229,5 +259,3 @@ export const ContactsList = ({
         </Tilt>
     );
 };
-
-export default ContactsList;

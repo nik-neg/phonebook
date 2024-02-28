@@ -14,9 +14,11 @@ import { ImageFilter } from '../common/ImageFilter';
 import { useForm } from 'react-hook-form';
 import { updateContactSchema } from './validation/schema';
 import { prefetchFilteredImage } from '../../../../api/ApiClient';
-import { IFilter } from '../AddDialog';
+import { IAddDialogState, IFilter } from '../AddDialog';
 import { useUpdateContactMutation } from '../../../../store/api/contacts.api';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { triggerValidation } from '../common/utils';
+import { keys, omit } from 'lodash-es';
 
 export const UpdateDialog = ({
     selectedValue,
@@ -72,28 +74,16 @@ export const UpdateDialog = ({
 
     const [updateContact] = useUpdateContactMutation();
 
-    const triggerValidation = async (): Promise<boolean> => {
-        let lastName = false;
-        let firstName = false;
-        let address = false;
-        let phoneNumbers = false;
-        let imageFile = false;
-        try {
-            lastName = await trigger('lastName');
-            firstName = await trigger('firstName');
-            address = await trigger('address');
-            phoneNumbers = await trigger('phoneNumbers');
-            imageFile = await trigger('imageFile');
-        } catch (e) {
-            console.log(e);
-        }
-
-        return lastName && firstName && address && phoneNumbers && imageFile;
-    };
-
     const handleUpdate = async () => {
         try {
-            if (await triggerValidation()) {
+            if (
+                await triggerValidation(
+                    trigger,
+                    keys(omit(defaultValues, 'nickName')) as Array<
+                        keyof IAddDialogState
+                    >
+                )
+            ) {
                 await updateContact({
                     contact: { ...getValues(), id: selectedValue.id },
                     filterImageInput: filter,

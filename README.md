@@ -73,6 +73,26 @@ you don't want to apply them
 ## Demo
 https://www.loom.com/share/66c8bd361138443bb12d98c10031c7d4
 
+## v2 improvements (24.02.24)
+- [x] autocomplete for adding contacts by leveraging `algolia api` with portals and `google places api` for addresses
+- [x] for the `algolia api` mock data has been created in the provider account
+- [x] the search functionality can be toggled with the env variable `VITE_SEARCH_BAR_WITHOUT_BUTTON` and appears now on the phone
+- [x] the address field can be toggled with the env variable `VITE_SHOULD_USE_LOCATION` and has a fallback to a list of countries autocomplete
+- [x] the validation trigger has been refactored to use a utility to reduce duplicated code
+- [x] the buttons are now using the material-ui `Button` component with preserved styles
+- [x] the search field for the address has been refactored to align with the rest of the UI in the add contact modal
+- [x] the shine effect is now preserved under the search bar and the contact list and has now a reversed direction
+- [x] the functionality has been tested on `Chrome`, `Firefox` and `Opera`
+
+```typescript
+VITE_SEARCH_BAR_WITHOUT_BUTTON=true
+VITE_APP_ID=YOUR_ALGOLIA_APP_ID
+VITE_API_KEY=YOUR_ALGOLIA_API_KEY
+VITE_LOCATION_API_KEY=YOUR_GOOGLE_PLACES_API_KEY
+VITE_LOCATION_PROVIDER=https://maps.googleapis.com/maps/api/js
+VITE_LOCATION_API_PARAMS=libraries=places
+VITE_SHOULD_USE_LOCATION=true
+```
 
 # Getting started
 

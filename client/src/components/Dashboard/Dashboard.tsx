@@ -8,8 +8,9 @@ import { IContact } from './ContactsList/ContactCard/types';
 import React, { useState } from 'react';
 import { ContactsList } from './ContactsList';
 import { AddDialog } from './dialogs/AddDialog/AddDialog';
-import { SearchDialog } from './dialogs/SearchDialog/SearchDialog';
 import { useLazyGetContactsQuery } from '../../store/api/contacts.api';
+import { SearchDialog } from './dialogs/SearchDialog';
+import { shouldActivate } from '../../utils';
 
 export const Dashboard = (): JSX.Element => {
     const [fetchedContacts, setFetchedContacts] = useState<IContact[]>([]);
@@ -24,8 +25,12 @@ export const Dashboard = (): JSX.Element => {
 
     const [open, setOpen] = useState(false);
 
-    const handleAddContact = () => {
+    const handleOpenAddContact = () => {
         setOpen(true);
+    };
+
+    const handleAddContact = (contact: IContact) => {
+        setFetchedContacts((prev) => [...prev, contact]);
     };
 
     const handleClose = () => {
@@ -40,6 +45,27 @@ export const Dashboard = (): JSX.Element => {
         });
     };
 
+    const [getContacts] = useLazyGetContactsQuery();
+    const handleSearch = async (keyword: string) => {
+        if (!keyword || keyword.length >= 3) {
+            try {
+                const contacts = await getContacts({
+                    keyword,
+                    page: 1,
+                });
+
+                const newContacts = contacts?.data?.data?.getContacts.contacts
+                    ?.length
+                    ? contacts?.data?.data?.getContacts.contacts
+                    : [];
+
+                setFetchedContacts(newContacts);
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    };
+
     const [openSearch, setOpenSearch] = useState(false);
 
     const handleOpenSearch = () => {
@@ -50,24 +76,6 @@ export const Dashboard = (): JSX.Element => {
         setOpenSearch(false);
     };
 
-    const [getContacts] = useLazyGetContactsQuery();
-    const handleSearch = async (keyword: string) => {
-        if (keyword.length < 3) return;
-        setFetchedContacts([]);
-        try {
-            const contacts = await getContacts({
-                keyword,
-                page: 1,
-            });
-
-            setFetchedContacts(
-                contacts?.data?.data?.getContacts.contacts ?? []
-            );
-        } catch (e) {
-            console.log(e);
-        }
-    };
-
     return (
         <SDashboardContainer>
             <SDashboardHeader />
@@ -75,22 +83,27 @@ export const Dashboard = (): JSX.Element => {
                 <ContactsList
                     contacts={fetchedContacts}
                     onFetchContacts={onFetchContacts}
-                    onAddContact={handleAddContact}
+                    onAddContact={handleOpenAddContact}
                     onRemoveContact={onRemoveContact}
                     onEditContact={handleEditContact}
-                    onOpenSearch={handleOpenSearch}
+                    onHandleSearch={handleSearch}
                 />
             </SDashboardList>
             <AddDialog
                 open={open}
                 onClose={handleClose}
-                onEdit={handleAddContact}
+                onSave={handleAddContact}
             />
-            <SearchDialog
-                open={openSearch}
-                onClose={handleSearchClose}
-                onSearch={handleSearch}
-            />
+            {!shouldActivate(
+                import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
+            ) && (
+                <SearchDialog
+                    open={openSearch}
+                    onClose={handleSearchClose}
+                    onSearch={handleSearch}
+                />
+            )}
+
             <SDashboardFooter />
         </SDashboardContainer>
     );

@@ -15,6 +15,7 @@ import Avatar from '@mui/material/Avatar';
 import { useRemoveContactMutation } from '../../../../store/api/contacts.api';
 import { ContactWithPhoneNumbersAsString } from '../../dialogs/UpdateDialog';
 import { convertPhoneNumbersToString } from '../../dialogs/UpdateDialog/utils';
+import { ADDRESS_STRIP_LENGTH } from './constants';
 
 export const ContactCard = ({
     contact,
@@ -79,7 +80,9 @@ export const ContactCard = ({
                         sx={{ width: 75, height: 75 }}
                     />
                     <SNameWrapper>
-                        <SAddress>{address}</SAddress>
+                        <SAddress>
+                            {address.slice(0, ADDRESS_STRIP_LENGTH)}
+                        </SAddress>
 
                         {nickName ? (
                             <SContactNickName>{nickName}</SContactNickName>

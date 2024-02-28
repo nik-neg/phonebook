@@ -10,9 +10,10 @@ export interface IContactListProps {
     onEditContact?: (contacts: IContact) => void;
 
     onOpenSearch?: () => void;
+
+    onHandleSearch?: (value: string) => void;
 }
 
 export interface IContactListWrapper {
     contactsAreFetched: boolean;
-    hover: boolean;
 }

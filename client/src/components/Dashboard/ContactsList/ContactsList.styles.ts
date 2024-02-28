@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import background from '../../../assets/mobile.jpg';
 import { IContactListWrapper } from './types';
+import Button from '@mui/material/Button';
 
 export const SContactListPanel = styled.div`
     display: flex;
@@ -24,61 +25,35 @@ export const SContactListContainerWrapper = styled.div`
         box-shadow: 0 0 10px 10px #bcd4e6;
     }
 `;
-export const SContactListContainer = styled.div`
+
+export const SContactListContainerPanel = styled.div<IContactListWrapper>`
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    height: 680px;
     width: 350px;
+    background: url(${background}) repeat;
     border: 3px solid rgba(196, 196, 196, 0.67);
     border-radius: 15px;
-    height: 760px;
-    background: url(${background}) repeat;
-    &::-webkit-scrollbar {
-        display: none;
-    }
-`;
-
-export const SContactCardsContainer = styled.div`
-    height: 675px;
-    border-radius: 10px 10px 0px 10px;
-`;
-
-export const SContactListWrapper = styled.div<IContactListWrapper>`
-    width: 100%;
-    //box-shadow: 10px 5px 5px black;
-    border: 3px solid transparent;
-    border-bottom: none;
-    border-radius: 12px;
-
-    //overflow-x: hidden;
-    //overflow-y: scroll;
-
-    &::-webkit-scrollbar {
-        display: none;
-    }
-
-    &:hover {
-        cursor: pointer;
-    }
-
-    width: 100%;
+    overflow: hidden;
     position: relative;
 
-    ${(props) =>
-        !props.contactsAreFetched &&
-        !props.hover &&
+    ${({ contactsAreFetched }) =>
+        !contactsAreFetched &&
         `
         &:after {
         content: '';
-        top: -10px;
+        top: 0px;
+        left: -30px;
         transform: translateX(100%);
-        width: 225px;
-        height: 690px;
+        width: 50px;
+        height: 680px;
         position: absolute;
         z-index: 1;
-        animation: slide 6.67s infinite;
+        animation: slide 12s infinite;
         /*
-    CSS Gradient - complete browser support from http://www.colorzilla.com/gradient-editor/
-    */
+        CSS Gradient - complete browser support from http://www.colorzilla.com/gradient-editor/
+        */
         background: -moz-linear-gradient(
             left,
             rgba(255, 255, 255, 0) 0%,
@@ -127,15 +102,44 @@ export const SContactListWrapper = styled.div<IContactListWrapper>`
     }
     @keyframes slide {
         0% {
-            transform: translateX(-100%);
+            transform: translateX(-25%);
+        }
+        50% {
+            transform: translateX(735%);
         }
         100% {
-            transform: translateX(100%);
+            transform: translateX(-25%);
         }
     }`}
 `;
 
+export const SearchBarContainer = styled.div`
+    padding-top: 10px;
+    position: relative;
+    z-index: 2;
+`;
+
+export const SContactListContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+
+    border-radius: 0px 0px 15px 15px;
+    border: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    overflow: auto;
+`;
+
+export const SContactCardsContainer = styled.div`
+    height: 625px;
+    border-radius: 10px 10px 0px 10px;
+`;
+
 export const SButtonPanelWrapper = styled.div`
+    position: relative;
     display: flex;
     justify-content: center;
     overflow: hidden;
@@ -144,7 +148,8 @@ export const SButtonPanelWrapper = styled.div`
 export const SButtonPanel = styled.div`
     display: flex;
     justify-content: center;
-    height: 3.85rem;
+    align-items: center;
+    height: 4rem;
     width: 100%;
     background: black;
     border-right: 4px solid black;
@@ -157,11 +162,16 @@ export const SButtonWrapper = styled.div`
     padding: 0.5rem 0.25rem 0.25rem 0.25rem;
 `;
 
-export const SButton = styled.button`
+interface SButtonProps {
+    fontFamily?: string;
+}
+
+export const SButton = styled(Button)<SButtonProps>`
     width: 6rem;
     height: 3rem;
     border-radius: 10px;
     cursor: pointer;
+
     background: rgb(240, 240, 240);
     background: linear-gradient(
         90deg,
@@ -172,12 +182,51 @@ export const SButton = styled.button`
     );
     opacity: 0.9;
 
-    :hover {
-        background: #e1e1e1;
-        border: 2px solid #e1e1e1;
+    && {
+        text-transform: none;
+        transition: none;
+        color: black;
+        font-size: 14px;
+        font-family: "'Crimson Pro', serif, 'Mochiy Pop One', sans-serif";
+
+        border: 2px solid rgba(111, 111, 111, 1);
+        border-color: rgba(111, 111, 111, 0.9402135854341737)
+            rgba(35, 35, 35, 1) rgba(35, 35, 35, 1)
+            rgba(111, 111, 111, 0.9402135854341737);
+
+        &:hover {
+            background: #e1e1e1;
+            border: 2px solid #e1e1e1;
+        }
     }
 `;
 
-export const SIconWrapper = styled.div`
-    padding-top: 0.25rem;
+export const SButtonContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+`;
+
+export const SButtonRow = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+
+export const SContactListWrapper = styled.div`
+    width: 100%;
+    height: 790px;
+    padding-bottom: 200px;
+    border: 3px solid transparent;
+    border-bottom: none;
+    border-radius: 12px;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    position: relative;
 `;
