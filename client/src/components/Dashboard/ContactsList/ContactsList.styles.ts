@@ -12,9 +12,9 @@ export const SContactListContainerWrapper = styled.div`
     align-items: center;
     flex-direction: column;
     width: 365px;
-    height: 700px;
+    height: 695px;
     background: black;
-    border-radius: 10px 10px 0 0;
+    border-radius: 15px 15px 0 0;
 `;
 
 interface IContactListWrapper {
@@ -112,8 +112,8 @@ interface SearchBarContainerProps {
 }
 
 export const SearchBarContainer = styled.div<SearchBarContainerProps>`
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     position: relative;
     z-index: 2;
 
