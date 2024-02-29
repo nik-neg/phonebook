@@ -11,8 +11,10 @@ export const SDashboardContainer = styled.div`
         'title title title title'
         'list list list list'
         'footer footer footer footer';
+
     box-shadow: 5px 2.5px 5px #262626;
     border-radius: 15px;
+
     &:hover {
         -moz-box-shadow: 0 0 10px 10px #bcd4e6;
         -webkit-box-shadow: 0 0 10px 10px #bcd4e6;
