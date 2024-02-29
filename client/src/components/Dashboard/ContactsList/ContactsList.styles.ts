@@ -107,10 +107,18 @@ export const SContactListContainerPanel = styled.div<IContactListWrapper>`
     }`}
 `;
 
-export const SearchBarContainer = styled.div`
+interface SearchBarContainerProps {
+    isScrolling: boolean;
+}
+
+export const SearchBarContainer = styled.div<SearchBarContainerProps>`
     padding-top: 10px;
+    padding-bottom: 10px;
     position: relative;
     z-index: 2;
+
+    ${({ isScrolling }) =>
+        isScrolling && `border-bottom: 2px solid whitesmoke; opacity: 0.55;`}
 `;
 
 export const SContactListContainer = styled.div`
@@ -125,6 +133,11 @@ export const SContactListContainer = styled.div`
         display: none;
     }
     overflow: auto;
+`;
+
+export const SDividerWrapper = styled.div`
+    display: flex;
+    justify-content: center;
 `;
 
 export const SContactCardsContainer = styled.div`

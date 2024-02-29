@@ -5,6 +5,7 @@ import {
     SContactListContainerWrapper,
     SContactListPanel,
     SContactListWrapper,
+    SDividerWrapper,
     SearchBarContainer,
 } from './ContactsList.styles';
 import { IContactListProps } from './types';
@@ -22,6 +23,7 @@ import { CONTACTS_PER_PAGE } from './constants';
 import { ContactCard } from './ContactCard';
 import { Spacer } from '../../common/Spacer';
 import { shouldActivate } from '../../../utils';
+import { SDivider } from '../../common/Divider';
 
 export const ContactsList = ({
     isDeviceOn,
@@ -119,6 +121,8 @@ export const ContactsList = ({
         [page, reloadCondition]
     );
 
+    const [isScrolling, setIsScrolling] = useState(false);
+
     useEffect(() => {
         const outerElem = outerRef.current;
         const innerElem = innerRef.current;
@@ -127,6 +131,12 @@ export const ContactsList = ({
         }
         const handleScroll = debounce(async () => {
             const { scrollTop, clientHeight } = outerElem;
+            if (scrollTop > 0) {
+                setIsScrolling(true);
+            } else {
+                setIsScrolling(false);
+            }
+
             if (scrollTop < clientHeight) {
                 try {
                     await loadMoreContacts(outerElem);
@@ -160,10 +170,13 @@ export const ContactsList = ({
                     {shouldActivate(
                         import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
                     ) && (
-                        <SearchBarContainer>
+                        <SearchBarContainer isScrolling={isScrolling}>
                             <Spacer height={10} />
                             <SearchBar onSearch={handleSearch} />
                             <Spacer height={10} />
+                            <SDividerWrapper>
+                                <SDivider width={50} />
+                            </SDividerWrapper>
                         </SearchBarContainer>
                     )}
                     <SContactListContainer ref={outerRef}>

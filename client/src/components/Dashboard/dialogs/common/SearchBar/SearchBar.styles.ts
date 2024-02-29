@@ -7,18 +7,28 @@ export const STextFieldWrapper = styled.div`
     justify-content: center;
     align-items: center;
     position: sticky;
-    top: 0;
 `;
-export const STextField = styled(TextField)`
+
+interface STextFieldProps {
+    hasInput: boolean;
+}
+export const STextField = styled(TextField)<STextFieldProps>`
+    ${({ hasInput }) => hasInput && `opacity: 1;`}
+
+    :hover {
+        opacity: 1;
+    }
+
     && {
         width: 300px;
-        background-color: white;
+        background-color: aliceblue;
         border-radius: 20px;
-        border-color: black;
+
         & .MuiOutlinedInput-root {
             border-radius: 20px;
+
             &.Mui-focused fieldset {
-                border-color: black;
+                border-color: white;
                 border-radius: 20px;
             }
         }
