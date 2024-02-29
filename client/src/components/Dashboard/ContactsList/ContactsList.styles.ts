@@ -17,7 +17,6 @@ export const SContactListContainerWrapper = styled.div`
     height: 700px;
     background: black;
     border-radius: 10px 10px 0 0;
-    //box-shadow: 5px 2.5px 2.5px #262626;
 `;
 
 export const SContactListContainerPanel = styled.div<IContactListWrapper>`

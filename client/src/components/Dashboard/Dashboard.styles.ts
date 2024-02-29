@@ -12,6 +12,12 @@ export const SDashboardContainer = styled.div`
         'list list list list'
         'footer footer footer footer';
     box-shadow: 5px 2.5px 5px #262626;
+    border-radius: 15px;
+    &:hover {
+        -moz-box-shadow: 0 0 10px 10px #bcd4e6;
+        -webkit-box-shadow: 0 0 10px 10px #bcd4e6;
+        box-shadow: 0 0 10px 10px #bcd4e6;
+    }
 `;
 
 export const SDashboardHeader = styled.div`
@@ -19,7 +25,6 @@ export const SDashboardHeader = styled.div`
 `;
 
 export const SDashboard = styled.div`
-    //padding-top: 5rem;
     grid-area: list;
     justify-self: center;
     display: flex;
@@ -31,5 +36,4 @@ export const SDashboardFooter = styled.div`
     justify-content: center;
     align-items: center;
     position: sticky;
-    //height: 10vh;
 `;
