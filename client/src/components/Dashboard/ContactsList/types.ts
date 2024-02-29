@@ -15,7 +15,3 @@ export interface IContactListProps {
 
     onHandleSearch?: (value: string) => void;
 }
-
-export interface IContactListWrapper {
-    contactsAreFetched: boolean;
-}

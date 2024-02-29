@@ -1,15 +1,14 @@
-import {
-    SButton,
-    SButtonContainer,
-    SButtonPanel,
-    SButtonPanelWrapper,
-    SButtonRow,
-    SButtonWrapper,
-} from '../Dashboard/ContactsList';
 import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
 import { shouldActivate } from '../../utils';
 import React from 'react';
 import { IButtonPanelProps } from './types';
+import { SButtonPanel, SButtonWrapper } from '../Dashboard/ContactsList';
+import {
+    SButton,
+    SButtonContainer,
+    SButtonPanelWrapper,
+    SButtonRow,
+} from './ButtonPanel.styles';
 
 export const ButtonPanel = ({
     isDeviceOn,
