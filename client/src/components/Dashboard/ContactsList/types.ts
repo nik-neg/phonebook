@@ -1,8 +1,10 @@
 import { IContact } from './ContactCard/types';
 
 export interface IContactListProps {
+    isDeviceOn: boolean;
+
     contacts: IContact[];
-    onAddContact: () => void;
+
     onRemoveContact?: (id: number) => void;
 
     onFetchContacts: (contacts: IContact[]) => void;

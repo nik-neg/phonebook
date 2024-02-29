@@ -24,8 +24,8 @@ import { Spacer } from '../../common/Spacer';
 import { shouldActivate } from '../../../utils';
 
 export const ContactsList = ({
+    isDeviceOn,
     contacts,
-    onAddContact,
     onFetchContacts,
     onRemoveContact,
     onHandleSearch,
@@ -43,8 +43,6 @@ export const ContactsList = ({
 
     const [getContacts] = useLazyGetContactsQuery();
 
-    const [isDeviceOn, setIsDeviceOn] = useState(true);
-
     const { data, isLoading } = useGetContactsQuery(
         { page: 1 },
         { skip: !isDeviceOn, refetchOnMountOrArgChange: true }
@@ -60,13 +58,6 @@ export const ContactsList = ({
             onFetchContacts?.(data?.data?.getContacts?.contacts);
         }
     }, [data, isLoading, isDeviceOn]);
-
-    const handlePowerOn = async () => {
-        if (isDeviceOn) {
-            onFetchContacts?.([]);
-        }
-        setIsDeviceOn(!isDeviceOn);
-    };
 
     const reloadCondition = totalNumberOfContacts - page * CONTACTS_PER_PAGE;
 
@@ -151,10 +142,6 @@ export const ContactsList = ({
         };
     }, [page]);
 
-    const handleAddContact = () => {
-        onAddContact?.();
-    };
-
     const [content, setContent] = useState<string>('');
 
     const handleSearch = (value: string) => {
@@ -198,53 +185,6 @@ export const ContactsList = ({
                         </SContactListWrapper>
                     </SContactListContainer>
                 </SContactListContainerPanel>
-                {/*<SButtonPanelWrapper>*/}
-                {/*    <SButtonPanel>*/}
-                {/*        <SButtonWrapper>*/}
-                {/*            <SButton*/}
-                {/*                onClick={handleAddContact}*/}
-                {/*                disableRipple*/}
-                {/*            >*/}
-                {/*                <SButtonContainer>*/}
-                {/*                    <SButtonRow>Add Contact</SButtonRow>*/}
-                {/*                    <SButtonRow>*/}
-                {/*                        <IoPersonAdd size={'1rem'} />*/}
-                {/*                    </SButtonRow>*/}
-                {/*                </SButtonContainer>*/}
-                {/*            </SButton>*/}
-                {/*        </SButtonWrapper>*/}
-                {/*        {!shouldActivate(*/}
-                {/*            import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON*/}
-                {/*        ) && (*/}
-                {/*            <SButtonWrapper>*/}
-                {/*                <SButton*/}
-                {/*                    onClick={handleButtonSearch}*/}
-                {/*                    disableRipple*/}
-                {/*                >*/}
-                {/*                    <SButtonContainer>*/}
-                {/*                        <SButtonRow>Search</SButtonRow>*/}
-                {/*                        <SButtonRow>*/}
-                {/*                            <MdOutlinePersonSearch*/}
-                {/*                                size={'1rem'}*/}
-                {/*                            />*/}
-                {/*                        </SButtonRow>*/}
-                {/*                    </SButtonContainer>*/}
-                {/*                </SButton>*/}
-                {/*            </SButtonWrapper>*/}
-                {/*        )}*/}
-
-                {/*        <SButtonWrapper>*/}
-                {/*            <SButton onClick={handlePowerOn} disableRipple>*/}
-                {/*                <SButtonContainer>*/}
-                {/*                    <SButtonRow>Power</SButtonRow>*/}
-                {/*                    <SButtonRow>*/}
-                {/*                        <CiPower size={'1rem'} />*/}
-                {/*                    </SButtonRow>*/}
-                {/*                </SButtonContainer>*/}
-                {/*            </SButton>*/}
-                {/*        </SButtonWrapper>*/}
-                {/*    </SButtonPanel>*/}
-                {/*</SButtonPanelWrapper>*/}
             </SContactListContainerWrapper>
         </SContactListPanel>
     );

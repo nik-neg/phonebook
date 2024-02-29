@@ -46,6 +46,7 @@ export const SAddress = styled.div`
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    color: black;
 `;
 
 export const SContactNickName = styled.div`
@@ -53,6 +54,7 @@ export const SContactNickName = styled.div`
     font-size: 1.5rem;
     width: 200px;
     padding-top: 3rem;
+    color: black;
 `;
 
 export const SContactName = styled.div`

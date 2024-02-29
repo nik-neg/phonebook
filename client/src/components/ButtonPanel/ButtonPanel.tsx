@@ -9,13 +9,29 @@ import {
 import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
 import { shouldActivate } from '../../utils';
 import React from 'react';
+import { IButtonPanelProps } from './types';
 
-export const ButtonPanel = () => {
+export const ButtonPanel = ({
+    isDeviceOn,
+    onAddContact,
+    onFetchContacts,
+    toggleDevice,
+}: IButtonPanelProps) => {
+    const handleAddContact = () => {
+        onAddContact?.();
+    };
+
+    const handlePowerOn = async () => {
+        if (isDeviceOn) {
+            onFetchContacts?.([]);
+        }
+        toggleDevice();
+    };
     return (
         <SButtonPanelWrapper>
             <SButtonPanel>
                 <SButtonWrapper>
-                    <SButton onClick={() => {}} disableRipple>
+                    <SButton onClick={handleAddContact} disableRipple>
                         <SButtonContainer>
                             <SButtonRow>Add Contact</SButtonRow>
                             <SButtonRow>
@@ -40,7 +56,7 @@ export const ButtonPanel = () => {
                 )}
 
                 <SButtonWrapper>
-                    <SButton onClick={() => {}} disableRipple>
+                    <SButton onClick={handlePowerOn} disableRipple>
                         <SButtonContainer>
                             <SButtonRow>Power</SButtonRow>
                             <SButtonRow>

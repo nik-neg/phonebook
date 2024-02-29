@@ -78,15 +78,17 @@ export const Dashboard = (): JSX.Element => {
         setOpenSearch(false);
     };
 
+    const [isDeviceOn, setIsDeviceOn] = useState(true);
+
     return (
         <Tilt>
             <SDashboardContainer>
                 <SDashboardHeader />
                 <SDashboard>
                     <ContactsList
+                        isDeviceOn={isDeviceOn}
                         contacts={fetchedContacts}
                         onFetchContacts={onFetchContacts}
-                        onAddContact={handleOpenAddContact}
                         onRemoveContact={onRemoveContact}
                         onEditContact={handleEditContact}
                         onHandleSearch={handleSearch}
@@ -109,7 +111,13 @@ export const Dashboard = (): JSX.Element => {
                 )}
 
                 <SDashboardFooter>
-                    <ButtonPanel />
+                    <ButtonPanel
+                        isDeviceOn={isDeviceOn}
+                        onAddContact={handleOpenAddContact}
+                        onHandleSearch={handleSearch}
+                        onFetchContacts={onFetchContacts}
+                        toggleDevice={() => setIsDeviceOn(!isDeviceOn)}
+                    />
                 </SDashboardFooter>
             </SDashboardContainer>
         </Tilt>
