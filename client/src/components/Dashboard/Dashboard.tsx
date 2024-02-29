@@ -1,8 +1,8 @@
 import {
+    SDashboard,
     SDashboardContainer,
     SDashboardFooter,
     SDashboardHeader,
-    SDashboardList,
 } from './Dashboard.styles';
 import { IContact } from './ContactsList/ContactCard/types';
 import React, { useState } from 'react';
@@ -11,6 +11,8 @@ import { AddDialog } from './dialogs/AddDialog/AddDialog';
 import { useLazyGetContactsQuery } from '../../store/api/contacts.api';
 import { SearchDialog } from './dialogs/SearchDialog';
 import { shouldActivate } from '../../utils';
+import { ButtonPanel } from '../ButtonPanel/ButtonPanel';
+import Tilt from 'react-parallax-tilt';
 
 export const Dashboard = (): JSX.Element => {
     const [fetchedContacts, setFetchedContacts] = useState<IContact[]>([]);
@@ -77,35 +79,40 @@ export const Dashboard = (): JSX.Element => {
     };
 
     return (
-        <SDashboardContainer>
-            <SDashboardHeader />
-            <SDashboardList>
-                <ContactsList
-                    contacts={fetchedContacts}
-                    onFetchContacts={onFetchContacts}
-                    onAddContact={handleOpenAddContact}
-                    onRemoveContact={onRemoveContact}
-                    onEditContact={handleEditContact}
-                    onHandleSearch={handleSearch}
-                />
-            </SDashboardList>
-            <AddDialog
-                open={open}
-                onClose={handleClose}
-                onSave={handleAddContact}
-            />
-            {!shouldActivate(
-                import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
-            ) && (
-                <SearchDialog
-                    open={openSearch}
-                    onClose={handleSearchClose}
-                    onSearch={handleSearch}
-                />
-            )}
+        <Tilt>
+            <SDashboardContainer>
+                <SDashboardHeader />
+                <SDashboard>
+                    <ContactsList
+                        contacts={fetchedContacts}
+                        onFetchContacts={onFetchContacts}
+                        onAddContact={handleOpenAddContact}
+                        onRemoveContact={onRemoveContact}
+                        onEditContact={handleEditContact}
+                        onHandleSearch={handleSearch}
+                    />
+                </SDashboard>
 
-            <SDashboardFooter />
-        </SDashboardContainer>
+                <AddDialog
+                    open={open}
+                    onClose={handleClose}
+                    onSave={handleAddContact}
+                />
+                {!shouldActivate(
+                    import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
+                ) && (
+                    <SearchDialog
+                        open={openSearch}
+                        onClose={handleSearchClose}
+                        onSearch={handleSearch}
+                    />
+                )}
+
+                <SDashboardFooter>
+                    <ButtonPanel />
+                </SDashboardFooter>
+            </SDashboardContainer>
+        </Tilt>
     );
 };
 

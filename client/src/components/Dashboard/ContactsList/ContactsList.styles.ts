@@ -14,16 +14,10 @@ export const SContactListContainerWrapper = styled.div`
     align-items: center;
     flex-direction: column;
     width: 365px;
-    height: 760px;
+    height: 700px;
     background: black;
-    border-radius: 10px;
-    box-shadow: 5px 2.5px 2.5px #262626;
-
-    &:hover {
-        -moz-box-shadow: 0 0 10px 10px #bcd4e6;
-        -webkit-box-shadow: 0 0 10px 10px #bcd4e6;
-        box-shadow: 0 0 10px 10px #bcd4e6;
-    }
+    border-radius: 10px 10px 0 0;
+    //box-shadow: 5px 2.5px 2.5px #262626;
 `;
 
 export const SContactListContainerPanel = styled.div<IContactListWrapper>`
@@ -139,17 +133,20 @@ export const SContactCardsContainer = styled.div`
 `;
 
 export const SButtonPanelWrapper = styled.div`
+    height: 100%;
+    width: 100%;
     position: relative;
     display: flex;
     justify-content: center;
-    overflow: hidden;
+    //overflow: hidden;
+    z-index: 2;
 `;
 
 export const SButtonPanel = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 4rem;
+    height: 3.5rem;
     width: 100%;
     background: black;
     border-right: 4px solid black;
@@ -159,7 +156,7 @@ export const SButtonPanel = styled.div`
 `;
 
 export const SButtonWrapper = styled.div`
-    padding: 0.5rem 0.25rem 0.25rem 0.25rem;
+    padding: 0.5rem;
 `;
 
 interface SButtonProps {
@@ -215,7 +212,7 @@ export const SButtonRow = styled.div`
 export const SContactListWrapper = styled.div`
     width: 100%;
     height: 790px;
-    padding-bottom: 200px;
+    //padding-bottom: 200px;
     border: 3px solid transparent;
     border-bottom: none;
     border-radius: 12px;

@@ -1,10 +1,4 @@
 import {
-    SButton,
-    SButtonContainer,
-    SButtonPanel,
-    SButtonPanelWrapper,
-    SButtonRow,
-    SButtonWrapper,
     SContactCardsContainer,
     SContactListContainer,
     SContactListContainerPanel,
@@ -19,12 +13,10 @@ import {
     useGetContactsQuery,
     useLazyGetContactsQuery,
 } from '../../../store/api/contacts.api';
-import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { selectTotalNumberOfContacts } from '../../../store/selectors/contacts.selector';
 import { getTotalNumberOfContacts } from '../../../store/slices';
 import { debounce } from 'lodash-es';
-import Tilt from 'react-parallax-tilt';
 import { SearchBar } from '../dialogs/common/SearchBar';
 import { CONTACTS_PER_PAGE } from './constants';
 import { ContactCard } from './ContactCard';
@@ -175,87 +167,85 @@ export const ContactsList = ({
     };
 
     return (
-        <Tilt>
-            <SContactListPanel>
-                <SContactListContainerWrapper>
-                    <SContactListContainerPanel contactsAreFetched={isDeviceOn}>
-                        {shouldActivate(
-                            import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
-                        ) && (
-                            <SearchBarContainer>
-                                <Spacer height={10} />
-                                <SearchBar onSearch={handleSearch} />
-                                <Spacer height={10} />
-                            </SearchBarContainer>
-                        )}
-                        <SContactListContainer ref={outerRef}>
-                            <SContactListWrapper ref={innerRef}>
-                                <SContactCardsContainer>
-                                    {contacts.map(
-                                        (contact, index) =>
-                                            index < CONTACTS_PER_PAGE && (
-                                                <ContactCard
-                                                    key={index}
-                                                    contact={contact}
-                                                    onRemoveContact={
-                                                        onRemoveContact
-                                                    }
-                                                />
-                                            )
-                                    )}
-                                </SContactCardsContainer>
-                            </SContactListWrapper>
-                        </SContactListContainer>
-                    </SContactListContainerPanel>
-                    <SButtonPanelWrapper>
-                        <SButtonPanel>
-                            <SButtonWrapper>
-                                <SButton
-                                    onClick={handleAddContact}
-                                    disableRipple
-                                >
-                                    <SButtonContainer>
-                                        <SButtonRow>Add Contact</SButtonRow>
-                                        <SButtonRow>
-                                            <IoPersonAdd size={'1rem'} />
-                                        </SButtonRow>
-                                    </SButtonContainer>
-                                </SButton>
-                            </SButtonWrapper>
-                            {!shouldActivate(
-                                import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
-                            ) && (
-                                <SButtonWrapper>
-                                    <SButton
-                                        onClick={handleButtonSearch}
-                                        disableRipple
-                                    >
-                                        <SButtonContainer>
-                                            <SButtonRow>Search</SButtonRow>
-                                            <SButtonRow>
-                                                <MdOutlinePersonSearch
-                                                    size={'1rem'}
-                                                />
-                                            </SButtonRow>
-                                        </SButtonContainer>
-                                    </SButton>
-                                </SButtonWrapper>
-                            )}
+        <SContactListPanel>
+            <SContactListContainerWrapper>
+                <SContactListContainerPanel contactsAreFetched={isDeviceOn}>
+                    {shouldActivate(
+                        import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
+                    ) && (
+                        <SearchBarContainer>
+                            <Spacer height={10} />
+                            <SearchBar onSearch={handleSearch} />
+                            <Spacer height={10} />
+                        </SearchBarContainer>
+                    )}
+                    <SContactListContainer ref={outerRef}>
+                        <SContactListWrapper ref={innerRef}>
+                            <SContactCardsContainer>
+                                {contacts.map(
+                                    (contact, index) =>
+                                        index < CONTACTS_PER_PAGE && (
+                                            <ContactCard
+                                                key={index}
+                                                contact={contact}
+                                                onRemoveContact={
+                                                    onRemoveContact
+                                                }
+                                            />
+                                        )
+                                )}
+                            </SContactCardsContainer>
+                        </SContactListWrapper>
+                    </SContactListContainer>
+                </SContactListContainerPanel>
+                {/*<SButtonPanelWrapper>*/}
+                {/*    <SButtonPanel>*/}
+                {/*        <SButtonWrapper>*/}
+                {/*            <SButton*/}
+                {/*                onClick={handleAddContact}*/}
+                {/*                disableRipple*/}
+                {/*            >*/}
+                {/*                <SButtonContainer>*/}
+                {/*                    <SButtonRow>Add Contact</SButtonRow>*/}
+                {/*                    <SButtonRow>*/}
+                {/*                        <IoPersonAdd size={'1rem'} />*/}
+                {/*                    </SButtonRow>*/}
+                {/*                </SButtonContainer>*/}
+                {/*            </SButton>*/}
+                {/*        </SButtonWrapper>*/}
+                {/*        {!shouldActivate(*/}
+                {/*            import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON*/}
+                {/*        ) && (*/}
+                {/*            <SButtonWrapper>*/}
+                {/*                <SButton*/}
+                {/*                    onClick={handleButtonSearch}*/}
+                {/*                    disableRipple*/}
+                {/*                >*/}
+                {/*                    <SButtonContainer>*/}
+                {/*                        <SButtonRow>Search</SButtonRow>*/}
+                {/*                        <SButtonRow>*/}
+                {/*                            <MdOutlinePersonSearch*/}
+                {/*                                size={'1rem'}*/}
+                {/*                            />*/}
+                {/*                        </SButtonRow>*/}
+                {/*                    </SButtonContainer>*/}
+                {/*                </SButton>*/}
+                {/*            </SButtonWrapper>*/}
+                {/*        )}*/}
 
-                            <SButtonWrapper>
-                                <SButton onClick={handlePowerOn} disableRipple>
-                                    <SButtonContainer>
-                                        <SButtonRow>Power</SButtonRow>
-                                        <SButtonRow>
-                                            <CiPower size={'1rem'} />
-                                        </SButtonRow>
-                                    </SButtonContainer>
-                                </SButton>
-                            </SButtonWrapper>
-                        </SButtonPanel>
-                    </SButtonPanelWrapper>
-                </SContactListContainerWrapper>
-            </SContactListPanel>
-        </Tilt>
+                {/*        <SButtonWrapper>*/}
+                {/*            <SButton onClick={handlePowerOn} disableRipple>*/}
+                {/*                <SButtonContainer>*/}
+                {/*                    <SButtonRow>Power</SButtonRow>*/}
+                {/*                    <SButtonRow>*/}
+                {/*                        <CiPower size={'1rem'} />*/}
+                {/*                    </SButtonRow>*/}
+                {/*                </SButtonContainer>*/}
+                {/*            </SButton>*/}
+                {/*        </SButtonWrapper>*/}
+                {/*    </SButtonPanel>*/}
+                {/*</SButtonPanelWrapper>*/}
+            </SContactListContainerWrapper>
+        </SContactListPanel>
     );
 };

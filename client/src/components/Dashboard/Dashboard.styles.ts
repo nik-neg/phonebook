@@ -11,14 +11,15 @@ export const SDashboardContainer = styled.div`
         'title title title title'
         'list list list list'
         'footer footer footer footer';
+    box-shadow: 5px 2.5px 5px #262626;
 `;
 
 export const SDashboardHeader = styled.div`
     grid-area: header;
 `;
 
-export const SDashboardList = styled.div`
-    padding-top: 6rem;
+export const SDashboard = styled.div`
+    //padding-top: 5rem;
     grid-area: list;
     justify-self: center;
     display: flex;
@@ -30,5 +31,5 @@ export const SDashboardFooter = styled.div`
     justify-content: center;
     align-items: center;
     position: sticky;
-    height: 10vh;
+    //height: 10vh;
 `;
