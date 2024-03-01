@@ -5,6 +5,8 @@ export interface IContactListProps {
 
     page: number;
 
+    contacts: IContact[];
+
     onPageChange: (page: number) => void;
 
     onRemoveContact?: (id: number) => void;

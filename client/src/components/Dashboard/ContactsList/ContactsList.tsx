@@ -30,6 +30,7 @@ import { SDivider } from '../../common/Divider';
 export const ContactsList = ({
     isDeviceOn,
     page,
+    contacts,
     onPageChange,
     onFetchContacts,
     onRemoveContact,
@@ -53,12 +54,13 @@ export const ContactsList = ({
         if (
             !isLoading &&
             data?.data?.getContacts?.contacts?.length > 0 &&
+            !isFetching &&
             isDeviceOn
         ) {
             dispatch(getTotalNumberOfContacts(data?.data?.getContacts?.total));
             onFetchContacts?.(data?.data?.getContacts?.contacts);
         }
-    }, [data, isLoading, isDeviceOn]);
+    }, [data, isLoading, isFetching, isDeviceOn]);
 
     const loadMoreContacts = useCallback(
         async (outerElem: HTMLDivElement) => {
@@ -159,7 +161,7 @@ export const ContactsList = ({
                     <SContactListContainer ref={outerRef}>
                         <SContactListWrapper ref={innerRef}>
                             <SContactCardsContainer>
-                                {data?.data?.getContacts?.contacts.map(
+                                {contacts.map(
                                     (contact: IContact, index: number) =>
                                         index < CONTACTS_PER_PAGE && (
                                             <ContactCard

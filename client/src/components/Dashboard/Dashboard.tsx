@@ -94,6 +94,7 @@ export const Dashboard = (): JSX.Element => {
                     <ContactsList
                         isDeviceOn={isDeviceOn}
                         page={page}
+                        contacts={fetchedContacts}
                         onPageChange={handlePageChange}
                         onFetchContacts={onFetchContacts}
                         onRemoveContact={onRemoveContact}
