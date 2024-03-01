@@ -1,8 +1,8 @@
 import {
+    SDashboard,
     SDashboardContainer,
     SDashboardFooter,
     SDashboardHeader,
-    SDashboardList,
 } from './Dashboard.styles';
 import { IContact } from './ContactsList/ContactCard/types';
 import React, { useState } from 'react';
@@ -11,6 +11,8 @@ import { AddDialog } from './dialogs/AddDialog/AddDialog';
 import { useLazyGetContactsQuery } from '../../store/api/contacts.api';
 import { SearchDialog } from './dialogs/SearchDialog';
 import { shouldActivate } from '../../utils';
+import { ButtonPanel } from '../ButtonPanel/ButtonPanel';
+import Tilt from 'react-parallax-tilt';
 
 export const Dashboard = (): JSX.Element => {
     const [fetchedContacts, setFetchedContacts] = useState<IContact[]>([]);
@@ -54,10 +56,8 @@ export const Dashboard = (): JSX.Element => {
                     page: 1,
                 });
 
-                const newContacts = contacts?.data?.data?.getContacts.contacts
-                    ?.length
-                    ? contacts?.data?.data?.getContacts.contacts
-                    : [];
+                let newContacts = contacts?.data?.data?.getContacts.contacts;
+                newContacts = newContacts?.length ? newContacts : [];
 
                 setFetchedContacts(newContacts);
             } catch (e) {
@@ -76,36 +76,57 @@ export const Dashboard = (): JSX.Element => {
         setOpenSearch(false);
     };
 
-    return (
-        <SDashboardContainer>
-            <SDashboardHeader />
-            <SDashboardList>
-                <ContactsList
-                    contacts={fetchedContacts}
-                    onFetchContacts={onFetchContacts}
-                    onAddContact={handleOpenAddContact}
-                    onRemoveContact={onRemoveContact}
-                    onEditContact={handleEditContact}
-                    onHandleSearch={handleSearch}
-                />
-            </SDashboardList>
-            <AddDialog
-                open={open}
-                onClose={handleClose}
-                onSave={handleAddContact}
-            />
-            {!shouldActivate(
-                import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
-            ) && (
-                <SearchDialog
-                    open={openSearch}
-                    onClose={handleSearchClose}
-                    onSearch={handleSearch}
-                />
-            )}
+    const [isDeviceOn, setIsDeviceOn] = useState(true);
 
-            <SDashboardFooter />
-        </SDashboardContainer>
+    const [page, setPage] = useState(1);
+
+    const handlePageChange = (page: number) => {
+        setPage(page);
+    };
+
+    return (
+        <Tilt>
+            <SDashboardContainer>
+                <SDashboardHeader />
+                <SDashboard>
+                    <ContactsList
+                        isDeviceOn={isDeviceOn}
+                        page={page}
+                        contacts={fetchedContacts}
+                        onPageChange={handlePageChange}
+                        onFetchContacts={onFetchContacts}
+                        onRemoveContact={onRemoveContact}
+                        onEditContact={handleEditContact}
+                        onHandleSearch={handleSearch}
+                    />
+                </SDashboard>
+
+                <AddDialog
+                    open={open}
+                    onClose={handleClose}
+                    onSave={handleAddContact}
+                />
+                {!shouldActivate(
+                    import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
+                ) && (
+                    <SearchDialog
+                        open={openSearch}
+                        onClose={handleSearchClose}
+                        onSearch={handleSearch}
+                    />
+                )}
+
+                <SDashboardFooter>
+                    <ButtonPanel
+                        isDeviceOn={isDeviceOn}
+                        onAddContact={handleOpenAddContact}
+                        onHandleSearch={handleSearch}
+                        onFetchContacts={onFetchContacts}
+                        toggleDevice={() => setIsDeviceOn(!isDeviceOn)}
+                    />
+                </SDashboardFooter>
+            </SDashboardContainer>
+        </Tilt>
     );
 };
 

@@ -1,8 +1,14 @@
 import { IContact } from './ContactCard/types';
 
 export interface IContactListProps {
+    isDeviceOn: boolean;
+
+    page: number;
+
     contacts: IContact[];
-    onAddContact: () => void;
+
+    onPageChange: (page: number) => void;
+
     onRemoveContact?: (id: number) => void;
 
     onFetchContacts: (contacts: IContact[]) => void;
@@ -12,8 +18,4 @@ export interface IContactListProps {
     onOpenSearch?: () => void;
 
     onHandleSearch?: (value: string) => void;
-}
-
-export interface IContactListWrapper {
-    contactsAreFetched: boolean;
 }

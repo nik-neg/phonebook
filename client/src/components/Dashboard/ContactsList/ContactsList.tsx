@@ -1,39 +1,37 @@
 import {
-    SButton,
-    SButtonContainer,
-    SButtonPanel,
-    SButtonPanelWrapper,
-    SButtonRow,
-    SButtonWrapper,
     SContactCardsContainer,
     SContactListContainer,
     SContactListContainerPanel,
     SContactListContainerWrapper,
     SContactListPanel,
     SContactListWrapper,
+    SDividerWrapper,
     SearchBarContainer,
 } from './ContactsList.styles';
 import { IContactListProps } from './types';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import {
-    useGetContactsQuery,
-    useLazyGetContactsQuery,
-} from '../../../store/api/contacts.api';
-import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
+import { useGetContactsQuery } from '../../../store/api/contacts.api';
 import { useAppDispatch, useAppSelector } from '../../../store';
 import { selectTotalNumberOfContacts } from '../../../store/selectors/contacts.selector';
 import { getTotalNumberOfContacts } from '../../../store/slices';
 import { debounce } from 'lodash-es';
-import Tilt from 'react-parallax-tilt';
 import { SearchBar } from '../dialogs/common/SearchBar';
-import { CONTACTS_PER_PAGE } from './constants';
-import { ContactCard } from './ContactCard';
+import {
+    CONTACTS_PER_PAGE,
+    SCROLL_DOWN_STEP,
+    SCROLL_UP_STEP,
+    START_SCROLL,
+} from './constants';
+import { ContactCard, IContact } from './ContactCard';
 import { Spacer } from '../../common/Spacer';
 import { shouldActivate } from '../../../utils';
+import { SDivider } from '../../common/Divider';
 
 export const ContactsList = ({
+    isDeviceOn,
+    page,
     contacts,
-    onAddContact,
+    onPageChange,
     onFetchContacts,
     onRemoveContact,
     onHandleSearch,
@@ -45,16 +43,10 @@ export const ContactsList = ({
     const outerRef = useRef<HTMLDivElement>(null);
     const innerRef = useRef<HTMLDivElement>(null);
 
-    const [page, setPage] = useState(1);
-
     const [scroll, setScroll] = useState(0);
 
-    const [getContacts] = useLazyGetContactsQuery();
-
-    const [isDeviceOn, setIsDeviceOn] = useState(true);
-
-    const { data, isLoading } = useGetContactsQuery(
-        { page: 1 },
+    const { data, isLoading, isFetching } = useGetContactsQuery(
+        { page },
         { skip: !isDeviceOn, refetchOnMountOrArgChange: true }
     );
 
@@ -62,78 +54,66 @@ export const ContactsList = ({
         if (
             !isLoading &&
             data?.data?.getContacts?.contacts?.length > 0 &&
+            !isFetching &&
             isDeviceOn
         ) {
             dispatch(getTotalNumberOfContacts(data?.data?.getContacts?.total));
             onFetchContacts?.(data?.data?.getContacts?.contacts);
         }
-    }, [data, isLoading, isDeviceOn]);
-
-    const handlePowerOn = async () => {
-        if (isDeviceOn) {
-            onFetchContacts?.([]);
-        }
-        setIsDeviceOn(!isDeviceOn);
-    };
-
-    const reloadCondition = totalNumberOfContacts - page * CONTACTS_PER_PAGE;
+    }, [data, isLoading, isFetching, isDeviceOn]);
 
     const loadMoreContacts = useCallback(
         async (outerElem: HTMLDivElement) => {
             setTimeout(async () => {
-                let newContacts;
-
                 const { scrollTop, clientHeight } = outerElem;
+
                 setScroll(scrollTop);
 
-                if (
-                    !(scrollTop < scroll) &&
-                    scrollTop < clientHeight &&
-                    totalNumberOfContacts >= page * CONTACTS_PER_PAGE
-                ) {
-                    onFetchContacts?.([]);
-                    setPage((page) => page + 1);
-                    try {
-                        newContacts = await getContacts({
-                            page: page + 1,
-                        });
-                    } catch (e) {
-                        console.log(e);
-                    }
+                const isNextPageLastPage =
+                    totalNumberOfContacts < (page + 1) * CONTACTS_PER_PAGE;
 
-                    dispatch(
-                        getTotalNumberOfContacts(
-                            newContacts?.data?.data?.getContacts?.total
-                        )
-                    );
-                    onFetchContacts?.(
-                        newContacts?.data?.data?.getContacts?.contacts?.length >
-                            0
-                            ? newContacts?.data?.data?.getContacts?.contacts
-                            : contacts
-                    );
-                } else {
+                const hasMoreContacts =
+                    totalNumberOfContacts - page * CONTACTS_PER_PAGE > 0;
+                if (
+                    // scroll down
+                    scrollTop >= scroll &&
+                    scrollTop < clientHeight &&
+                    scrollTop !== SCROLL_UP_STEP &&
+                    hasMoreContacts &&
+                    scrollTop !== SCROLL_DOWN_STEP
+                ) {
+                    onPageChange(page + 1);
+                    if (isNextPageLastPage) {
+                        outerRef?.current?.scrollTo(0, SCROLL_DOWN_STEP);
+                        setScroll(SCROLL_DOWN_STEP);
+                    }
+                } else if (
+                    // scroll up
+                    scrollTop <= scroll &&
+                    !scrollTop &&
+                    totalNumberOfContacts < page * CONTACTS_PER_PAGE
+                ) {
                     const scrollBackOCondition = (page: number) =>
                         page - 1 > 1 ? page - 1 : 1;
-                    setPage((page) => scrollBackOCondition(page));
+                    onPageChange(scrollBackOCondition(page));
 
-                    try {
-                        newContacts = await getContacts({
-                            page: scrollBackOCondition(page),
-                        });
-                    } catch (e) {
-                        console.log(e);
-                    }
-                    onFetchContacts?.(
-                        newContacts?.data?.data?.getContacts?.contacts?.length >
-                            0
-                            ? newContacts?.data?.data?.getContacts?.contacts
-                            : contacts
-                    );
+                    outerRef?.current?.scrollTo(0, SCROLL_UP_STEP);
+                    setScroll(SCROLL_UP_STEP);
+                } else if (
+                    scrollTop !== SCROLL_UP_STEP &&
+                    scrollTop !== SCROLL_DOWN_STEP
+                ) {
+                    // scroll up last page
+                    const scrollBackOCondition = (page: number) =>
+                        page - 1 > 1 ? page - 1 : 1;
+                    onPageChange(scrollBackOCondition(page));
+
+                    outerRef?.current?.scrollTo(0, START_SCROLL);
+                    setScroll(START_SCROLL);
                 }
-            }, 1000);
+            }, 500);
         },
-        [page, reloadCondition]
+        [page]
     );
 
     useEffect(() => {
@@ -143,25 +123,15 @@ export const ContactsList = ({
             return;
         }
         const handleScroll = debounce(async () => {
-            const { scrollTop, clientHeight } = outerElem;
-            if (scrollTop < clientHeight) {
-                try {
-                    await loadMoreContacts(outerElem);
-                } catch (e) {
-                    console.log(e);
-                }
-            }
+            await loadMoreContacts(outerElem);
         }, 100);
+
         outerElem.addEventListener('scroll', handleScroll);
 
         return () => {
             outerElem.removeEventListener('scroll', handleScroll);
         };
     }, [page]);
-
-    const handleAddContact = () => {
-        onAddContact?.();
-    };
 
     const [content, setContent] = useState<string>('');
 
@@ -175,87 +145,42 @@ export const ContactsList = ({
     };
 
     return (
-        <Tilt>
-            <SContactListPanel>
-                <SContactListContainerWrapper>
-                    <SContactListContainerPanel contactsAreFetched={isDeviceOn}>
-                        {shouldActivate(
-                            import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
-                        ) && (
-                            <SearchBarContainer>
-                                <Spacer height={10} />
-                                <SearchBar onSearch={handleSearch} />
-                                <Spacer height={10} />
-                            </SearchBarContainer>
-                        )}
-                        <SContactListContainer ref={outerRef}>
-                            <SContactListWrapper ref={innerRef}>
-                                <SContactCardsContainer>
-                                    {contacts.map(
-                                        (contact, index) =>
-                                            index < CONTACTS_PER_PAGE && (
-                                                <ContactCard
-                                                    key={index}
-                                                    contact={contact}
-                                                    onRemoveContact={
-                                                        onRemoveContact
-                                                    }
-                                                />
-                                            )
-                                    )}
-                                </SContactCardsContainer>
-                            </SContactListWrapper>
-                        </SContactListContainer>
-                    </SContactListContainerPanel>
-                    <SButtonPanelWrapper>
-                        <SButtonPanel>
-                            <SButtonWrapper>
-                                <SButton
-                                    onClick={handleAddContact}
-                                    disableRipple
-                                >
-                                    <SButtonContainer>
-                                        <SButtonRow>Add Contact</SButtonRow>
-                                        <SButtonRow>
-                                            <IoPersonAdd size={'1rem'} />
-                                        </SButtonRow>
-                                    </SButtonContainer>
-                                </SButton>
-                            </SButtonWrapper>
-                            {!shouldActivate(
-                                import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
-                            ) && (
-                                <SButtonWrapper>
-                                    <SButton
-                                        onClick={handleButtonSearch}
-                                        disableRipple
-                                    >
-                                        <SButtonContainer>
-                                            <SButtonRow>Search</SButtonRow>
-                                            <SButtonRow>
-                                                <MdOutlinePersonSearch
-                                                    size={'1rem'}
-                                                />
-                                            </SButtonRow>
-                                        </SButtonContainer>
-                                    </SButton>
-                                </SButtonWrapper>
-                            )}
+        <SContactListPanel>
+            <SContactListContainerWrapper>
+                <SContactListContainerPanel contactsAreFetched={isDeviceOn}>
+                    {shouldActivate(
+                        import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
+                    ) && (
+                        <SearchBarContainer>
+                            <Spacer height={10} />
+                            <SearchBar onSearch={handleSearch} />
+                            <Spacer height={10} />
+                            <SDividerWrapper>
+                                <SDivider width={50} />
+                            </SDividerWrapper>
+                        </SearchBarContainer>
+                    )}
 
-                            <SButtonWrapper>
-                                <SButton onClick={handlePowerOn} disableRipple>
-                                    <SButtonContainer>
-                                        <SButtonRow>Power</SButtonRow>
-                                        <SButtonRow>
-                                            <CiPower size={'1rem'} />
-                                        </SButtonRow>
-                                    </SButtonContainer>
-                                </SButton>
-                            </SButtonWrapper>
-                        </SButtonPanel>
-                    </SButtonPanelWrapper>
-                </SContactListContainerWrapper>
-            </SContactListPanel>
-        </Tilt>
+                    <SContactListContainer ref={outerRef}>
+                        <SContactListWrapper ref={innerRef}>
+                            <SContactCardsContainer>
+                                {contacts.map(
+                                    (contact: IContact, index: number) =>
+                                        index < CONTACTS_PER_PAGE && (
+                                            <ContactCard
+                                                key={index}
+                                                contact={contact}
+                                                onRemoveContact={
+                                                    onRemoveContact
+                                                }
+                                            />
+                                        )
+                                )}
+                            </SContactCardsContainer>
+                        </SContactListWrapper>
+                    </SContactListContainer>
+                </SContactListContainerPanel>
+            </SContactListContainerWrapper>
+        </SContactListPanel>
     );
 };
