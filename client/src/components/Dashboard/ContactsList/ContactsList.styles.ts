@@ -19,6 +19,7 @@ export const SContactListContainerWrapper = styled.div`
 
 interface IContactListWrapper {
     contactsAreFetched: boolean;
+    shineTimer: number;
 }
 export const SContactListContainerPanel = styled.div<IContactListWrapper>`
     display: flex;
@@ -32,7 +33,7 @@ export const SContactListContainerPanel = styled.div<IContactListWrapper>`
     overflow: hidden;
     position: relative;
 
-    ${({ contactsAreFetched }) =>
+    ${({ contactsAreFetched, shineTimer }) =>
         !contactsAreFetched &&
         `
         &:after {
@@ -44,7 +45,7 @@ export const SContactListContainerPanel = styled.div<IContactListWrapper>`
         height: 680px;
         position: absolute;
         z-index: 1;
-        animation: slide 12s infinite;
+        animation: slide ${shineTimer}s infinite;
         /*
         CSS Gradient - complete browser support from http://www.colorzilla.com/gradient-editor/
         */

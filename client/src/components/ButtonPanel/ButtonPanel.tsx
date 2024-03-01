@@ -9,6 +9,7 @@ import {
     SButtonPanelWrapper,
     SButtonRow,
 } from './ButtonPanel.styles';
+import { VerticalSlider } from '../common/VerticalSlider/VerticalSlider';
 
 export const ButtonPanel = ({
     isDeviceOn,
@@ -29,6 +30,8 @@ export const ButtonPanel = ({
     return (
         <SButtonPanelWrapper>
             <SButtonPanel>
+                <VerticalSlider />
+
                 <SButtonWrapper>
                     <SButton onClick={handleAddContact} disableRipple>
                         <SButtonContainer>
