@@ -29,6 +29,7 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^9.0.1",
     "@pothos/core": "^3.41.0",
+    "@pothos/plugin-simple-objects": "^3.7.0",
     "apollo-server-express": "^3.11.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",

@@ -16,13 +16,13 @@ import * as GraphQLTypes from '../graphql-types';
 export class ContactService {
   constructor(
     @InjectRepository(Contact)
-    private readonly contactRepository: Repository<Contact>,
+    private readonly contactRepository?: Repository<Contact>,
     @InjectRepository(PhoneNumber)
-    private readonly phoneNumberRepository: Repository<PhoneNumber>,
+    private readonly phoneNumberRepository?: Repository<PhoneNumber>,
     @Inject(FilterService)
-    private readonly filterService: FilterService,
+    private readonly filterService?: FilterService,
 
-    private readonly connection: Connection,
+    private readonly connection?: Connection,
   ) {}
 
   async findAll(
