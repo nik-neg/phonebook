@@ -56,10 +56,8 @@ export const Dashboard = (): JSX.Element => {
                     page: 1,
                 });
 
-                const newContacts = contacts?.data?.data?.getContacts.contacts
-                    ?.length
-                    ? contacts?.data?.data?.getContacts.contacts
-                    : [];
+                let newContacts = contacts?.data?.data?.getContacts.contacts;
+                newContacts = newContacts?.length ? newContacts : [];
 
                 setFetchedContacts(newContacts);
             } catch (e) {
