@@ -1,5 +1,6 @@
 import { TransformFnParams } from 'class-transformer';
 
 export const stringToIntTransform = ({ value }: TransformFnParams): any => {
-  return parseInt(value.value, 10);
+  const val = parseInt(value.value, 10);
+  return !isNaN(val) ? val : 0;
 };
