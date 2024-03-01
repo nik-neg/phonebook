@@ -24,6 +24,7 @@ import {
     CONTACTS_PER_PAGE,
     SCROLL_DOWN_STEP,
     SCROLL_UP_STEP,
+    SHINE_TIME_COEFFICIENT,
     SHINE_TIME_REFERENCE,
     START_SCROLL,
 } from './constants';
@@ -156,7 +157,10 @@ export const ContactsList = ({
             <SContactListContainerWrapper>
                 <SContactListContainerPanel
                     contactsAreFetched={isDeviceOn}
-                    shineTimer={SHINE_TIME_REFERENCE / (sliderValue / 50)}
+                    shineTimer={
+                        SHINE_TIME_REFERENCE /
+                        (sliderValue / SHINE_TIME_COEFFICIENT)
+                    }
                 >
                     {shouldActivate(
                         import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON

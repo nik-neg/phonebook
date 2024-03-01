@@ -4,3 +4,5 @@ export const SCROLL_UP_STEP = 1;
 export const SCROLL_DOWN_STEP = 2;
 
 export const SHINE_TIME_REFERENCE = 5;
+
+export const SHINE_TIME_COEFFICIENT = 50;
