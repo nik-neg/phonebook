@@ -23,12 +23,12 @@ import { addContactSchema } from './validation/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ContactWithPhoneNumbersAsString } from '../UpdateDialog';
 import '@algolia/autocomplete-theme-classic';
-import { AutoCompleteWrapper } from '../../../common/Autocomplete';
+import { AutoCompleteWrapper } from '../../../Autocomplete';
 import { SUploadButtonWrapper, UploadButton } from '../common/UploadButton';
 import { Spacer } from '../../../common/Spacer';
 import { HALF_REM, ONE_REM } from '../../../common/Spacer/constants';
 import TextField from '@mui/material/TextField';
-import { AddressAutoComplete } from '../../../common/AddressAutoComplete';
+import { AddressAutoComplete } from '../../../AddressAutoComplete';
 import { triggerValidation } from '../common/utils';
 import { keys, omit } from 'lodash-es';
 

@@ -156,7 +156,9 @@ export const ContactsList = ({
         <SContactListPanel>
             <SContactListContainerWrapper>
                 <SContactListContainerPanel
-                    contactsAreFetched={isDeviceOn}
+                    shouldShine={
+                        (data && !isLoading && !isFetching) || !isDeviceOn
+                    }
                     shineTimer={
                         SHINE_TIME_REFERENCE /
                         (sliderValue / SHINE_TIME_COEFFICIENT)

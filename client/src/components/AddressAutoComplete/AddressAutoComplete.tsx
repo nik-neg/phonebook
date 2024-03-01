@@ -15,11 +15,11 @@ import {
     SResultStrong,
 } from './AddressAutoComplete.styles';
 import { AddressAutoCompleteProps, InputAdornmentWrapperProps } from './types';
-import { ONE_REM } from '../Spacer/constants';
-import { Spacer } from '../Spacer';
+import { ONE_REM } from '../common/Spacer/constants';
+import { Spacer } from '../common/Spacer';
 import { InputAdornment } from '@mui/material';
 import { FiSearch } from 'react-icons/all';
-import { shouldActivate } from '../../../utils';
+import { shouldActivate } from '../../utils';
 import { COUNTRIES } from './constants';
 
 export const InputAdornmentWrapper = ({

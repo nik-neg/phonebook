@@ -29,7 +29,7 @@ export class AuthGuard implements CanActivate {
 
       const user = await this.userService.findOne(verifiedUser.id);
 
-      if (!user.isAdmin) {
+      if (!user) {
         throw new UnauthorizedException();
       }
     } catch (e) {

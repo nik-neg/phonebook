@@ -18,7 +18,7 @@ export const SContactListContainerWrapper = styled.div`
 `;
 
 interface IContactListWrapper {
-    contactsAreFetched: boolean;
+    shouldShine: boolean;
     shineTimer: number;
 }
 export const SContactListContainerPanel = styled.div<IContactListWrapper>`
@@ -33,8 +33,8 @@ export const SContactListContainerPanel = styled.div<IContactListWrapper>`
     overflow: hidden;
     position: relative;
 
-    ${({ contactsAreFetched, shineTimer }) =>
-        !contactsAreFetched &&
+    ${({ shouldShine, shineTimer }) =>
+        shouldShine &&
         `
         &:after {
         content: '';

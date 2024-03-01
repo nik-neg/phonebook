@@ -1,4 +1,4 @@
-import { IAddDialogState } from '../../Dashboard/dialogs/AddDialog';
+import { IAddDialogState } from '../Dashboard/dialogs/AddDialog';
 
 export interface IAutocompleteProps {
     portalId: string;

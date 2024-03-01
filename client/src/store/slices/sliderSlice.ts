@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const sliderSlice = createSlice({
     name: 'slider',
     initialState: {
-        value: 0,
+        value: 10,
     },
     reducers: {
         updated: (state, action) => {
