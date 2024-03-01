@@ -1,6 +1,7 @@
 import { IContact } from '../../ContactsList/ContactCard/types';
+import { DialogCommonProps } from '../types';
 
-export interface IEditDialogProps {
+export interface IEditDialogProps extends DialogCommonProps {
     open: boolean;
     selectedValue: IContact;
 

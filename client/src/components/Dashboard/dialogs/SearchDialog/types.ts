@@ -1,4 +1,6 @@
-export interface ISearchDialogProps {
+import { DialogCommonProps } from '../types';
+
+export interface ISearchDialogProps extends DialogCommonProps {
     open: boolean;
 
     onClose: () => void;

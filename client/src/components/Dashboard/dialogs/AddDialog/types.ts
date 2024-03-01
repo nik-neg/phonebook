@@ -1,6 +1,7 @@
 import { IContact } from '../../ContactsList/ContactCard';
+import { DialogCommonProps } from '../types';
 
-export interface IAddDialogProps {
+export interface IAddDialogProps extends DialogCommonProps {
     open: boolean;
 
     onSave?: (contact: IContact) => void;

@@ -13,6 +13,7 @@ import { SearchDialog } from './dialogs/SearchDialog';
 import { shouldActivate } from '../../utils';
 import { ButtonPanel } from '../ButtonPanel/ButtonPanel';
 import Tilt from 'react-parallax-tilt';
+import { LoginRegisterDialog } from './dialogs/LoginRegisterDialog';
 
 export const Dashboard = (): JSX.Element => {
     const [fetchedContacts, setFetchedContacts] = useState<IContact[]>([]);
@@ -84,11 +85,20 @@ export const Dashboard = (): JSX.Element => {
         setPage(page);
     };
 
+    const [isOpenLogin, setIsOpenLogin] = useState(false);
+    const handleOpenLogin = () => {
+        setIsOpenLogin(true);
+    };
+
+    const handleOpenLoginClose = () => {
+        setIsOpenLogin(false);
+    };
+
     return (
         <Tilt>
             <SDashboardContainer>
                 <SDashboardHeader />
-                <SDashboard>
+                <SDashboard onClick={handleOpenLogin}>
                     <ContactsList
                         isDeviceOn={isDeviceOn}
                         page={page}
@@ -106,6 +116,10 @@ export const Dashboard = (): JSX.Element => {
                     onClose={handleClose}
                     onSave={handleAddContact}
                 />
+                <LoginRegisterDialog
+                    open={isOpenLogin}
+                    onClose={handleOpenLoginClose}
+                />
                 {!shouldActivate(
                     import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
                 ) && (
@@ -120,7 +134,7 @@ export const Dashboard = (): JSX.Element => {
                     <ButtonPanel
                         isDeviceOn={isDeviceOn}
                         onAddContact={handleOpenAddContact}
-                        onHandleSearch={handleSearch}
+                        onHandleSearch={handleOpenSearch}
                         onFetchContacts={onFetchContacts}
                         toggleDevice={() => setIsDeviceOn(!isDeviceOn)}
                     />

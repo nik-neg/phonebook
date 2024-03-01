@@ -1,6 +1,7 @@
 import { IContact } from '../../ContactsList/ContactCard/types';
+import { DialogCommonProps } from '../types';
 
-export interface IUpdateDialogProps {
+export interface IUpdateDialogProps extends DialogCommonProps {
     open: boolean;
     selectedValue: ContactWithPhoneNumbersAsString;
 

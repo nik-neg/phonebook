@@ -14,11 +14,16 @@ import { VerticalSlider } from '../common/VerticalSlider/VerticalSlider';
 export const ButtonPanel = ({
     isDeviceOn,
     onAddContact,
+    onHandleSearch,
     onFetchContacts,
     toggleDevice,
 }: IButtonPanelProps) => {
     const handleAddContact = () => {
         onAddContact?.();
+    };
+
+    const handleOpenSearch = () => {
+        onHandleSearch?.();
     };
 
     const handlePowerOn = async () => {
@@ -46,7 +51,7 @@ export const ButtonPanel = ({
                     import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
                 ) && (
                     <SButtonWrapper>
-                        <SButton onClick={() => {}} disableRipple>
+                        <SButton onClick={handleOpenSearch} disableRipple>
                             <SButtonContainer>
                                 <SButtonRow>Search</SButtonRow>
                                 <SButtonRow>

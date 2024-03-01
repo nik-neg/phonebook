@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import { ISearchBarProps } from './types';
-import { STextField, STextFieldWrapper } from './SearchBar.styles';
+import { TextField } from '../../../../common/TextField';
 
 export const SearchBar = ({ onSearch }: ISearchBarProps) => {
     const [searchValue, setSearchValue] = useState('');
@@ -13,13 +13,10 @@ export const SearchBar = ({ onSearch }: ISearchBarProps) => {
     };
 
     return (
-        <STextFieldWrapper>
-            <STextField
-                $hasInput={!!searchValue}
-                value={searchValue}
-                onChange={handleSearchChange}
-                fullWidth
-            />
-        </STextFieldWrapper>
+        <TextField
+            hasInput={!!searchValue}
+            value={searchValue}
+            handleChange={handleSearchChange}
+        />
     );
 };

@@ -5,7 +5,7 @@ export interface IButtonPanelProps {
 
     onAddContact: () => void;
 
-    onHandleSearch: (value: string) => Promise<void>;
+    onHandleSearch: () => void;
 
     onFetchContacts: (contacts: IContact[]) => void;
 
