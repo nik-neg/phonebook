@@ -1,3 +1,4 @@
-export * from './types';
-export * from './LoginRegisterDialog';
-export * from './LoginRegisterDialog.styles';
+export interface IWelcome {
+    email: string;
+    password: string;
+}

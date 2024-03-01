@@ -6,6 +6,7 @@ export const TextField = ({
     hasInput,
     value,
     handleChange,
+    ...otherProps
 }: TextFieldProps) => {
     return (
         <STextFieldWrapper>
@@ -14,6 +15,7 @@ export const TextField = ({
                 value={value}
                 onChange={handleChange}
                 fullWidth
+                {...otherProps}
             />
         </STextFieldWrapper>
     );

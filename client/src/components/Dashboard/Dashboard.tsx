@@ -94,6 +94,11 @@ export const Dashboard = (): JSX.Element => {
         setIsOpenLogin(false);
     };
 
+    const handleToggleDevice = () => {
+        setIsOpenLogin(false);
+        setIsDeviceOn(!isDeviceOn);
+    };
+
     return (
         <Tilt>
             <SDashboardContainer>
@@ -117,7 +122,7 @@ export const Dashboard = (): JSX.Element => {
                     onSave={handleAddContact}
                 />
                 <LoginRegisterDialog
-                    open={isOpenLogin}
+                    open={isOpenLogin && !isDeviceOn}
                     onClose={handleOpenLoginClose}
                 />
                 {!shouldActivate(
@@ -136,7 +141,7 @@ export const Dashboard = (): JSX.Element => {
                         onAddContact={handleOpenAddContact}
                         onHandleSearch={handleOpenSearch}
                         onFetchContacts={onFetchContacts}
-                        toggleDevice={() => setIsDeviceOn(!isDeviceOn)}
+                        toggleDevice={handleToggleDevice}
                     />
                 </SDashboardFooter>
             </SDashboardContainer>
