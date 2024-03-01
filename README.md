@@ -82,6 +82,8 @@ https://www.loom.com/share/66c8bd361138443bb12d98c10031c7d4
 - [x] the buttons are now using the material-ui `Button` component with preserved styles
 - [x] the search field for the address has been refactored to align with the rest of the UI in the add contact modal
 - [x] the shine effect is now preserved under the search bar and the contact list and has now a reversed direction
+- [x] you can use the data folder where the mock data is stored to test the search functionality by creating an own
+`algolia` account and replacing the `VITE_APP_ID` and `VITE_API_KEY` in the `.env` file
 - [x] the functionality has been tested on `Chrome`, `Firefox` and `Opera`
 
 ```typescript
