@@ -69,16 +69,19 @@ export const ContactsList = ({
 
                 setScroll(scrollTop);
 
+                const isNextPageLastPage =
+                    totalNumberOfContacts < (page + 1) * CONTACTS_PER_PAGE;
+
+                const hasMoreContacts =
+                    totalNumberOfContacts - page * CONTACTS_PER_PAGE > 0;
                 if (
                     // scroll down
                     scrollTop >= scroll &&
                     scrollTop < clientHeight &&
-                    scrollTop !== 1 &&
-                    scrollTop !== 2
+                    scrollTop !== SCROLL_UP_STEP &&
+                    hasMoreContacts &&
+                    scrollTop !== SCROLL_DOWN_STEP
                 ) {
-                    const isNextPageLastPage =
-                        totalNumberOfContacts < (page + 1) * CONTACTS_PER_PAGE;
-
                     onPageChange(page + 1);
                     if (isNextPageLastPage) {
                         outerRef?.current?.scrollTo(0, SCROLL_DOWN_STEP);
