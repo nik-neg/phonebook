@@ -6,6 +6,7 @@ import { ContactModule } from './contact/contact.module';
 import { FilterModule } from './filter/filter.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
+import { schema } from './schema/schema';
 
 @Module({
   imports: [
@@ -25,7 +26,10 @@ import configuration from './config/configuration';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      typePaths: ['./**/*.graphql'],
+      schema,
+      debug: true,
+      playground: true,
+      // typePaths: ['./**/*.graphql'],
     }),
     ContactModule,
     FilterModule,
