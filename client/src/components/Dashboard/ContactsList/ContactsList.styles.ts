@@ -107,18 +107,11 @@ export const SContactListContainerPanel = styled.div<IContactListWrapper>`
     }`}
 `;
 
-interface SearchBarContainerProps {
-    isScrolling: boolean;
-}
-
-export const SearchBarContainer = styled.div<SearchBarContainerProps>`
+export const SearchBarContainer = styled.div`
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     position: relative;
     z-index: 2;
-
-    ${({ isScrolling }) =>
-        isScrolling && `border-bottom: 2px solid whitesmoke; opacity: 0.55;`}
 `;
 
 export const SContactListContainer = styled.div`

@@ -3,7 +3,9 @@ import { IContact } from './ContactCard/types';
 export interface IContactListProps {
     isDeviceOn: boolean;
 
-    contacts: IContact[];
+    page: number;
+
+    onPageChange: (page: number) => void;
 
     onRemoveContact?: (id: number) => void;
 

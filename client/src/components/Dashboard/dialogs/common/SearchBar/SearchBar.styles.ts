@@ -10,10 +10,10 @@ export const STextFieldWrapper = styled.div`
 `;
 
 interface STextFieldProps {
-    hasInput: boolean;
+    $hasInput: boolean;
 }
 export const STextField = styled(TextField)<STextFieldProps>`
-    ${({ hasInput }) => hasInput && `opacity: 1;`}
+    ${({ $hasInput }) => $hasInput && `opacity: 1;`}
 
     :hover {
         opacity: 1;

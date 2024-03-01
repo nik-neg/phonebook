@@ -95,12 +95,13 @@ export const AddDialog = ({
                     >
                 )
             ) {
+                onClose?.();
+
                 const res = await createContact(getValues());
                 onSave?.(res?.data?.data?.createContact);
 
                 clearForm();
                 setIsSuggestionsVisible(defaultSuggestionsVisible);
-                onClose?.();
             }
         } catch (e) {
             console.log(e);

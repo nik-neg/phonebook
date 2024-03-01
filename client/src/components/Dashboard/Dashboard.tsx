@@ -80,6 +80,12 @@ export const Dashboard = (): JSX.Element => {
 
     const [isDeviceOn, setIsDeviceOn] = useState(true);
 
+    const [page, setPage] = useState(1);
+
+    const handlePageChange = (page: number) => {
+        setPage(page);
+    };
+
     return (
         <Tilt>
             <SDashboardContainer>
@@ -87,7 +93,8 @@ export const Dashboard = (): JSX.Element => {
                 <SDashboard>
                     <ContactsList
                         isDeviceOn={isDeviceOn}
-                        contacts={fetchedContacts}
+                        page={page}
+                        onPageChange={handlePageChange}
                         onFetchContacts={onFetchContacts}
                         onRemoveContact={onRemoveContact}
                         onEditContact={handleEditContact}

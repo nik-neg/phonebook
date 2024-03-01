@@ -15,9 +15,9 @@ export const SearchBar = ({ onSearch }: ISearchBarProps) => {
     return (
         <STextFieldWrapper>
             <STextField
+                $hasInput={!!searchValue}
                 value={searchValue}
                 onChange={handleSearchChange}
-                hasInput={!!searchValue}
                 fullWidth
             />
         </STextFieldWrapper>
