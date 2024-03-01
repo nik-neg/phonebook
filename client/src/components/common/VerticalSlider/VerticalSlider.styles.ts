@@ -6,17 +6,12 @@ export const SBox = styled.div`
 `;
 
 export const SliderContainer = styled(Slider)({
-    // Target the thumb
     '& .MuiSlider-thumb': {
-        // Remove box shadow
         boxShadow: 'none',
-        // Additional customizations (e.g., background, border) can go here
         '&:hover, &.Mui-focusVisible': {
-            // Remove or customize the box shadow on hover and focus
             boxShadow: 'none',
         },
         '&.Mui-active': {
-            // Remove or customize the box shadow when active (clicked)
             boxShadow: 'none',
         },
     },
