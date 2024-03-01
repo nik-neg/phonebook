@@ -11,7 +11,11 @@ import {
 import { IContactListProps } from './types';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useGetContactsQuery } from '../../../store/api/contacts.api';
-import { useAppDispatch, useAppSelector } from '../../../store';
+import {
+    selectSliderValue,
+    useAppDispatch,
+    useAppSelector,
+} from '../../../store';
 import { selectTotalNumberOfContacts } from '../../../store/selectors/contacts.selector';
 import { getTotalNumberOfContacts } from '../../../store/slices';
 import { debounce } from 'lodash-es';
@@ -20,6 +24,7 @@ import {
     CONTACTS_PER_PAGE,
     SCROLL_DOWN_STEP,
     SCROLL_UP_STEP,
+    SHINE_TIME_REFERENCE,
     START_SCROLL,
 } from './constants';
 import { ContactCard, IContact } from './ContactCard';
@@ -144,10 +149,15 @@ export const ContactsList = ({
         onHandleSearch?.(content);
     };
 
+    const sliderValue = useAppSelector(selectSliderValue);
+
     return (
         <SContactListPanel>
             <SContactListContainerWrapper>
-                <SContactListContainerPanel contactsAreFetched={isDeviceOn}>
+                <SContactListContainerPanel
+                    contactsAreFetched={isDeviceOn}
+                    shineTimer={SHINE_TIME_REFERENCE / (sliderValue / 50)}
+                >
                     {shouldActivate(
                         import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
                     ) && (
