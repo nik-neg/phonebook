@@ -6,9 +6,14 @@ import { ContactModule } from './contact/contact.module';
 import { FilterModule } from './filter/filter.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
+import { AuthModule } from './auth/auth.module';
+import process from 'process';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './auth/constants';
 
 @Module({
   imports: [
+    AuthModule,
     ConfigModule.forRoot({
       load: [configuration],
     }),
@@ -26,6 +31,11 @@ import configuration from './config/configuration';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],
+    }),
+    JwtModule.register({
+      global: true,
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: `${process.env.JWT_EXPIRATION}s` },
     }),
     ContactModule,
     FilterModule,
