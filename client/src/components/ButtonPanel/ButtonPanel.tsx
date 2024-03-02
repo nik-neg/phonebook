@@ -2,17 +2,25 @@ import { CiPower, IoPersonAdd, MdOutlinePersonSearch } from 'react-icons/all';
 import { shouldActivate } from '../../utils';
 import React from 'react';
 import { IButtonPanelProps } from './types';
-import { SButtonPanel, SButtonWrapper } from '../Dashboard/ContactsList';
 import {
     SButton,
     SButtonContainer,
+    SButtonElement,
+    SButtonPanel,
     SButtonPanelWrapper,
     SButtonRow,
+    SButtonWrapper,
+    SMuiColorInput,
+    SVerticalSliderWrapper,
 } from './ButtonPanel.styles';
 import { VerticalSlider } from '../common/VerticalSlider/VerticalSlider';
+import { MuiColorInput } from 'mui-color-input';
 
 export const ButtonPanel = ({
     isDeviceOn,
+    colorValue,
+
+    onColorChange,
     onAddContact,
     onFetchContacts,
     toggleDevice,
@@ -27,21 +35,35 @@ export const ButtonPanel = ({
         }
         toggleDevice();
     };
+
+    const handleChange = (newValue: string) => {
+        onColorChange(newValue);
+    };
     return (
         <SButtonPanelWrapper>
             <SButtonPanel>
-                <VerticalSlider />
+                <SButtonElement area={'color'}>
+                    <SMuiColorInput>
+                        <MuiColorInput
+                            format="rgb"
+                            value={colorValue}
+                            onChange={handleChange}
+                        />
+                    </SMuiColorInput>
+                </SButtonElement>
 
-                <SButtonWrapper>
-                    <SButton onClick={handleAddContact} disableRipple>
-                        <SButtonContainer>
-                            <SButtonRow>Add Contact</SButtonRow>
-                            <SButtonRow>
-                                <IoPersonAdd size={'1rem'} />
-                            </SButtonRow>
-                        </SButtonContainer>
-                    </SButton>
-                </SButtonWrapper>
+                <SButtonElement area={'add-button'}>
+                    <SButtonWrapper>
+                        <SButton onClick={handleAddContact} disableRipple>
+                            <SButtonContainer>
+                                <SButtonRow>Add Contact</SButtonRow>
+                                <SButtonRow>
+                                    <IoPersonAdd size={'1rem'} />
+                                </SButtonRow>
+                            </SButtonContainer>
+                        </SButton>
+                    </SButtonWrapper>
+                </SButtonElement>
                 {!shouldActivate(
                     import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
                 ) && (
@@ -56,17 +78,23 @@ export const ButtonPanel = ({
                         </SButton>
                     </SButtonWrapper>
                 )}
-
-                <SButtonWrapper>
-                    <SButton onClick={handlePowerOn} disableRipple>
-                        <SButtonContainer>
-                            <SButtonRow>Power</SButtonRow>
-                            <SButtonRow>
-                                <CiPower size={'1rem'} />
-                            </SButtonRow>
-                        </SButtonContainer>
-                    </SButton>
-                </SButtonWrapper>
+                <SButtonElement area={'power-button'}>
+                    <SButtonWrapper>
+                        <SButton onClick={handlePowerOn} disableRipple>
+                            <SButtonContainer>
+                                <SButtonRow>Power</SButtonRow>
+                                <SButtonRow>
+                                    <CiPower size={'1rem'} />
+                                </SButtonRow>
+                            </SButtonContainer>
+                        </SButton>
+                    </SButtonWrapper>
+                </SButtonElement>
+                <SButtonElement area={'slider'}>
+                    <SVerticalSliderWrapper>
+                        <VerticalSlider />
+                    </SVerticalSliderWrapper>
+                </SButtonElement>
             </SButtonPanel>
         </SButtonPanelWrapper>
     );
