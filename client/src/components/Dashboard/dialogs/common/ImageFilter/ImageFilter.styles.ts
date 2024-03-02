@@ -2,9 +2,20 @@ import styled from 'styled-components';
 
 export const SImageOptionContainer = styled.div``;
 
-export const SUploadedImageWrapper = styled.div`
+export const SUploadedImageContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 0.5rem;
-    background: grey;
+`;
+
+export const SUploadedImageWrapper = styled.div`
+    height: 80%;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
     border-radius: 10px;
 `;
 
@@ -16,9 +27,5 @@ export const SUploadedImage = styled.img`
 
 export const SFilterPanelItem = styled.div`
     display: flex;
-`;
-
-export const SFilterPanelItemCheckbox = styled.div`
-    display: flex;
-    justify-content: center;
+    justify-content: flex-start;
 `;

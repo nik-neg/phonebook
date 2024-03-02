@@ -3,6 +3,7 @@ import {
     SFilterPanelItem,
     SImageOptionContainer,
     SUploadedImage,
+    SUploadedImageContainer,
     SUploadedImageWrapper,
 } from './ImageFilter.styles';
 import {
@@ -10,7 +11,7 @@ import {
     SCheckboxOptionIcon,
     SCheckboxOptionsContainer,
     SCheckboxOptionsItem,
-    SImageSliderOptions,
+    SCheckBoxRow,
     SSliderName,
 } from '../ImageOptionsSlider';
 import { IoIosColorPalette, MdLensBlur } from 'react-icons/all';
@@ -49,32 +50,35 @@ export const ImageFilter = ({
 
     return (
         <SImageOptionContainer>
-            {isFetchingImage ? (
-                <CircularProgress />
-            ) : (
-                <SUploadedImageWrapper>
-                    <SUploadedImage src={contact?.imageFile?.toString()} />
-                </SUploadedImageWrapper>
-            )}
+            <SUploadedImageContainer>
+                {isFetchingImage ? (
+                    <CircularProgress />
+                ) : (
+                    <SUploadedImageWrapper>
+                        <SUploadedImage src={contact?.imageFile?.toString()} />
+                    </SUploadedImageWrapper>
+                )}
+            </SUploadedImageContainer>
 
             <SCheckboxOptionsContainer>
-                <SCheckboxOptionsItem>
-                    <SSliderName>{'Grayscale'}</SSliderName>
-                </SCheckboxOptionsItem>
-                <SCheckboxOptionIcon>
-                    <FormGroup>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label=""
-                            value={filter.grayscale}
-                            checked={filter.grayscale}
-                            onChange={handleChecked}
-                        />
-                    </FormGroup>
-                </SCheckboxOptionIcon>
-                <SImageSliderOptions></SImageSliderOptions>
-
-                <SImageSliderOptions></SImageSliderOptions>
+                <SCheckBoxRow>
+                    <SCheckboxOptionsItem>
+                        <SSliderName>{'Grayscale'}</SSliderName>
+                    </SCheckboxOptionsItem>
+                    <SCheckboxOptionsItem>
+                        <SCheckboxOptionIcon>
+                            <FormGroup>
+                                <FormControlLabel
+                                    control={<Checkbox />}
+                                    label=""
+                                    value={filter.grayscale}
+                                    checked={filter.grayscale}
+                                    onChange={handleChecked}
+                                />
+                            </FormGroup>
+                        </SCheckboxOptionIcon>
+                    </SCheckboxOptionsItem>
+                </SCheckBoxRow>
             </SCheckboxOptionsContainer>
 
             <SFilterPanelItem>
