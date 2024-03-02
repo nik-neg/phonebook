@@ -48,6 +48,7 @@ export const ButtonPanel = ({
                             format="rgb"
                             value={colorValue}
                             onChange={handleChange}
+                            isAlphaHidden
                         />
                     </SMuiColorInput>
                 </SButtonElement>
