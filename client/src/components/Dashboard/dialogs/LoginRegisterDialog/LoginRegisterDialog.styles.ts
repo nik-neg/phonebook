@@ -42,21 +42,36 @@ interface InputProps {
 
 export const Input = styled.input<InputProps>`
     padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: none;
+    border-radius: 20px;
     ${({ isSubmit }: InputProps) =>
         isSubmit &&
         `
           padding: 0.5rem 1rem;
-          background-color: #007bff;
-          color: white;
-          border: none;
-          border-radius: 4px;
+          background: rgb(240, 240, 240);
+          background: linear-gradient(
+              90deg,
+              rgba(240, 240, 240, 1) 0%,
+              rgba(111, 111, 111, 1) 35%,
+              rgba(111, 111, 111, 0.9402135854341737) 52%,
+              rgba(111, 111, 111, 0.9402135854341737) 94%
+          );
+          color: black;
+          border: 2px solid rgba(111, 111, 111, 1);
+          border-color: rgba(111, 111, 111, 0.9402135854341737)
+            rgba(35, 35, 35, 1) rgba(35, 35, 35, 1)
+            rgba(111, 111, 111, 0.9402135854341737);
+          border-radius: 20px;
           cursor: pointer;
           transition: background-color 0.3s;
+          font-family: "'Crimson Pro', serif, 'Mochiy Pop One', sans-serif";
+          
         
           &:hover {
-            background-color: #0056b3;
+            text-transform: none;
+            transition: none;
+            background: #e1e1e1;
+            border: 2px solid #e1e1e1;
           }`};
 `;
 
