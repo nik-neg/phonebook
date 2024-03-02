@@ -20,7 +20,6 @@ import {
 import { ImageFilter } from '../common/ImageFilter';
 import { useForm } from 'react-hook-form';
 import { addContactSchema } from './validation/schema';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { ContactWithPhoneNumbersAsString } from '../UpdateDialog';
 import '@algolia/autocomplete-theme-classic';
 import { AutoCompleteWrapper } from '../../../common/Autocomplete';
@@ -31,6 +30,7 @@ import TextField from '@mui/material/TextField';
 import { AddressAutoComplete } from '../../../common/AddressAutoComplete';
 import { triggerValidation } from '../common/utils';
 import { keys, omit } from 'lodash-es';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export const AddDialog = ({
     open,
@@ -55,7 +55,7 @@ export const AddDialog = ({
         reset,
     } = useForm({
         defaultValues,
-        resolver: yupResolver(addContactSchema),
+        resolver: zodResolver(addContactSchema),
     });
 
     const handleSetValue = (name: keyof IAddDialogState, value: string) => {

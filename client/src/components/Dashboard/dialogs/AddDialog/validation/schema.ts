@@ -1,10 +1,10 @@
-import * as yup from 'yup';
+import { z } from 'zod';
 
-export const addContactSchema = yup.object().shape({
-    firstName: yup.string().required('First name is required'),
-    lastName: yup.string().required('Last name is required'),
-    nickName: yup.string().nullable(),
-    phoneNumbers: yup.string().required('Phone numbers are required'),
-    address: yup.string().required('Address is required'),
-    imageFile: yup.string().required('Image file is required'),
+export const addContactSchema = z.object({
+    firstName: z.string().min(1, 'First name is required'),
+    lastName: z.string().min(1, 'Last name is required'),
+    nickName: z.string().nullable(),
+    phoneNumbers: z.string().min(4, 'Phone numbers are required'),
+    address: z.string().min(1, 'Address is required'),
+    imageFile: z.string().min(1, 'Image file is required'),
 });
