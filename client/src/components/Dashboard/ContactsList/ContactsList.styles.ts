@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import background from '../../../assets/mobile.jpg';
+import { COLOR_MAP } from './constants';
 
 export const SContactListPanel = styled.div`
     display: flex;
@@ -20,6 +21,7 @@ export const SContactListContainerWrapper = styled.div`
 interface IContactListWrapper {
     contactsAreFetched: boolean;
     shineTimer: number;
+    colorValue: number[];
 }
 export const SContactListContainerPanel = styled.div<IContactListWrapper>`
     display: flex;
@@ -33,7 +35,7 @@ export const SContactListContainerPanel = styled.div<IContactListWrapper>`
     overflow: hidden;
     position: relative;
 
-    ${({ contactsAreFetched, shineTimer }) =>
+    ${({ contactsAreFetched, shineTimer, colorValue }) =>
         !contactsAreFetched &&
         `
         &:after {
@@ -46,54 +48,21 @@ export const SContactListContainerPanel = styled.div<IContactListWrapper>`
         position: absolute;
         z-index: 1;
         animation: slide ${shineTimer}s infinite;
-        /*
-        CSS Gradient - complete browser support from http://www.colorzilla.com/gradient-editor/
-        */
-        background: -moz-linear-gradient(
-            left,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.8) 50%,
-            rgba(128, 186, 232, 0) 99%,
-            rgba(125, 185, 232, 0) 100%
-        ); /* FF3.6+ */
-        background: -webkit-gradient(
-            linear,
-            left top,
-            right top,
-            color-stop(0%, rgba(255, 255, 255, 0)),
-            color-stop(50%, rgba(255, 255, 255, 0.8)),
-            color-stop(99%, rgba(128, 186, 232, 0)),
-            color-stop(100%, rgba(125, 185, 232, 0))
-        ); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(
-            left,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.8) 50%,
-            rgba(128, 186, 232, 0) 99%,
-            rgba(125, 185, 232, 0) 100%
-        ); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(
-            left,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.8) 50%,
-            rgba(128, 186, 232, 0) 99%,
-            rgba(125, 185, 232, 0) 100%
-        ); /* Opera 11.10+ */
-        background: -ms-linear-gradient(
-            left,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.8) 50%,
-            rgba(128, 186, 232, 0) 99%,
-            rgba(125, 185, 232, 0) 100%
-        ); /* IE10+ */
         background: linear-gradient(
             to right,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.8) 50%,
-            rgba(128, 186, 232, 0) 99%,
-            rgba(125, 185, 232, 0) 100%
-        ); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#007db9e8',GradientType=1 ); /* IE6-9 */
+            rgba(${COLOR_MAP[0][0] * colorValue[0]}, ${
+            COLOR_MAP[0][1] * colorValue[1]
+        }, ${COLOR_MAP[0][2] * colorValue[2]}, 0) 0%,
+            rgba(${COLOR_MAP[1][0] * colorValue[0]}, ${
+            COLOR_MAP[1][1] * colorValue[1]
+        }, ${COLOR_MAP[1][2] * colorValue[2]}, 0.8) 50%,
+            rgba(${COLOR_MAP[2][0] * colorValue[0]}, ${
+            COLOR_MAP[2][1] * colorValue[1]
+        }, ${COLOR_MAP[2][2] * colorValue[2]}, 0) 99%,
+            rgba(${COLOR_MAP[3][0] * colorValue[0]}, ${
+            COLOR_MAP[3][1] * colorValue[1]
+        }, ${COLOR_MAP[3][2] * colorValue[2]}, 0) 100%
+        );
     }
     @keyframes slide {
         0% {
@@ -137,23 +106,6 @@ export const SDividerWrapper = styled.div`
 export const SContactCardsContainer = styled.div`
     height: 625px;
     border-radius: 10px 10px 0px 10px;
-`;
-
-export const SButtonPanel = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 3.5rem;
-    width: 100%;
-    background: black;
-    border-right: 4px solid black;
-    border-left: 4px solid black;
-    border-bottom: 4px solid black;
-    border-radius: 0px 0px 10px 10px;
-`;
-
-export const SButtonWrapper = styled.div`
-    padding: 0.5rem;
 `;
 
 export const SContactListWrapper = styled.div`

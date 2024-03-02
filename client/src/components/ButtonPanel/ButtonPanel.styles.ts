@@ -1,6 +1,20 @@
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 
+interface SButtonElementProps {
+    area: string;
+}
+export const SButtonElement = styled.div<SButtonElementProps>`
+    grid-area: ${({ area }) => area};
+`;
+export const SMuiColorInput = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 100%;
+`;
+
 export const SButtonPanelWrapper = styled.div`
     height: 100%;
     width: 100%;
@@ -8,6 +22,23 @@ export const SButtonPanelWrapper = styled.div`
     display: flex;
     justify-content: center;
     z-index: 2;
+`;
+
+export const SButtonPanel = styled.div`
+    display: grid;
+    grid-template-areas: 'color add-button power-button slider';
+    grid-template-columns: 1fr 2fr 2fr 1fr;
+    height: 4rem;
+    width: 100%;
+    background: black;
+    border-right: 4px solid black;
+    border-left: 4px solid black;
+    border-bottom: 4px solid black;
+    border-radius: 0px 0px 10px 10px;
+`;
+
+export const SButtonWrapper = styled.div`
+    padding: 0.5rem;
 `;
 
 interface SButtonProps {
@@ -57,4 +88,11 @@ export const SButtonContainer = styled.div`
 export const SButtonRow = styled.div`
     display: flex;
     justify-content: center;
+`;
+
+export const SVerticalSliderWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 25%;
 `;

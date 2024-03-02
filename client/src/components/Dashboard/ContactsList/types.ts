@@ -3,6 +3,8 @@ import { IContact } from './ContactCard/types';
 export interface IContactListProps {
     isDeviceOn: boolean;
 
+    colorValue: string;
+
     page: number;
 
     contacts: IContact[];

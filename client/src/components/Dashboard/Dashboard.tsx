@@ -83,6 +83,11 @@ export const Dashboard = (): JSX.Element => {
     const handlePageChange = (page: number) => {
         setPage(page);
     };
+    const [colorValue, setColorValue] = useState('#ffffff');
+
+    const handleColorChange = (newValue: string) => {
+        setColorValue(newValue);
+    };
 
     return (
         <Tilt>
@@ -91,6 +96,7 @@ export const Dashboard = (): JSX.Element => {
                 <SDashboard>
                     <ContactsList
                         isDeviceOn={isDeviceOn}
+                        colorValue={colorValue}
                         page={page}
                         contacts={fetchedContacts}
                         onPageChange={handlePageChange}
@@ -119,6 +125,8 @@ export const Dashboard = (): JSX.Element => {
                 <SDashboardFooter>
                     <ButtonPanel
                         isDeviceOn={isDeviceOn}
+                        colorValue={colorValue}
+                        onColorChange={handleColorChange}
                         onAddContact={handleOpenAddContact}
                         onHandleSearch={handleSearch}
                         onFetchContacts={onFetchContacts}

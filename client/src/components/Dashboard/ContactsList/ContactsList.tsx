@@ -32,9 +32,11 @@ import { ContactCard, IContact } from './ContactCard';
 import { Spacer } from '../../common/Spacer';
 import { shouldActivate } from '../../../utils';
 import { SDivider } from '../../common/Divider';
+import { parseColor } from '../../ButtonPanel/utils';
 
 export const ContactsList = ({
     isDeviceOn,
+    colorValue,
     page,
     contacts,
     onPageChange,
@@ -161,6 +163,7 @@ export const ContactsList = ({
                         SHINE_TIME_REFERENCE /
                         (sliderValue / SHINE_TIME_COEFFICIENT)
                     }
+                    colorValue={parseColor(colorValue)}
                 >
                     {shouldActivate(
                         import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
