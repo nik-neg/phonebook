@@ -21,6 +21,7 @@ export const AuthContainer = styled.div`
 
 export const SWelcomeText = styled.h1`
     color: #bcd4e6;
+    font-family: ${({ theme }) => theme.typography.fontFamily};
 `;
 export const AuthFormWrapper = styled.div`
     display: flex;
@@ -44,6 +45,7 @@ export const Input = styled.input<InputProps>`
     padding: 0.5rem;
     border: none;
     border-radius: 20px;
+    font-family: ${({ theme }) => theme.typography.fontFamily};
     ${({ isSubmit }: InputProps) =>
         isSubmit &&
         `
@@ -64,7 +66,6 @@ export const Input = styled.input<InputProps>`
           border-radius: 20px;
           cursor: pointer;
           transition: background-color 0.3s;
-          font-family: "'Crimson Pro', serif, 'Mochiy Pop One', sans-serif";
           
         
           &:hover {
