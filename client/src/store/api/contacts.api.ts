@@ -8,7 +8,7 @@ import { uniqBy } from 'lodash-es';
 
 export const contactsApi = createApi({
     reducerPath: 'contactsApi',
-    tagTypes: ['Contacts'],
+    tagTypes: ['Contacts', 'Contact'],
     baseQuery: fetchBaseQuery({ baseUrl: `${BASE_URL}` }),
     endpoints: (builder) => ({
         getContacts: builder.query<any, IQueryPaginationInput>({
@@ -108,6 +108,24 @@ export const contactsApi = createApi({
                     : [{ type: 'Contacts', id: 'LIST' }];
             },
         }),
+        getContact: builder.query<any, IContact['id']>({
+            query: (id) => ({
+                url: `/graphql`,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: {
+                    query: `{
+                      getContact(id: ${id}) {
+                        firstName,
+                        lastName,
+                      }
+                    }`,
+                },
+            }),
+            providesTags: (result, error, id) => [{ type: 'Contact', id }],
+        }),
         removeContact: builder.mutation<any, IContact['id']>({
             query: (id) => ({
                 url: `/graphql`,
@@ -168,7 +186,34 @@ export const contactsApi = createApi({
                     }`,
                 },
             }),
-            invalidatesTags: [{ type: 'Contacts', id: 'LIST' }],
+            async onQueryStarted(
+                { contact, ...patch },
+                { dispatch, queryFulfilled }
+            ) {
+                const patchResult = dispatch(
+                    contactsApi.util.updateQueryData(
+                        'getContact',
+                        contact.id,
+                        (draft) => {
+                            Object.assign(draft, patch);
+                        }
+                    )
+                );
+                try {
+                    await queryFulfilled;
+                } catch {
+                    patchResult.undo();
+
+                    /**
+                     * Alternatively, on failure you can invalidate the corresponding cache tags
+                     * to trigger a re-fetch:
+                     * dispatch(api.util.invalidateTags(['Post']))
+                     */
+                }
+            },
+            invalidatesTags: (result, error, { contact }) => [
+                { type: 'Contact', id: contact.id },
+            ],
         }),
     }),
 });
@@ -179,5 +224,6 @@ export const {
     useGetContactsQuery,
     useLazySearchContactsQuery,
     useRemoveContactMutation,
+    useGetContactQuery,
     useUpdateContactMutation,
 } = contactsApi;
