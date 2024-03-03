@@ -67,7 +67,7 @@ export const ContactCard = ({
                     />
                     <SNameWrapper>
                         <SAddress>
-                            {address.slice(0, ADDRESS_STRIP_LENGTH)}
+                            {address?.slice(0, ADDRESS_STRIP_LENGTH)}
                         </SAddress>
 
                         {nickName ? (

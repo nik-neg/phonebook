@@ -8,12 +8,12 @@ import { IContact } from './ContactsList/ContactCard/types';
 import React, { useState } from 'react';
 import { ContactsList } from './ContactsList';
 import { AddDialog } from './dialogs/AddDialog/AddDialog';
-import { useLazyGetContactsQuery } from '../../store/api/contacts.api';
 import { SearchDialog } from './dialogs/SearchDialog';
 import { shouldActivate } from '../../utils';
 import { ButtonPanel } from '../ButtonPanel/ButtonPanel';
 import Tilt from 'react-parallax-tilt';
 import { RGB_MAX_REFERENCE } from './constants';
+import { useLazySearchContactsQuery } from '../../store';
 
 export const Dashboard = (): JSX.Element => {
     const [fetchedContacts, setFetchedContacts] = useState<IContact[]>([]);
@@ -48,16 +48,16 @@ export const Dashboard = (): JSX.Element => {
         });
     };
 
-    const [getContacts] = useLazyGetContactsQuery();
+    const [searchContacts] = useLazySearchContactsQuery({});
     const handleSearch = async (keyword: string) => {
         if (!keyword || keyword.length >= 3) {
             try {
-                const contacts = await getContacts({
+                const response = await searchContacts({
                     keyword,
                     page: 1,
                 });
 
-                let newContacts = contacts?.data?.data?.getContacts.contacts;
+                let newContacts = response?.data;
                 newContacts = newContacts?.length ? newContacts : [];
 
                 setFetchedContacts(newContacts);
