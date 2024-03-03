@@ -6,8 +6,6 @@ export interface IUpdateDialogProps {
 
     onEdit?: (remove: boolean) => void;
 
-    onFilterImage?: (image: string) => void;
-
     onClose: () => void;
 }
 
