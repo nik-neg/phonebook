@@ -83,7 +83,7 @@ export const Dashboard = (): JSX.Element => {
     const handlePageChange = (page: number) => {
         setPage(page);
     };
-    const [colorValue, setColorValue] = useState('#ffffff');
+    const [colorValue, setColorValue] = useState('rgb(255, 255, 255)');
 
     const handleColorChange = (newValue: string) => {
         setColorValue(newValue);

@@ -19,7 +19,6 @@ import { MuiColorInput } from 'mui-color-input';
 export const ButtonPanel = ({
     isDeviceOn,
     colorValue,
-
     onColorChange,
     onAddContact,
     onFetchContacts,
@@ -39,6 +38,7 @@ export const ButtonPanel = ({
     const handleChange = (newValue: string) => {
         onColorChange(newValue);
     };
+
     return (
         <SButtonPanelWrapper>
             <SButtonPanel>

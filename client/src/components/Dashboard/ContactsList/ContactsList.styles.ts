@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import background from '../../../assets/mobile.jpg';
-import { COLOR_MAP } from './constants';
+import { GRADIENT_COLOR_COEFFICIENT_MAP } from './constants';
 
 export const SContactListPanel = styled.div`
     display: flex;
@@ -50,18 +50,18 @@ export const SContactListContainerPanel = styled.div<IContactListWrapper>`
         animation: slide ${shineTimer}s infinite;
         background: linear-gradient(
             to right,
-            rgba(${COLOR_MAP[0][0] * colorValue[0]}, ${
-            COLOR_MAP[0][1] * colorValue[1]
-        }, ${COLOR_MAP[0][2] * colorValue[2]}, 0) 0%,
-            rgba(${COLOR_MAP[1][0] * colorValue[0]}, ${
-            COLOR_MAP[1][1] * colorValue[1]
-        }, ${COLOR_MAP[1][2] * colorValue[2]}, 0.8) 50%,
-            rgba(${COLOR_MAP[2][0] * colorValue[0]}, ${
-            COLOR_MAP[2][1] * colorValue[1]
-        }, ${COLOR_MAP[2][2] * colorValue[2]}, 0) 99%,
-            rgba(${COLOR_MAP[3][0] * colorValue[0]}, ${
-            COLOR_MAP[3][1] * colorValue[1]
-        }, ${COLOR_MAP[3][2] * colorValue[2]}, 0) 100%
+            rgba(${GRADIENT_COLOR_COEFFICIENT_MAP[0][0] * colorValue[0]}, ${
+            GRADIENT_COLOR_COEFFICIENT_MAP[0][1] * colorValue[1]
+        }, ${GRADIENT_COLOR_COEFFICIENT_MAP[0][2] * colorValue[2]}, 0) 0%,
+            rgba(${GRADIENT_COLOR_COEFFICIENT_MAP[1][0] * colorValue[0]}, ${
+            GRADIENT_COLOR_COEFFICIENT_MAP[1][1] * colorValue[1]
+        }, ${GRADIENT_COLOR_COEFFICIENT_MAP[1][2] * colorValue[2]}, 0.8) 50%,
+            rgba(${GRADIENT_COLOR_COEFFICIENT_MAP[2][0] * colorValue[0]}, ${
+            GRADIENT_COLOR_COEFFICIENT_MAP[2][1] * colorValue[1]
+        }, ${GRADIENT_COLOR_COEFFICIENT_MAP[2][2] * colorValue[2]}, 0) 99%,
+            rgba(${GRADIENT_COLOR_COEFFICIENT_MAP[3][0] * colorValue[0]}, ${
+            GRADIENT_COLOR_COEFFICIENT_MAP[3][1] * colorValue[1]
+        }, ${GRADIENT_COLOR_COEFFICIENT_MAP[3][2] * colorValue[2]}, 0) 100%
         );
     }
     @keyframes slide {
