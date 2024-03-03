@@ -65,6 +65,7 @@ export const contactsApi = createApi({
                     : [{ type: 'Contacts', id: 'LIST' }];
             },
         }),
+        // currently using the same endpoint like getContacts, TODO: change to a different endpoint
         searchContacts: builder.query<any, IQueryPaginationInput>({
             query: (body) => ({
                 url: '/graphql',
