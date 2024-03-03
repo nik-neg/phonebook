@@ -11,22 +11,14 @@ import {
 import { IContactListProps } from './types';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useGetContactsQuery } from '../../../store/api/contacts.api';
-import {
-    selectSliderValue,
-    useAppDispatch,
-    useAppSelector,
-} from '../../../store';
-import { selectTotalNumberOfContacts } from '../../../store/selectors/contacts.selector';
-import { getTotalNumberOfContacts } from '../../../store/slices';
+import { selectSliderValue, useAppSelector } from '../../../store';
 import { debounce } from 'lodash-es';
 import { SearchBar } from '../dialogs/common/SearchBar';
 import {
-    CONTACTS_PER_PAGE,
     SCROLL_DOWN_STEP,
     SCROLL_UP_STEP,
     SHINE_TIME_COEFFICIENT,
     SHINE_TIME_REFERENCE,
-    START_SCROLL,
 } from './constants';
 import { ContactCard, IContact } from './ContactCard';
 import { Spacer } from '../../common/Spacer';
@@ -44,10 +36,6 @@ export const ContactsList = ({
     onRemoveContact,
     onHandleSearch,
 }: IContactListProps): JSX.Element => {
-    const dispatch = useAppDispatch();
-
-    const totalNumberOfContacts = useAppSelector(selectTotalNumberOfContacts);
-
     const outerRef = useRef<HTMLDivElement>(null);
     const innerRef = useRef<HTMLDivElement>(null);
 
@@ -59,14 +47,8 @@ export const ContactsList = ({
     );
 
     useEffect(() => {
-        if (
-            !isLoading &&
-            data?.data?.getContacts?.contacts?.length > 0 &&
-            !isFetching &&
-            isDeviceOn
-        ) {
-            dispatch(getTotalNumberOfContacts(data?.data?.getContacts?.total));
-            onFetchContacts?.(data?.data?.getContacts?.contacts);
+        if (!isLoading && data?.length > 0 && !isFetching && isDeviceOn) {
+            onFetchContacts?.(data);
         }
     }, [data, isLoading, isFetching, isDeviceOn]);
 
@@ -77,47 +59,13 @@ export const ContactsList = ({
 
                 setScroll(scrollTop);
 
-                const isNextPageLastPage =
-                    totalNumberOfContacts < (page + 1) * CONTACTS_PER_PAGE;
-
-                const hasMoreContacts =
-                    totalNumberOfContacts - page * CONTACTS_PER_PAGE > 0;
                 if (
-                    // scroll down
                     scrollTop >= scroll &&
                     scrollTop < clientHeight &&
                     scrollTop !== SCROLL_UP_STEP &&
-                    hasMoreContacts &&
                     scrollTop !== SCROLL_DOWN_STEP
                 ) {
                     onPageChange(page + 1);
-                    if (isNextPageLastPage) {
-                        outerRef?.current?.scrollTo(0, SCROLL_DOWN_STEP);
-                        setScroll(SCROLL_DOWN_STEP);
-                    }
-                } else if (
-                    // scroll up
-                    scrollTop <= scroll &&
-                    !scrollTop &&
-                    totalNumberOfContacts < page * CONTACTS_PER_PAGE
-                ) {
-                    const scrollBackOCondition = (page: number) =>
-                        page - 1 > 1 ? page - 1 : 1;
-                    onPageChange(scrollBackOCondition(page));
-
-                    outerRef?.current?.scrollTo(0, SCROLL_UP_STEP);
-                    setScroll(SCROLL_UP_STEP);
-                } else if (
-                    scrollTop !== SCROLL_UP_STEP &&
-                    scrollTop !== SCROLL_DOWN_STEP
-                ) {
-                    // scroll up last page
-                    const scrollBackOCondition = (page: number) =>
-                        page - 1 > 1 ? page - 1 : 1;
-                    onPageChange(scrollBackOCondition(page));
-
-                    outerRef?.current?.scrollTo(0, START_SCROLL);
-                    setScroll(START_SCROLL);
                 }
             }, 500);
         },
@@ -182,16 +130,13 @@ export const ContactsList = ({
                         <SContactListWrapper ref={innerRef}>
                             <SContactCardsContainer>
                                 {contacts.map(
-                                    (contact: IContact, index: number) =>
-                                        index < CONTACTS_PER_PAGE && (
-                                            <ContactCard
-                                                key={index}
-                                                contact={contact}
-                                                onRemoveContact={
-                                                    onRemoveContact
-                                                }
-                                            />
-                                        )
+                                    (contact: IContact, index: number) => (
+                                        <ContactCard
+                                            key={index}
+                                            contact={contact}
+                                            onRemoveContact={onRemoveContact}
+                                        />
+                                    )
                                 )}
                             </SContactCardsContainer>
                         </SContactListWrapper>

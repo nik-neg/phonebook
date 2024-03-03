@@ -4,9 +4,11 @@ import { buildContactQuery } from '../../api/utils';
 import { IContact } from '../../components/Dashboard/ContactsList/ContactCard';
 import { ContactWithPhoneNumbersAsString } from '../../components/Dashboard/dialogs/UpdateDialog';
 import { BASE_URL } from './constants';
+import { uniqBy } from 'lodash-es';
 
 export const contactsApi = createApi({
     reducerPath: 'contactsApi',
+    tagTypes: ['Contacts'],
     baseQuery: fetchBaseQuery({ baseUrl: `${BASE_URL}` }),
     endpoints: (builder) => ({
         getContacts: builder.query<any, IQueryPaginationInput>({
@@ -38,18 +40,73 @@ export const contactsApi = createApi({
                     }`,
                 },
             }),
-            providesTags: (result) =>
-                result?.data?.contacts
+            transformResponse: (response: any, meta, arg) =>
+                response.data.getContacts.contacts,
+            serializeQueryArgs: ({ endpointName }) => {
+                return endpointName;
+            },
+            merge: (currentCache, newItems) => {
+                if (newItems.length) {
+                    return uniqBy([...currentCache, ...newItems], 'id');
+                }
+            },
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg;
+            },
+            providesTags: (data) => {
+                return data
                     ? [
-                          ...result?.data?.contacts?.map(
-                              (contact: IContact) => ({
-                                  type: 'Contact' as const,
-                                  id: contact.id.toString(),
-                              })
-                          ),
+                          ...data?.map((contact: IContact) => ({
+                              type: 'Contact' as const,
+                              id: contact.id.toString(),
+                          })),
                           { type: 'Contacts', id: 'LIST' },
                       ]
-                    : [{ type: 'Contacts', id: 'LIST' }],
+                    : [{ type: 'Contacts', id: 'LIST' }];
+            },
+        }),
+        searchContacts: builder.query<any, IQueryPaginationInput>({
+            query: (body) => ({
+                url: '/graphql',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: {
+                    query: `{
+                        getContacts(queryPaginationInput: {${buildContactQuery(
+                            body
+                        )}}) {
+                            contacts {
+                                id
+                                firstName
+                                lastName
+                                nickName
+                                phoneNumbers {
+                                    id
+                                    phoneNumber
+                                }
+                                address
+                                imageFile
+                            },
+                            total,
+                        }
+                    }`,
+                },
+            }),
+            transformResponse: (response: any, meta, arg) =>
+                response.data.getContacts.contacts,
+            providesTags: (data) => {
+                return data
+                    ? [
+                          ...data?.map((contact: IContact) => ({
+                              type: 'Contact' as const,
+                              id: contact.id.toString(),
+                          })),
+                          { type: 'Contacts', id: 'LIST' },
+                      ]
+                    : [{ type: 'Contacts', id: 'LIST' }];
+            },
         }),
         removeContact: builder.mutation<any, IContact['id']>({
             query: (id) => ({
@@ -120,7 +177,7 @@ export const contactsApi = createApi({
 // auto-generated based on the defined endpoints
 export const {
     useGetContactsQuery,
-    useLazyGetContactsQuery,
+    useLazySearchContactsQuery,
     useRemoveContactMutation,
     useUpdateContactMutation,
 } = contactsApi;
