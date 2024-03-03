@@ -51,7 +51,7 @@ export const ContactsList = ({
     const outerRef = useRef<HTMLDivElement>(null);
     const innerRef = useRef<HTMLDivElement>(null);
 
-    const [scroll, setScroll] = useState(0);
+    const [scroll, setScroll] = useState<number>(0);
 
     const { data, isLoading, isFetching } = useGetContactsQuery(
         { page },
@@ -152,7 +152,7 @@ export const ContactsList = ({
         onHandleSearch?.(content);
     };
 
-    const sliderValue = useAppSelector(selectSliderValue);
+    const selectedSliderValue = useAppSelector(selectSliderValue);
 
     return (
         <SContactListPanel>
@@ -161,7 +161,7 @@ export const ContactsList = ({
                     contactsAreFetched={isDeviceOn}
                     shineTimer={
                         SHINE_TIME_REFERENCE /
-                        (sliderValue / SHINE_TIME_COEFFICIENT)
+                        (selectedSliderValue / SHINE_TIME_COEFFICIENT)
                     }
                     colorValue={parseColor(colorValue)}
                 >

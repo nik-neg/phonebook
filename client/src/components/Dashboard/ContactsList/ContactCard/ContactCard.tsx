@@ -29,9 +29,9 @@ export const ContactCard = ({
             phoneNumbers: convertPhoneNumbersToString(contact.phoneNumbers),
         });
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState<boolean>(false);
 
-    const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
+    const [openUpdateDialog, setOpenUpdateDialog] = useState<boolean>(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -45,8 +45,7 @@ export const ContactCard = ({
         setOpenUpdateDialog(false);
     };
 
-    const [removeContact, { isLoading: isRemoving, isSuccess, isError }] =
-        useRemoveContactMutation();
+    const [removeContact] = useRemoveContactMutation();
 
     const handleEdit = async (remove: boolean) => {
         setOpen(false);

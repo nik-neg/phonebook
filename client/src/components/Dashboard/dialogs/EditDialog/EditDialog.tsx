@@ -12,9 +12,11 @@ import { red } from '@mui/material/colors';
 import { IEditDialogProps } from './types';
 
 // first dialog after clicking on a contact card
-export const EditDialog = (props: IEditDialogProps): JSX.Element => {
-    const { onClose, open, onEdit } = props;
-
+export const EditDialog = ({
+    onClose,
+    open,
+    onEdit,
+}: IEditDialogProps): JSX.Element => {
     const handleClose = () => {
         onClose();
     };
