@@ -13,6 +13,7 @@ import { SearchDialog } from './dialogs/SearchDialog';
 import { shouldActivate } from '../../utils';
 import { ButtonPanel } from '../ButtonPanel/ButtonPanel';
 import Tilt from 'react-parallax-tilt';
+import { RGB_MAX_REFERENCE } from './constants';
 
 export const Dashboard = (): JSX.Element => {
     const [fetchedContacts, setFetchedContacts] = useState<IContact[]>([]);
@@ -83,7 +84,7 @@ export const Dashboard = (): JSX.Element => {
     const handlePageChange = (page: number) => {
         setPage(page);
     };
-    const [colorValue, setColorValue] = useState('rgb(255, 255, 255)');
+    const [colorValue, setColorValue] = useState<string>(RGB_MAX_REFERENCE);
 
     const handleColorChange = (newValue: string) => {
         setColorValue(newValue);
