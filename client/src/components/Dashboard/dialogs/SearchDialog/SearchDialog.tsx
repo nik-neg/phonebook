@@ -1,12 +1,15 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import { ISearchDialogProps } from './types';
 import { SearchBar } from '../common/SearchBar/SearchBar';
 
-export const SearchDialog = (props: ISearchDialogProps): JSX.Element => {
-    const { open, onClose, onSearch } = props;
-
-    const [content, setContent] = React.useState<string>('');
+export const SearchDialog = ({
+    open,
+    onClose,
+    onSearch,
+}: ISearchDialogProps): JSX.Element => {
+    const [content, setContent] = useState<string>('');
     const handleClose = async () => {
         onClose();
     };

@@ -53,10 +53,13 @@ export const AddDialog = ({
         getValues,
         setValue,
         reset,
+        watch,
     } = useForm({
         defaultValues,
         resolver: yupResolver(addContactSchema),
     });
+
+    const watchImage = watch('imageFile');
 
     const handleSetValue = (name: keyof IAddDialogState, value: string) => {
         setValue(name, value);
@@ -340,7 +343,7 @@ export const AddDialog = ({
                     )}
                     {contact.imageFile && (
                         <ImageFilter
-                            contact={contact}
+                            imageFile={watchImage}
                             onFilter={handleFilter}
                             isFetchingImage={loading}
                         />

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Slider from '@mui/material/Slider';
 import MuiInput from '@mui/material/Input';
@@ -36,7 +36,7 @@ export const ImageOptionsSlider = ({
         setValue(newValue);
     };
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const newValue =
             event.target.value === '' ? min : Number(event.target.value);
         onChangeParent?.(name.toLowerCase(), newValue);

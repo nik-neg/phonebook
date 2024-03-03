@@ -24,7 +24,6 @@ export const UpdateDialog = ({
     selectedValue,
     open,
     onClose,
-    onFilterImage,
 }: IUpdateDialogProps): JSX.Element => {
     const defaultValues = {
         firstName: '',
@@ -41,12 +40,15 @@ export const UpdateDialog = ({
         getValues,
         setValue,
         reset,
+        watch,
     } = useForm({
         defaultValues: {
             ...selectedValue,
         },
         resolver: yupResolver(updateContactSchema),
     });
+
+    const watchImage = watch('imageFile');
 
     useEffect(() => {
         clearForm();
@@ -61,6 +63,8 @@ export const UpdateDialog = ({
     const handleUploadImage = (imagePath: string | ArrayBuffer) => {
         setValue('imageFile', imagePath.toString());
     };
+
+    const [image, setImage] = useState<string>(selectedValue.imageFile);
 
     const handleClose = () => {
         onClose?.();
@@ -116,7 +120,6 @@ export const UpdateDialog = ({
         }
         setLoading(false);
 
-        onFilterImage?.(image?.data?.data?.filterImage);
         setValue('imageFile', image?.data?.data?.filterImage);
     };
     const clearForm = () => {
@@ -215,7 +218,7 @@ export const UpdateDialog = ({
                     {selectedValue.imageFile && (
                         <>
                             <ImageFilter
-                                contact={selectedValue}
+                                imageFile={watchImage}
                                 onFilter={handleFilter}
                                 isFetchingImage={loading}
                             />

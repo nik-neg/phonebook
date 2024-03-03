@@ -13,7 +13,6 @@ import { EditDialog } from '../../dialogs/EditDialog/EditDialog';
 import { UpdateDialog } from '../../dialogs/UpdateDialog/UpdateDialog';
 import Avatar from '@mui/material/Avatar';
 import { useRemoveContactMutation } from '../../../../store/api/contacts.api';
-import { ContactWithPhoneNumbersAsString } from '../../dialogs/UpdateDialog';
 import { convertPhoneNumbersToString } from '../../dialogs/UpdateDialog/utils';
 import { ADDRESS_STRIP_LENGTH } from './constants';
 
@@ -23,15 +22,9 @@ export const ContactCard = ({
 }: IContactCardProps): JSX.Element => {
     const { id, nickName, firstName, lastName, address, imageFile } = contact;
 
-    const [contactState, setContactState] =
-        useState<ContactWithPhoneNumbersAsString>({
-            ...contact,
-            phoneNumbers: convertPhoneNumbersToString(contact.phoneNumbers),
-        });
+    const [open, setOpen] = useState<boolean>(false);
 
-    const [open, setOpen] = useState(false);
-
-    const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
+    const [openUpdateDialog, setOpenUpdateDialog] = useState<boolean>(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -45,8 +38,7 @@ export const ContactCard = ({
         setOpenUpdateDialog(false);
     };
 
-    const [removeContact, { isLoading: isRemoving, isSuccess, isError }] =
-        useRemoveContactMutation();
+    const [removeContact] = useRemoveContactMutation();
 
     const handleEdit = async (remove: boolean) => {
         setOpen(false);
@@ -64,12 +56,6 @@ export const ContactCard = ({
         onRemoveContact?.(id);
     };
 
-    const handleFilterImage = (filteredImage: string) => {
-        setContactState((prevState) => ({
-            ...prevState,
-            imageFile: filteredImage,
-        }));
-    };
     return (
         <SContactCardContainer>
             <SContactCardWrapper onClick={handleClickOpen}>
@@ -103,11 +89,15 @@ export const ContactCard = ({
                 onEdit={handleEdit}
             />
             <UpdateDialog
-                selectedValue={contactState}
+                selectedValue={{
+                    ...contact,
+                    phoneNumbers: convertPhoneNumbersToString(
+                        contact.phoneNumbers
+                    ),
+                }}
                 open={openUpdateDialog}
                 onClose={handleCloseUpdateDialog}
                 onEdit={handleEdit}
-                onFilterImage={handleFilterImage}
             />
         </SContactCardContainer>
     );

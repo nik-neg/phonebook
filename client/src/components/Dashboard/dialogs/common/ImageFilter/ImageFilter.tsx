@@ -26,7 +26,7 @@ import {
 } from '@mui/material';
 
 export const ImageFilter = ({
-    contact,
+    imageFile,
     onFilter,
     isFetchingImage,
 }: IImageFilterProps): JSX.Element => {
@@ -55,7 +55,7 @@ export const ImageFilter = ({
                     <CircularProgress />
                 ) : (
                     <SUploadedImageWrapper>
-                        <SUploadedImage src={contact?.imageFile?.toString()} />
+                        <SUploadedImage src={imageFile?.toString()} />
                     </SUploadedImageWrapper>
                 )}
             </SUploadedImageContainer>

@@ -13,6 +13,7 @@ import { SearchDialog } from './dialogs/SearchDialog';
 import { shouldActivate } from '../../utils';
 import { ButtonPanel } from '../ButtonPanel/ButtonPanel';
 import Tilt from 'react-parallax-tilt';
+import { RGB_MAX_REFERENCE } from './constants';
 
 export const Dashboard = (): JSX.Element => {
     const [fetchedContacts, setFetchedContacts] = useState<IContact[]>([]);
@@ -25,7 +26,7 @@ export const Dashboard = (): JSX.Element => {
         setFetchedContacts((prev) => prev.filter((c) => c.id !== id));
     };
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState<boolean>(false);
 
     const handleOpenAddContact = () => {
         setOpen(true);
@@ -66,7 +67,7 @@ export const Dashboard = (): JSX.Element => {
         }
     };
 
-    const [openSearch, setOpenSearch] = useState(false);
+    const [openSearch, setOpenSearch] = useState<boolean>(false);
 
     const handleOpenSearch = () => {
         setOpenSearch(true);
@@ -76,14 +77,14 @@ export const Dashboard = (): JSX.Element => {
         setOpenSearch(false);
     };
 
-    const [isDeviceOn, setIsDeviceOn] = useState(true);
+    const [isDeviceOn, setIsDeviceOn] = useState<boolean>(true);
 
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState<number>(1);
 
     const handlePageChange = (page: number) => {
         setPage(page);
     };
-    const [colorValue, setColorValue] = useState('#ffffff');
+    const [colorValue, setColorValue] = useState<string>(RGB_MAX_REFERENCE);
 
     const handleColorChange = (newValue: string) => {
         setColorValue(newValue);
