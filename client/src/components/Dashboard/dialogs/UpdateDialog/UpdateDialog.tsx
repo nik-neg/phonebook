@@ -64,8 +64,6 @@ export const UpdateDialog = ({
         setValue('imageFile', imagePath.toString());
     };
 
-    const [image, setImage] = useState<string>(selectedValue.imageFile);
-
     const handleClose = () => {
         onClose?.();
     };
