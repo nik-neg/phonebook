@@ -56,6 +56,8 @@ export const ContactCard = ({
         onRemoveContact?.(id);
     };
 
+    console.log({ contact });
+
     return (
         <SContactCardContainer>
             <SContactCardWrapper onClick={handleClickOpen}>
@@ -91,9 +93,9 @@ export const ContactCard = ({
             <UpdateDialog
                 selectedValue={{
                     ...contact,
-                    phoneNumbers: convertPhoneNumbersToString(
-                        contact.phoneNumbers
-                    ),
+                    phoneNumbers: Array.isArray(contact.phoneNumbers)
+                        ? convertPhoneNumbersToString(contact.phoneNumbers)
+                        : contact.phoneNumbers,
                 }}
                 open={openUpdateDialog}
                 onClose={handleCloseUpdateDialog}

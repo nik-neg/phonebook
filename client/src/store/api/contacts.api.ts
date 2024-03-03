@@ -192,13 +192,20 @@ export const contactsApi = createApi({
             ) {
                 const patchResult = dispatch(
                     contactsApi.util.updateQueryData(
-                        'getContact',
-                        contact.id,
+                        'getContacts',
+                        {},
                         (draft) => {
-                            Object.assign(draft, patch);
+                            console.log(draft[0], patch);
+                            // find and replace
+                            const index = draft.findIndex(
+                                (c: IContact) => c.id === contact.id
+                            );
+                            draft[index] = { ...draft[index], ...patch };
+                            return draft;
                         }
                     )
                 );
+                console.log({ patchResult });
                 try {
                     await queryFulfilled;
                 } catch {
@@ -211,9 +218,7 @@ export const contactsApi = createApi({
                      */
                 }
             },
-            invalidatesTags: (result, error, { contact }) => [
-                { type: 'Contact', id: contact.id },
-            ],
+            invalidatesTags: [{ type: 'Contacts', id: 'LIST' }],
         }),
     }),
 });
