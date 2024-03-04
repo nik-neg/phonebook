@@ -22,10 +22,6 @@ export const Dashboard = (): JSX.Element => {
         setFetchedContacts(contacts);
     };
 
-    const onRemoveContact = (id: number) => {
-        setFetchedContacts((prev) => prev.filter((c) => c.id !== id));
-    };
-
     const [open, setOpen] = useState<boolean>(false);
 
     const handleOpenAddContact = () => {
@@ -101,7 +97,6 @@ export const Dashboard = (): JSX.Element => {
                         contacts={fetchedContacts}
                         onPageChange={handlePageChange}
                         onFetchContacts={onFetchContacts}
-                        onRemoveContact={onRemoveContact}
                         onEditContact={handleEditContact}
                         onHandleSearch={handleSearch}
                     />

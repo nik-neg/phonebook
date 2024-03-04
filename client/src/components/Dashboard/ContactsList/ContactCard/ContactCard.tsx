@@ -16,10 +16,7 @@ import { useRemoveContactMutation } from '../../../../store/api/contacts.api';
 import { convertPhoneNumbersToString } from '../../dialogs/UpdateDialog/utils';
 import { ADDRESS_STRIP_LENGTH } from './constants';
 
-export const ContactCard = ({
-    contact,
-    onRemoveContact,
-}: IContactCardProps): JSX.Element => {
+export const ContactCard = ({ contact }: IContactCardProps): JSX.Element => {
     const { id, nickName, firstName, lastName, address, imageFile } = contact;
 
     const [open, setOpen] = useState<boolean>(false);
@@ -52,8 +49,6 @@ export const ContactCard = ({
         } catch (e) {
             console.log(e);
         }
-
-        onRemoveContact?.(id);
     };
 
     return (
