@@ -157,14 +157,10 @@ export class ContactService {
     } finally {
       await queryRunner.release();
     }
-    return this.contactRepository.findOne({
-      where: { id },
-      relations: ['phoneNumbers'],
-    });
   }
 
   async remove(id: number): Promise<Contact> {
-    const queryRunner = await this.connection.createQueryRunner();
+    const queryRunner = this.connection.createQueryRunner();
 
     try {
       await queryRunner.connect();
