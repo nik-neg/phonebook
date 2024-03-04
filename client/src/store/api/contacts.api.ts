@@ -240,10 +240,11 @@ export const contactsApi = createApi({
                     contactsApi.util.updateQueryData(
                         'getContacts',
                         {},
-                        (draft) => {
+                        (draft: ContactWithPhoneNumbersAsString[]) => {
                             // find and replace
                             const index = draft.findIndex(
-                                (c: IContact) => c.id === contact.id
+                                (c: ContactWithPhoneNumbersAsString) =>
+                                    c.id === contact.id
                             );
                             draft[index] = {
                                 ...draft[index],
