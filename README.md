@@ -34,22 +34,31 @@ you don't want to apply them
 
 
 <div align="center">
-<table>
-<tr><th>Tech Stack</th></tr>
-<tr><td>
-
- <sub> React </sub> |<sub> TypeScript <sub>| <sub> Styled Components </sub> | <sub> Material-UI </sub> | <sub> Vite </sub> | <sub> Redux </sub> | <sub> React Hook Form </sub>
-|--|--|--|--|--|--|--
-[<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/react.svg" alt="drawing" width="40" height="40"/>](https://reactjs.org/) | [<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/ts.svg" alt="drawing" width="40" height="40"/>](https://www.typescriptlang.org/) | [<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/sc.png" alt="drawing" width="40" height="40"/>](https://styled-components.com/) | [<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/material.svg" alt="drawing" width="40" height="40"/>](https://material-ui.com/) | [<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/vite.svg" alt="drawing" width="40" height="40"/>](https://vitejs.dev/guide/) |  [<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/redux.svg" alt="drawing" width="40" height="40"/>](https://redux.js.org) | [<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/react-hook-form.png" alt="drawing" width="40" height="40"/>](https://react-hook-form.com/)
-</td></tr>
-<tr><td>
-
-<sub> GraphQL </sub> | <sub> NestJS </sub> |  <sub> postgreSQL </sub>  | <sub> typeORM </sub>  | <sub> Jest </sub>  | <sub> Sharp </sub> | <sub> Docker </sub>
-|--|--|--|--|--|--|--
-[<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/graphql.svg" alt="drawing" width="40" height="40"/>](https://graphql.org/) | [<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/nestjs.svg" alt="drawing" width="40" height="40"/>](https://nestjs.com/) |  [<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/postgresql.svg" alt="drawing" width="40" height="40"/>](https://www.postgresql.org)  |  [<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/typeorm.svg" alt="drawing" width="40" height="40"/>](https://typeorm.io/)  | [<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/jest.svg" alt="drawing" width="40" height="40"/>](https://jestjs.io/) | [<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/sharp.png" alt="drawing" width="40" height="40"/>](https://sharp.pixelplumbing.com/) | [<img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/docker.svg" alt="drawing" width="40" height="40"/>](https://www.docker.com/)
-</td></tr>
-</table>
+  <table>
+    <tr>
+      <th colspan="7">Tech Stack</th>
+    </tr>
+    <tr>
+      <td align="center"><a href="https://reactjs.org/"><img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/react.svg" alt="React" width="40" height="40"/><br>React</a></td>
+      <td align="center"><a href="https://www.typescriptlang.org/"><img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/ts.svg" alt="TypeScript" width="40" height="40"/><br>TypeScript</a></td>
+      <td align="center"><a href="https://styled-components.com/"><img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/sc.png" alt="Styled Components" width="40" height="40"/><br>Styled Components</a></td>
+      <td align="center"><a href="https://material-ui.com/"><img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/material.svg" alt="Material-UI" width="40" height="40"/><br>Material-UI</a></td>
+      <td align="center"><a href="https://vitejs.dev/guide/"><img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/vite.svg" alt="Vite" width="40" height="40"/><br>Vite</a></td>
+      <td align="center"><a href="https://redux.js.org"><img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/redux.svg" alt="Redux" width="40" height="40"/><br>Redux</a></td>
+      <td align="center"><a href="https://react-hook-form.com/"><img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/react-hook-form.png" alt="React Hook Form" width="40" height="40"/><br>React Hook Form</a></td>
+    </tr>
+    <tr>
+      <td align="center"><a href="https://graphql.org/"><img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/graphql.svg" alt="GraphQL" width="40" height="40"/><br>GraphQL</a></td>
+      <td align="center"><a href="https://nestjs.com/"><img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/nestjs.svg" alt="NestJS" width="40" height="40"/><br>NestJS</a></td>
+      <td align="center"><a href="https://www.postgresql.org"><img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/postgresql.svg" alt="PostgreSQL" width="40" height="40"/><br>PostgreSQL</a></td>
+      <td align="center"><a href="https://typeorm.io/"><img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/typeorm.svg" alt="TypeORM" width="40" height="40"/><br>TypeORM</a></td>
+      <td align="center"><a href="https://jestjs.io/"><img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/jest.svg" alt="Jest" width="40" height="40"/><br>Jest</a></td>
+      <td align="center"><a href="https://sharp.pixelplumbing.com/"><img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/sharp.png" alt="Sharp" width="40" height="40"/><br>Sharp</a></td>
+      <td align="center"><a href="https://www.docker.com/"><img src="https://github.com/nik-neg/phonebook/blob/main/.techstack/docker.svg" alt="Docker" width="40" height="40"/><br>Docker</a></td>
+    </tr>
+  </table>
 </div>
+
 
 ## Intro screen
 ![alt text](https://github.com/nik-neg/phonebook/blob/main/.images/1_intro.jpg)
