@@ -8,7 +8,7 @@ import { uniqBy } from 'lodash-es';
 
 export const contactsApi = createApi({
     reducerPath: 'contactsApi',
-    tagTypes: ['Contacts'],
+    tagTypes: ['Contacts', 'Contact'],
     baseQuery: fetchBaseQuery({ baseUrl: `${BASE_URL}` }),
     endpoints: (builder) => ({
         getContacts: builder.query<any, IQueryPaginationInput>({
@@ -65,7 +65,6 @@ export const contactsApi = createApi({
                     : [{ type: 'Contacts', id: 'LIST' }];
             },
         }),
-        // currently using the same endpoint like getContacts, TODO: change to a different endpoint
         searchContacts: builder.query<any, IQueryPaginationInput>({
             query: (body) => ({
                 url: '/graphql',
@@ -108,6 +107,34 @@ export const contactsApi = createApi({
                       ]
                     : [{ type: 'Contacts', id: 'LIST' }];
             },
+        }),
+        getContact: builder.query<any, { id: number }>({
+            query: ({ id }) => ({
+                url: `/graphql`,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: {
+                    query: `{
+                      getContact(id: ${id}) {
+                        id,
+                        firstName,
+                        lastName,
+                        nickName,
+                        phoneNumbers {
+                            id
+                            phoneNumber
+                        }
+                        address,
+                        imageFile
+                      }
+                    }`,
+                },
+            }),
+            providesTags: (result, error, id) => [
+                { type: 'Contact', id: `${id}` },
+            ],
         }),
         removeContact: builder.mutation<any, IContact['id']>({
             query: (id) => ({
@@ -169,7 +196,52 @@ export const contactsApi = createApi({
                     }`,
                 },
             }),
-            invalidatesTags: [{ type: 'Contacts', id: 'LIST' }],
+            // tested with a delay in the backend, the hooks return
+            // updated data before the backend responds
+            async onQueryStarted(
+                { contact, ...image },
+                { dispatch, queryFulfilled }
+            ) {
+                // for using a different cache
+                // const patchResult = dispatch(
+                //     contactsApi.util.updateQueryData(
+                //         'getContact',
+                //         { id: contact.id },
+                //         (draft) => {
+                //             return assign({}, { ...contact, ...image });
+                //         }
+                //     )
+                // );
+                const patchResult = dispatch(
+                    contactsApi.util.updateQueryData(
+                        'getContacts',
+                        {},
+                        (draft) => {
+                            // find and replace
+                            const index = draft.findIndex(
+                                (c: IContact) => c.id === contact.id
+                            );
+                            draft[index] = {
+                                ...draft[index],
+                                ...contact,
+                                ...image,
+                            };
+                            return draft;
+                        }
+                    )
+                );
+                try {
+                    await queryFulfilled;
+                } catch {
+                    patchResult.undo();
+
+                    /**
+                     * Alternatively, on failure you can invalidate the corresponding cache tags
+                     * to trigger a re-fetch:
+                     * dispatch(api.util.invalidateTags(['Contact']))
+                     */
+                }
+            },
         }),
     }),
 });
@@ -180,5 +252,6 @@ export const {
     useGetContactsQuery,
     useLazySearchContactsQuery,
     useRemoveContactMutation,
+    useGetContactQuery,
     useUpdateContactMutation,
 } = contactsApi;

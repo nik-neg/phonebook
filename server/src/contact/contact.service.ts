@@ -148,6 +148,10 @@ export class ContactService {
         },
       );
       await queryRunner.commitTransaction();
+      return this.contactRepository.findOne({
+        where: { id },
+        relations: ['phoneNumbers'],
+      });
     } catch (err) {
       await queryRunner.rollbackTransaction();
     } finally {

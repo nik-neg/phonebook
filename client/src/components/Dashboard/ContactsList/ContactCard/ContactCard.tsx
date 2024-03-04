@@ -91,9 +91,9 @@ export const ContactCard = ({
             <UpdateDialog
                 selectedValue={{
                     ...contact,
-                    phoneNumbers: convertPhoneNumbersToString(
-                        contact.phoneNumbers
-                    ),
+                    phoneNumbers: Array.isArray(contact.phoneNumbers)
+                        ? convertPhoneNumbersToString(contact.phoneNumbers)
+                        : contact.phoneNumbers,
                 }}
                 open={openUpdateDialog}
                 onClose={handleCloseUpdateDialog}
