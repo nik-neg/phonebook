@@ -33,7 +33,6 @@ export const ContactsList = ({
     contacts,
     onPageChange,
     onFetchContacts,
-    onRemoveContact,
     onHandleSearch,
 }: IContactListProps): JSX.Element => {
     const outerRef = useRef<HTMLDivElement>(null);
@@ -134,7 +133,6 @@ export const ContactsList = ({
                                         <ContactCard
                                             key={index}
                                             contact={contact}
-                                            onRemoveContact={onRemoveContact}
                                         />
                                     )
                                 )}
