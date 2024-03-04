@@ -56,8 +56,6 @@ export const ContactCard = ({
         onRemoveContact?.(id);
     };
 
-    console.log({ contact });
-
     return (
         <SContactCardContainer>
             <SContactCardWrapper onClick={handleClickOpen}>

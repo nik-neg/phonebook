@@ -12,6 +12,7 @@ export interface IPhoneNumber {
 
 export interface IContact {
     id: number;
+
     nickName?: string;
 
     firstName: string;

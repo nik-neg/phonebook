@@ -86,13 +86,10 @@ export const UpdateDialog = ({
                     >
                 )
             ) {
-                console.log({ d: getValues() });
-                const temp = await updateContact({
+                await updateContact({
                     contact: { ...getValues(), id: selectedValue.id },
                     filterImageInput: filter,
                 }).unwrap();
-
-                console.log({ temp });
 
                 setValue('imageFile', getValues().imageFile);
                 onClose?.();
