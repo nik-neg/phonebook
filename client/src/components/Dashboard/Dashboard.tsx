@@ -52,13 +52,12 @@ export const Dashboard = (): JSX.Element => {
     const handleSearch = async (keyword: string) => {
         if (!keyword || keyword.length >= 3) {
             try {
-                const response = await searchContacts({
+                const { data } = await searchContacts({
                     keyword,
                     page: 1,
                 });
 
-                let newContacts = response?.data;
-                newContacts = newContacts?.length ? newContacts : [];
+                const newContacts = data?.length ? data : [];
 
                 setFetchedContacts(newContacts);
             } catch (e) {
