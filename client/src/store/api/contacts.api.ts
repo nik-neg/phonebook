@@ -152,7 +152,31 @@ export const contactsApi = createApi({
                     }`,
                 },
             }),
-            invalidatesTags: [{ type: 'Contacts', id: 'LIST' }],
+            async onQueryStarted(id, { dispatch, queryFulfilled }) {
+                const patchResult = dispatch(
+                    contactsApi.util.updateQueryData(
+                        'getContacts',
+                        {},
+                        (draft: IContact[]) => {
+                            draft = draft.filter(
+                                (item: IContact) => item.id !== id
+                            );
+                            return draft;
+                        }
+                    )
+                );
+                try {
+                    await queryFulfilled;
+                } catch {
+                    patchResult.undo();
+
+                    /**
+                     * Alternatively, on failure you can invalidate the corresponding cache tags
+                     * to trigger a re-fetch:
+                     * dispatch(api.util.invalidateTags(['Contact']))
+                     */
+                }
+            },
         }),
         updateContact: builder.mutation<
             any,
@@ -216,10 +240,11 @@ export const contactsApi = createApi({
                     contactsApi.util.updateQueryData(
                         'getContacts',
                         {},
-                        (draft) => {
+                        (draft: ContactWithPhoneNumbersAsString[]) => {
                             // find and replace
                             const index = draft.findIndex(
-                                (c: IContact) => c.id === contact.id
+                                (c: ContactWithPhoneNumbersAsString) =>
+                                    c.id === contact.id
                             );
                             draft[index] = {
                                 ...draft[index],
