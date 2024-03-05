@@ -43,10 +43,10 @@ export const ContactsList = ({
 
     useEffect(() => {
         if (!isLoading && data?.length > 0 && !isFetching && isDeviceOn) {
-            onFetchContacts?.(data);
             setTimeout(() => {
                 setIsScrolling(false);
-            }, 1000);
+                onFetchContacts?.(data);
+            }, 1500);
         }
     }, [data, isLoading, isFetching, isDeviceOn]);
 
