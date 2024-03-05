@@ -82,7 +82,7 @@ you don't want to apply them
 ## Demo
 https://www.loom.com/share/66c8bd361138443bb12d98c10031c7d4
 
-## v2 improvements (24.02.24)
+## v2 improvements (24.02.24 - 05.03.24)
 - [x] autocomplete for adding contacts by leveraging `algolia api` with portals and `google places api` for addresses
 - [x] for the `algolia api` mock data has been created in the provider account
 - [x] the search functionality can be toggled with the env variable `VITE_SEARCH_BAR_WITHOUT_BUTTON` and appears now on the phone
@@ -90,7 +90,11 @@ https://www.loom.com/share/66c8bd361138443bb12d98c10031c7d4
 - [x] the validation trigger has been refactored to use a utility to reduce duplicated code
 - [x] the buttons are now using the material-ui `Button` component with preserved styles
 - [x] the search field for the address has been refactored to align with the rest of the UI in the add contact modal
-- [x] the shine effect is now preserved under the search bar and the contact list and has now a reversed direction
+- [x] the shine effect is now preserved under the search bar and the contact list, 
+      has a reversed direction, and can be controlled with the slider and the gradient color picker
+- [x] the scrolling has been improved in terms of `UX` and it's using now the cache for a smoother experience
+- [x] optimistic updates for update and remove contact
+- [x] skeleton card for loading new contacts
 - [x] you can use the data folder where the mock data is stored to test the search functionality by creating an own
 `algolia` account and replacing the `VITE_APP_ID` and `VITE_API_KEY` in the `.env` file
 - [x] the functionality has been tested on `Chrome`, `Firefox` and `Opera`
@@ -99,6 +103,7 @@ https://www.loom.com/share/66c8bd361138443bb12d98c10031c7d4
 VITE_SEARCH_BAR_WITHOUT_BUTTON=true
 VITE_APP_ID=YOUR_ALGOLIA_APP_ID
 VITE_API_KEY=YOUR_ALGOLIA_API_KEY
+VITE_SHOULD_USE_ALGOLIA=false
 VITE_LOCATION_API_KEY=YOUR_GOOGLE_PLACES_API_KEY
 VITE_LOCATION_PROVIDER=https://maps.googleapis.com/maps/api/js
 VITE_LOCATION_API_PARAMS=libraries=places

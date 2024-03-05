@@ -31,6 +31,7 @@ import TextField from '@mui/material/TextField';
 import { AddressAutoComplete } from '../../../common/AddressAutoComplete';
 import { triggerValidation } from '../common/utils';
 import { keys, omit } from 'lodash-es';
+import { shouldActivate } from '../../../../utils';
 
 export const AddDialog = ({
     open,
@@ -174,7 +175,8 @@ export const AddDialog = ({
 
                     <Spacer height={HALF_REM} />
 
-                    {isSuggestionsVisible[ESuggestionType.FIRST_NAME] ? (
+                    {isSuggestionsVisible[ESuggestionType.FIRST_NAME] &&
+                    shouldActivate(import.meta.env.VITE_SHOULD_USE_ALGOLIA) ? (
                         <AutoCompleteWrapper
                             portalId={ESuggestionType.FIRST_NAME}
                             isSuggestionsVisible={
@@ -208,7 +210,8 @@ export const AddDialog = ({
 
                     <Spacer height={ONE_REM} />
 
-                    {isSuggestionsVisible[ESuggestionType.LAST_NAME] ? (
+                    {isSuggestionsVisible[ESuggestionType.LAST_NAME] &&
+                    shouldActivate(import.meta.env.VITE_SHOULD_USE_ALGOLIA) ? (
                         <AutoCompleteWrapper
                             portalId={ESuggestionType.LAST_NAME}
                             isSuggestionsVisible={
@@ -242,7 +245,8 @@ export const AddDialog = ({
 
                     <Spacer height={ONE_REM} />
 
-                    {isSuggestionsVisible[ESuggestionType.USER_NAME] ? (
+                    {isSuggestionsVisible[ESuggestionType.USER_NAME] &&
+                    shouldActivate(import.meta.env.VITE_SHOULD_USE_ALGOLIA) ? (
                         <AutoCompleteWrapper
                             portalId={ESuggestionType.USER_NAME}
                             isSuggestionsVisible={
@@ -301,7 +305,8 @@ export const AddDialog = ({
 
                     <Spacer height={ONE_REM} />
 
-                    {isSuggestionsVisible[ESuggestionType.TELEPHONE] ? (
+                    {isSuggestionsVisible[ESuggestionType.TELEPHONE] &&
+                    shouldActivate(import.meta.env.VITE_SHOULD_USE_ALGOLIA) ? (
                         <AutoCompleteWrapper
                             portalId={ESuggestionType.TELEPHONE}
                             isSuggestionsVisible={

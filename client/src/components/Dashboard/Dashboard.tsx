@@ -124,6 +124,7 @@ export const Dashboard = (): JSX.Element => {
                         onColorChange={handleColorChange}
                         onAddContact={handleOpenAddContact}
                         onHandleSearch={handleSearch}
+                        onOpenSearch={handleOpenSearch}
                         onFetchContacts={onFetchContacts}
                         toggleDevice={() => setIsDeviceOn(!isDeviceOn)}
                     />

@@ -11,6 +11,8 @@ export interface IButtonPanelProps {
 
     onHandleSearch: (value: string) => Promise<void>;
 
+    onOpenSearch: () => void;
+
     onFetchContacts: (contacts: IContact[]) => void;
 
     toggleDevice: () => void;

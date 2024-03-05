@@ -42,13 +42,15 @@ export const ContactsList = ({
     );
 
     useEffect(() => {
-        if (!isLoading && data?.length > 0 && !isFetching && isDeviceOn) {
+        if (!isLoading && !isFetching) {
             setTimeout(() => {
                 setIsScrolling(false);
-                onFetchContacts?.(data);
+                if (data && data.length > 0) {
+                    onFetchContacts?.(data);
+                }
             }, 1500);
         }
-    }, [data, isLoading, isFetching, isDeviceOn]);
+    }, [page, data, isLoading, isFetching]);
 
     const [isScrolling, setIsScrolling] = useState<boolean>(false);
 
@@ -67,7 +69,6 @@ export const ContactsList = ({
         },
         [page]
     );
-    console.log({ isScrolling });
 
     useEffect(() => {
         const outerElem = outerRef.current;
