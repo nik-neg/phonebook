@@ -14,17 +14,13 @@ import { useGetContactsQuery } from '../../../store/api/contacts.api';
 import { selectSliderValue, useAppSelector } from '../../../store';
 import { debounce } from 'lodash-es';
 import { SearchBar } from '../dialogs/common/SearchBar';
-import {
-    SCROLL_DOWN_STEP,
-    SCROLL_UP_STEP,
-    SHINE_TIME_COEFFICIENT,
-    SHINE_TIME_REFERENCE,
-} from './constants';
-import { ContactCard, IContact } from './ContactCard';
+import { SHINE_TIME_COEFFICIENT, SHINE_TIME_REFERENCE } from './constants';
 import { Spacer } from '../../common/Spacer';
 import { shouldActivate } from '../../../utils';
 import { SDivider } from '../../common/Divider';
 import { parseColor } from '../../ButtonPanel/utils';
+import { ContactCardSkeleton } from './ContactCard/ContactCardSkeleton/ContactCardSkeleton';
+import { ContactCard, IContact } from './ContactCard';
 
 export const ContactsList = ({
     isDeviceOn,
@@ -47,9 +43,14 @@ export const ContactsList = ({
 
     useEffect(() => {
         if (!isLoading && data?.length > 0 && !isFetching && isDeviceOn) {
-            onFetchContacts?.(data);
+            setTimeout(() => {
+                setIsScrolling(false);
+                onFetchContacts?.(data);
+            }, 1500);
         }
     }, [data, isLoading, isFetching, isDeviceOn]);
+
+    const [isScrolling, setIsScrolling] = useState<boolean>(false);
 
     const loadMoreContacts = useCallback(
         async (outerElem: HTMLDivElement) => {
@@ -57,19 +58,16 @@ export const ContactsList = ({
                 const { scrollTop, clientHeight } = outerElem;
 
                 setScroll(scrollTop);
+                if (scrollTop >= scroll && scrollTop < clientHeight) {
+                    setIsScrolling(true);
 
-                if (
-                    scrollTop >= scroll &&
-                    scrollTop < clientHeight &&
-                    scrollTop !== SCROLL_UP_STEP &&
-                    scrollTop !== SCROLL_DOWN_STEP
-                ) {
                     onPageChange(page + 1);
                 }
             }, 500);
         },
         [page]
     );
+    console.log({ isScrolling });
 
     useEffect(() => {
         const outerElem = outerRef.current;
@@ -136,6 +134,7 @@ export const ContactsList = ({
                                         />
                                     )
                                 )}
+                                {isScrolling && <ContactCardSkeleton />}
                             </SContactCardsContainer>
                         </SContactListWrapper>
                     </SContactListContainer>
