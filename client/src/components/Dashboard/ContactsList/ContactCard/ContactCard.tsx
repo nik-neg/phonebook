@@ -1,11 +1,11 @@
 import {
     SAddress,
+    SAvatar,
     SContactCardContainer,
     SContactCardWrapper,
     SContactInfoWrapper,
     SContactName,
-    SContactNickName,
-    SNameWrapper,
+    SDetailsWrapper,
 } from './ContactCard.styles';
 import React, { useState } from 'react';
 import { IContactCardProps } from './types';
@@ -55,26 +55,22 @@ export const ContactCard = ({ contact }: IContactCardProps): JSX.Element => {
         <SContactCardContainer>
             <SContactCardWrapper onClick={handleClickOpen}>
                 <SContactInfoWrapper>
-                    <Avatar
-                        alt="Remy Sharp"
-                        src={imageFile}
-                        sx={{ width: 75, height: 75 }}
-                    />
-                    <SNameWrapper>
+                    <SAvatar>
+                        <Avatar
+                            alt="Remy Sharp"
+                            src={imageFile}
+                            sx={{ width: 75, height: 75 }}
+                        />
+                    </SAvatar>
+                    <SDetailsWrapper>
                         <SAddress>
                             {address?.slice(0, ADDRESS_STRIP_LENGTH)}
                         </SAddress>
 
-                        {nickName ? (
-                            <SContactNickName>{nickName}</SContactNickName>
-                        ) : (
-                            <>
-                                <SContactName>
-                                    {firstName} {lastName}
-                                </SContactName>
-                            </>
-                        )}
-                    </SNameWrapper>
+                        <SContactName>
+                            {nickName ? nickName : `${firstName} ${lastName}`}
+                        </SContactName>
+                    </SDetailsWrapper>
                 </SContactInfoWrapper>
             </SContactCardWrapper>
             <EditDialog
