@@ -60,7 +60,13 @@ export const ButtonPanel = ({
 
                 <SButtonElement area={'add-button'}>
                     <SButtonWrapper>
-                        <SButton onClick={handleAddContact} disableRipple>
+                        <SButton
+                            onClick={handleAddContact}
+                            searchBarWithoutButton={shouldActivate(
+                                import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
+                            )}
+                            disableRipple
+                        >
                             <SButtonContainer>
                                 <SButtonRow>Add</SButtonRow>
                                 <SButtonRow>
@@ -88,7 +94,13 @@ export const ButtonPanel = ({
                 )}
                 <SButtonElement area={'power-button'}>
                     <SButtonWrapper>
-                        <SButton onClick={handlePowerOn} disableRipple>
+                        <SButton
+                            onClick={handlePowerOn}
+                            searchBarWithoutButton={shouldActivate(
+                                import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
+                            )}
+                            disableRipple
+                        >
                             <SButtonContainer>
                                 <SButtonRow>Power</SButtonRow>
                                 <SButtonRow>

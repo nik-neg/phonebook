@@ -24,6 +24,7 @@ interface SearchPanelProps {
 
 export const SButtonPanel = styled.div<SearchPanelProps>`
     display: grid;
+    justify-items: center;
     grid-template-areas: ${({ searchBarWithoutButton }) =>
         searchBarWithoutButton
             ? '"color add-button power-button slider"'
@@ -101,12 +102,6 @@ export const SButtonContainer = styled.div`
 export const SButtonRow = styled.div`
     display: flex;
     justify-content: center;
-`;
-
-export const SVerticalSliderContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
 `;
 
 export const SVerticalSliderWrapper = styled.div`
