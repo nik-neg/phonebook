@@ -19,19 +19,23 @@ export const SButtonPanelWrapper = styled.div`
 `;
 
 interface SearchPanelProps {
-    searchBarWithoutButton?: boolean;
+    $searchBarWithoutButton?: boolean;
 }
 
-export const SButtonPanel = styled.div<SearchPanelProps>`
+export const SButtonPanel = styled.div.attrs<SearchPanelProps>(
+    ({ $searchBarWithoutButton }) => ({
+        $searchBarWithoutButton: $searchBarWithoutButton,
+    })
+)`
     display: grid;
     justify-items: center;
-    grid-template-areas: ${({ searchBarWithoutButton }) =>
-        searchBarWithoutButton
+    grid-template-areas: ${({ $searchBarWithoutButton }: SearchPanelProps) =>
+        $searchBarWithoutButton
             ? '"color add-button power-button slider"'
             : '"color add-button search-button power-button slider"'};
 
-    grid-template-columns: ${({ searchBarWithoutButton }) =>
-        searchBarWithoutButton
+    grid-template-columns: ${({ $searchBarWithoutButton }: SearchPanelProps) =>
+        $searchBarWithoutButton
             ? '1fr 2fr 2fr 1fr'
             : '1fr minmax(20%, 4rem) minmax(20%, 4rem) minmax(20%, 4rem) 1fr;'};
     height: 4rem;
@@ -57,9 +61,13 @@ export const SButtonWrapper = styled.div`
 interface SButtonProps {
     fontFamily?: string;
 }
-export const SButton = styled(Button)<SButtonProps & SearchPanelProps>`
-    width: ${({ searchBarWithoutButton }) =>
-        searchBarWithoutButton ? '6rem' : '100%'};
+export const SButton = styled(Button).attrs<SButtonProps & SearchPanelProps>(
+    ({ $searchBarWithoutButton }) => ({
+        $searchBarWithoutButton: $searchBarWithoutButton,
+    })
+)`
+    width: ${({ $searchBarWithoutButton }: SearchPanelProps) =>
+        $searchBarWithoutButton ? '6rem' : '100%'};
     height: 3rem;
     border-radius: 10px;
     cursor: pointer;

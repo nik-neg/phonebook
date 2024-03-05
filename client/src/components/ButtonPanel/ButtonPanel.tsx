@@ -43,7 +43,7 @@ export const ButtonPanel = ({
     return (
         <SButtonPanelWrapper>
             <SButtonPanel
-                searchBarWithoutButton={shouldActivate(
+                $searchBarWithoutButton={shouldActivate(
                     import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
                 )}
             >
@@ -62,7 +62,7 @@ export const ButtonPanel = ({
                     <SButtonWrapper>
                         <SButton
                             onClick={handleAddContact}
-                            searchBarWithoutButton={shouldActivate(
+                            $searchBarWithoutButton={shouldActivate(
                                 import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
                             )}
                             disableRipple
@@ -96,7 +96,7 @@ export const ButtonPanel = ({
                     <SButtonWrapper>
                         <SButton
                             onClick={handlePowerOn}
-                            searchBarWithoutButton={shouldActivate(
+                            $searchBarWithoutButton={shouldActivate(
                                 import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
                             )}
                             disableRipple
