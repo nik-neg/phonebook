@@ -1,12 +1,6 @@
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 
-interface SButtonElementProps {
-    area: string;
-}
-export const SButtonElement = styled.div<SButtonElementProps>`
-    grid-area: ${({ area }) => area};
-`;
 export const SMuiColorInput = styled.div`
     display: flex;
     justify-content: center;
@@ -24,10 +18,22 @@ export const SButtonPanelWrapper = styled.div`
     z-index: 2;
 `;
 
-export const SButtonPanel = styled.div`
+interface SearchPanelProps {
+    searchBarWithoutButton?: boolean;
+}
+
+export const SButtonPanel = styled.div<SearchPanelProps>`
     display: grid;
-    grid-template-areas: 'color add-button power-button slider';
-    grid-template-columns: 1fr 2fr 2fr 1fr;
+    justify-items: center;
+    grid-template-areas: ${({ searchBarWithoutButton }) =>
+        searchBarWithoutButton
+            ? '"color add-button power-button slider"'
+            : '"color add-button search-button power-button slider"'};
+
+    grid-template-columns: ${({ searchBarWithoutButton }) =>
+        searchBarWithoutButton
+            ? '1fr 2fr 2fr 1fr'
+            : '1fr minmax(20%, 4rem) minmax(20%, 4rem) minmax(20%, 4rem) 1fr;'};
     height: 4rem;
     width: 100%;
     background: black;
@@ -37,6 +43,13 @@ export const SButtonPanel = styled.div`
     border-radius: 0px 0px 10px 10px;
 `;
 
+interface SButtonElementProps {
+    area: string;
+}
+export const SButtonElement = styled.div<SButtonElementProps>`
+    grid-area: ${({ area }) => area};
+`;
+
 export const SButtonWrapper = styled.div`
     padding: 0.5rem;
 `;
@@ -44,8 +57,9 @@ export const SButtonWrapper = styled.div`
 interface SButtonProps {
     fontFamily?: string;
 }
-export const SButton = styled(Button)<SButtonProps>`
-    width: 6rem;
+export const SButton = styled(Button)<SButtonProps & SearchPanelProps>`
+    width: ${({ searchBarWithoutButton }) =>
+        searchBarWithoutButton ? '6rem' : '100%'};
     height: 3rem;
     border-radius: 10px;
     cursor: pointer;
@@ -91,8 +105,8 @@ export const SButtonRow = styled.div`
 `;
 
 export const SVerticalSliderWrapper = styled.div`
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-top: 25%;
 `;

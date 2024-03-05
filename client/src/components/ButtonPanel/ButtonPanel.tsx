@@ -23,6 +23,7 @@ export const ButtonPanel = ({
     onAddContact,
     onFetchContacts,
     toggleDevice,
+    onOpenSearch,
 }: IButtonPanelProps) => {
     const handleAddContact = () => {
         onAddContact?.();
@@ -41,7 +42,11 @@ export const ButtonPanel = ({
 
     return (
         <SButtonPanelWrapper>
-            <SButtonPanel>
+            <SButtonPanel
+                searchBarWithoutButton={shouldActivate(
+                    import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
+                )}
+            >
                 <SButtonElement area={'color'}>
                     <SMuiColorInput>
                         <MuiColorInput
@@ -55,9 +60,15 @@ export const ButtonPanel = ({
 
                 <SButtonElement area={'add-button'}>
                     <SButtonWrapper>
-                        <SButton onClick={handleAddContact} disableRipple>
+                        <SButton
+                            onClick={handleAddContact}
+                            searchBarWithoutButton={shouldActivate(
+                                import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
+                            )}
+                            disableRipple
+                        >
                             <SButtonContainer>
-                                <SButtonRow>Add Contact</SButtonRow>
+                                <SButtonRow>Add</SButtonRow>
                                 <SButtonRow>
                                     <IoPersonAdd size={'1rem'} />
                                 </SButtonRow>
@@ -68,20 +79,28 @@ export const ButtonPanel = ({
                 {!shouldActivate(
                     import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
                 ) && (
-                    <SButtonWrapper>
-                        <SButton onClick={() => {}} disableRipple>
-                            <SButtonContainer>
-                                <SButtonRow>Search</SButtonRow>
-                                <SButtonRow>
-                                    <MdOutlinePersonSearch size={'1rem'} />
-                                </SButtonRow>
-                            </SButtonContainer>
-                        </SButton>
-                    </SButtonWrapper>
+                    <SButtonElement area={'search-button'}>
+                        <SButtonWrapper>
+                            <SButton onClick={onOpenSearch} disableRipple>
+                                <SButtonContainer>
+                                    <SButtonRow>Search</SButtonRow>
+                                    <SButtonRow>
+                                        <MdOutlinePersonSearch size={'1rem'} />
+                                    </SButtonRow>
+                                </SButtonContainer>
+                            </SButton>
+                        </SButtonWrapper>
+                    </SButtonElement>
                 )}
                 <SButtonElement area={'power-button'}>
                     <SButtonWrapper>
-                        <SButton onClick={handlePowerOn} disableRipple>
+                        <SButton
+                            onClick={handlePowerOn}
+                            searchBarWithoutButton={shouldActivate(
+                                import.meta.env.VITE_SEARCH_BAR_WITHOUT_BUTTON
+                            )}
+                            disableRipple
+                        >
                             <SButtonContainer>
                                 <SButtonRow>Power</SButtonRow>
                                 <SButtonRow>
