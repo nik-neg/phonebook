@@ -29,7 +29,6 @@ export const SContactCardWrapper = styled.div<SContactCardWrapperProps>`
 `;
 
 export const SContactInfoWrapper = styled.div`
-    display: flex;
     align-items: center;
     padding-left: 0.5rem;
     display: grid;
@@ -65,7 +64,6 @@ export const SContactName = styled.div`
     width: 200px;
     padding-top: 3rem;
     color: black;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
