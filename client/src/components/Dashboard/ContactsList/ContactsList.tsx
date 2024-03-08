@@ -24,7 +24,7 @@ import { ContactCardSkeleton } from './ContactCard/ContactCardSkeleton/ContactCa
 import { ContactCard, IContact } from './ContactCard';
 import { useWeatherApp } from '../../../hooks/useWeatherApp';
 import { useWeather } from '../../../provider';
-import { WeatherIconMap } from '../../../provider/consts';
+import { DEFAULT_WEATHER_ICON, WeatherIconMap } from '../../../provider/consts';
 import { Icon } from '../../common/Icon';
 
 export const ContactsList = ({
@@ -157,7 +157,8 @@ export const ContactsList = ({
                             {weatherString}
                             <Icon
                                 icon={
-                                    WeatherIconMap[weather?.[0].icon ?? '01d']
+                                    WeatherIconMap[weather?.[0].icon] ??
+                                    DEFAULT_WEATHER_ICON
                                 }
                                 width="25px"
                                 height="25px"

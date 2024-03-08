@@ -33,3 +33,5 @@ export const WeatherIconMap: WeatherIconMapType = {
     '50d': fog,
     '50n': fog,
 };
+
+export const DEFAULT_WEATHER_ICON = day;
