@@ -1,10 +1,13 @@
 import { SApp } from './App.styles';
 import Dashboard from './components/Dashboard/Dashboard';
+import { WeatherProvider } from './provider';
 
 export const App = (): JSX.Element => {
     return (
         <SApp>
-            <Dashboard />
+            <WeatherProvider>
+                <Dashboard />
+            </WeatherProvider>
         </SApp>
     );
 };

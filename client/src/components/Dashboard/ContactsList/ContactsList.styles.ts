@@ -125,3 +125,9 @@ export const SContactListWrapper = styled.div`
 
     position: relative;
 `;
+
+export const SWeatherContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+`;
