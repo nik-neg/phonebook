@@ -7,12 +7,13 @@ import {
     SContactListWrapper,
     SDividerWrapper,
     SearchBarContainer,
+    SWeatherContainer,
 } from './ContactsList.styles';
 import { IContactListProps } from './types';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useGetContactsQuery } from '../../../store/api/contacts.api';
 import { selectSliderValue, useAppSelector } from '../../../store';
-import { debounce } from 'lodash-es';
+import { debounce, round } from 'lodash-es';
 import { SearchBar } from '../dialogs/common/SearchBar';
 import { SHINE_TIME_COEFFICIENT, SHINE_TIME_REFERENCE } from './constants';
 import { Spacer } from '../../common/Spacer';
@@ -21,6 +22,9 @@ import { SDivider } from '../../common/Divider';
 import { parseColor } from '../../ButtonPanel/utils';
 import { ContactCardSkeleton } from './ContactCard/ContactCardSkeleton/ContactCardSkeleton';
 import { ContactCard, IContact } from './ContactCard';
+import { useWeather } from '../../../provider';
+import { DEFAULT_WEATHER_ICON, WeatherIconMap } from '../../../provider/consts';
+import { Icon } from '../../common/Icon';
 
 export const ContactsList = ({
     isDeviceOn,
@@ -31,6 +35,10 @@ export const ContactsList = ({
     onFetchContacts,
     onHandleSearch,
 }: IContactListProps): JSX.Element => {
+    const {
+        weatherData: { name, main, weather },
+    } = useWeather();
+
     const outerRef = useRef<HTMLDivElement>(null);
     const innerRef = useRef<HTMLDivElement>(null);
 
@@ -100,6 +108,8 @@ export const ContactsList = ({
 
     const selectedSliderValue = useAppSelector(selectSliderValue);
 
+    const weatherString = `${name}, ${main?.temp && round(main?.temp)} C°`;
+
     return (
         <SContactListPanel>
             <SContactListContainerWrapper>
@@ -139,6 +149,19 @@ export const ContactsList = ({
                             </SContactCardsContainer>
                         </SContactListWrapper>
                     </SContactListContainer>
+                    {name && main && weather && (
+                        <SWeatherContainer>
+                            {weatherString}
+                            <Icon
+                                icon={
+                                    WeatherIconMap[weather?.[0].icon] ??
+                                    DEFAULT_WEATHER_ICON
+                                }
+                                width="25px"
+                                height="25px"
+                            />
+                        </SWeatherContainer>
+                    )}
                 </SContactListContainerPanel>
             </SContactListContainerWrapper>
         </SContactListPanel>
