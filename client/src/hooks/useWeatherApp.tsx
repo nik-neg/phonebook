@@ -6,7 +6,7 @@ import { getGeoLocation } from './utils';
 export const useWeatherApp = () => {
     const { updateWeatherData } = useWeather();
 
-    const success: PositionCallback = async (pos: IPosition) => {
+    const getWeatherData: PositionCallback = async (pos: IPosition) => {
         const { latitude, longitude } = pos.coords;
 
         try {
@@ -22,6 +22,6 @@ export const useWeatherApp = () => {
         }
     };
     useEffect(() => {
-        getGeoLocation(success);
+        getGeoLocation(getWeatherData);
     }, []);
 };
