@@ -22,7 +22,6 @@ import { SDivider } from '../../common/Divider';
 import { parseColor } from '../../ButtonPanel/utils';
 import { ContactCardSkeleton } from './ContactCard/ContactCardSkeleton/ContactCardSkeleton';
 import { ContactCard, IContact } from './ContactCard';
-import { useWeatherApp } from '../../../hooks/useWeatherApp';
 import { useWeather } from '../../../provider';
 import { DEFAULT_WEATHER_ICON, WeatherIconMap } from '../../../provider/consts';
 import { Icon } from '../../common/Icon';
@@ -36,8 +35,6 @@ export const ContactsList = ({
     onFetchContacts,
     onHandleSearch,
 }: IContactListProps): JSX.Element => {
-    useWeatherApp();
-
     const {
         weatherData: { name, main, weather },
     } = useWeather();

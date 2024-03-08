@@ -14,8 +14,11 @@ import { ButtonPanel } from '../ButtonPanel/ButtonPanel';
 import Tilt from 'react-parallax-tilt';
 import { RGB_MAX_REFERENCE } from './constants';
 import { useLazySearchContactsQuery } from '../../store';
+import { useWeatherApp } from '../../hooks/useWeatherApp';
 
 export const Dashboard = (): JSX.Element => {
+    useWeatherApp();
+
     const [fetchedContacts, setFetchedContacts] = useState<IContact[]>([]);
 
     const onFetchContacts = (contacts: IContact[]) => {
