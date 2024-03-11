@@ -37,6 +37,7 @@ export const LoginRegisterDialog = ({
         formState: { errors, isValid },
         handleSubmit,
         getValues,
+        clearErrors,
     } = useForm({
         defaultValues,
         resolver: yupResolver(registerLoginSchema),
@@ -80,6 +81,11 @@ export const LoginRegisterDialog = ({
     const handleClose = async () => {
         onClose();
     };
+
+    const handleIsRegistered = () => {
+        clearErrors();
+        setIsRegistered(!isRegistered);
+    };
     return (
         <SDialog open={open} onClose={handleClose}>
             <AuthContainer>
@@ -116,7 +122,7 @@ export const LoginRegisterDialog = ({
                     </AuthForm>
                 </AuthFormWrapper>
                 <Spacer height={10} />
-                <SLink onClick={() => setIsRegistered(!isRegistered)}>
+                <SLink onClick={handleIsRegistered}>
                     {!isRegistered
                         ? 'Already user? Login here...'
                         : 'Not user yet? Register!'}

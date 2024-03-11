@@ -13,6 +13,7 @@ export const SButtonPanelWrapper = styled.div`
 interface SButtonProps {
     fontFamily?: string;
 }
+
 export const SButton = styled(Button)<SButtonProps>`
     width: 6rem;
     height: 3rem;
@@ -34,7 +35,7 @@ export const SButton = styled(Button)<SButtonProps>`
         transition: none;
         color: black;
         font-size: 14px;
-        font-family: "'Crimson Pro', serif, 'Mochiy Pop One', sans-serif";
+        font-family: ${({ theme }) => theme.typography.fontFamily};
 
         border: 2px solid rgba(111, 111, 111, 1);
         border-color: rgba(111, 111, 111, 0.9402135854341737)
