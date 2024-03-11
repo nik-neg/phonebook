@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IFilterImageInput } from './types';
+import { CreateUserInput, IFilterImageInput } from './types';
 import { ContactWithPhoneNumbersAsStringWithoutId } from '../components/Dashboard/dialogs/UpdateDialog';
 import { BASE_URL } from './constants';
 
@@ -27,6 +27,72 @@ export const createContact = async (
                         },
                         address,
                         imageFile
+                      }
+                }`,
+        });
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const createUser = async (user: CreateUserInput) => {
+    try {
+        const response = await axios.post(`${BASE_URL}`, {
+            query: `mutation {
+                      createUser(createOrReadUserInput: {
+                        email: "${user.email}",
+                        password: "${user.password}",
+                      }) {
+                        id,
+                        email,
+                        password,
+                        nickName,
+                        contacts {
+                            id
+                            firstName,
+                            lastName,
+                            nickName,
+                            phoneNumbers {
+                                id
+                                phoneNumber
+                            },
+                            address,
+                            imageFile,
+                        },
+                      }
+                }`,
+        });
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const readUser = async (user: CreateUserInput) => {
+    try {
+        const response = await axios.post(`${BASE_URL}`, {
+            query: `query {
+                      getUser(createOrReadUserInput: {
+                        email: "${user.email}",
+                        password: "${user.password}",
+                      }) {
+                        id,
+                        email,
+                        password,
+                        nickName,
+                        contacts {
+                            id
+                            firstName,
+                            lastName,
+                            nickName,
+                            phoneNumbers {
+                                id
+                                phoneNumber
+                            },
+                            address,
+                            imageFile,
+                        },
                       }
                 }`,
         });

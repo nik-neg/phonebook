@@ -4,3 +4,8 @@ type User {
     password: String!
     contacts: [Contact!]!
 }
+
+input CreateOrReadUserInput {
+    email: String!
+    password: String!
+}

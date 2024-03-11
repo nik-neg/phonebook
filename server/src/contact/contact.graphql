@@ -50,10 +50,20 @@ type Query {
     getContacts (queryPaginationInput: QueryPaginationInput): ContactsResponse!
     getContact(id: ID!): Contact
     filterImage (filterImageInput: FilterImageInput): String!
+
+    """
+    user
+    """
+    getUser(createOrReadUserInput: CreateOrReadUserInput!): User
 }
 
 type Mutation {
     createContact(createContactInput: CreateContactInput!): Contact!
     updateContact(id: ID!, updateContactInput: UpdateContactInput!): Contact!
     removeContact(id: ID!): Contact!
+
+    """
+    user
+    """
+    createUser(createOrReadUserInput: CreateOrReadUserInput!): User!
 }

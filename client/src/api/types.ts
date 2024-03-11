@@ -13,3 +13,8 @@ export interface IFilterImageInput {
     grayscale: boolean;
     saturation: number;
 }
+
+export interface CreateUserInput {
+    email: string;
+    password: string;
+}

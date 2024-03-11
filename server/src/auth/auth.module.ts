@@ -4,7 +4,7 @@ import { AuthResolver } from './auth.resolver';
 import { UserModule } from '../user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
-import process from 'process';
+import * as process from 'process';
 
 @Module({
   imports: [

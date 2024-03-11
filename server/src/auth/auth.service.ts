@@ -1,12 +1,11 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
-import { RegisterDto } from './dto/RegisterDto.dto';
 import * as bcrypt from 'bcrypt';
 import { SALT_ROUNDS } from './consts';
-import { LoginDto } from './dto/LoginDto.dto';
 import { CreateUserDto } from '../user/dto/CreateUserDto.dto';
 import { User } from '../user/entities/user.entity';
+import { CreateOrReadUserInput } from '../graphql-types';
 
 @Injectable()
 export class AuthService {
@@ -17,8 +16,10 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(loginDto: LoginDto): Promise<User & { access_token: string }> {
-    const { email, password: pass } = loginDto;
+  async signIn(
+    createOrReadUserInput: CreateOrReadUserInput,
+  ): Promise<User & { access_token: string }> {
+    const { email, password: pass } = createOrReadUserInput;
 
     const user = await this.getAuthenticatedUser(email, pass);
 
@@ -30,11 +31,14 @@ export class AuthService {
     };
   }
 
-  async register(registerDto: RegisterDto) {
-    const hashedPassword = await bcrypt.hash(registerDto.password, SALT_ROUNDS);
+  async register(createOrReadUserInput: CreateOrReadUserInput) {
+    const hashedPassword = await bcrypt.hash(
+      createOrReadUserInput.password,
+      SALT_ROUNDS,
+    );
 
     const newDto = new CreateUserDto({
-      ...registerDto,
+      ...createOrReadUserInput,
       password: hashedPassword,
     });
     const createdUser = await this.userService.create(newDto);

@@ -1,22 +1,25 @@
-import { Body, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/LoginDto.dto';
-import { RegisterDto } from './dto/RegisterDto.dto';
-import { Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import * as GraphQLTypes from '../graphql-types';
+import { CreateOrReadUserInput } from '../graphql-types';
 
 @Resolver('auth')
 export class AuthResolver {
   constructor(private authService: AuthService) {}
 
-  @HttpCode(HttpStatus.OK)
-  @Post('login')
-  signIn(@Body() loginDto: LoginDto) {
-    return this.authService.signIn(loginDto);
+  @Query(() => GraphQLTypes.User, { name: 'getUser' })
+  async findOne(
+    @Args('createOrReadUserInput')
+    createOrReadUserInput: CreateOrReadUserInput,
+  ): Promise<GraphQLTypes.User> {
+    return this.authService.signIn(createOrReadUserInput);
   }
 
-  @HttpCode(HttpStatus.CREATED)
-  @Post('register')
-  register(@Body() registerDto: RegisterDto) {
-    return this.authService.register(registerDto);
+  @Mutation('createUser')
+  async create(
+    @Args('createOrReadUserInput')
+    createOrReadUserInput: CreateOrReadUserInput,
+  ): Promise<GraphQLTypes.User> {
+    return this.authService.register(createOrReadUserInput);
   }
 }

@@ -42,6 +42,11 @@ export class FilterImageInput {
     saturation: number;
 }
 
+export class CreateOrReadUserInput {
+    email: string;
+    password: string;
+}
+
 export class Contact {
     id: number;
     firstName: string;
@@ -66,12 +71,14 @@ export abstract class IQuery {
     getContacts: ContactsResponse;
     getContact?: Nullable<Contact>;
     filterImage: string;
+    getUser?: Nullable<User>;
 }
 
 export abstract class IMutation {
     createContact: Contact;
     updateContact: Contact;
     removeContact: Contact;
+    createUser: User;
 }
 
 export class User {
