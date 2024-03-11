@@ -74,4 +74,11 @@ export abstract class IMutation {
     removeContact: Contact;
 }
 
+export class User {
+    id: number;
+    email: string;
+    password: string;
+    contacts: Contact[];
+}
+
 type Nullable<T> = T | null;

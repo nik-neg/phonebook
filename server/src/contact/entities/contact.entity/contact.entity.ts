@@ -3,10 +3,12 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { PhoneNumber } from '../phone-number.entity/phone-number.entity';
+import { User } from '../../../user/entities/user.entity';
 
 @Entity()
 export class Contact extends GraphQLTypes.Contact {
@@ -35,4 +37,7 @@ export class Contact extends GraphQLTypes.Contact {
 
   @Column({ type: 'text', nullable: false })
   imageFile: string;
+
+  @ManyToOne((type) => User, (user) => user.contacts)
+  user: User;
 }
