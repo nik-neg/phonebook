@@ -43,7 +43,7 @@ export class ContactService {
         where: searchObject,
         order: { lastName: 'DESC' },
         take: CONTACTS_COUNT,
-        skip: skip,
+        skip,
         relations: ['phoneNumbers'],
       });
       return { contacts: result, total };
@@ -160,7 +160,7 @@ export class ContactService {
   }
 
   async remove(id: number): Promise<Contact> {
-    const queryRunner = await this.connection.createQueryRunner();
+    const queryRunner = this.connection.createQueryRunner();
 
     try {
       await queryRunner.connect();

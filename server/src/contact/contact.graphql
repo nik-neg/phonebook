@@ -36,7 +36,9 @@ input UpdateContactInput {
     imageFile: String
     filter: FilterImageInput
 }
-
+"""
+id: ID!
+"""
 input QueryPaginationInput {
     take: Int
     skip: Int

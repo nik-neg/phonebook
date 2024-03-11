@@ -1,14 +1,12 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Body, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/LoginDto.dto';
 import { RegisterDto } from './dto/RegisterDto.dto';
+import { Resolver } from '@nestjs/graphql';
 
-@Controller('auth')
-export class AuthController {
-  constructor(
-    private authService: AuthService,
-  ) {
-  }
+@Resolver('auth')
+export class AuthResolver {
+  constructor(private authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
   @Post('login')

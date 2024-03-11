@@ -29,7 +29,7 @@ export class UserService {
       await queryRunner.connect();
       await queryRunner.startTransaction();
 
-      let user: User = await this.userRepository.create(createUserDto);
+      let user: User = this.userRepository.create(createUserDto);
 
       user = await queryRunner.manager.save(user);
       await queryRunner.commitTransaction();
@@ -57,7 +57,7 @@ export class UserService {
       const user = await this.userRepository
         .createQueryBuilder('user')
         .where('user.id = :id', { id })
-        .leftJoinAndSelect('user.friends', 'friends')
+        .leftJoinAndSelect('user.contacts', 'contacts')
         .getOne();
 
       return omit(user, 'password') as User;

@@ -1,11 +1,12 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/CreateUserDto.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
+import { Resolver } from '@nestjs/graphql';
 
-@Controller('user')
+@Resolver('user')
 @UseGuards(AuthGuard)
-export class UserController {
+export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Post()
