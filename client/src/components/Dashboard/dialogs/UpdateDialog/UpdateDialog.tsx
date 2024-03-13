@@ -86,13 +86,14 @@ export const UpdateDialog = ({
                     >
                 )
             ) {
+                onClose?.();
+
                 await updateContact({
                     contact: { ...getValues(), id: selectedValue.id },
                     filterImageInput: filter,
                 }).unwrap();
 
                 setValue('imageFile', getValues().imageFile);
-                onClose?.();
             }
         } catch (e) {
             console.log(e);
