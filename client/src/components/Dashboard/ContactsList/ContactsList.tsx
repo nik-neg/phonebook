@@ -110,6 +110,13 @@ export const ContactsList = ({
 
     const weatherString = `${name}, ${main?.temp && round(main?.temp)} C°`;
 
+    const preferSearchData = (data: IContact[], searchData: IContact[]) => {
+        if (searchData?.length < data?.length) {
+            return searchData;
+        }
+        return data;
+    };
+
     return (
         <SContactListPanel>
             <SContactListContainerWrapper>
@@ -137,7 +144,7 @@ export const ContactsList = ({
                     <SContactListContainer ref={outerRef}>
                         <SContactListWrapper ref={innerRef}>
                             <SContactCardsContainer>
-                                {contacts.map(
+                                {preferSearchData(data, contacts)?.map(
                                     (contact: IContact, index: number) => (
                                         <ContactCard
                                             key={index}
