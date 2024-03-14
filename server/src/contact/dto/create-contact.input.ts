@@ -1,5 +1,7 @@
 import * as GraphQLTypes from '../../graphql-types';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { phoneNumbersTransform } from './transform/phoneNumbers.transform';
 
 export class CreateContactInput extends GraphQLTypes.CreateContactInput {
   @IsNotEmpty()
@@ -22,8 +24,8 @@ export class CreateContactInput extends GraphQLTypes.CreateContactInput {
   @IsString()
   imageFile: string;
 
-  // @Transform(phoneNumbersTransform) // should work in general, code tested, could be an issue
-  // @IsArray()
-  // @IsString({ each: true })
+  @Transform(phoneNumbersTransform)
+  @IsArray()
+  @IsString({ each: true })
   phoneNumbers: string[];
 }
