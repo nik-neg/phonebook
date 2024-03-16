@@ -30,7 +30,6 @@ It contains a contact management application that allows users to store and mana
 * images can only be stored as `jpeg` and `png`
 * image filtering currently only supports `grayscale`, `blur` and `saturation`; please set blur and saturation to `0` if
 you don't want to apply them
-* scrolling is fully functional, but can be improved in terms of user experience
 
 
 <div align="center">
